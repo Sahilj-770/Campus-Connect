@@ -1,15 +1,751 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f97316" />
-    <meta name="description" content="Campus Bites — compare food across campus canteens." />
-    <title>Campus Bites | College Canteen</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div id="app"></div>
-    <script src="app.js"></script>
-  </body>
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+    
+    <link  rel="stylesheet" href="style.css">
+</head>
+<body>
+
+                        <!-- HEADER -->
+    <header class="navbar">
+
+    <div class="logo">
+        🍽
+        <span>Campus Bites</span>
+    </div>
+
+    <nav>
+        <a href="#">Canteens</a>
+        <a href="#">Browse Cuisine</a>
+    </nav>
+
+    <div class="search">
+        <input type="text" placeholder="Search for food or canteen">
+    </div>
+
+    <button class="theme-button">
+        ☾
+    </button>
+
+</header>
+
+                        <!-- HERO -->
+<section class="hero">
+
+    <div class="hero-content">
+
+        <p class="hero-tag">YOUR CAMPUS FOOD GUIDE</p>
+
+        <h1>
+            Find your next
+            campus favourite.
+        </h1>
+
+        <p class="hero-text">
+            Explore canteens, discover new dishes,
+            and find something delicious for your next break.
+        </p>
+
+        <a href="#" class="hero-button">
+            Explore food →
+        </a>
+
+    </div>
+
+
+    <div class="hero-preview">
+
+        <p class="preview-title">Today's pick</p>
+
+        <div class="food-preview">
+
+            <div class="food-icon">🍜</div>
+
+            <div>
+                <h3>Hakka Noodles</h3>
+                <p>Campus favourite</p>
+            </div>
+
+            <strong>₹80</strong>
+
+        </div>
+
+
+        <div class="food-preview second">
+
+            <div class="food-icon">☕</div>
+
+            <div>
+                <h3>Cold Coffee</h3>
+                <p>Perfect for a break</p>
+            </div>
+
+            <strong>₹65</strong>
+
+        </div>
+
+    </div>
+
+</section>
+
+                    <!-- CANTEEN GRID -->
+<section class="canteens">
+
+    <div class="section-heading">
+        <p>EXPLORE CAMPUS</p>
+        <h2>Choose your canteen</h2>
+        <span>Find a place to grab something between lectures.</span>
+    </div>
+
+
+    <div class="canteen-grid">
+
+        <div class="canteen-card cafeteria">
+
+            <div class="canteen-icon">🍽️</div>
+
+            <div class="canteen-info">
+                <h3>Cafeteria</h3>
+
+                <p>
+                    Quick meals, snacks and everyday campus favourites.
+                </p>
+            </div>
+
+            <div class="canteen-bottom">
+                <span>Open until 10:30 PM</span>
+                <a href="#">→</a>
+            </div>
+
+        </div>
+
+
+        <div class="canteen-card timeless">
+
+            <div class="canteen-icon">☕</div>
+
+            <div class="canteen-info">
+                <h3>Timeless</h3>
+
+                <p>
+                    A relaxed spot for coffee, conversations and study breaks.
+                </p>
+            </div>
+
+            <div class="canteen-bottom">
+                <span>Open until 11:00 PM</span>
+                <a href="#">→</a>
+            </div>
+
+        </div>
+
+
+        <div class="canteen-card nescafe">
+
+            <div class="canteen-icon">🥤</div>
+
+            <div class="canteen-info">
+                <h3>Nescafe</h3>
+
+                <p>
+                    Coffee, coolers and quick bites when you need them.
+                </p>
+            </div>
+
+            <div class="canteen-bottom">
+                <span>Open until 8:30 PM</span>
+                <a href="#">→</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+                    <!-- FEATURED SECTION   -->
+<section class="popular-section">
+
+    <div class="section-heading">
+        <p>POPULAR ON CAMPUS</p>
+        <h2>What are students eating?</h2>
+        <span>Some of the most loved picks from our campus menus.</span>
+    </div>
+
+    <div class="featured-food">
+
+        <div class="featured-info">
+            <p class="food-category">CHINESE</p>
+
+            <h3>Veg Hakka Noodles</h3>
+
+            <p class="food-description">
+                Wok-tossed noodles with crunchy vegetables.
+            </p>
+
+            <div class="food-bottom">
+                <strong>₹70</strong>
+                <span>★ 4.6</span>
+            </div>
+        </div>
+
+        <div class="featured-icon">
+            🍜
+        </div>
+
+    </div>
+
+
+    <div class="small-food-container">
+
+        <div class="food-item">
+            <div class="food-icon">🥞</div>
+
+            <h3>Masala Dosa</h3>
+
+            <p>South Indian favourite with potato filling.</p>
+
+            <strong>₹55</strong>
+        </div>
+
+
+        <div class="food-item">
+            <div class="food-icon">☕</div>
+
+            <h3>Cold Coffee</h3>
+
+            <p>A chilled coffee drink for your break.</p>
+
+            <strong>₹65</strong>
+        </div>
+
+
+        <div class="food-item">
+            <div class="food-icon">🍛</div>
+
+            <h3>Chole Bhature</h3>
+
+            <p>Fluffy bhature with spicy chickpeas.</p>
+
+            <strong>₹60</strong>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="category-section">
+
+    <div class="category-heading">
+        <p>EXPLORE THE MENU</p>
+
+        <h2>Browse by category</h2>
+
+        <span>
+            Find something you are craving from our campus menu.
+        </span>
+    </div>
+
+
+    <div class="category-grid">
+
+        <div class="category-card">
+            <div class="category-icon">🍳</div>
+            <h3>Breakfast</h3>
+            <p>Start your day right</p>
+        </div>
+
+
+        <div class="category-card">
+            <div class="category-icon">🍜</div>
+            <h3>Chinese</h3>
+            <p>Noodles & fried rice</p>
+        </div>
+
+
+        <div class="category-card">
+            <div class="category-icon">🥞</div>
+            <h3>South Indian</h3>
+            <p>Dosa, idli & more</p>
+        </div>
+
+
+        <div class="category-card">
+            <div class="category-icon">🍝</div>
+            <h3>Pasta</h3>
+            <p>Quick Italian bites</p>
+        </div>
+
+
+        <div class="category-card">
+            <div class="category-icon">🍛</div>
+            <h3>Thali</h3>
+            <p>Complete meals</p>
+        </div>
+
+
+        <div class="category-card">
+            <div class="category-icon">🥪</div>
+            <h3>Sandwiches</h3>
+            <p>Quick & filling</p>
+        </div>
+
+
+        <div class="category-card">
+            <div class="category-icon">🍚</div>
+            <h3>Rice</h3>
+            <p>Rice bowls & meals</p>
+        </div>
+
+
+        <div class="category-card">
+            <div class="category-icon">☕</div>
+            <h3>Beverages</h3>
+            <p>Hot & cold drinks</p>
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FULL MENU SECTION -->
+
+<section class="menu-section">
+
+    <div class="menu-heading">
+        <p>OUR MENU</p>
+
+        <h2>Something for every craving</h2>
+
+        <span>
+            Browse through our canteen menu and find your next favourite.
+        </span>
+    </div>
+
+
+    <div class="menu-grid">
+
+        <!-- BREAKFAST -->
+
+        <div class="menu-box">
+
+            <h3>Breakfast</h3>
+
+            <div class="menu-item">
+                <span>Poha</span>
+                <strong>₹25</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Upma</span>
+                <strong>₹25</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Idli Sambar</span>
+                <strong>₹40</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Medu Vada</span>
+                <strong>₹50</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Misal Pav</span>
+                <strong>₹60</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Pav Bhaji</span>
+                <strong>₹60</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Batata Vada</span>
+                <strong>₹40</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Chole Bhature</span>
+                <strong>₹50</strong>
+            </div>
+
+        </div>
+
+
+        <!-- SOUTH INDIAN -->
+
+        <div class="menu-box">
+
+            <h3>South Indian</h3>
+
+            <div class="menu-item">
+                <span>Plain Dosa</span>
+                <strong>₹50</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Masala Dosa</span>
+                <strong>₹55</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Cut Dosa</span>
+                <strong>₹60</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Butter Dosa</span>
+                <strong>₹65</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Paneer Dosa</span>
+                <strong>₹85</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Cheese Dosa</span>
+                <strong>₹85</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Mysore Dosa</span>
+                <strong>₹75</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Plain Uttapa</span>
+                <strong>₹55</strong>
+            </div>
+
+        </div>
+
+
+        <!-- CHINESE -->
+
+        <div class="menu-box">
+
+            <h3>Chinese</h3>
+
+            <div class="menu-item">
+                <span>Veg Fried Rice</span>
+                <strong>₹85</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Veg Sez. Rice</span>
+                <strong>₹95</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Veg Triple Rice</span>
+                <strong>₹130</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Veg Hakka Noodles</span>
+                <strong>₹95</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Veg Sez. Noodles</span>
+                <strong>₹110</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Veg Triple Noodles</span>
+                <strong>₹120</strong>
+            </div>
+
+        </div>
+
+
+        <!-- CHAPATI / PARATHA -->
+
+        <div class="menu-box">
+
+            <h3>Chapati / Paratha</h3>
+
+            <div class="menu-item">
+                <span>Chapati</span>
+                <strong>₹10</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Lachha Paratha</span>
+                <strong>₹55</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Gobi Paratha</span>
+                <strong>₹55</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Aloo Paratha</span>
+                <strong>₹65</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Aloo Pyaz Paratha</span>
+                <strong>₹70</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Paneer Paratha</span>
+                <strong>₹70</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Veg Paratha</span>
+                <strong>₹70</strong>
+            </div>
+
+        </div>
+
+
+        <!-- RICE -->
+
+        <div class="menu-box">
+
+            <h3>Rice</h3>
+
+            <div class="menu-item">
+                <span>Veg Biryani</span>
+                <strong>₹100</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Veg Pulao</span>
+                <strong>₹90</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Paneer Pulao</span>
+                <strong>₹110</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Steam Rice</span>
+                <strong>₹50</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Jeera Rice</span>
+                <strong>₹60</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Dal Khichdi</span>
+                <strong>₹90</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Curd Rice</span>
+                <strong>₹70</strong>
+            </div>
+
+        </div>
+
+
+        <!-- SANDWICH -->
+
+        <div class="menu-box">
+
+            <h3>Sandwich</h3>
+
+            <div class="menu-item">
+                <span>Veg Sandwich</span>
+                <strong>₹40</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Veg Cheese Sandwich</span>
+                <strong>₹50</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Paneer Sandwich</span>
+                <strong>₹60</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Paneer Cheese Sandwich</span>
+                <strong>₹70</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Corn Cheese Sandwich</span>
+                <strong>₹60</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Veg Club Sandwich</span>
+                <strong>₹70</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Bombay Masala</span>
+                <strong>₹50</strong>
+            </div>
+
+        </div>
+
+
+        <!-- MAGGI -->
+
+        <div class="menu-box">
+
+            <h3>Maggi</h3>
+
+            <div class="menu-item">
+                <span>Plain Maggi</span>
+                <strong>₹40</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Masala Maggi</span>
+                <strong>₹50</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Cheese Maggi</span>
+                <strong>₹60</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Butter Maggi</span>
+                <strong>₹60</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Paneer Maggi</span>
+                <strong>₹60</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Peri Peri Maggi</span>
+                <strong>₹60</strong>
+            </div>
+
+        </div>
+
+
+        <!-- BEVERAGES -->
+
+        <div class="menu-box">
+
+            <h3>Beverages</h3>
+
+            <div class="menu-item">
+                <span>Cold Coffee</span>
+                <strong>₹60</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Cold Bournvita</span>
+                <strong>₹70</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Cold Chocolate</span>
+                <strong>₹60</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Tea</span>
+                <strong>₹20</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Black Tea</span>
+                <strong>₹20</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Green Tea</span>
+                <strong>₹20</strong>
+            </div>
+
+            <div class="menu-item">
+                <span>Hot Coffee</span>
+                <strong>₹50</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+                    <!-- FOOTER -->
+
+<footer class="site-footer">
+
+    <div class="footer-main">
+
+        <div class="footer-brand">
+
+            <h2>Campus Bites
+                DYPCOE
+            </h2>
+
+            <p>
+                Your campus food, all in one place.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <div>
+                <h3>Explore</h3>
+
+                <a href="#">Menu</a>
+                <a href="#">Categories</a>
+                <a href="#">Canteens</a>
+            </div>
+
+
+            <div>
+                <h3>Canteens</h3>
+
+                <a href="#">Cafeteria</a>
+                <a href="#">Timeless</a>
+                <a href="#">Nescafe</a>
+            </div>
+
+
+            <div>
+                <h3>Help</h3>
+
+                <a href="#">Contact</a>
+                <a href="#">About</a>
+                <a href="#">Feedback</a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <p>© 2026 Campus Bites</p>
+
+        <p>Made for campus life.</p>
+
+    </div>
+
+</footer>
+</body>
 </html>
