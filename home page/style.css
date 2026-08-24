@@ -112,7 +112,7 @@ body {
 
 .quick-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
 }
 
@@ -143,7 +143,7 @@ body {
 /* Homepage - Campus Information */
 .campus-info {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
 }
 
@@ -443,7 +443,7 @@ body {
 
 .help-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
 }
 
@@ -526,11 +526,6 @@ body {
 
 /* Responsive */
 @media (max-width: 800px) {
-  .campus-info,
-  .help-grid {
-    grid-template-columns: 1fr;
-  }
-
   .dashboard-welcome,
   .section-heading {
     flex-direction: column;
@@ -564,10 +559,6 @@ body {
   .dashboard-welcome h1,
   .contact-details h2 {
     font-size: 30px;
-  }
-
-  .quick-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 
   .contact {
