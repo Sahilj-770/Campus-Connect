@@ -26,6 +26,15 @@ body {
   padding: 2rem 1rem;
 }
 
+.logo-img {
+  width: 45px;
+  height: 45px;
+  object-fit: contain;
+  vertical-align: middle;
+  transform: translateY(-6px);
+  margin-left:auto
+}
+
 /* Navbar */
 .navbar {
   display: flex;
