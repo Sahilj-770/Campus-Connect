@@ -50,13 +50,12 @@ body {
   font-weight: 500;
 }
 
-.navbar nav a.active,
-.navbar nav a:hover {
+.navbar nav a.active,.navbar nav a:hover {
   color: var(--primary);
   font-weight: bold;
 }
 
-/* Hero Sections */
+
 .hero,
 .contact-hero {
   text-align: center;
@@ -69,8 +68,7 @@ body {
   padding: 3.5rem 1rem;
 }
 
-.college-label,
-.dashboard-label {
+.college-label,.dashboard-label {
   margin: 0 0 12px;
   font-size: 14px;
   font-weight: 600;
@@ -86,15 +84,13 @@ body {
   color: var(--primary);
 }
 
-.hero h1,
-.contact-hero h1 {
+.hero h1,.contact-hero h1 {
   font-size: 48px;
   line-height: 1.1;
   margin: 0 0 16px;
 }
 
-.hero p:not(.college-label),
-.contact-hero p:not(.college-label) {
+.hero p:not(.college-label),.contact-hero p:not(.college-label) {
   max-width: 620px;
   margin: 0 auto 24px;
   line-height: 1.6;
@@ -325,7 +321,7 @@ body {
   color: var(--text-muted);
 }
 
-/* Contact Page */
+
 .contact-main {
   display: grid;
   grid-template-columns: 1fr 1.15fr;
@@ -367,8 +363,8 @@ body {
   line-height: 1.5;
 }
 
-/* Contact Form */
-.contact-form {
+
+.contactform {
   padding: 32px;
   background: white;
   border: 4px solid var(--text-main);
@@ -376,23 +372,22 @@ body {
   border-radius: var(--radius);
 }
 
-.contact-form h2 {
+.contactform h2 {
   margin: 0 0 8px;
 }
 
-.contact-form > p {
-  margin: 0 0 26px;
+.contactform > p {
+  margin: 0 0 30px;
   color: var(--text-muted);
 }
 
-.contact-form label {
+.contactform label {
   display: block;
   margin: 18px 0 8px;
   font-weight: 600;
 }
 
-.contact-form input,
-.contact-form textarea {
+.contactform input,.contactform textarea {
   width: 100%;
   box-sizing: border-box;
   padding: 13px 14px;
@@ -404,13 +399,12 @@ body {
   color: var(--text-main);
 }
 
-.contact-form textarea {
+.contactform textarea {
   min-height: 130px;
   resize: vertical;
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
+.contactform input:focus,.contactform textarea:focus {
   border-color: var(--primary);
 }
 
