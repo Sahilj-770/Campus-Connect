@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Campus Lost & Found</title>
+
+    <link rel="stylesheet" href="lost.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            <span class="logo-icon">LF</span>
+            <span>Campus Lost & Found</span>
+        </div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#items">Lost Items</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <button class="login-btn">Login</button>
+
+    </header>
+
+
+    <!-- ================= HERO SECTION ================= -->
+
+    <section class="hero" id="home">
+
+        <div class="hero-text">
+
+            <p class="small-heading">CAMPUS COMMUNITY</p>
+
+            <h1>
+                Lost something?
+                <span>Let's find it.</span>
+            </h1>
+
+            <p class="hero-description">
+                A simple place for students to report lost items,
+                post things they have found and reconnect belongings
+                with their owners.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="#report" class="primary-btn">
+                    Report an Item
+                </a>
+
+                <a href="#items" class="secondary-btn">
+                    Browse Items
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-box">
+
+            <div class="search-box">
+
+                <h3>Looking for something?</h3>
+
+                <p>
+                    Search through recently reported items.
+                </p>
+
+                <div class="search-bar">
+
+                    <input
+                        type="text"
+                        placeholder="Search for an item..."
+                    >
+
+                    <button>Search</button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= QUICK ACTIONS ================= -->
+
+    <section class="quick-section">
+
+        <div class="section-title">
+
+            <p class="small-heading">GET STARTED</p>
+
+            <h2>What would you like to do?</h2>
+
+        </div>
+
+
+        <div class="quick-cards">
+
+            <div class="quick-card">
+
+                <div class="quick-icon lost-icon">
+                    !
+                </div>
+
+                <h3>I lost something</h3>
+
+                <p>
+                    Report an item you have lost around
+                    the college campus.
+                </p>
+
+                <a href="#report">
+                    Report Lost Item →
+                </a>
+
+            </div>
+
+
+            <div class="quick-card">
+
+                <div class="quick-icon found-icon">
+                    ✓
+                </div>
+
+                <h3>I found something</h3>
+
+                <p>
+                    Help another student by reporting
+                    an item you have found.
+                </p>
+
+                <a href="#report">
+                    Report Found Item →
+                </a>
+
+            </div>
+
+
+            <div class="quick-card">
+
+                <div class="quick-icon search-icon">
+                    ?
+                </div>
+
+                <h3>I'm looking for an item</h3>
+
+                <p>
+                    Browse reported items and see if
+                    something belongs to you.
+                </p>
+
+                <a href="#items">
+                    View Lost & Found →
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= RECENT ITEMS ================= -->
+
+    <section class="items-section" id="items">
+
+        <div class="section-heading-row">
+
+            <div>
+
+                <p class="small-heading">RECENT REPORTS</p>
+
+                <h2>Recently reported items</h2>
+
+            </div>
+
+            <a href="#" class="view-all">
+                View all →
+            </a>
+
+        </div>
+
+
+        <div class="item-grid">
+
+
+            <!-- ITEM 1 -->
+
+            <div class="item-card">
+
+                <div class="item-image blue-image">
+                    🎧
+                </div>
+
+                <div class="item-content">
+
+                    <div class="item-top">
+
+                        <span class="status lost">
+                            LOST
+                        </span>
+
+                        <span class="date">
+                            Today
+                        </span>
+
+                    </div>
+
+                    <h3>Wireless Earphones</h3>
+
+                    <p>
+                        Black wireless earphones in a
+                        small charging case.
+                    </p>
+
+                    <div class="item-location">
+                        📍 Library
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ITEM 2 -->
+
+            <div class="item-card">
+
+                <div class="item-image orange-image">
+                    🎒
+                </div>
+
+                <div class="item-content">
+
+                    <div class="item-top">
+
+                        <span class="status found">
+                            FOUND
+                        </span>
+
+                        <span class="date">
+                            Yesterday
+                        </span>
+
+                    </div>
+
+                    <h3>Black Backpack</h3>
+
+                    <p>
+                        Black college backpack found
+                        near the cafeteria.
+                    </p>
+
+                    <div class="item-location">
+                        📍 Cafeteria
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ITEM 3 -->
+
+            <div class="item-card">
+
+                <div class="item-image green-image">
+                    🪪
+                </div>
+
+                <div class="item-content">
+
+                    <div class="item-top">
+
+                        <span class="status found">
+                            FOUND
+                        </span>
+
+                        <span class="date">
+                            2 days ago
+                        </span>
+
+                    </div>
+
+                    <h3>College ID Card</h3>
+
+                    <p>
+                        Student identity card found
+                        outside the main building.
+                    </p>
+
+                    <div class="item-location">
+                        📍 Main Building
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ITEM 4 -->
+
+            <div class="item-card">
+
+                <div class="item-image purple-image">
+                    🔑
+                </div>
+
+                <div class="item-content">
+
+                    <div class="item-top">
+
+                        <span class="status lost">
+                            LOST
+                        </span>
+
+                        <span class="date">
+                            3 days ago
+                        </span>
+
+                    </div>
+
+                    <h3>Keychain</h3>
+
+                    <p>
+                        Small blue keychain with
+                        two keys attached.
+                    </p>
+
+                    <div class="item-location">
+                        📍 Parking Area
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= HOW IT WORKS ================= -->
+
+    <section class="how-section" id="how-it-works">
+
+        <div class="section-title">
+
+            <p class="small-heading">SIMPLE PROCESS</p>
+
+            <h2>How Campus Lost & Found works</h2>
+
+            <p>
+                Getting an item back doesn't have to be complicated.
+            </p>
+
+        </div>
+
+
+        <div class="steps">
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    01
+                </div>
+
+                <h3>Report</h3>
+
+                <p>
+                    Submit details about the item you
+                    lost or found.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    02
+                </div>
+
+                <h3>Search</h3>
+
+                <p>
+                    Students can browse the reported
+                    items on campus.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    03
+                </div>
+
+                <h3>Match</h3>
+
+                <p>
+                    Compare the item details to find
+                    a possible match.
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">
+                    04
+                </div>
+
+                <h3>Collect</h3>
+
+                <p>
+                    Contact the concerned person and
+                    safely collect the item.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= STATISTICS ================= -->
+
+    <section class="stats-section">
+
+        <div class="stat">
+
+            <h2>120+</h2>
+
+            <p>Items Reported</p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h2>85+</h2>
+
+            <p>Items Returned</p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h2>60+</h2>
+
+            <p>Active Students</p>
+
+        </div>
+
+
+        <div class="stat">
+
+            <h2>24/7</h2>
+
+            <p>Reporting Available</p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= REPORT SECTION ================= -->
+
+    <section class="report-section" id="report">
+
+        <div class="report-content">
+
+            <p class="small-heading">HAVE AN ITEM?</p>
+
+            <h2>
+                Help someone find what
+                they are looking for.
+            </h2>
+
+            <p>
+                Whether you lost something or found
+                something on campus, reporting it
+                takes only a few minutes.
+            </p>
+
+        </div>
+
+
+        <div class="report-buttons">
+
+            <button class="primary-btn">
+                Report Lost Item
+            </button>
+
+            <button class="white-btn">
+                Report Found Item
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer id="contact">
+
+        <div class="footer-main">
+
+            <div class="footer-about">
+
+                <h3>Campus Lost & Found</h3>
+
+                <p>
+                    A student-friendly platform for
+                    managing lost and found items
+                    within the campus.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h4>Quick Links</h4>
+
+                <a href="#home">Home</a>
+                <a href="#items">Lost Items</a>
+                <a href="#how-it-works">How It Works</a>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <h4>Contact</h4>
+
+                <p>College Campus</p>
+                <p>Student Support Desk</p>
+                <p>campus@example.com</p>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 Campus Lost & Found
+            </p>
+
+            <p>
+                Made for students
+            </p>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
