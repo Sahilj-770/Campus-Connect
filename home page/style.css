@@ -49,18 +49,73 @@ body {
 
 .hero {
   text-align: center;
-  padding: 4rem 1rem;
+  padding: 4.5rem 1rem;
   background: linear-gradient(135deg, #f59e0b 0%, #e8752d 45%, #c95d1e 100%);
   color: white;
 }
 
+.college-label {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+}
+
 .hero h1 {
-  font-size: 40px;
-  margin-bottom: 16px;
+  font-size: 48px;
+  line-height: 1.1;
+  margin: 0 0 16px;
+}
+
+.hero p:not(.college-label) {
+  max-width: 620px;
+  margin: 0 auto 24px;
+  line-height: 1.6;
 }
 
 .highlight {
   color: var(--hilight);
+}
+
+.quick-access {
+  padding-top: 3rem;
+  padding-bottom: 1rem;
+}
+
+.quick-access h2 {
+  margin-bottom: 1.2rem;
+}
+
+.quick-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.quick-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  color: var(--text-main);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.quick-item:hover {
+  transform: translateY(-3px);
+  border-color: var(--primary);
+}
+
+.quick-item span {
+  font-size: 20px;
 }
 
 .info-item {
@@ -141,6 +196,34 @@ body {
 }
 
 .end {
+  margin-top: 2rem;
   text-align: center;
-  color: #667085;
+  color: #aeb7c5;
+  line-height: 1.6;
+}
+
+.end span {
+  font-size: 14px;
+}
+
+@media (max-width: 700px) {
+  .navbar {
+    padding: 16px 20px;
+  }
+
+  .navbar nav a {
+    margin-left: 0.8rem;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+  }
+
+  .quick-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact {
+    padding-left: 2rem;
+  }
 }
