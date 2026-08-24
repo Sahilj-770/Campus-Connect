@@ -50,7 +50,7 @@ body {
 .hero {
   text-align: center;
   padding: 4rem 1rem;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  background: linear-gradient(135deg, #f59e0b 0%, #e8752d 45%, #c95d1e 100%);
   color: white;
 }
 
