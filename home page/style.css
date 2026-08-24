@@ -11,7 +11,7 @@
   --active: #d96b27;
 }
 
-/* Base */
+
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background: linear-gradient(135deg, #fff4e8 0%, white 100%);
@@ -426,7 +426,7 @@ body {
   background: var(--primary-dark);
 }
 
-/* Contact Page - Help Cards */
+
 .help-section {
   padding-top: 2rem;
   padding-bottom: 4rem;
@@ -475,7 +475,7 @@ body {
   line-height: 1.6;
 }
 
-/* Buttons */
+
 .btn {
   display: inline-block;
   padding: 10px 20px;
@@ -497,7 +497,7 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Footer */
+
 .contact {
   padding: 3rem 1rem 3rem 4rem;
   background: #182033;
