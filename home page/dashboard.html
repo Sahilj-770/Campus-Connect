@@ -1,35 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
-  <title> 🛡️ CampusConnect — University Portal For DYOCOE</title>
+  <title>🛡️ CampusConnect — University Portal For DYOCOE</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
- 
- <header class="navbar">
-    <a class="logo" href="index.html" > 🛜 CampusConnect</a>
+  <header class="navbar">
+    <a class="logo" href="index.html">🛜 CampusConnect</a>
     <nav>
-      <a href="index.html" >Home</a>
-      <a href="dashboard.html"class="active">Dashboard</a>
+      <a href="index.html">Home</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
       <a href="contact.html">Contact</a>
-      
     </nav>
   </header>
 
-   <section class="hero">
-    <h1>Explore <span class="highlight">Portal Services</span></h1>
-    <p>Discover the various services available on CampusConnect.</p>
+  <section class="dashboard-welcome container">
+    <div>
+      <p class="dashboard-label">CampusConnect Dashboard</p>
+      <h1>What do you want to explore today? 👋</h1>
+      <p>Everything you need around campus, all in one place.</p>
+    </div>
+    <div class="date-box">
+      <span>Today</span>
+      <strong id="current-date"></strong>
+    </div>
   </section>
 
-  
-  <section class="container">
+  <section class="container dashboard-section">
+    <div class="section-heading">
+      <div>
+        <p class="dashboard-label">Explore</p>
+        <h2>Campus Services</h2>
+      </div>
+      <p>Useful tools and services for everyday campus life.</p>
+    </div>
+
     <div class="grid">
       <div class="card">
-        <h3> 🥳 Campus Events</h3>
+        <h3>🥳 Campus Events</h3>
         <p>Discover workshops, hackathons, and cultural nights.</p>
         <a href="events.html" class="link">View Events &rarr;</a>
       </div>
@@ -41,51 +52,82 @@
       <div class="card">
         <h3>🔍 Lost & Found</h3>
         <p>Report and recover lost items on campus.</p>
-        <br>
         <a href="dashboard.html" class="link">Open Module &rarr;</a>
       </div>
     </div>
   </section>
 
-    <section class="container">
+  <section class="container dashboard-section">
+    <div class="section-heading">
+      <div>
+        <p class="dashboard-label">Navigate</p>
+        <h2>Campus Tools</h2>
+      </div>
+      <p>Quick access to useful college resources.</p>
+    </div>
+
     <div class="grid">
       <div class="card">
-        <h3> 😋 Cafeteria Menu</h3>
+        <h3>😋 Cafeteria Menu</h3>
         <p>Discover the latest menu items and special offers.</p>
         <a href="cafeteria.html" class="link">View Menu &rarr;</a>
       </div>
       <div class="card">
-        <h3> 🗺️ College Map</h3>
+        <h3>🗺️ College Map</h3>
         <p>Explore the college campus and find your way around.</p>
         <a href="college-map.html" class="link">View Map &rarr;</a>
       </div>
       <div class="card">
-        <h3> 📊 Juno ERP</h3>
+        <h3>📊 Juno ERP</h3>
         <p>Access and manage your academic records and information.</p>
         <a target="_blank" href="https://erp.dypakurdipune.edu.in/" class="link">Open Website &rarr;</a>
       </div>
     </div>
   </section>
 
-    <section class="contact">
-    <h3>campus connect links</h3>
-    
-    <div class="links">
-    <a target="_blank" href="contact.html">Contact Us</a>
-    <br>
-    <br>
-    <a target="_blank" href="http://instagram.com "> Instagram</a>
-    <br>
-    <br>
-    <a target="_blank" href="https://www.dypcoeakurdi.ac.in/">Official college page</a>
-    <br>
-    <br>
-    <div class="end">Campus Connect | Dr DY Patil College Of Engineering</div>
+  <section class="container dashboard-section">
+    <div class="section-heading updates-heading">
+      <div>
+        <p class="dashboard-label">Stay Updated</p>
+        <h2>Latest Updates</h2>
+      </div>
     </div>
 
-
-    
+    <div class="updates-list">
+      <div class="update-item"><span>📢</span><div><strong>Campus announcements</strong><p>Important notices and updates will appear here.</p></div></div>
+      <div class="update-item"><span>📅</span><div><strong>Upcoming events</strong><p>Keep an eye on workshops, hackathons and cultural activities.</p></div></div>
+      <div class="update-item"><span>🍔</span><div><strong>Cafeteria updates</strong><p>Check the latest menu items and special offers.</p></div></div>
+    </div>
   </section>
+
+  <section class="container">
+    <div class="coming-soon">
+      <div>
+        <span class="coming-icon">🚀</span>
+        <h2>More campus services coming soon</h2>
+        <p>We're continuing to build CampusConnect and add more useful tools for students.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact">
+    <h3>Campus Connect Links</h3>
+    <div class="links">
+      <a href="contact.html">Contact Us</a>
+      <a target="_blank" href="http://instagram.com">Instagram</a>
+      <a target="_blank" href="https://www.dypcoeakurdi.ac.in/">Official college page</a>
+    </div>
+    <div class="end">Campus Connect | Dr. D. Y. Patil College of Engineering<br><span>Built by students, for students.</span></div>
+  </section>
+
+  <script>
+    const date = new Date();
+    document.getElementById('current-date').textContent = date.toLocaleDateString('en-IN', {
+      weekday: 'short',
+      day: 'numeric',
+      month: 'short'
+    });
+  </script>
 
 </body>
 </html>
