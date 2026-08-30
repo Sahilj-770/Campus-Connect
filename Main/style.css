@@ -153,3 +153,22 @@ body.dark-mode .highlight { color: #fed7aa; }
   .contact { padding-left: 1rem; }
 }
 body.dark-mode .navbar nav { background: #1f2937; }
+
+/* Footer only - inspired by Campus Bites */
+.contact.site-footer { margin-top: 100px; padding: 60px 8% 25px; background: #182033; color: white; }
+.contact.site-footer .footer-main { display: flex; justify-content: space-between; gap: 60px; }
+.contact.site-footer .footer-brand { max-width: 300px; }
+.contact.site-footer .footer-brand h2 { font-size: 30px; margin: 0 0 15px; }
+.contact.site-footer .footer-brand p { color: #b9c1cf; line-height: 1.6; margin: 0; }
+.contact.site-footer .footer-links { display: flex; gap: 70px; }
+.contact.site-footer .footer-links div { display: flex; flex-direction: column; }
+.contact.site-footer .footer-links h3 { font-size: 16px; margin: 0 0 18px; }
+.contact.site-footer .footer-links a { color: #b9c1cf; text-decoration: none; margin-bottom: 10px; font-size: 14px; }
+.contact.site-footer .footer-links a:hover { color: white; }
+.contact.site-footer .footer-bottom { margin-top: 50px; padding-top: 20px; border-top: 1px solid #364055; display: flex; justify-content: space-between; gap: 20px; }
+.contact.site-footer .footer-bottom p { color: #9da6b5; margin: 0; font-size: 13px; }
+body.dark-mode .contact.site-footer { background: #0b1220; }
+@media (max-width: 700px) {
+  .contact.site-footer .footer-main, .contact.site-footer .footer-links, .contact.site-footer .footer-bottom { flex-direction: column; }
+  .contact.site-footer .footer-links { gap: 20px; }
+}
