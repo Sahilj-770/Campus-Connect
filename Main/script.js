@@ -114,7 +114,7 @@ const dashboardCards = document.querySelectorAll('.dashboard-section .card');
 if (dashboardCards.length > 0) {
   const searchBox = document.createElement('input');
   searchBox.type = 'text';
-  searchBox.placeholder = '🔍 Search campus services...';
+  searchBox.placeholder = 'Search campus services...';
   searchBox.className = 'service-search';
 
   const firstSection = document.querySelector('.dashboard-section');
