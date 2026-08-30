@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusConnect — Your Campus, In One Place</title>
+  <link rel="icon" type="image/png" href="logo.png">
+  <style>
+    :root {
+      --orange: #d96b27;
+      --orange-dark: #a84a18;
+      --navy: #182033;
+      --cream: #fff4e8;
+      --muted: #667085;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--cream);
+      color: var(--navy);
+    }
+
+    .landing-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 7%;
+      background: white;
+      border-bottom: 2px solid #e9e5df;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 21px;
+      font-weight: 700;
+    }
+
+    .logo img { width: 42px; height: 42px; object-fit: contain; }
+
+    .nav-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .nav-link:hover { color: var(--orange); }
+
+    .landing-hero {
+      min-height: 72vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 70px 7%;
+      text-align: center;
+      background: linear-gradient(135deg, #fff4e8 0%, #ffffff 100%);
+    }
+
+    .hero-content { max-width: 800px; }
+
+    .college-label {
+      margin: 0 0 16px;
+      color: var(--orange-dark);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 20px;
+      font-size: 58px;
+      line-height: 1.08;
+      letter-spacing: -2px;
+    }
+
+    h1 span { color: var(--orange); }
+
+    .hero-content > p:not(.college-label) {
+      max-width: 650px;
+      margin: 0 auto 30px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 13px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .btn-primary { background: var(--orange); color: white; }
+    .btn-primary:hover { background: var(--orange-dark); }
+
+    .btn-secondary {
+      background: white;
+      color: var(--navy);
+      border: 2px solid #e5ded5;
+    }
+
+    .btn-secondary:hover { border-color: var(--orange); color: var(--orange-dark); }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: -25px auto 0;
+      padding: 0 25px 60px;
+    }
+
+    .feature {
+      padding: 25px;
+      background: white;
+      border: 2px solid #e9e5df;
+      border-radius: 18px;
+      text-align: center;
+    }
+
+    .feature-icon { font-size: 28px; }
+
+    .feature h3 { margin: 12px 0 8px; }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .landing-footer {
+      padding: 22px 7%;
+      background: var(--navy);
+      color: #aeb7c5;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .landing-footer p { margin: 4px 0; }
+
+    @media (max-width: 750px) {
+      .landing-nav { padding: 15px 5%; }
+      .landing-hero { min-height: 65vh; padding: 55px 5%; }
+      h1 { font-size: 42px; }
+      .features { grid-template-columns: 1fr; margin-top: 0; }
+      .actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+  <header class="landing-nav">
+    <a class="logo" href="index.html">
+      <img src="logo.png" alt="CampusConnect Logo">
+      <span>CampusConnect</span>
+    </a>
+    <a class="nav-link" href="Main/signin.html">Sign In</a>
+  </header>
+
+  <main>
+    <section class="landing-hero">
+      <div class="hero-content">
+        <p class="college-label">Dr. D. Y. Patil College of Engineering</p>
+        <h1>Your campus.<br><span>In one place.</span></h1>
+        <p>CampusConnect brings campus services, updates, events and useful information together in one simple platform for students.</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="index.html">Explore Campus</a>
+          <a class="btn btn-secondary" href="Main/signin.html">Sign In</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="feature">
+        <div class="feature-icon">📢</div>
+        <h3>Stay Updated</h3>
+        <p>Find important notices, announcements and campus updates.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">📅</div>
+        <h3>Discover Events</h3>
+        <p>Keep track of workshops, hackathons and activities around campus.</p>
+      </div>
+
+      <div class="feature">
+        <div class="feature-icon">🤝</div>
+        <h3>Made for Students</h3>
+        <p>Access useful campus services from one convenient platform.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="landing-footer">
+    <p>Campus Connect | Dr. D. Y. Patil College of Engineering</p>
+    <p>Built by students, for students.</p>
+  </footer>
+</body>
+</html>
