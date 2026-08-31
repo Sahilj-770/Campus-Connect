@@ -1,0 +1,160 @@
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+
+/* ---------- TABLET ---------- */
+
+@media (max-width: 1000px) {
+
+    .hero {
+        margin-left: 20px;
+        margin-right: 20px;
+
+        padding: 50px;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .hero-box {
+        width: 100%;
+    }
+
+
+    .canteen-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .small-food-container {
+        grid-template-columns: 1fr;
+    }
+
+
+    .category-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+    .menu-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .footer-main {
+        flex-direction: column;
+    }
+
+
+    .footer-links {
+        flex-wrap: wrap;
+    }
+
+}
+
+
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 700px) {
+
+    .navbar {
+        gap: 12px;
+
+        padding: 0 15px;
+    }
+
+
+    .navbar nav {
+        display: none;
+    }
+
+
+    .logo {
+        margin-right: 0;
+
+        font-size: 17px;
+    }
+
+
+    .search input {
+        width: 170px;
+    }
+
+
+    .hero {
+        min-height: auto;
+
+        padding: 35px 25px;
+
+        border-radius: 24px;
+    }
+
+
+    .hero h1 {
+        font-size: 42px;
+    }
+
+
+    .hero-preview {
+        width: 100%;
+    }
+
+
+    .featured-food {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 30px;
+    }
+
+
+    .featured-icon {
+        width: 120px;
+
+        height: 120px;
+
+        font-size: 60px;
+    }
+
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .category-section,
+    .popular-section,
+    .menu-section {
+        width: 90%;
+    }
+
+
+    .section-heading h2,
+    .category-heading h2,
+    .menu-heading h2 {
+        font-size: 30px;
+    }
+
+
+    .menu-box {
+        padding: 22px;
+    }
+
+
+    .footer-links {
+        gap: 35px;
+    }
+
+
+    .footer-bottom {
+        flex-direction: column;
+
+        gap: 10px;
+    }
+
+}

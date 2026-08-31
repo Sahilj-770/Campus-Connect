@@ -1,0 +1,171 @@
+/* =========================
+   FULL MENU
+========================= */
+
+.menu-section {
+    width: 82%;
+
+    margin: 100px auto;
+}
+
+.menu-heading {
+    margin-bottom: 40px;
+}
+
+.menu-heading p {
+    margin-bottom: 10px;
+
+    color: #d87532;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    letter-spacing: 3px;
+}
+
+.menu-heading h2 {
+    margin-bottom: 12px;
+
+    color: #182033;
+
+    font-size: 40px;
+}
+
+.menu-heading span {
+    color: #68758d;
+
+    font-size: 17px;
+}
+
+.menu-grid {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 25px;
+}
+
+.menu-box {
+    padding: 28px;
+
+    background-color: #fffaf3;
+
+    border: 1px solid #eadfce;
+
+    border-radius: 18px;
+}
+
+.menu-box h3 {
+    margin-bottom: 20px;
+
+    color: #1b2438;
+
+    font-size: 24px;
+
+    text-transform: capitalize;
+}
+
+.menu-item {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid #eadfce;
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+}
+
+.menu-item span {
+    color: #53617a;
+
+    font-size: 16px;
+}
+
+.menu-item strong {
+    color: #182033;
+
+    font-size: 17px;
+}
+
+.menu-search {
+    margin-bottom: 30px;
+}
+
+.menu-search input {
+    width: 100%;
+
+    max-width: 500px;
+
+    height: 45px;
+
+    padding: 0 15px;
+
+    border: 1px solid #eadfce;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+.menu-search input:focus {
+    border-color: #e8752d;
+}
+
+.category-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.category-btn {
+    padding: 10px 18px;
+
+    border: 1px solid #eadfce;
+
+    background-color: white;
+
+    border-radius: 20px;
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.category-btn:hover {
+    border-color: #e8752d;
+}
+
+.category-btn.active {
+    background-color: #e8752d;
+
+    color: white;
+
+    border-color: #e8752d;
+}
+
+.clear-filter-btn {
+    padding: 9px 16px;
+    border: 1px solid #e8752d;
+    background-color: white;
+    color: #e8752d;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 25px;
+}
+
+.clear-filter-btn:hover {
+    background-color: #e8752d;
+    color: white;
+}

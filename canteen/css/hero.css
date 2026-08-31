@@ -1,0 +1,175 @@
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    max-width: 1250px;
+
+    min-height: 500px;
+
+    margin: 55px auto;
+
+    padding: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 40px;
+
+    background-color: #fff4e8;
+
+    border: 1px solid #f1dfcb;
+
+    border-radius: 32px;
+
+    overflow: hidden;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero-tag {
+    margin: 0 0 18px;
+
+    color: #d96b27;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+.hero h1 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 65px;
+
+    line-height: 1.05;
+
+    letter-spacing: -2px;
+}
+
+.hero-text {
+    max-width: 530px;
+
+    margin: 22px 0;
+
+    color: #667085;
+
+    font-size: 17px;
+
+    line-height: 1.6;
+}
+
+.hero-button {
+    display: inline-block;
+
+    padding: 14px 22px;
+
+    background-color: #e8752d;
+
+    color: white;
+
+    border-radius: 12px;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+.hero-button:hover {
+    background-color: #c95d1e;
+
+    transform: translateY(-2px);
+}
+
+.hero-preview {
+    width: 380px;
+
+    padding: 25px;
+
+    background-color: white;
+
+    border-radius: 24px;
+
+    box-shadow: 0 15px 40px rgba(31, 41, 55, 0.12);
+}
+
+.preview-title {
+    margin: 0 0 18px;
+
+    color: #172033;
+
+    font-size: 18px;
+
+    font-weight: bold;
+}
+
+.food-preview {
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 14px;
+
+    margin-bottom: 12px;
+
+    border: 1px solid #eee5dc;
+
+    border-radius: 16px;
+
+    background-color: #fffaf5;
+}
+
+.food-icon {
+    width: 50px;
+
+    height: 50px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background-color: #ffe4cc;
+
+    border-radius: 14px;
+
+    font-size: 25px;
+}
+
+.food-preview h3 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 15px;
+}
+
+.food-preview p {
+    margin: 4px 0 0;
+
+    color: #7a8496;
+
+    font-size: 13px;
+}
+
+.food-preview strong {
+    margin-left: auto;
+
+    color: #172033;
+
+    font-size: 15px;
+}

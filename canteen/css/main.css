@@ -1,0 +1,29 @@
+/* =========================
+   MAIN CSS FILE
+========================= */
+
+/*
+   This file does not contain
+   the actual component styles.
+
+   It simply loads the smaller
+   CSS files used by the website.
+*/
+
+@import url("base.css");
+
+@import url("navbar.css");
+
+@import url("hero.css");
+
+@import url("canteens.css");
+
+@import url("featured.css");
+
+@import url("categories.css");
+
+@import url("menu.css");
+
+@import url("footer.css");
+
+@import url("responsive.css");

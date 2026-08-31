@@ -1,0 +1,34 @@
+/* =========================
+   GLOBAL / BASE STYLES
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+
+    font-family: Arial, sans-serif;
+
+    background-color: white;
+
+    color: #172033;
+
+    line-height: 1.6;
+}
+
+a {
+    color: inherit;
+
+    text-decoration: none;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+.page-container {
+    min-height: calc(100vh - 70px);
+}

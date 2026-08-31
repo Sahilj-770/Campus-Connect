@@ -1,0 +1,318 @@
+/* =========================
+   CANTEENS
+========================= */
+
+.canteens {
+    max-width: 1250px;
+
+    margin: 80px auto;
+
+    padding: 0 10px;
+}
+
+.canteens-page {
+    margin-top: 70px;
+}
+
+.section-heading {
+    margin-bottom: 30px;
+}
+
+.section-heading p {
+    margin: 0 0 10px;
+
+    color: #d96b27;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+.section-heading h2 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 36px;
+}
+
+.section-heading span {
+    display: block;
+
+    margin-top: 10px;
+
+    color: #737d90;
+
+    font-size: 16px;
+}
+
+.canteen-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 22px;
+
+    margin-top: 35px;
+}
+
+.canteen-card {
+    min-height: 330px;
+
+    padding: 28px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    border-radius: 24px;
+
+    border: 1px solid #e8e1da;
+
+    background-color: white;
+
+    box-shadow: 0 10px 25px rgba(30, 40, 60, 0.06);
+}
+
+.canteen-icon {
+    width: 60px;
+
+    height: 60px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin-bottom: 40px;
+
+    border-radius: 18px;
+
+    font-size: 28px;
+}
+
+.cafeteria .canteen-icon {
+    background-color: #ffe1c4;
+}
+
+.timeless .canteen-icon {
+    background-color: #dcecff;
+}
+
+.nescafe .canteen-icon {
+    background-color: #e3f3df;
+}
+
+.canteen-info h3 {
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 25px;
+}
+
+.canteen-info p {
+    margin-top: 10px;
+
+    color: #737d90;
+
+    font-size: 15px;
+
+    line-height: 1.5;
+}
+
+.canteen-bottom {
+    margin-top: auto;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+}
+
+.canteen-bottom span {
+    color: #667085;
+
+    font-size: 20px;
+}
+
+.canteen-bottom a {
+    width: 40px;
+
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background-color: #172033;
+
+    color: white;
+
+    font-size: 20px;
+}
+
+/* ============================================================
+   CANTEEN PART 12 — CARD INTERACTION
+   CONCEPT: cursor + transition
+   ============================================================ */
+
+.canteen-card {
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+
+/* ============================================================
+   CANTEEN PART 13 — HOVER EFFECT
+   CONCEPT: :hover
+   ============================================================ */
+
+.canteen-card:hover {
+    transform: translateY(-6px);
+
+    box-shadow:
+        0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+
+
+/* ============================================================
+   CANTEEN PART 14 — CLICK EFFECT
+   CONCEPT: classList.add() + CSS class
+   ============================================================ */
+
+.canteen-card.selected {
+    transform: scale(0.96);
+
+    opacity: 0.75;
+}
+
+
+
+/* ============================================================
+   CANTEEN PART 15 — STATUS MESSAGE
+   ============================================================ */
+
+#canteenStatus {
+    min-height: 24px;
+
+    text-align: center;
+
+    margin: 15px 0;
+
+    font-weight: 500;
+}
+
+/* ============================================================
+   CANTEEN PART 20 — DYNAMIC CARD CONTENT
+   ============================================================ */
+
+.canteen-card {
+    position: relative;
+
+    padding: 28px;
+
+    border-radius: 18px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* ============================================================
+   CANTEEN PART 20.1 — ICON
+   ============================================================ */
+
+.canteen-icon {
+    font-size: 42px;
+
+    margin-bottom: 15px;
+}
+
+
+/* ============================================================
+   CANTEEN PART 20.2 — CARD TITLE
+   ============================================================ */
+
+.canteen-card h3 {
+    margin-bottom: 8px;
+
+    font-size: 22px;
+}
+
+
+/* ============================================================
+   CANTEEN PART 20.3 — DESCRIPTION
+   ============================================================ */
+
+.canteen-card p {
+    margin-bottom: 15px;
+
+    line-height: 1.5;
+
+    opacity: 0.75;
+}
+
+
+/* ============================================================
+   CANTEEN PART 20.4 — CATEGORY COUNT
+   ============================================================ */
+
+.canteen-card span {
+    display: inline-block;
+
+    padding: 6px 10px;
+
+    border-radius: 20px;
+
+    background: rgba(0, 0, 0, 0.06);
+
+    font-size: 13px;
+}
+
+
+/* ============================================================
+   CANTEEN PART 20.5 — TIMING
+   ============================================================ */
+
+.canteen-card small {
+    display: block;
+
+    margin-top: 12px;
+
+    opacity: 0.65;
+}
+
+/* ============================================================
+   CANTEEN PART 21 — VIEW MENU INDICATOR
+   ============================================================ */
+
+.view-menu {
+    margin-top: 20px;
+
+    font-weight: 600;
+
+    transition:
+        transform 0.2s ease;
+}
+
+
+.canteen-card:hover .view-menu {
+    transform: translateX(5px);
+}
