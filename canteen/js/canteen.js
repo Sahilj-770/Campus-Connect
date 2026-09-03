@@ -100,4 +100,61 @@ canteenCards.forEach(function (card) {
                 </div>
     `;
 
+    const favoriteButton =
+        document.createElement("button");
+
+    favoriteButton.className =
+        "favorite-btn";
+
+    favoriteButton.textContent =
+        favoriteCanteens.includes(canteenName)
+            ? "♥"
+            : "♡";
+
+    card.appendChild(favoriteButton);
+    
+
+    favoriteButton.addEventListener(
+        "click",
+        function (event) {
+
+            event.stopPropagation();
+
+            const index =
+                favoriteCanteens.indexOf(canteenName);
+
+
+            if (index === -1) {
+
+                favoriteCanteens.push(canteenName);
+
+                favoriteButton.textContent = "♥";
+
+            } else {
+
+                favoriteCanteens.splice(index, 1);
+
+                favoriteButton.textContent = "♡";
+
+            }
+
+
+            localStorage.setItem(
+                "favoriteCanteens",
+                JSON.stringify(favoriteCanteens)
+            );
+
+        }
+    );
+
 });
+
+// ============================================================
+// CANTEEN PART 25 — LOAD FAVORITES
+// CONCEPT: localStorage + JSON.parse()
+// ============================================================
+
+let favoriteCanteens =
+    JSON.parse(
+        localStorage.getItem("favoriteCanteens")
+    ) || [];
