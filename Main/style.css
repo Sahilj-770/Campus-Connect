@@ -321,6 +321,7 @@ body {
 }
 
 .contact-main {
+  
   display: grid;
   grid-template-columns: 1fr 1.15fr;
   align-items: start;
@@ -638,6 +639,7 @@ body.dark-mode .highlight {
   color: #fed7aa;
 }
 
+@media (max-width: 700px) {
 .navbar {
   padding: 14px 18px;
 }
@@ -689,6 +691,7 @@ body.dark-mode .highlight {
 
 .contact {
   padding-left: 1rem;
+}
 }
 
 body.dark-mode .navbar nav {
@@ -768,10 +771,12 @@ body.dark-mode .contact.site-footer {
   background: #0b1220;
 }
 
+@media (max-width: 700px) {
 .contact.site-footer .footer-main, .contact.site-footer .footer-links, .contact.site-footer .footer-bottom {
   flex-direction: column;
 }
 
 .contact.site-footer .footer-links {
   gap: 20px;
+}
 }
