@@ -5,16 +5,21 @@
   <meta charset="UTF-8">
   <title>CampusConnect — Contact Us</title>
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="contact.css">
   <link rel="icon" type="image/png" href="../logo.png">
 </head>
 <body>
 
-  <header class="navbar">
-    <a class="logo" href="../index.html"><img src="../logo.png" alt="CampusConnect Logo" class="logo-img"> CampusConnect</a>
-    <nav>
+  <header class="navbar home-navbar">
+    <a class="logo" href="../index.html">
+      <img src="../logo.png" alt="CampusConnect Logo" class="logo-img">
+      <span>CampusConnect</span>
+    </a>
+    <nav class="home-nav-links" aria-label="Main navigation">
       <a href="../index.html">Home</a>
       <a href="dashboard.html">Dashboard</a>
       <a href="contact.html" class="active">Contact</a>
+      <a href="signin.html" class="nav-signin">Sign In</a>
     </nav>
   </header>
 
@@ -36,36 +41,25 @@
       </div>
       <div class="contact-detail-item">
         <span>📍</span>
-        <div><strong>Location</strong><p>D. Y. Patil College of Engineering, Akurdi</p></div>
+        <div><strong>Location</strong><p>Dr. D. Y. Patil College of Engineering, Akurdi</p></div>
       </div>
       <div class="contact-detail-item">
-        <span>📱</span>
-        <div><strong>Social</strong><p>Follow CampusConnect for updates.</p></div>
+        <span>💬</span>
+        <div><strong>Feedback</strong><p>We value your suggestions and ideas.</p></div>
       </div>
     </div>
 
-    <form class="contactform">
+    <div class="contact-form card">
       <h2>Send us a message</h2>
-      <p>We'll use your feedback to improve CampusConnect.</p>
-      <label for="name">Your Name</label>
-      <input type="text" id="name" placeholder="Enter your name" required>
-      <label for="email">Email Address</label>
-      <input type="email" id="email" placeholder="Enter your email" required>
-      <label for="message">Message</label>
-      <textarea id="message" placeholder="Write your message here..." required></textarea>
-      <button type="submit" class="contact-submit">Send Message →</button>
-    </form>
-  </section>
-
-  <section class="container help-section">
-    <div class="help-heading">
-      <p class="dashboard-label">How Can We Help?</p>
-      <h2>Tell us what you have in mind.</h2>
-    </div>
-    <div class="help-grid">
-      <div class="help-card"><span>💡</span><h3>Suggestions</h3><p>Have an idea that could make CampusConnect better? We'd love to hear it.</p></div>
-      <div class="help-card"><span>🐛</span><h3>Report an Issue</h3><p>Found something that isn't working properly? Let us know so we can fix it.</p></div>
-      <div class="help-card"><span>🤝</span><h3>Collaborate</h3><p>Interested in contributing or working with the CampusConnect team? Reach out.</p></div>
+      <form>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your name" required>
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Your email" required>
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="6" placeholder="Write your message..." required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
     </div>
   </section>
 
@@ -76,26 +70,11 @@
         <p>A simple campus platform bringing useful services, updates and information together for students.</p>
       </div>
       <div class="footer-links">
-        <div>
-          <h3>Campus</h3>
-          <a href="../index.html">Home</a>
-          <a href="dashboard.html">Dashboard</a>
-          <a href="contact.html">Contact</a>
-        </div>
-        <div>
-          <h3>Links</h3>
-          <a href="../canteen/canteen.html">Canteen</a>
-          <a target="_blank" href="http://instagram.com">Instagram</a>
-          <a target="_blank" href="https://www.dypcoeakurdi.ac.in/">College Website</a>
-        </div>
+        <div><h3>Campus</h3><a href="../index.html">Home</a><a href="dashboard.html">Dashboard</a><a href="contact.html">Contact</a></div>
+        <div><h3>Links</h3><a href="../canteen/index.html">Canteen</a><a target="_blank" href="http://instagram.com">Instagram</a><a target="_blank" href="https://www.dypcoeakurdi.ac.in/">College Website</a></div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>Campus Connect | Dr. D. Y. Patil College of Engineering</p>
-      <p>Built by students, for students.</p>
-    </div>
+    <div class="footer-bottom"><p>Campus Connect | Dr. D. Y. Patil College of Engineering</p><p>Built by students, for students.</p></div>
   </footer>
-
-  <script src="script.js"></script>
 </body>
 </html>
