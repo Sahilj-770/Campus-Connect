@@ -68,7 +68,8 @@
 .contact-form {
   padding: 34px;
   background: white;
-  border: 1px solid var(--border);
+  border: 3px solid var(black);
+  border-bottom: 8px solid var(black);
   border-radius: 22px;
   box-shadow: 0 18px 45px rgba(23, 32, 51, 0.08);
 }
