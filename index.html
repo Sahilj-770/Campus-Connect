@@ -4,86 +4,313 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8">
-  <title>CampusConnect — University Portal For DYOCOE</title>
+  <meta name="description" content="CampusConnect - Your campus services, events, notices and student resources in one place.">
+  <title>CampusConnect — Your Campus, In One Place</title>
   <link rel="stylesheet" href="Main/style.css">
+  <link rel="stylesheet" href="Main/home.css">
   <link rel="icon" type="image/png" href="logo.png">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
+
 <body>
 
-  <header class="navbar">
-    <a class="logo" href="index.html"><img src="logo.png" alt="CampusConnect Logo" class="logo-img"> CampusConnect</a>
-    <nav>
+  <!-- Main navigation -->
+  <header class="navbar home-navbar">
+    <a class="logo" href="index.html">
+      <img src="logo.png" alt="CampusConnect Logo" class="logo-img">
+      <span>CampusConnect</span>
+    </a>
+
+    <nav class="home-nav-links" aria-label="Main navigation">
       <a href="index.html" class="active">Home</a>
-      <a href="Main/dashboard.html">Dashboard</a>
+      <a href="#services">Services</a>
+      <a href="#events">Events</a>
       <a href="Main/contact.html">Contact</a>
+      <a href="Main/signin.html" class="nav-signin">Sign In</a>
     </nav>
   </header>
 
-  <section class="hero">
-    <p class="college-label">Dr. D. Y. Patil College of Engineering</p>
-    <h1>Everything campus.<br><span class="highlight">In one place.</span></h1>
-    <p>CampusConnect brings useful campus services, updates and information together in one simple platform.</p>
-    <a href="Main/dashboard.html" class="btn btn-primary">Explore Campus</a>
-  </section>
+  <main>
 
-  <section class="quick-access container">
-    <h2>Quick Access</h2>
-    <div class="quick-grid">
-      <a href="Main/dashboard.html" class="quick-item"><span>📋</span>Dashboard</a>
-      <a href="canteen/index.html" class="quick-item"><span>🍔</span>Canteen</a>
-      <a href="Main/events.html" class="quick-item"><span>📅</span>Events</a>
-      <a href="Main/notices.html" class="quick-item"><span>📢</span>Notices</a>
-    </div>
-  </section>
+    <!-- Hero section -->
+    <section class="home-hero">
+      <div class="home-hero-content">
+        <p class="college-label">Dr. D. Y. Patil College of Engineering</p>
+        <h1>Your campus.<br><span>One platform.</span></h1>
+        <p class="hero-description">
+          Events, notices, canteen services and student resources —
+          everything you need to stay connected with campus.
+        </p>
 
-  <section class="container">
-    <h2>What's Happening on Campus?</h2>
-    <div class="campus-info">
-      <div class="info-item">
-        <div class="info-icon">🎉</div>
-        <h3>Upcoming Events</h3>
-        <p>Stay updated with hackathons, workshops, cultural events and more happening around campus.</p>
+        <div class="hero-actions">
+          <a href="Main/dashboard.html" class="home-btn home-btn-primary">
+            Explore Campus
+            <i data-lucide="arrow-right"></i>
+          </a>
+          <a href="#services" class="home-btn home-btn-secondary">
+            View Services
+          </a>
+        </div>
       </div>
-      <div class="info-item">
-        <div class="info-icon">📢</div>
-        <h3>Campus Announcements</h3>
-        <p>Important updates, notices and information for students all in one place.</p>
-      </div>
-      <div class="info-item">
-        <div class="info-icon">🤝</div>
-        <h3>Built for Students</h3>
-        <p>CampusConnect brings useful campus services together in one simple platform.</p>
-      </div>
-    </div>
-  </section>
 
-  <footer class="contact site-footer">
-    <div class="footer-main">
+      <!-- Visual dashboard preview -->
+      <div class="dashboard-preview" aria-label="CampusConnect dashboard preview">
+        <div class="preview-topbar">
+          <div class="preview-brand">
+            <span class="preview-logo">C</span>
+            <strong>CampusConnect</strong>
+          </div>
+          <span class="preview-avatar">S</span>
+        </div>
+
+        <div class="preview-welcome">
+          <div>
+            <span>Good morning</span>
+            <strong>Welcome back 👋</strong>
+          </div>
+          <div class="preview-date">03 SEP</div>
+        </div>
+
+        <div class="preview-stats">
+          <div class="preview-stat">
+            <i data-lucide="bell"></i>
+            <div>
+              <strong>3</strong>
+              <span>Notices</span>
+            </div>
+          </div>
+          <div class="preview-stat">
+            <i data-lucide="calendar-days"></i>
+            <div>
+              <strong>5</strong>
+              <span>Events</span>
+            </div>
+          </div>
+          <div class="preview-stat">
+            <i data-lucide="utensils"></i>
+            <div>
+              <strong>12</strong>
+              <span>Services</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="preview-card">
+          <div class="preview-card-heading">
+            <strong>Upcoming on campus</strong>
+            <span>View all</span>
+          </div>
+          <div class="preview-event">
+            <div class="event-date">
+              <strong>12</strong>
+              <span>SEP</span>
+            </div>
+            <div>
+              <strong>Hackathon 2026</strong>
+              <span>Innovation Lab · 10:00 AM</span>
+            </div>
+          </div>
+          <div class="preview-event">
+            <div class="event-date">
+              <strong>18</strong>
+              <span>SEP</span>
+            </div>
+            <div>
+              <strong>Tech Workshop</strong>
+              <span>Seminar Hall · 2:00 PM</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick statistics -->
+    <section class="home-stats" aria-label="CampusConnect highlights">
+      <div class="stat-highlight">
+        <i data-lucide="layout-dashboard"></i>
+        <div>
+          <strong>One platform</strong>
+          <span>for campus life</span>
+        </div>
+      </div>
+      <div class="stat-highlight">
+        <i data-lucide="zap"></i>
+        <div>
+          <strong>Quick access</strong>
+          <span>to useful services</span>
+        </div>
+      </div>
+      <div class="stat-highlight">
+        <i data-lucide="users"></i>
+        <div>
+          <strong>Student focused</strong>
+          <span>built for campus needs</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Campus services -->
+    <section class="home-section container" id="services">
+      <div class="section-intro">
+        <div>
+          <p class="section-label">CAMPUS SERVICES</p>
+          <h2>Everything you need, right here.</h2>
+        </div>
+        <p>
+          Access the most useful campus resources without jumping between different pages and systems.
+        </p>
+      </div>
+
+      <div class="service-grid">
+        <a href="Main/notices.html" class="service-card service-card-featured">
+          <div class="service-icon"><i data-lucide="bell"></i></div>
+          <div class="service-content">
+            <span class="service-tag">STAY UPDATED</span>
+            <h3>Notices & Announcements</h3>
+            <p>Find important college notices, announcements and updates in one place.</p>
+          </div>
+          <span class="service-arrow"><i data-lucide="arrow-up-right"></i></span>
+        </a>
+
+        <a href="Main/events.html" class="service-card">
+          <div class="service-icon"><i data-lucide="calendar-days"></i></div>
+          <div class="service-content">
+            <span class="service-tag">DISCOVER</span>
+            <h3>Events</h3>
+            <p>Keep track of hackathons, workshops, cultural events and activities.</p>
+          </div>
+          <span class="service-arrow"><i data-lucide="arrow-up-right"></i></span>
+        </a>
+
+        <a href="canteen/index.html" class="service-card">
+          <div class="service-icon"><i data-lucide="utensils"></i></div>
+          <div class="service-content">
+            <span class="service-tag">FOOD & MORE</span>
+            <h3>Canteen</h3>
+            <p>Access campus food services and make your everyday routine easier.</p>
+          </div>
+          <span class="service-arrow"><i data-lucide="arrow-up-right"></i></span>
+        </a>
+
+        <a href="lost_and_found/index.html" class="service-card">
+          <div class="service-icon"><i data-lucide="search"></i></div>
+          <div class="service-content">
+            <span class="service-tag">FIND IT</span>
+            <h3>Lost & Found</h3>
+            <p>Report lost items and help fellow students find what they have misplaced.</p>
+          </div>
+          <span class="service-arrow"><i data-lucide="arrow-up-right"></i></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Events preview -->
+    <section class="home-section home-events-section" id="events">
+      <div class="container">
+        <div class="section-intro">
+          <div>
+            <p class="section-label">WHAT'S HAPPENING</p>
+            <h2>Stay connected to campus life.</h2>
+          </div>
+          <a href="Main/events.html" class="text-link">View all events <i data-lucide="arrow-right"></i></a>
+        </div>
+
+        <div class="event-grid">
+          <article class="event-card">
+            <div class="event-card-date">
+              <strong>12</strong>
+              <span>SEP</span>
+            </div>
+            <div class="event-card-content">
+              <span class="event-category">TECHNOLOGY</span>
+              <h3>Hackathon 2026</h3>
+              <p>Build, collaborate and solve real-world problems with your team.</p>
+              <span class="event-meta"><i data-lucide="clock"></i> 10:00 AM · Innovation Lab</span>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="event-card-date">
+              <strong>18</strong>
+              <span>SEP</span>
+            </div>
+            <div class="event-card-content">
+              <span class="event-category">WORKSHOP</span>
+              <h3>Tech Workshop</h3>
+              <p>Learn practical skills and explore new technologies with peers.</p>
+              <span class="event-meta"><i data-lucide="clock"></i> 2:00 PM · Seminar Hall</span>
+            </div>
+          </article>
+
+          <article class="event-card">
+            <div class="event-card-date">
+              <strong>25</strong>
+              <span>SEP</span>
+            </div>
+            <div class="event-card-content">
+              <span class="event-category">CULTURAL</span>
+              <h3>Campus Fest</h3>
+              <p>Take a break from classes and enjoy activities across campus.</p>
+              <span class="event-meta"><i data-lucide="clock"></i> 11:00 AM · Main Ground</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final call to action -->
+    <section class="home-cta container">
+      <div>
+        <p class="section-label">CAMPUSCONNECT</p>
+        <h2>Ready to explore your campus?</h2>
+        <p>Everything important is just a few clicks away.</p>
+      </div>
+      <a href="Main/dashboard.html" class="home-btn home-btn-primary">
+        Go to Dashboard
+        <i data-lucide="arrow-right"></i>
+      </a>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="home-footer">
+    <div class="footer-main container">
       <div class="footer-brand">
-        <h2>CampusConnect</h2>
+        <a class="footer-logo" href="index.html">
+          <img src="logo.png" alt="CampusConnect Logo">
+          <span>CampusConnect</span>
+        </a>
         <p>A simple campus platform bringing useful services, updates and information together for students.</p>
       </div>
+
       <div class="footer-links">
         <div>
           <h3>Campus</h3>
           <a href="index.html">Home</a>
           <a href="Main/dashboard.html">Dashboard</a>
-          <a href="Main/contact.html">Contact</a>
+          <a href="Main/events.html">Events</a>
+          <a href="Main/notices.html">Notices</a>
         </div>
         <div>
-          <h3>Links</h3>
+          <h3>Services</h3>
           <a href="canteen/index.html">Canteen</a>
-          <a target="_blank" href="http://instagram.com">Instagram</a>
-          <a target="_blank" href="https://www.dypcoeakurdi.ac.in/">College Website</a>
+          <a href="lost_and_found/index.html">Lost & Found</a>
+          <a href="Main/contact.html">Contact</a>
         </div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>Campus Connect | Dr. D. Y. Patil College of Engineering</p>
+
+    <div class="footer-bottom container">
+      <p>CampusConnect · Dr. D. Y. Patil College of Engineering</p>
       <p>Built by students, for students.</p>
     </div>
   </footer>
 
   <script src="Main/script.js"></script>
+  <script>
+    lucide.createIcons();
+  </script>
+
 </body>
 </html>
