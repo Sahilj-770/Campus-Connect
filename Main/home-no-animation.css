@@ -1,0 +1,6 @@
+/* Disable homepage page-load animations */
+
+.home-hero-content,
+.dashboard-preview {
+  animation: none;
+}

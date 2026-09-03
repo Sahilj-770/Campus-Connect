@@ -1,0 +1,80 @@
+/* Shared navbar styling - matches the CampusConnect homepage */
+
+.home-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 6%;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid #eee7df;
+  backdrop-filter: blur(14px);
+}
+
+.home-navbar .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 21px;
+  font-weight: bold;
+  color: #172033;
+  text-decoration: none;
+}
+
+.home-navbar .logo-img {
+  width: 42px;
+  height: 42px;
+  margin: 0;
+  object-fit: contain;
+  transform: none;
+}
+
+.home-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.home-nav-links a {
+  margin: 0;
+  color: #667085;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.home-nav-links a:hover,
+.home-nav-links a.active {
+  color: #f97316;
+}
+
+.home-nav-links .nav-signin {
+  padding: 10px 18px;
+  background: #172033;
+  border-radius: 10px;
+  color: white;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.home-nav-links .nav-signin:hover {
+  background: #242f46;
+  color: white;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 700px) {
+  .home-navbar {
+    padding: 12px 20px;
+  }
+
+  .home-nav-links {
+    gap: 12px;
+  }
+
+  .home-nav-links a:not(.nav-signin) {
+    display: none;
+  }
+}
