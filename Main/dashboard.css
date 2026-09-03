@@ -141,6 +141,10 @@
   margin-bottom: 22px;
 }
 
+.link{
+  text-decoration: none;
+}
+
 .dashboard-section .section-heading > p {
   color: var(--text-muted);
 }
