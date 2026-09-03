@@ -3,32 +3,67 @@
 
 <head>
 
+    <!-- =================================================
+         BASIC SETTINGS
+    ================================================== -->
+
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Campus Bites</title>
+    <meta
+        name="description"
+        content="Campus Bites - Your campus food guide"
+    >
+
+    <title>Campus Bites | Home</title>
+
+
+    <!-- =================================================
+         CSS
+    ================================================== -->
 
     <link rel="stylesheet" href="css/main.css">
+
+    <link rel="stylesheet" href="css/home.css">
 
 </head>
 
 
 <body>
 
-    <!-- ================= HEADER ================= -->
 
-    <header class="navbar">
+    <!-- =================================================
+         NAVBAR
+    ================================================== -->
 
-        <div class="logo">
-            🍽
-            <span>Campus Bites</span>
-        </div>
+    <header class="home-navbar">
+
+        <a
+            href="index.html"
+            class="home-logo"
+        >
+
+            <span class="home-logo-icon">
+                🍽️
+            </span>
+
+            <span>
+                Campus Bites
+            </span>
+
+        </a>
 
 
-        <nav>
+        <nav class="home-nav">
 
-            <a href="index.html" class="active">
+            <a
+                href="index.html"
+                class="active"
+            >
                 Home
             </a>
 
@@ -43,509 +78,460 @@
         </nav>
 
 
-        <div class="search">
-
-            <input
-                type="text"
-                placeholder="Search for food or canteen"
-            >
-
-        </div>
-
-
-        <button class="theme-button">
-            ☾
-        </button>
+        <a
+            href="canteens.html"
+            class="nav-action"
+        >
+            Explore →
+        </a>
 
     </header>
 
 
 
-    <!-- ================= HERO ================= -->
+    <!-- =================================================
+         HERO SECTION
+    ================================================== -->
 
-    <section class="hero">
+    <main>
 
-        <div class="hero-content">
-
-            <p class="hero-tag">
-                YOUR CAMPUS FOOD GUIDE
-            </p>
+        <section class="home-hero">
 
 
-            <h1>
-                Find your next
-                campus favourite.
-            </h1>
+            <!-- LEFT SIDE -->
+
+            <div class="hero-text">
+
+                <p class="home-eyebrow">
+                    ✦ YOUR CAMPUS FOOD GUIDE
+                </p>
 
 
-            <p class="hero-text">
+                <h1>
+                    Good food for
+                    <span>
+                        every break.
+                    </span>
+                </h1>
 
-                Explore canteens, discover new dishes,
-                and find something delicious for your next break.
 
-            </p>
+                <p class="hero-description">
+                    Explore your campus canteens,
+                    discover your favourite dishes,
+                    and find something delicious
+                    between lectures.
+                </p>
 
 
-            <a
-                href="menu.html"
-                class="hero-button"
-            >
-                Explore food →
+                <div class="hero-buttons">
+
+                    <a
+                        href="canteens.html"
+                        class="primary-button"
+                    >
+                        Explore Canteens →
+                    </a>
+
+                    <a
+                        href="menu.html"
+                        class="secondary-button"
+                    >
+                        Browse Menu
+                    </a>
+
+                </div>
+
+
+                <!-- QUICK STATS -->
+
+                <div class="home-stats">
+
+                    <div>
+
+                        <strong>
+                            3
+                        </strong>
+
+                        <span>
+                            Canteens
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            8+
+                        </strong>
+
+                        <span>
+                            Categories
+                        </span>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            50+
+                        </strong>
+
+                        <span>
+                            Food options
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- RIGHT SIDE -->
+
+            <div class="hero-card-area">
+
+
+                <div class="floating-label">
+                    TODAY'S CAMPUS PICKS
+                </div>
+
+
+                <div class="home-food-card">
+
+                    <div class="food-card-icon">
+                        🍜
+                    </div>
+
+
+                    <div class="food-card-info">
+
+                        <span>
+                            Campus favourite
+                        </span>
+
+                        <h3>
+                            Veg Hakka Noodles
+                        </h3>
+
+                        <p>
+                            Chinese · Cafeteria
+                        </p>
+
+                    </div>
+
+
+                    <strong>
+                        ₹95
+                    </strong>
+
+                </div>
+
+
+                <div class="home-food-card second-card">
+
+                    <div class="food-card-icon">
+                        ☕
+                    </div>
+
+
+                    <div class="food-card-info">
+
+                        <span>
+                            Perfect break
+                        </span>
+
+                        <h3>
+                            Cold Coffee
+                        </h3>
+
+                        <p>
+                            Beverages · Nescafe
+                        </p>
+
+                    </div>
+
+
+                    <strong>
+                        ₹60
+                    </strong>
+
+                </div>
+
+
+                <div class="hero-decoration">
+                    🍽️
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CANTEEN PREVIEW
+        ================================================== -->
+
+        <section class="home-section">
+
+
+            <div class="section-title">
+
+                <div>
+
+                    <p>
+                        EXPLORE CAMPUS
+                    </p>
+
+                    <h2>
+                        Pick your canteen
+                    </h2>
+
+                </div>
+
+
+                <a href="canteens.html">
+                    View all →
+                </a>
+
+            </div>
+
+
+            <div class="home-canteen-grid">
+
+
+                <a
+                    href="menu.html?canteen=cafeteria"
+                    class="home-canteen-card"
+                >
+
+                    <span class="canteen-symbol">
+                        🍽️
+                    </span>
+
+                    <div>
+
+                        <span class="open-label">
+                            ● Open now
+                        </span>
+
+                        <h3>
+                            Cafeteria
+                        </h3>
+
+                        <p>
+                            Meals, snacks and
+                            beverages.
+                        </p>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+
+                <a
+                    href="menu.html?canteen=timeless"
+                    class="home-canteen-card"
+                >
+
+                    <span class="canteen-symbol">
+                        ☕
+                    </span>
+
+                    <div>
+
+                        <span class="open-label">
+                            ● Open now
+                        </span>
+
+                        <h3>
+                            Timeless
+                        </h3>
+
+                        <p>
+                            Coffee, snacks and
+                            study breaks.
+                        </p>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+
+                <a
+                    href="menu.html?canteen=nescafe"
+                    class="home-canteen-card"
+                >
+
+                    <span class="canteen-symbol">
+                        🥤
+                    </span>
+
+                    <div>
+
+                        <span class="open-label">
+                            ● Open now
+                        </span>
+
+                        <h3>
+                            Nescafe
+                        </h3>
+
+                        <p>
+                            Drinks and quick bites.
+                        </p>
+
+                    </div>
+
+                    <span class="arrow">
+                        →
+                    </span>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             WHY CAMPUS BITES
+        ================================================== -->
+
+        <section class="why-section">
+
+            <div class="why-heading">
+
+                <p>
+                    MADE FOR STUDENTS
+                </p>
+
+                <h2>
+                    Everything you need
+                    before your next lecture.
+                </h2>
+
+            </div>
+
+
+            <div class="feature-grid">
+
+
+                <div class="feature-card">
+
+                    <div>
+                        🔍
+                    </div>
+
+                    <h3>
+                        Find food quickly
+                    </h3>
+
+                    <p>
+                        Search the menu and find
+                        exactly what you are craving.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div>
+                        ❤️
+                    </div>
+
+                    <h3>
+                        Save favourites
+                    </h3>
+
+                    <p>
+                        Keep your favourite
+                        campus canteens close by.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div>
+                        🕐
+                    </div>
+
+                    <h3>
+                        Check availability
+                    </h3>
+
+                    <p>
+                        Quickly see which canteens
+                        are currently open.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =================================================
+         FOOTER
+    ================================================== -->
+
+    <footer class="home-footer">
+
+        <div>
+
+            <strong>
+                Campus Bites
+            </strong>
+
+            <span>
+                Your campus food, all in one place.
+            </span>
+
+        </div>
+
+
+        <div>
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="canteens.html">
+                Canteens
+            </a>
+
+            <a href="menu.html">
+                Menu
             </a>
 
         </div>
 
 
-
-        <div class="hero-preview">
-
-            <p class="preview-title">
-                Today's pick
-            </p>
-
-
-            <div class="food-preview">
-
-                <div class="food-icon">
-                    🍜
-                </div>
-
-
-                <div>
-
-                    <h3>
-                        Hakka Noodles
-                    </h3>
-
-                    <p>
-                        Campus favourite
-                    </p>
-
-                </div>
-
-
-                <strong>
-                    ₹80
-                </strong>
-
-            </div>
-
-
-
-            <div class="food-preview">
-
-                <div class="food-icon">
-                    ☕
-                </div>
-
-
-                <div>
-
-                    <h3>
-                        Cold Coffee
-                    </h3>
-
-                    <p>
-                        Perfect for a break
-                    </p>
-
-                </div>
-
-
-                <strong>
-                    ₹65
-                </strong>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ================= CANTEENS ================= -->
-
-    <section class="canteens">
-
-        <div class="section-heading">
-
-            <p>
-                EXPLORE CAMPUS
-            </p>
-
-            <h2>
-                Choose your canteen
-            </h2>
-
-            <span>
-                Find a place to grab something between lectures.
-            </span>
-
-        </div>
-
-
-        <div class="canteen-grid">
-
-
-            <div class="canteen-card cafeteria">
-
-                <div class="canteen-icon">
-                    🍽️
-                </div>
-
-
-                <div class="canteen-info">
-
-                    <h3>
-                        Cafeteria
-                    </h3>
-
-                    <p>
-                        Quick meals, snacks and everyday campus favourites.
-                    </p>
-
-                </div>
-
-
-                <div class="canteen-bottom">
-
-                    <span>
-                        Open until 10:30 PM
-                    </span>
-
-                    <a href="canteens.html">
-                        →
-                    </a>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="canteen-card timeless">
-
-                <div class="canteen-icon">
-                    ☕
-                </div>
-
-
-                <div class="canteen-info">
-
-                    <h3>
-                        Timeless
-                    </h3>
-
-                    <p>
-                        A relaxed spot for coffee,
-                        conversations and study breaks.
-                    </p>
-
-                </div>
-
-
-                <div class="canteen-bottom">
-
-                    <span>
-                        Open until 11:00 PM
-                    </span>
-
-                    <a href="canteens.html">
-                        →
-                    </a>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="canteen-card nescafe">
-
-                <div class="canteen-icon">
-                    🥤
-                </div>
-
-
-                <div class="canteen-info">
-
-                    <h3>
-                        Nescafe
-                    </h3>
-
-                    <p>
-                        Coffee, coolers and quick bites
-                        when you need them.
-                    </p>
-
-                </div>
-
-
-                <div class="canteen-bottom">
-
-                    <span>
-                        Open until 8:30 PM
-                    </span>
-
-                    <a href="canteens.html">
-                        →
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ================= POPULAR FOOD ================= -->
-
-    <section class="popular-section">
-
-        <div class="section-heading">
-
-            <p>
-                POPULAR ON CAMPUS
-            </p>
-
-            <h2>
-                What are students eating?
-            </h2>
-
-            <span>
-                Some of the most loved picks from our campus menus.
-            </span>
-
-        </div>
-
-
-
-        <div class="featured-food">
-
-
-            <div class="featured-info">
-
-                <p class="food-category">
-                    CHINESE
-                </p>
-
-
-                <h3>
-                    Veg Hakka Noodles
-                </h3>
-
-
-                <p class="food-description">
-                    Wok-tossed noodles with crunchy vegetables.
-                </p>
-
-
-                <div class="food-bottom">
-
-                    <strong>
-                        ₹70
-                    </strong>
-
-                    <span>
-                        ★ 4.6
-                    </span>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="featured-icon">
-                🍜
-            </div>
-
-        </div>
-
-
-
-        <div class="small-food-container">
-
-
-            <div class="food-item">
-
-                <div class="food-icon">
-                    🥞
-                </div>
-
-                <h3>
-                    Masala Dosa
-                </h3>
-
-                <p>
-                    South Indian favourite with potato filling.
-                </p>
-
-                <strong>
-                    ₹55
-                </strong>
-
-            </div>
-
-
-
-            <div class="food-item">
-
-                <div class="food-icon">
-                    ☕
-                </div>
-
-                <h3>
-                    Cold Coffee
-                </h3>
-
-                <p>
-                    A chilled coffee drink for your break.
-                </p>
-
-                <strong>
-                    ₹65
-                </strong>
-
-            </div>
-
-
-
-            <div class="food-item">
-
-                <div class="food-icon">
-                    🍛
-                </div>
-
-                <h3>
-                    Chole Bhature
-                </h3>
-
-                <p>
-                    Fluffy bhature with spicy chickpeas.
-                </p>
-
-                <strong>
-                    ₹60
-                </strong>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- ================= FOOTER ================= -->
-
-    <footer class="site-footer">
-
-        <div class="footer-main">
-
-
-            <div class="footer-brand">
-
-                <h2>
-                    Campus Bites DYPCOE
-                </h2>
-
-                <p>
-                    Your campus food, all in one place.
-                </p>
-
-            </div>
-
-
-
-            <div class="footer-links">
-
-
-                <div>
-
-                    <h3>
-                        Explore
-                    </h3>
-
-                    <a href="index.html">
-                        Home
-                    </a>
-
-                    <a href="menu.html">
-                        Menu
-                    </a>
-
-                    <a href="canteens.html">
-                        Canteens
-                    </a>
-
-                </div>
-
-
-
-                <div>
-
-                    <h3>
-                        Canteens
-                    </h3>
-
-                    <a href="canteens.html">
-                        Cafeteria
-                    </a>
-
-                    <a href="canteens.html">
-                        Timeless
-                    </a>
-
-                    <a href="canteens.html">
-                        Nescafe
-                    </a>
-
-                </div>
-
-
-
-                <div>
-
-                    <h3>
-                        Help
-                    </h3>
-
-                    <a href="#">
-                        Contact
-                    </a>
-
-                    <a href="#">
-                        About
-                    </a>
-
-                    <a href="#">
-                        Feedback
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="footer-bottom">
-
-            <p>
-                © 2026 Campus Bites
-            </p>
-
-            <p>
-                Made for campus life.
-            </p>
-
-        </div>
+        <p>
+            © 2026 Campus Bites
+        </p>
 
     </footer>
 

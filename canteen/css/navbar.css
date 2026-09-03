@@ -3,7 +3,7 @@
 ========================= */
 
 .navbar {
-    height: 70px;
+    min-height: 72px;
 
     display: flex;
 
@@ -15,7 +15,11 @@
 
     border-bottom: 1px solid #e9e5df;
 
-    background-color: white;
+    background-color: rgba(255, 253, 249, 0.94);
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    backdrop-filter: blur(12px);
 }
 
 .logo {
@@ -49,7 +53,7 @@ nav a {
 
     font-weight: bold;
 
-    transition: 0.2s;
+    transition: 0.2s ease;
 }
 
 nav a:hover,
@@ -99,4 +103,57 @@ nav a.active {
 
 .theme-button:hover {
     background-color: rgb(240, 147, 8);
+}
+
+.nav-toggle {
+    display: none;
+    margin-left: auto;
+    width: 42px;
+    height: 42px;
+    padding: 10px;
+    border: 1px solid #e7e2dc;
+    border-radius: 12px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    margin: 4px auto;
+    border-radius: 2px;
+    background: #172033;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+@media (max-width: 700px) {
+    .navbar {
+        padding: 0 18px;
+        gap: 12px;
+    }
+
+    .nav-toggle { display: block; }
+
+    .navbar nav {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 16px;
+        left: 16px;
+        display: none;
+        padding: 8px;
+        flex-direction: column;
+        gap: 2px;
+        border: 1px solid #e7e2dc;
+        border-radius: 16px;
+        background: #fffdfa;
+        box-shadow: 0 16px 35px rgba(25, 32, 51, 0.14);
+    }
+
+    .navbar nav.is-open { display: flex; }
+    .navbar nav a { padding: 11px 12px; }
 }

@@ -1,160 +1,103 @@
+// Campus Bites — canteen cards, favourites and opening status
 
-const canteenCards =
-    document.querySelectorAll(".canteen-card");
+const canteenCards = document.querySelectorAll(".canteen-card");
+const favoriteButtons = document.querySelectorAll(".favorite-btn");
+const favoriteMessage = document.querySelector("#favoriteMessage");
+let favoriteCanteens = JSON.parse(localStorage.getItem("favoriteCanteens")) || [];
+let messageTimer;
 
-const canteenStatus =
-    document.querySelector("#canteenStatus");
+function showMessage(message) {
+    window.clearTimeout(messageTimer);
+    favoriteMessage.textContent = message;
+    messageTimer = window.setTimeout(function () {
+        favoriteMessage.textContent = "";
+    }, 2800);
+}
 
+function setFavoriteState(button, isFavorite) {
+    const name = button.getAttribute("aria-label").replace("Favorite ", "").replace("Remove ", "");
+    button.textContent = isFavorite ? "♥" : "♡";
+    button.classList.toggle("active", isFavorite);
+    button.setAttribute("aria-label", (isFavorite ? "Remove " : "Favorite ") + name);
+    button.setAttribute("aria-pressed", String(isFavorite));
+}
+
+favoriteButtons.forEach(function (button) {
+    const canteen = button.dataset.favorite;
+    setFavoriteState(button, favoriteCanteens.includes(canteen));
+
+    button.addEventListener("click", function (event) {
+        event.stopPropagation();
+        const isFavorite = favoriteCanteens.includes(canteen);
+        favoriteCanteens = isFavorite
+            ? favoriteCanteens.filter(function (item) { return item !== canteen; })
+            : favoriteCanteens.concat(canteen);
+
+        setFavoriteState(button, !isFavorite);
+        localStorage.setItem("favoriteCanteens", JSON.stringify(favoriteCanteens));
+        showMessage(isFavorite ? "Removed from your favourites." : "Saved to your favourites.");
+    });
+});
+
+function openMenu(card) {
+    window.location.href = "menu.html?canteen=" + card.dataset.canteen;
+}
 
 canteenCards.forEach(function (card) {
-
     card.addEventListener("click", function (event) {
-
-        console.log(
-            "Clicked element:",
-            event.target
-        );
-
-        const canteenName =
-            card.dataset.canteen;
-
-
-
-        console.log(
-            "Selected canteen:",
-            canteenName
-        );
-
-        card.classList.add("selected");
-
-
-        const displayName =
-            canteenName.charAt(0).toUpperCase()
-            + canteenName.slice(1);
-
-        canteenStatus.textContent =
-            `Opening ${displayName} Menu...`;
-
-
-        setTimeout(function () {
-
-            window.location.href =
-                `menu.html?canteen=${canteenName}`;
-
-
-        }, 500);
-
+        if (!event.target.closest("a, button")) openMenu(card);
     });
 
-});
-
-const canteenData = {
-
-    cafeteria: {
-        name: "Cafeteria",
-        description: "Fresh meals, snacks and beverages for students.",
-        categories: 8,
-        timing: "8:00 AM – 8:00 PM",
-        icon: "🍽️"
-    },
-
-    timeless: {
-        name: "Timeless",
-        description: "A variety of quick meals and refreshments.",
-        categories: 6,
-        timing: "9:00 AM – 7:00 PM",
-        icon: "🥪"
-    },
-
-    nescafe: {
-        name: "Nescafe",
-        description: "Coffee, beverages and quick snacks.",
-        categories: 5,
-        timing: "8:30 AM – 8:30 PM",
-        icon: "☕"
-    }
-
-};
-
-canteenCards.forEach(function (card) {
-
-    const canteenName = card.dataset.canteen;
-
-    const data = canteenData[canteenName];
-
-    card.innerHTML = `
-        <div class="canteen-icon">
-            ${data.icon}
-        </div>
-
-        <h3>${data.name}</h3>
-
-        <p>${data.description}</p>
-
-        <span>${data.categories} categories</span>
-
-        <small>${data.timing}</small>
-
-        <div class="view-menu">
-            View Menu →
-                </div>
-    `;
-
-    const favoriteButton =
-        document.createElement("button");
-
-    favoriteButton.className =
-        "favorite-btn";
-
-    favoriteButton.textContent =
-        favoriteCanteens.includes(canteenName)
-            ? "♥"
-            : "♡";
-
-    card.appendChild(favoriteButton);
-    
-
-    favoriteButton.addEventListener(
-        "click",
-        function (event) {
-
-            event.stopPropagation();
-
-            const index =
-                favoriteCanteens.indexOf(canteenName);
-
-
-            if (index === -1) {
-
-                favoriteCanteens.push(canteenName);
-
-                favoriteButton.textContent = "♥";
-
-            } else {
-
-                favoriteCanteens.splice(index, 1);
-
-                favoriteButton.textContent = "♡";
-
-            }
-
-
-            localStorage.setItem(
-                "favoriteCanteens",
-                JSON.stringify(favoriteCanteens)
-            );
-
+    card.addEventListener("keydown", function (event) {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openMenu(card);
         }
-    );
-
+    });
 });
 
-// ============================================================
-// CANTEEN PART 25 — LOAD FAVORITES
-// CONCEPT: localStorage + JSON.parse()
-// ============================================================
+function updateCanteenStatus() {
+    const now = new Date();
+    const currentHour = now.getHours() + now.getMinutes() / 60;
 
-let favoriteCanteens =
-    JSON.parse(
-        localStorage.getItem("favoriteCanteens")
-    ) || [];
+    canteenCards.forEach(function (card) {
+        const opening = Number(card.dataset.opening);
+        const closing = Number(card.dataset.closing);
+        const status = card.querySelector(".status");
+        const openTime = card.querySelector(".open-time");
+        const isOpen = currentHour >= opening && currentHour < closing;
+
+        status.textContent = isOpen ? "Open now" : "Closed";
+        status.classList.toggle("closed", !isOpen);
+        openTime.textContent = isOpen ? "Open right now" : "Opens at " + formatTime(opening);
+    });
+}
+
+function formatTime(time) {
+    const hour = Math.floor(time);
+    const minutes = time % 1 ? "30" : "00";
+    const period = hour >= 12 ? "PM" : "AM";
+    return (hour % 12 || 12) + ":" + minutes + " " + period;
+}
+
+function setupMobileNav() {
+    const toggle = document.querySelector(".nav-toggle");
+    const nav = document.querySelector(".navbar nav");
+    if (!toggle || !nav) return;
+
+    toggle.addEventListener("click", function () {
+        const isOpen = nav.classList.toggle("is-open");
+        toggle.setAttribute("aria-expanded", String(isOpen));
+        toggle.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+    });
+
+    nav.addEventListener("click", function (event) {
+        if (event.target.matches("a")) {
+            nav.classList.remove("is-open");
+            toggle.setAttribute("aria-expanded", "false");
+        }
+    });
+}
+
+updateCanteenStatus();
+setupMobileNav();

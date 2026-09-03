@@ -9,9 +9,9 @@
 body {
     margin: 0;
 
-    font-family: Arial, sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
-    background-color: white;
+    background-color: #fffdf9;
 
     color: #172033;
 
@@ -29,6 +29,71 @@ input {
     font-family: inherit;
 }
 
+button,
+a,
+input {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+.canteen-card:focus-visible {
+    outline: 3px solid rgba(221, 107, 39, 0.35);
+    outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
 .page-container {
     min-height: calc(100vh - 70px);
+}
+
+body.dark-mode {
+    background: #172033;
+    color: #eef2f7;
+}
+
+body.dark-mode .navbar,
+body.dark-mode .menu-controls,
+body.dark-mode .canteen-card,
+body.dark-mode .menu-box,
+body.dark-mode .search-wrapper,
+body.dark-mode .nav-toggle {
+    background: #222d43;
+    border-color: #3b485e;
+}
+
+body.dark-mode .logo,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode .menu-item span,
+body.dark-mode .search-wrapper input {
+    color: #f5f7fa;
+}
+
+body.dark-mode nav a,
+body.dark-mode .hero-text,
+body.dark-mode .canteen-content > p,
+body.dark-mode .canteens-intro > p:last-child,
+body.dark-mode .menu-hero p:last-child,
+body.dark-mode .result-summary {
+    color: #c5ceda;
+}
+
+body.dark-mode .menu-item,
+body.dark-mode .canteen-details span {
+    background: #2b374e;
+    border-color: #3b485e;
+}
+
+body.dark-mode .nav-toggle span {
+    background: #f5f7fa;
 }

@@ -1,171 +1,373 @@
-/* =========================
-   FULL MENU
-========================= */
+/* =====================================================
+   MENU PAGE
+===================================================== */
 
-.menu-section {
-    width: 82%;
+.menu-page {
+    max-width: 1200px;
 
-    margin: 100px auto;
+    margin: 65px auto;
+
+    padding: 0 24px;
 }
 
-.menu-heading {
-    margin-bottom: 40px;
+
+/* =====================================================
+   MENU HERO
+===================================================== */
+
+.menu-hero {
+    margin-bottom: 35px;
 }
 
-.menu-heading p {
+.menu-hero .eyebrow {
     margin-bottom: 10px;
 
-    color: #d87532;
+    color: #d96b27;
 
-    font-size: 14px;
+    font-size: 13px;
 
-    font-weight: bold;
+    font-weight: 800;
 
-    letter-spacing: 3px;
+    letter-spacing: 2px;
 }
 
-.menu-heading h2 {
-    margin-bottom: 12px;
+.menu-hero h1 {
+    margin: 0;
 
-    color: #182033;
+    color: #172033;
 
-    font-size: 40px;
+    font-size: 42px;
 }
 
-.menu-heading span {
-    color: #68758d;
+.menu-hero p:last-child {
+    margin-top: 12px;
 
-    font-size: 17px;
+    color: #737d90;
+
+    font-size: 16px;
 }
 
-.menu-grid {
-    display: grid;
 
-    grid-template-columns: repeat(2, 1fr);
+/* =====================================================
+   CONTROLS
+===================================================== */
 
-    gap: 25px;
-}
+.menu-controls {
+    position: sticky;
 
-.menu-box {
-    padding: 28px;
+    top: 10px;
 
-    background-color: #fffaf3;
+    z-index: 10;
 
-    border: 1px solid #eadfce;
+    padding: 18px;
+
+    margin-bottom: 35px;
+
+    background: rgba(255, 255, 255, 0.95);
+
+    border: 1px solid #e8e2dc;
 
     border-radius: 18px;
+
+    box-shadow:
+        0 8px 25px rgba(20, 30, 50, 0.06);
 }
 
-.menu-box h3 {
-    margin-bottom: 20px;
 
-    color: #1b2438;
+/* =====================================================
+   SEARCH
+===================================================== */
 
-    font-size: 24px;
+.search-wrapper {
+    display: flex;
 
-    text-transform: capitalize;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px 15px;
+
+    border: 1px solid #ddd8d2;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-wrapper:focus-within {
+    border-color: #d96b27;
+    box-shadow: 0 0 0 3px rgba(217, 107, 39, 0.12);
+}
+
+.search-wrapper span {
+    font-size: 16px;
+}
+
+.search-wrapper input {
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #172033;
+
+    font-size: 15px;
+}
+
+.search-wrapper input::placeholder {
+    color: #9aa1ad;
+}
+
+
+/* =====================================================
+   CATEGORY BUTTONS
+===================================================== */
+
+.category-buttons {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    margin-top: 15px;
+}
+
+.category-btn {
+    padding: 9px 14px;
+
+    border: 1px solid #e2ddd7;
+
+    border-radius: 20px;
+
+    background: #ffffff;
+
+    color: #5e6777;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.category-btn:hover {
+    transform: translateY(-1px);
+
+    border-color: #d96b27;
+}
+
+.category-btn.active {
+    background: #172033;
+
+    border-color: #172033;
+
+    color: #ffffff;
+}
+
+
+/* =====================================================
+   CLEAR BUTTON
+===================================================== */
+
+.clear-button {
+    margin-top: 15px;
+
+    padding: 8px 13px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #d96b27;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.clear-button:hover {
+    text-decoration: underline;
+}
+
+.result-summary {
+    margin: 12px 2px 0;
+    color: #737d90;
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   MENU BOX
+===================================================== */
+
+.menu-box {
+    margin-bottom: 25px;
+
+    padding: 25px;
+
+    background: #ffffff;
+
+    border: 1px solid #e8e2dc;
+
+    border-radius: 20px;
+
+    box-shadow:
+        0 8px 25px rgba(20, 30, 50, 0.05);
+
+    animation: menu-enter 0.35s ease both;
+}
+
+@keyframes menu-enter {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-box h2 {
+    margin: 0 0 18px;
+
+    color: #172033;
+
+    font-size: 22px;
+}
+
+
+/* =====================================================
+   MENU ITEMS
+===================================================== */
+
+.menu-items {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
 }
 
 .menu-item {
     display: flex;
 
-    justify-content: space-between;
-
     align-items: center;
 
-    padding: 12px 0;
+    justify-content: space-between;
 
-    border-bottom: 1px solid #eadfce;
+    padding: 14px 16px;
+
+    border: 1px solid #eee9e3;
+
+    border-radius: 13px;
+
+    background: #faf9f7;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.menu-item:last-child {
-    border-bottom: none;
+.menu-item:hover {
+    transform: translateX(3px);
+
+    border-color: #f0d1b2;
+
+    background: #fff8f0;
 }
 
 .menu-item span {
-    color: #53617a;
+    color: #3d4656;
 
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .menu-item strong {
-    color: #182033;
-
-    font-size: 17px;
-}
-
-.menu-search {
-    margin-bottom: 30px;
-}
-
-.menu-search input {
-    width: 100%;
-
-    max-width: 500px;
-
-    height: 45px;
-
-    padding: 0 15px;
-
-    border: 1px solid #eadfce;
-
-    border-radius: 10px;
-
-    font-size: 15px;
-
-    outline: none;
-}
-
-.menu-search input:focus {
-    border-color: #e8752d;
-}
-
-.category-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-bottom: 30px;
-}
-
-.category-btn {
-    padding: 10px 18px;
-
-    border: 1px solid #eadfce;
-
-    background-color: white;
-
-    border-radius: 20px;
+    color: #d96b27;
 
     font-size: 14px;
-
-    cursor: pointer;
-
-    transition: 0.2s;
 }
 
-.category-btn:hover {
-    border-color: #e8752d;
-}
 
-.category-btn.active {
-    background-color: #e8752d;
+/* =====================================================
+   NO RESULTS
+===================================================== */
 
-    color: white;
+.no-results {
+    display: none;
 
-    border-color: #e8752d;
-}
+    padding: 60px 20px;
 
-.clear-filter-btn {
-    padding: 9px 16px;
-    border: 1px solid #e8752d;
-    background-color: white;
-    color: #e8752d;
+    text-align: center;
+
+    border: 1px dashed #ddd6cf;
+
     border-radius: 20px;
-    cursor: pointer;
-    margin-bottom: 25px;
 }
 
-.clear-filter-btn:hover {
-    background-color: #e8752d;
-    color: white;
+.no-results div {
+    font-size: 30px;
+}
+
+.no-results h2 {
+    margin: 12px 0 5px;
+
+    color: #172033;
+}
+
+.no-results p {
+    margin: 0;
+
+    color: #737d90;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 700px) {
+
+    .menu-page {
+        margin-top: 45px;
+
+        padding: 0 16px;
+    }
+
+    .menu-hero h1 {
+        font-size: 34px;
+    }
+
+    .menu-controls {
+        position: static;
+        padding: 14px;
+    }
+
+    .category-buttons {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scrollbar-width: thin;
+    }
+
+    .category-btn {
+        white-space: nowrap;
+    }
+
+    .menu-items {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-box {
+        padding: 20px;
+    }
+
 }

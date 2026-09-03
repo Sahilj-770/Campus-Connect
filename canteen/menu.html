@@ -3,11 +3,23 @@
 
 <head>
 
+    <!-- ==============================
+         BASIC SETTINGS
+    =============================== -->
+
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Menu | Campus Bites</title>
+
+
+    <!-- ==============================
+         CSS
+    =============================== -->
 
     <link rel="stylesheet" href="css/main.css">
 
@@ -16,17 +28,24 @@
 
 <body>
 
-    <!-- ================= HEADER ================= -->
+
+    <!-- ==============================
+         NAVBAR
+    =============================== -->
 
     <header class="navbar">
 
         <div class="logo">
-            🍽
+            🍽️
             <span>Campus Bites</span>
         </div>
 
 
-        <nav>
+        <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primaryNav" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+        <nav id="primaryNav">
 
             <a href="index.html">
                 Home
@@ -36,285 +55,186 @@
                 Canteens
             </a>
 
-            <a href="menu.html" class="active">
+            <a
+                href="menu.html"
+                class="active"
+            >
                 Browse Cuisine
             </a>
 
         </nav>
 
-
-        <div class="search">
-
-            <input type="text" placeholder="Search for food or canteen">
-
-        </div>
-
-
-        <button class="theme-button">
-            ☾
-        </button>
-
     </header>
 
 
 
-    <main class="page-container">
+    <!-- ==============================
+         MENU PAGE
+    =============================== -->
 
+    <main class="menu-page">
 
-        <!-- ================= CATEGORIES ================= -->
 
-        <section class="category-section">
+        <!-- ==============================
+             PAGE HEADING
+        =============================== -->
 
-            <div class="category-heading">
+        <section class="menu-hero">
 
-                <p id="canteenTitle">
-                    EXPLORE THE MENU
-                </p>
+            <p class="eyebrow">
+                CAMPUS FOOD
+            </p>
 
-                <h2>
-                    Browse by category
-                </h2>
+            <h1 id="canteenTitle">
+                Campus Menu
+            </h1>
 
-                <span>
-                    Find something you are craving from our campus menu.
-                </span>
-
-            </div>
-
-
-            <div class="category-grid">
-
-
-                <div class="category-card">
-
-                    <div class="category-icon">
-                        🍳
-                    </div>
-
-                    <h3>
-                        Breakfast
-                    </h3>
-
-                    <p>
-                        Start your day right
-                    </p>
-
-                </div>
-
-
-
-                <div class="category-card">
-
-                    <div class="category-icon">
-                        🍜
-                    </div>
-
-                    <h3>
-                        Chinese
-                    </h3>
-
-                    <p>
-                        Noodles & fried rice
-                    </p>
-
-                </div>
-
-
-
-                <div class="category-card">
-
-                    <div class="category-icon">
-                        🥞
-                    </div>
-
-                    <h3>
-                        South Indian
-                    </h3>
-
-                    <p>
-                        Dosa, idli & more
-                    </p>
-
-                </div>
-
-
-
-                <div class="category-card">
-
-                    <div class="category-icon">
-                        🍝
-                    </div>
-
-                    <h3>
-                        Pasta
-                    </h3>
-
-                    <p>
-                        Quick Italian bites
-                    </p>
-
-                </div>
-
-
-
-                <div class="category-card">
-
-                    <div class="category-icon">
-                        🍛
-                    </div>
-
-                    <h3>
-                        Thali
-                    </h3>
-
-                    <p>
-                        Complete meals
-                    </p>
-
-                </div>
-
-
-
-                <div class="category-card">
-
-                    <div class="category-icon">
-                        🥪
-                    </div>
-
-                    <h3>
-                        Sandwiches
-                    </h3>
-
-                    <p>
-                        Quick & filling
-                    </p>
-
-                </div>
-
-
-
-                <div class="category-card">
-
-                    <div class="category-icon">
-                        🍚
-                    </div>
-
-                    <h3>
-                        Rice
-                    </h3>
-
-                    <p>
-                        Rice bowls & meals
-                    </p>
-
-                </div>
-
-
-
-                <div class="category-card">
-
-                    <div class="category-icon">
-                        ☕
-                    </div>
-
-                    <h3>
-                        Beverages
-                    </h3>
-
-                    <p>
-                        Hot & cold drinks
-                    </p>
-
-                </div>
-
-
-            </div>
+            <p>
+                Find something delicious for your
+                next lecture break.
+            </p>
 
         </section>
 
 
 
-        <!-- ================= FULL MENU ================= -->
+        <!-- ==============================
+             SEARCH
+        =============================== -->
 
-        <section class="menu-section">
+        <section class="menu-controls">
 
-            <div class="menu-heading">
-
-                <p>
-                    OUR MENU
-                </p>
-
-                <h2>
-                    Something for every craving
-                </h2>
+            <div class="search-wrapper">
 
                 <span>
-                    Browse through our canteen menu and find your next favourite.
+                    🔍
                 </span>
 
+                <input
+                    type="text"
+                    id="menuSearch"
+                    placeholder="Search food..."
+                    autocomplete="off"
+                >
+
             </div>
 
-            <div class="menu-search">
 
-                <input type="text" id="menuSearch" placeholder="Search dishes...">
-
-            </div>
+            <!-- ==============================
+                 CATEGORY BUTTONS
+            =============================== -->
 
             <div class="category-buttons">
 
-                <button class="category-btn active" data-category="all">
+                <button
+                    class="category-btn active"
+                    data-category="all"
+                >
                     All
                 </button>
 
-                <button class="category-btn" data-category="breakfast">
+                <button
+                    class="category-btn"
+                    data-category="Breakfast"
+                >
                     Breakfast
                 </button>
 
-                <button class="category-btn" data-category="south-indian">
+                <button
+                    class="category-btn"
+                    data-category="South Indian"
+                >
                     South Indian
                 </button>
 
-                <button class="category-btn" data-category="chinese">
+                <button
+                    class="category-btn"
+                    data-category="Chinese"
+                >
                     Chinese
                 </button>
 
-                <button class="category-btn" data-category="paratha">
-                    Chapati / Paratha
+                <button
+                    class="category-btn"
+                    data-category="Chapati / Paratha"
+                >
+                    Paratha
                 </button>
 
-                <button class="category-btn" data-category="rice">
+                <button
+                    class="category-btn"
+                    data-category="Rice"
+                >
                     Rice
                 </button>
 
-                <button class="category-btn" data-category="sandwich">
+                <button
+                    class="category-btn"
+                    data-category="Sandwich"
+                >
                     Sandwich
                 </button>
 
-                <button class="category-btn" data-category="maggi">
+                <button
+                    class="category-btn"
+                    data-category="Maggi"
+                >
                     Maggi
                 </button>
 
-                <button class="category-btn" data-category="beverages">
+                <button
+                    class="category-btn"
+                    data-category="Beverages"
+                >
                     Beverages
                 </button>
 
             </div>
 
-            <button id="clearFilters" class="clear-filter-btn">
-                Clear Filters
+
+            <!-- ==============================
+                 CLEAR FILTERS
+            =============================== -->
+
+            <button
+                id="clearFilters"
+                class="clear-button"
+                type="button"
+            >
+                Clear filters
             </button>
 
+            <p class="result-summary" id="resultSummary" aria-live="polite"></p>
 
-            <div class="menu-grid" id="menuGrid">
+        </section>
 
 
-                <!-- BREAKFAST -->
 
-                <div class="menu-box" data-category="breakfast">
+        <!-- ==============================
+             MENU CONTAINER
+        =============================== -->
 
-                    <h3>
-                        Breakfast
-                    </h3>
+        <section
+            class="menu-container"
+            id="menuContainer"
+        >
+
+
+            <!-- ==============================
+                 BREAKFAST
+            =============================== -->
+
+            <div
+                class="menu-box"
+                data-category="Breakfast"
+            >
+
+                <h2>
+                    🍳 Breakfast
+                </h2>
+
+
+                <div class="menu-items">
 
                     <div class="menu-item">
                         <span>Poha</span>
@@ -358,15 +278,25 @@
 
                 </div>
 
+            </div>
 
 
-                <!-- SOUTH INDIAN -->
 
-                <div class="menu-box" data-category="south-indian">
+            <!-- ==============================
+                 SOUTH INDIAN
+            =============================== -->
 
-                    <h3>
-                        South Indian
-                    </h3>
+            <div
+                class="menu-box"
+                data-category="South Indian"
+            >
+
+                <h2>
+                    🥞 South Indian
+                </h2>
+
+
+                <div class="menu-items">
 
                     <div class="menu-item">
                         <span>Plain Dosa</span>
@@ -410,15 +340,25 @@
 
                 </div>
 
+            </div>
 
 
-                <!-- CHINESE -->
 
-                <div class="menu-box" data-category="chinese">
+            <!-- ==============================
+                 CHINESE
+            =============================== -->
 
-                    <h3>
-                        Chinese
-                    </h3>
+            <div
+                class="menu-box"
+                data-category="Chinese"
+            >
+
+                <h2>
+                    🍜 Chinese
+                </h2>
+
+
+                <div class="menu-items">
 
                     <div class="menu-item">
                         <span>Veg Fried Rice</span>
@@ -452,15 +392,25 @@
 
                 </div>
 
+            </div>
 
 
-                <!-- CHAPATI / PARATHA -->
 
-                <div class="menu-box" data-category="chapati">
+            <!-- ==============================
+                 CHAPATI / PARATHA
+            =============================== -->
 
-                    <h3>
-                        Chapati / Paratha
-                    </h3>
+            <div
+                class="menu-box"
+                data-category="Chapati / Paratha"
+            >
+
+                <h2>
+                    🫓 Chapati / Paratha
+                </h2>
+
+
+                <div class="menu-items">
 
                     <div class="menu-item">
                         <span>Chapati</span>
@@ -499,15 +449,25 @@
 
                 </div>
 
+            </div>
 
 
-                <!-- RICE -->
 
-                <div class="menu-box" data-category="rice">
+            <!-- ==============================
+                 RICE
+            =============================== -->
 
-                    <h3>
-                        Rice
-                    </h3>
+            <div
+                class="menu-box"
+                data-category="Rice"
+            >
+
+                <h2>
+                    🍚 Rice
+                </h2>
+
+
+                <div class="menu-items">
 
                     <div class="menu-item">
                         <span>Veg Biryani</span>
@@ -546,15 +506,25 @@
 
                 </div>
 
+            </div>
 
 
-                <!-- SANDWICH -->
 
-                <div class="menu-box" data-category="sandwich">
+            <!-- ==============================
+                 SANDWICH
+            =============================== -->
 
-                    <h3>
-                        Sandwich
-                    </h3>
+            <div
+                class="menu-box"
+                data-category="Sandwich"
+            >
+
+                <h2>
+                    🥪 Sandwich
+                </h2>
+
+
+                <div class="menu-items">
 
                     <div class="menu-item">
                         <span>Veg Sandwich</span>
@@ -593,15 +563,25 @@
 
                 </div>
 
+            </div>
 
 
-                <!-- MAGGI -->
 
-                <div class="menu-box" data-category="maggi">
+            <!-- ==============================
+                 MAGGI
+            =============================== -->
 
-                    <h3>
-                        Maggi
-                    </h3>
+            <div
+                class="menu-box"
+                data-category="Maggi"
+            >
+
+                <h2>
+                    🍜 Maggi
+                </h2>
+
+
+                <div class="menu-items">
 
                     <div class="menu-item">
                         <span>Plain Maggi</span>
@@ -635,15 +615,25 @@
 
                 </div>
 
+            </div>
 
 
-                <!-- BEVERAGES -->
 
-                <div class="menu-box" data-category="beverages">
+            <!-- ==============================
+                 BEVERAGES
+            =============================== -->
 
-                    <h3>
-                        Beverages
-                    </h3>
+            <div
+                class="menu-box"
+                data-category="Beverages"
+            >
+
+                <h2>
+                    ☕ Beverages
+                </h2>
+
+
+                <div class="menu-items">
 
                     <div class="menu-item">
                         <span>Cold Coffee</span>
@@ -675,122 +665,66 @@
                         <strong>₹20</strong>
                     </div>
 
-                    <div class="menu-item">
-                        <span>Hot Coffee</span>
-                        <strong>₹50</strong>
-                    </div>
-
                 </div>
 
             </div>
 
+
         </section>
+
+
+        <!-- ==============================
+             NO RESULTS MESSAGE
+        =============================== -->
+
+        <div
+            id="noResults"
+            class="no-results"
+        >
+
+            <div>
+                🔍
+            </div>
+
+            <h2>
+                Nothing found
+            </h2>
+
+            <p>
+                Try another food item or category.
+            </p>
+
+        </div>
 
     </main>
 
 
 
-    <!-- ================= FOOTER ================= -->
+    <!-- ==============================
+         FOOTER
+    =============================== -->
 
     <footer class="site-footer">
 
-        <div class="footer-main">
-
-            <div class="footer-brand">
-
-                <h2>
-                    Campus Bites DYPCOE
-                </h2>
-
-                <p>
-                    Your campus food, all in one place.
-                </p>
-
-            </div>
-
-
-            <div class="footer-links">
-
-                <div>
-
-                    <h3>
-                        Explore
-                    </h3>
-
-                    <a href="index.html">
-                        Home
-                    </a>
-
-                    <a href="menu.html">
-                        Menu
-                    </a>
-
-                    <a href="canteens.html">
-                        Canteens
-                    </a>
-
-                </div>
-
-
-                <div>
-
-                    <h3>
-                        Canteens
-                    </h3>
-
-                    <a href="canteens.html">
-                        Cafeteria
-                    </a>
-
-                    <a href="canteens.html">
-                        Timeless
-                    </a>
-
-                    <a href="canteens.html">
-                        Nescafe
-                    </a>
-
-                </div>
-
-
-                <div>
-
-                    <h3>
-                        Help
-                    </h3>
-
-                    <a href="#">
-                        Contact
-                    </a>
-
-                    <a href="#">
-                        About
-                    </a>
-
-                    <a href="#">
-                        Feedback
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
         <div class="footer-bottom">
 
-            <p>
+            <span>
                 © 2026 Campus Bites
-            </p>
+            </span>
 
-            <p>
+            <span>
                 Made for campus life.
-            </p>
+            </span>
 
         </div>
 
     </footer>
+
+
+
+    <!-- ==============================
+         JAVASCRIPT
+    =============================== -->
 
     <script src="js/menu.js"></script>
 

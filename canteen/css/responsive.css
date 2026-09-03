@@ -24,11 +24,6 @@
     }
 
 
-    .canteen-grid {
-        grid-template-columns: 1fr;
-    }
-
-
     .small-food-container {
         grid-template-columns: 1fr;
     }
@@ -65,11 +60,6 @@
         gap: 12px;
 
         padding: 0 15px;
-    }
-
-
-    .navbar nav {
-        display: none;
     }
 
 
@@ -138,11 +128,6 @@
     .category-heading h2,
     .menu-heading h2 {
         font-size: 30px;
-    }
-
-
-    .menu-box {
-        padding: 22px;
     }
 
 
