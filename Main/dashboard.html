@@ -9,13 +9,16 @@
   <link rel="icon" type="image/png" href="../logo.png">
 </head>
 <body class="dashboard-page">
-
-  <header class="navbar">
-    <a class="logo" href="../index.html"><img src="../logo.png" alt="CampusConnect Logo" class="logo-img"> CampusConnect</a>
-    <nav>
+  <header class="navbar home-navbar">
+    <a class="logo" href="../index.html">
+      <img src="../logo.png" alt="CampusConnect Logo" class="logo-img">
+      <span>CampusConnect</span>
+    </a>
+    <nav class="home-nav-links" aria-label="Main navigation">
       <a href="../index.html">Home</a>
       <a href="dashboard.html" class="active">Dashboard</a>
       <a href="contact.html">Contact</a>
+      <a href="signin.html" class="nav-signin">Sign In</a>
     </nav>
   </header>
 
@@ -33,29 +36,16 @@
 
   <main>
     <section class="container dashboard-stats">
-      <div class="stat-card">
-        <div class="stat-icon">📢</div>
-        <div><strong>12</strong><span>Notices</span></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">📅</div>
-        <div><strong>5</strong><span>Upcoming Events</span></div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">🔍</div>
-        <div><strong>3</strong><span>Lost Items</span></div>
-      </div>
+      <div class="stat-card"><div class="stat-icon">📢</div><div><strong>12</strong><span>Notices</span></div></div>
+      <div class="stat-card"><div class="stat-icon">📅</div><div><strong>5</strong><span>Upcoming Events</span></div></div>
+      <div class="stat-card"><div class="stat-icon">🔍</div><div><strong>3</strong><span>Lost Items</span></div></div>
     </section>
 
     <section class="container dashboard-section">
       <div class="section-heading">
-        <div>
-          <p class="dashboard-label">Quick Access</p>
-          <h2>Quick Actions</h2>
-        </div>
+        <div><p class="dashboard-label">Quick Access</p><h2>Quick Actions</h2></div>
         <p>Jump straight to the services you use most.</p>
       </div>
-
       <div class="quick-actions">
         <a href="notices.html" class="quick-action"><span>📢</span><span>Notices</span><span>→</span></a>
         <a href="events.html" class="quick-action"><span>📅</span><span>Events</span><span>→</span></a>
@@ -66,44 +56,16 @@
 
     <section class="container dashboard-section">
       <div class="section-heading">
-        <div>
-          <p class="dashboard-label">Explore</p>
-          <h2>Campus Services</h2>
-        </div>
+        <div><p class="dashboard-label">Explore</p><h2>Campus Services</h2></div>
         <p>Useful tools and services for everyday campus life.</p>
       </div>
-
       <div class="grid">
-        <div class="dashboard-card">
-          <h3>🥳 Campus Events</h3>
-          <p>Discover workshops, hackathons, and cultural nights.</p>
-          <a href="events.html" class="link">View Events →</a>
-        </div>
-        <div class="dashboard-card">
-          <h3>✍️ Verified Blogs</h3>
-          <p>Read and write verified campus articles and stories.</p>
-          <a href="blogs.html" class="link">Read Stories →</a>
-        </div>
-        <div class="dashboard-card">
-          <h3>🔍 Lost &amp; Found</h3>
-          <p>Report and recover lost items on campus.</p>
-          <a href="../lost_and_found/lost.html" class="link">Open Module →</a>
-        </div>
-        <div class="dashboard-card">
-          <h3>😋 Cafeteria Menu</h3>
-          <p>Discover the latest menu items and special offers.</p>
-          <a href="../canteen/index.html" class="link">View Menu →</a>
-        </div>
-        <div class="dashboard-card">
-          <h3>🗺️ College Map</h3>
-          <p>Explore the college campus and find your way around.</p>
-          <a href="college-map.html" class="link">View Map →</a>
-        </div>
-        <div class="dashboard-card">
-          <h3>📊 Juno ERP</h3>
-          <p>Access and manage your academic records and information.</p>
-          <a target="_blank" href="https://erp.dypakurdipune.edu.in/" class="link">Open Website →</a>
-        </div>
+        <div class="dashboard-card"><h3>🥳 Campus Events</h3><p>Discover workshops, hackathons, and cultural nights.</p><a href="events.html" class="link">View Events →</a></div>
+        <div class="dashboard-card"><h3>✍️ Verified Blogs</h3><p>Read and write verified campus articles and stories.</p><a href="blogs.html" class="link">Read Stories →</a></div>
+        <div class="dashboard-card"><h3>🔍 Lost &amp; Found</h3><p>Report and recover lost items on campus.</p><a href="../lost_and_found/lost.html" class="link">Open Module →</a></div>
+        <div class="dashboard-card"><h3>😋 Cafeteria Menu</h3><p>Discover the latest menu items and special offers.</p><a href="../canteen/index.html" class="link">View Menu →</a></div>
+        <div class="dashboard-card"><h3>🗺️ College Map</h3><p>Explore the college campus and find your way around.</p><a href="college-map.html" class="link">View Map →</a></div>
+        <div class="dashboard-card"><h3>📊 Juno ERP</h3><p>Access and manage your academic records and information.</p><a target="_blank" href="https://erp.dypakurdipune.edu.in/" class="link">Open Website →</a></div>
       </div>
     </section>
 
@@ -111,34 +73,18 @@
       <div class="dashboard-panel">
         <p class="dashboard-label">Stay Updated</p>
         <h2>Latest Updates</h2>
-        <div class="update-item">
-          <span>📢</span>
-          <div><strong>Campus announcements</strong><p>Important notices and updates will appear here.</p></div>
-        </div>
-        <div class="update-item">
-          <span>📅</span>
-          <div><strong>Upcoming events</strong><p>Keep an eye on workshops, hackathons and cultural activities.</p></div>
-        </div>
-        <div class="update-item">
-          <span>🍔</span>
-          <div><strong>Cafeteria updates</strong><p>Check the latest menu items and special offers.</p></div>
-        </div>
+        <div class="update-item"><span>📢</span><div><strong>Campus announcements</strong><p>Important notices and updates will appear here.</p></div></div>
+        <div class="update-item"><span>📅</span><div><strong>Upcoming events</strong><p>Keep an eye on workshops, hackathons and cultural activities.</p></div></div>
+        <div class="update-item"><span>🍔</span><div><strong>Cafeteria updates</strong><p>Check the latest menu items and special offers.</p></div></div>
       </div>
-
       <div class="dashboard-panel">
         <p class="dashboard-label">What's Next?</p>
         <h2>Upcoming Events</h2>
-        <div class="event-item">
-          <div class="event-date"><strong>12</strong><span>SEP</span></div>
-          <div><strong>Hackathon 2026</strong><p>Main Auditorium</p></div>
-        </div>
-        <div class="event-item">
-          <div class="event-date"><strong>18</strong><span>SEP</span></div>
-          <div><strong>Tech Workshop</strong><p>Seminar Hall</p></div>
-        </div>
-        <div class="event-item">
-          <div class="event-date"><strong>25</strong><span>SEP</span></div>
-          <div><strong>Campus Fest</strong><p>College Ground</p></div>
+        <div class="event-item"><div class="event-date"><strong>12</strong><span>SEP</span></div><div><strong>Hackathon 2026</strong><p>Main Auditorium</p></div></div>
+        <div class="event-item"><div class="event-date"><strong>18</strong><span>SEP</span></div><div><strong>Tech Workshop</strong><p>Seminar Hall</p></div></div>
+        <div class="event-item"><div class="event-date"><strong>25</strong><span>SEP</span></div><div><strong>Campus Fest</strong><p>College Ground</p></div></div>
+        <a href="events.html" class="link">View All Events →</a>
+      </div>
     </section>
   </main>
 
@@ -149,26 +95,12 @@
         <p>A simple campus platform bringing useful services, updates and information together for students.</p>
       </div>
       <div class="footer-links">
-        <div>
-          <h3>Campus</h3>
-          <a href="../index.html">Home</a>
-          <a href="dashboard.html">Dashboard</a>
-          <a href="contact.html">Contact</a>
-        </div>
-        <div>
-          <h3>Links</h3>
-          <a href="../canteen/index.html">Canteen</a>
-          <a target="_blank" href="http://instagram.com">Instagram</a>
-          <a target="_blank" href="https://www.dypcoeakurdi.ac.in/">College Website</a>
-        </div>
+        <div><h3>Campus</h3><a href="../index.html">Home</a><a href="dashboard.html">Dashboard</a><a href="contact.html">Contact</a></div>
+        <div><h3>Links</h3><a href="../canteen/index.html">Canteen</a><a target="_blank" href="http://instagram.com">Instagram</a><a target="_blank" href="https://www.dypcoeakurdi.ac.in/">College Website</a></div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <p>Campus Connect | Dr. D. Y. Patil College of Engineering</p>
-      <p>Built by students, for students.</p>
-    </div>
+    <div class="footer-bottom"><p>Campus Connect | Dr. D. Y. Patil College of Engineering</p><p>Built by students, for students.</p></div>
   </footer>
-
   <script src="script.js"></script>
 </body>
 </html>
