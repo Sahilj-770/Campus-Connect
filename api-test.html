@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>API Test</title>
+</head>
+
+<body>
+
+    <h1>Campus Bites Canteens</h1>
+
+    <div id="canteenList"></div>
+
+
+    <script>
+
+        // =====================================================
+        // GET DATA FROM BACKEND
+        // =====================================================
+
+        fetch("http://localhost:3000/api/canteens")
+
+            .then(function(response) {
+                return response.json();
+            })
+
+            .then(function(data) {
+
+                console.log(data);
+
+                const list = document.querySelector("#canteenList");
+
+                data.forEach(function(canteen) {
+
+                    const paragraph = document.createElement("p");
+
+                    paragraph.textContent = canteen.name;
+
+                    list.appendChild(paragraph);
+
+                });
+
+            })
+
+            .catch(function(error) {
+
+                console.log("Error:", error);
+
+            });
+
+    </script>
+
+</body>
+</html>
