@@ -1,6 +1,6 @@
 /* =========================
    GLOBAL / BASE STYLES
-========================= */
+   ========================= */
 
 * {
     box-sizing: border-box;
@@ -8,19 +8,22 @@
 
 body {
     margin: 0;
-
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-    background-color: #fffdf9;
-
-    color: #172033;
-
+    min-height: 100vh;
+    background-color: #ff8c42;
+    background: linear-gradient(135deg, #ff8c42 0%, #ec4899 45%, #f43f5e 70%, #fb923c 100%) fixed;
+    background-image: url("gradient.jpg"), url("../gradient.jpg"), linear-gradient(135deg, #ff8c42 0%, #ec4899 45%, #f43f5e 70%, #fb923c 100%);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #0f172a;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
 }
 
 a {
     color: inherit;
-
     text-decoration: none;
 }
 
@@ -39,7 +42,7 @@ button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 .canteen-card:focus-visible {
-    outline: 3px solid rgba(221, 107, 39, 0.35);
+    outline: 3px solid rgba(234, 88, 12, 0.45);
     outline-offset: 3px;
 }
 
@@ -55,28 +58,37 @@ input:focus-visible,
     min-height: calc(100vh - 70px);
 }
 
+/* Dark Mode Glass */
 body.dark-mode {
-    background: #172033;
-    color: #eef2f7;
+    background: linear-gradient(135deg, #1e1b4b 0%, #311042 50%, #0f172a 100%) fixed;
+    color: #f8fafc;
 }
 
 body.dark-mode .navbar,
+body.dark-mode .home-navbar,
 body.dark-mode .menu-controls,
 body.dark-mode .canteen-card,
+body.dark-mode .home-canteen-card,
 body.dark-mode .menu-box,
+body.dark-mode .feature-card,
+body.dark-mode .why-section,
 body.dark-mode .search-wrapper,
 body.dark-mode .nav-toggle {
-    background: #222d43;
-    border-color: #3b485e;
+    background: rgba(15, 23, 42, 0.70) !important;
+    border-color: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(18px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(180%) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
 }
 
 body.dark-mode .logo,
+body.dark-mode .home-logo,
 body.dark-mode h1,
 body.dark-mode h2,
 body.dark-mode h3,
 body.dark-mode .menu-item span,
 body.dark-mode .search-wrapper input {
-    color: #f5f7fa;
+    color: #f8fafc !important;
 }
 
 body.dark-mode nav a,
@@ -85,15 +97,56 @@ body.dark-mode .canteen-content > p,
 body.dark-mode .canteens-intro > p:last-child,
 body.dark-mode .menu-hero p:last-child,
 body.dark-mode .result-summary {
-    color: #c5ceda;
+    color: #94a3b8 !important;
 }
 
 body.dark-mode .menu-item,
 body.dark-mode .canteen-details span {
-    background: #2b374e;
-    border-color: #3b485e;
+    background: rgba(30, 41, 59, 0.65) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
 }
 
 body.dark-mode .nav-toggle span {
-    background: #f5f7fa;
+    background: #f8fafc;
+}
+
+/* Shared palette for all translucent surfaces. */
+:root {
+    --glass-surface: rgba(255, 255, 255, 0.46);
+    --glass-surface-strong: rgba(255, 255, 255, 0.66);
+    --glass-surface-soft: rgba(255, 255, 255, 0.28);
+    --glass-border: rgba(255, 255, 255, 0.78);
+    --glass-shadow: 0 18px 45px rgba(49, 45, 105, 0.13);
+    --ink: #202348;
+    --muted-ink: #60658b;
+    --accent: #6256d9;
+    --accent-deep: #4c40bd;
+    --accent-soft: rgba(116, 101, 232, 0.16);
+}
+
+body {
+    color: var(--ink);
+    background:
+        radial-gradient(circle at 12% 14%, rgba(165, 204, 255, 0.75), transparent 29rem),
+        radial-gradient(circle at 88% 8%, rgba(240, 173, 232, 0.64), transparent 27rem),
+        radial-gradient(circle at 56% 92%, rgba(165, 230, 215, 0.58), transparent 32rem),
+        linear-gradient(135deg, #e9efff 0%, #f7edff 48%, #e6faf5 100%);
+    background-attachment: fixed;
+}
+
+body.dark-mode {
+    --glass-surface: rgba(20, 25, 57, 0.58);
+    --glass-surface-strong: rgba(27, 32, 69, 0.76);
+    --glass-surface-soft: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(207, 215, 255, 0.22);
+    --glass-shadow: 0 22px 50px rgba(2, 5, 23, 0.36);
+    --ink: #f4f5ff;
+    --muted-ink: #c3c9e8;
+    --accent: #b5aaff;
+    --accent-deep: #d6cfff;
+    background:
+        radial-gradient(circle at 8% 4%, rgba(82, 91, 187, 0.5), transparent 29rem),
+        radial-gradient(circle at 92% 16%, rgba(180, 86, 162, 0.35), transparent 28rem),
+        linear-gradient(135deg, #111735 0%, #191d45 52%, #102e39 100%);
+    color: var(--ink);
 }

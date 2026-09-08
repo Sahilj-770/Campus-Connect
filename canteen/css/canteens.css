@@ -1,400 +1,296 @@
 /* =====================================================
-   CANTEENS PAGE
-===================================================== */
+   CAMPUS BITES - CANTEENS PAGE GLASS STYLES
+   ===================================================== */
 
 .canteens-page {
     max-width: 1200px;
-
-    margin: 70px auto;
-
+    margin: 60px auto 80px;
     padding: 0 24px;
 }
 
-
 /* =====================================================
-   NAVBAR SMALL NOTE
-===================================================== */
-
-.canteen-nav-note {
-    margin-left: auto;
-
-    color: #7b8494;
-
-    font-size: 13px;
-}
-
-
-/* =====================================================
-   INTRODUCTION
-===================================================== */
-
+   PAGE HEADER & INTRODUCTION
+   ===================================================== */
 .canteens-intro {
     margin-bottom: 35px;
 }
 
-.eyebrow {
-    margin-bottom: 10px;
-
-    color: #d96b27;
-
-    font-size: 13px;
-
-    font-weight: 800;
-
-    letter-spacing: 2px;
+.canteens-intro .eyebrow {
+    margin-bottom: 12px;
 }
 
 .canteens-intro h1 {
     margin: 0;
-
-    color: #172033;
-
-    font-size: 44px;
-
+    color: #0f172a;
+    font-size: 2.8rem;
+    font-weight: 900;
     line-height: 1.1;
+    letter-spacing: -0.03em;
 }
 
 .canteens-intro > p:last-child {
     margin-top: 14px;
-
-    color: #737d90;
-
-    font-size: 17px;
+    color: #334155;
+    font-size: 1.1rem;
+    font-weight: 500;
 }
-
 
 /* =====================================================
-   FAVORITE MESSAGE
-===================================================== */
-
+   FAVORITES NOTIFICATION
+   ===================================================== */
 .favorite-message {
     min-height: 24px;
-
-    margin-bottom: 15px;
-
-    color: #d96b27;
-
-    font-size: 14px;
-
-    font-weight: 600;
+    margin-bottom: 16px;
+    color: #ea580c;
+    font-size: 0.9rem;
+    font-weight: 700;
+    transition: all 0.2s ease;
 }
 
+.favorite-message:not(:empty) {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.90);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
 
 /* =====================================================
    CANTEEN GRID
-===================================================== */
-
+   ===================================================== */
 .canteen-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 24px;
 }
 
-
 /* =====================================================
-   CANTEEN CARD
-===================================================== */
-
+   CANTEEN CARD (Frosted Glass Card)
+   ===================================================== */
 .canteen-card {
     position: relative;
-
-    min-height: 390px;
-
-    padding: 30px;
-
+    min-height: 400px;
+    padding: 32px;
     display: flex;
-
     flex-direction: column;
-
-    background: #ffffff;
-
-    border: 1px solid #e7e2dc;
-
-    border-radius: 24px;
-
-    box-shadow:
-        0 10px 30px rgba(20, 30, 50, 0.06);
-
-    transition:
-        transform 0.25s ease,
-        box-shadow 0.25s ease,
-        border-color 0.25s ease;
-
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.80);
+    border-radius: 26px;
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    box-shadow: 0 12px 32px rgba(20, 25, 45, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
+    outline: none;
 }
 
 .canteen-card:hover {
     transform: translateY(-7px);
-
-    border-color: #ddd4ca;
-
-    box-shadow:
-        0 18px 40px rgba(20, 30, 50, 0.12);
+    background: rgba(255, 255, 255, 0.82);
+    border-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 22px 48px rgba(20, 25, 45, 0.13), inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
+.canteen-card:focus-visible {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.35), 0 16px 36px rgba(20, 25, 45, 0.1);
+}
 
 /* =====================================================
    FAVORITE BUTTON
-===================================================== */
-
+   ===================================================== */
 .favorite-btn {
     position: absolute;
-
-    top: 20px;
-
-    right: 20px;
-
-    width: 42px;
-
-    height: 42px;
-
-    border: 1px solid #e4dfda;
-
+    top: 22px;
+    right: 22px;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.88);
     border-radius: 50%;
-
-    background: #ffffff;
-
-    color: #30394a;
-
-    font-size: 23px;
-
+    background: rgba(255, 255, 255, 0.75);
+    color: #475569;
+    font-size: 22px;
     cursor: pointer;
-
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    transition: all 0.2s ease;
+    z-index: 2;
 }
 
 .favorite-btn:hover {
-    transform: scale(1.1);
+    transform: scale(1.12);
+    background: rgba(255, 255, 255, 0.95);
+    color: #e11d48;
 }
 
 .favorite-btn:active {
-    transform: scale(0.94);
+    transform: scale(0.95);
 }
 
 .favorite-btn.active {
-    background: #fff0df;
-
-    border-color: #f1d1ae;
-
-    color: #d96b27;
+    background: rgba(255, 228, 230, 0.88);
+    border-color: rgba(251, 113, 133, 0.65);
+    color: #e11d48;
+    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.22);
 }
-
 
 /* =====================================================
    CANTEEN ICON
-===================================================== */
-
+   ===================================================== */
 .canteen-icon {
-    width: 65px;
-
-    height: 65px;
-
+    width: 66px;
+    height: 66px;
     display: flex;
-
     align-items: center;
-
     justify-content: center;
-
-    margin-bottom: 32px;
-
-    border-radius: 18px;
-
+    margin-bottom: 28px;
+    border-radius: 20px;
     font-size: 30px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 1);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: transform 0.22s ease;
 }
 
-.cafeteria-icon {
-    background: #ffe5ce;
+.canteen-card:hover .canteen-icon {
+    transform: scale(1.08);
 }
 
-.timeless-icon {
-    background: #e3edff;
-}
-
+.cafeteria-icon,
+.timeless-icon,
 .nescafe-icon {
-    background: #e3f3df;
+    background: rgba(255, 255, 255, 0.85);
 }
-
 
 /* =====================================================
-   TITLE
-===================================================== */
-
+   TITLE & OPEN/CLOSED STATUS
+   ===================================================== */
 .canteen-title {
     display: flex;
-
     align-items: center;
-
     gap: 10px;
-
-    padding-right: 40px;
+    padding-right: 35px;
 }
 
 .canteen-title h2 {
     margin: 0;
-
-    color: #172033;
-
-    font-size: 26px;
+    color: #0f172a;
+    font-size: 1.65rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
 }
 
-
-/* =====================================================
-   OPEN / CLOSED STATUS
-===================================================== */
-
 .status {
-    padding: 5px 9px;
-
+    padding: 4px 11px;
     border-radius: 20px;
-
-    background: #edf7ed;
-
-    color: #3f7d3c;
-
-    font-size: 11px;
-
+    font-size: 0.72rem;
     font-weight: 800;
-
     white-space: nowrap;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    background: rgba(220, 252, 231, 0.80);
+    color: #15803d;
+    border: 1px solid rgba(134, 239, 172, 0.65);
 }
 
 .status.closed {
-    background: #f8eeee;
-
-    color: #b34b4b;
+    background: rgba(254, 226, 226, 0.80);
+    color: #b91c1c;
+    border: 1px solid rgba(252, 165, 165, 0.65);
 }
 
-
 /* =====================================================
-   DESCRIPTION
-===================================================== */
-
+   DESCRIPTION & DETAILS CHIPS
+   ===================================================== */
 .canteen-content > p {
-    margin: 12px 0 20px;
-
-    color: #747e90;
-
-    font-size: 15px;
-
+    margin: 12px 0 22px;
+    color: #475569;
+    font-size: 0.94rem;
     line-height: 1.6;
 }
 
-
-/* =====================================================
-   DETAILS
-===================================================== */
-
 .canteen-details {
     display: flex;
-
     flex-direction: column;
-
     gap: 9px;
 }
 
 .canteen-details span {
     width: fit-content;
-
-    padding: 7px 11px;
-
+    padding: 7px 14px;
     border-radius: 20px;
-
-    background: #f6f4f1;
-
-    color: #697386;
-
-    font-size: 12px;
+    background: rgba(255, 255, 255, 0.58);
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    color: #334155;
+    font-size: 0.82rem;
+    font-weight: 600;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
-
 
 /* =====================================================
    CARD FOOTER
-===================================================== */
-
+   ===================================================== */
 .canteen-footer {
     margin-top: auto;
-
-    padding-top: 25px;
-
+    padding-top: 26px;
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
     gap: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.55);
 }
 
 .open-time {
-    color: #697386;
-
-    font-size: 13px;
+    color: #475569;
+    font-size: 0.84rem;
+    font-weight: 600;
 }
 
-
-/* =====================================================
-   MENU BUTTON
-===================================================== */
-
 .menu-button {
-    padding: 11px 15px;
-
+    padding: 11px 18px;
     border-radius: 12px;
-
-    background: #172033;
-
+    background: rgba(15, 23, 42, 0.85);
     color: #ffffff;
-
     text-decoration: none;
-
-    font-size: 13px;
-
+    font-size: 0.85rem;
     font-weight: 700;
-
-    transition:
-        background 0.2s ease,
-        transform 0.2s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.15);
+    transition: all 0.25s ease;
 }
 
 .menu-button:hover {
-    background: #d96b27;
-
+    background: linear-gradient(135deg, #ea580c, #db2777);
+    border-color: rgba(255, 255, 255, 0.6);
     transform: translateX(3px);
+    box-shadow: 0 8px 22px rgba(234, 88, 12, 0.28);
 }
 
-
 /* =====================================================
-   TABLET
-===================================================== */
-
+   RESPONSIVE (CANTEENS)
+   ===================================================== */
 @media (max-width: 950px) {
-
     .canteen-grid {
         grid-template-columns: 1fr 1fr;
     }
-
-    .canteen-nav-note {
-        display: none;
-    }
-
 }
 
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
 @media (max-width: 650px) {
-
     .canteens-page {
-        margin-top: 45px;
-
+        margin-top: 40px;
         padding: 0 18px;
     }
 
@@ -408,22 +304,15 @@
 
     .canteen-card {
         min-height: 360px;
-
         padding: 24px;
     }
 
     .canteen-footer {
         align-items: stretch;
-
         flex-direction: column;
     }
 
     .menu-button {
         text-align: center;
     }
-
-}
-
-.canteen-card:focus-visible {
-    transform: translateY(-4px);
 }

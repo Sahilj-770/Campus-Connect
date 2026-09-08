@@ -143,3 +143,134 @@
     }
 
 }
+
+/* =====================================================
+   SHARED GLASS SURFACES
+   This visual layer deliberately avoids changing layout rules.
+   ===================================================== */
+
+.navbar,
+.hero,
+.hero-preview,
+.food-preview,
+.category-card,
+.featured-food,
+.food-item,
+.canteen-card,
+.menu-controls,
+.search-wrapper,
+.menu-box,
+.menu-item,
+.nav-toggle {
+    border-color: var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+.navbar {
+    background: rgba(255, 255, 255, 0.44);
+    border-bottom-color: rgba(255, 255, 255, 0.76);
+}
+
+.hero,
+.featured-food {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.hero-preview,
+.category-card,
+.food-item,
+.canteen-card,
+.menu-controls,
+.menu-box {
+    background: var(--glass-surface);
+}
+
+.food-preview,
+.menu-item,
+.search-wrapper {
+    background: var(--glass-surface-soft);
+}
+
+.food-icon,
+.category-icon,
+.featured-icon,
+.canteen-icon {
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
+}
+
+.hero h1,
+.preview-title,
+.food-preview h3,
+.food-preview strong,
+.category-heading h2,
+.category-card h3,
+.featured-info h3,
+.food-bottom strong,
+.food-item h3,
+.menu-box h2,
+.menu-item span {
+    color: var(--ink);
+}
+
+.hero-text,
+.food-preview p,
+.category-heading span,
+.category-card p,
+.food-description,
+.food-item p,
+.result-summary {
+    color: var(--muted-ink);
+}
+
+.hero-tag,
+.category-heading p,
+.food-category,
+.food-bottom span,
+.menu-item strong,
+.eyebrow {
+    color: var(--accent);
+}
+
+.hero-button,
+.menu-button {
+    background: linear-gradient(135deg, #6658df, #8a68df);
+    box-shadow: 0 10px 22px rgba(80, 65, 181, 0.22);
+}
+
+.hero-button:hover,
+.menu-button:hover {
+    background: linear-gradient(135deg, #5142c5, #7354c9);
+}
+
+.site-footer {
+    background: rgba(24, 29, 67, 0.76);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 -10px 30px rgba(25, 24, 64, 0.12);
+    backdrop-filter: blur(22px) saturate(135%);
+    -webkit-backdrop-filter: blur(22px) saturate(135%);
+}
+
+.site-footer .footer-bottom {
+    border-top-color: rgba(255, 255, 255, 0.17);
+}
+
+body.dark-mode .navbar,
+body.dark-mode .hero,
+body.dark-mode .hero-preview,
+body.dark-mode .food-preview,
+body.dark-mode .category-card,
+body.dark-mode .featured-food,
+body.dark-mode .food-item,
+body.dark-mode .canteen-card,
+body.dark-mode .menu-controls,
+body.dark-mode .search-wrapper,
+body.dark-mode .menu-box,
+body.dark-mode .menu-item,
+body.dark-mode .nav-toggle {
+    background: var(--glass-surface);
+    border-color: var(--glass-border);
+}

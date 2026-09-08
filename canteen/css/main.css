@@ -1,41 +1,388 @@
-/* =========================
-   MAIN CSS FILE
-========================= */
-
-/*
-   This file does not contain
-   the actual component styles.
-
-   It simply loads the smaller
-   CSS files used by the website.
-*/
-
-@import url("base.css");
-
-@import url("navbar.css");
-
-@import url("hero.css");
-
-@import url("canteens.css");
-
-@import url("featured.css");
-
-@import url("categories.css");
-
-@import url("menu.css");
-
-@import url("footer.css");
-
-@import url("responsive.css");
-
 /* =====================================================
-   WEBSITE BACKGROUND
+   CAMPUS BITES - MAIN CSS & GLASS DESIGN SYSTEM
    ===================================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+/* =====================================================
+   1. DESIGN TOKENS (GLASSMORPHISM)
+   ===================================================== */
+:root {
+    --glass-bg-canvas: rgba(255, 255, 255, 0.45);
+    --glass-bg-card: rgba(255, 255, 255, 0.65);
+    --glass-bg-card-hover: rgba(255, 255, 255, 0.82);
+    --glass-bg-nav: rgba(255, 255, 255, 0.72);
+    --glass-bg-chip: rgba(255, 255, 255, 0.60);
+    --glass-bg-dark: rgba(15, 23, 42, 0.65);
+    
+    --glass-border: 1px solid rgba(255, 255, 255, 0.75);
+    --glass-border-subtle: 1px solid rgba(255, 255, 255, 0.55);
+    --glass-border-bright: 1px solid rgba(255, 255, 255, 0.95);
+    
+    --glass-shadow: 0 10px 30px -5px rgba(20, 25, 45, 0.08), 0 4px 12px -2px rgba(20, 25, 45, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+    --glass-shadow-hover: 0 20px 40px -8px rgba(20, 25, 45, 0.14), inset 0 1px 0 rgba(255, 255, 255, 1);
+    
+    --glass-blur-lg: blur(20px) saturate(180%);
+    --glass-blur-md: blur(16px) saturate(180%);
+    --glass-blur-sm: blur(10px);
+    
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --text-muted: #64748b;
+    --accent-orange: #ea580c;
+    --accent-coral: #f97316;
+    --accent-rose: #e11d48;
+}
+
+/* =====================================================
+   2. RESET & HTML
+   ===================================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* =====================================================
+   3. BODY & WALLPAPER BACKGROUND
+   ===================================================== */
 body {
-    background-image: url("C:\\Users\\aayus\\OneDrive\\Desktop\\gradient.jpg");
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.5;
+    background-color: #ff8c42;
+    background: linear-gradient(135deg, #ff8c42 0%, #ec4899 45%, #f43f5e 70%, #fb923c 100%) fixed;
+    background-image: url("gradient.jpg"), url("../gradient.jpg"), linear-gradient(135deg, #ff8c42 0%, #ec4899 45%, #f43f5e 70%, #fb923c 100%);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* =====================================================
+   4. GLASS NAVBAR
+   ===================================================== */
+.navbar, .home-navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    min-height: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: 0 5%;
+    background: var(--glass-bg-nav);
+    backdrop-filter: var(--glass-blur-lg);
+    -webkit-backdrop-filter: var(--glass-blur-lg);
+    border-bottom: var(--glass-border-subtle);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.logo, .home-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 25px;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-decoration: none;
+    white-space: nowrap;
+    letter-spacing: -0.02em;
+}
+
+.logo-icon, .home-logo-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.85);
+    border: var(--glass-border-bright);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 1);
+    font-size: 19px;
+    transition: transform 0.2s ease;
+}
+
+.logo:hover .logo-icon, .home-logo:hover .home-logo-icon {
+    transform: scale(1.06);
+}
+
+.navbar nav, .home-nav {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 10px;
+}
+
+.navbar nav a, .home-nav a {
+    padding: 8px 15px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.84rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.navbar nav a:hover, .home-nav a:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.55);
+    border-color: rgba(255, 255, 255, 0.75);
+    transform: translateY(-1px);
+}
+
+.navbar nav a.active, .home-nav a.active {
+    color: var(--accent-orange);
+    background: rgba(255, 255, 255, 0.88);
+    border-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.nav-action {
+    margin-left: auto;
+    padding: 9px 18px;
+    border-radius: 12px;
+    background: rgba(15, 23, 42, 0.85);
+    color: white;
+    text-decoration: none;
+    font-size: 0.84rem;
+    font-weight: 700;
+    backdrop-filter: var(--glass-blur-sm);
+    -webkit-backdrop-filter: var(--glass-blur-sm);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.15);
+    transition: all 0.25s ease;
+}
+
+.nav-action:hover {
+    background: linear-gradient(135deg, #ea580c, #db2777);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(234, 88, 12, 0.28);
+}
+
+.canteen-nav-note {
+    margin-left: auto;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.52);
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: var(--glass-border-subtle);
+    backdrop-filter: var(--glass-blur-sm);
+}
+
+/* Nav toggle for mobile */
+.nav-toggle {
+    display: none;
+    margin-left: auto;
+    border: none;
+    background: rgba(255, 255, 255, 0.65);
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: var(--glass-border);
+    cursor: pointer;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    margin: 5px 0;
+    border-radius: 4px;
+    background: var(--text-primary);
+}
+
+/* =====================================================
+   5. BUTTONS
+   ===================================================== */
+button {
+    font-family: inherit;
+}
+
+.primary-button {
+    padding: 12px 22px;
+    border-radius: 13px;
+    background: rgba(15, 23, 42, 0.88);
+    color: white;
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.16);
+    backdrop-filter: var(--glass-blur-sm);
+    -webkit-backdrop-filter: var(--glass-blur-sm);
+    transition: all 0.25s ease;
+}
+
+.primary-button:hover {
+    background: linear-gradient(135deg, #ea580c, #db2777);
+    border-color: rgba(255, 255, 255, 0.65);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(234, 88, 12, 0.28);
+}
+
+.secondary-button {
+    padding: 12px 22px;
+    border-radius: 13px;
+    border: var(--glass-border);
+    background: rgba(255, 255, 255, 0.68);
+    color: var(--text-primary);
+    font-size: 0.88rem;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: var(--glass-blur-md);
+    -webkit-backdrop-filter: var(--glass-blur-md);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    transition: all 0.25s ease;
+}
+
+.secondary-button:hover {
+    background: rgba(255, 255, 255, 0.90);
+    border-color: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.07);
+    color: var(--accent-orange);
+}
+
+/* =====================================================
+   6. TYPOGRAPHY & BADGES
+   ===================================================== */
+h1, h2, h3, h4 {
+    color: var(--text-primary);
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+p {
+    color: var(--text-secondary);
+}
+
+.eyebrow, .home-eyebrow {
+    display: inline-block;
+    color: var(--accent-orange);
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.72);
+    border: var(--glass-border);
+    padding: 6px 14px;
+    border-radius: 20px;
+    backdrop-filter: var(--glass-blur-sm);
+    -webkit-backdrop-filter: var(--glass-blur-sm);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+/* =====================================================
+   7. FOOTER
+   ===================================================== */
+footer, .site-footer, .home-footer {
+    width: 100%;
+    margin-top: 70px;
+    padding: 40px 5% 30px;
+    border-top: var(--glass-border-subtle);
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: var(--glass-blur-lg);
+    -webkit-backdrop-filter: var(--glass-blur-lg);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.site-footer {
+    background: rgba(15, 23, 42, 0.75);
+    color: white;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.site-footer .footer-brand h2 {
+    color: white;
+}
+
+.site-footer .footer-brand p,
+.site-footer .footer-links a,
+.site-footer .footer-bottom span {
+    color: #94a3b8;
+}
+
+.site-footer .footer-links a:hover {
+    color: white;
+}
+
+.site-footer .footer-links h3 {
+    color: white;
+}
+
+.site-footer .footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+}
+
+/* =====================================================
+   8. RESPONSIVE NAVBAR
+   ===================================================== */
+@media (max-width: 700px) {
+    .navbar, .home-navbar {
+        height: 64px;
+        padding: 0 20px;
+    }
+
+    .nav-toggle {
+        display: block;
+    }
+
+    .navbar nav, .home-nav {
+        display: none;
+        position: absolute;
+        top: 64px;
+        left: 0;
+        width: 100%;
+        padding: 15px 20px;
+        flex-direction: column;
+        background: rgba(255, 255, 255, 0.94);
+        border-bottom: var(--glass-border);
+        backdrop-filter: var(--glass-blur-lg);
+        -webkit-backdrop-filter: var(--glass-blur-lg);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    .navbar nav.show, .navbar nav.is-open, .home-nav.is-open {
+        display: flex;
+    }
+
+    .navbar nav a, .home-nav a {
+        width: 100%;
+        text-align: center;
+    }
 }

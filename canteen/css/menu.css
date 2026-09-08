@@ -1,245 +1,187 @@
 /* =====================================================
-   MENU PAGE
-===================================================== */
+   CAMPUS BITES - MENU PAGE GLASS STYLES
+   ===================================================== */
 
 .menu-page {
     max-width: 1200px;
-
-    margin: 65px auto;
-
-    padding: 0 24px;
-background: #ffffff;
-background: linear-gradient(90deg, rgba(255, 255, 255, 0.49) 0%, rgba(252, 176, 69, 1) 100%);
-    border-radius: 24px;
-    padding: 50px;
-    border: 1px solid #e8e2dc;
-
+    margin: 60px auto 80px;
+    padding: 45px 40px;
+    background: rgba(255, 255, 255, 0.50);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.80);
+    border-radius: 32px;
+    box-shadow: 0 20px 50px rgba(20, 25, 45, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
-
 
 /* =====================================================
    MENU HERO
-===================================================== */
-
+   ===================================================== */
 .menu-hero {
     margin-bottom: 35px;
 }
 
 .menu-hero .eyebrow {
-    margin-bottom: 10px;
-
-    color: #d96b27;
-
-    font-size: 13px;
-
-    font-weight: 800;
-
-    letter-spacing: 2px;
+    margin-bottom: 12px;
 }
 
 .menu-hero h1 {
     margin: 0;
-
-    color: #172033;
-
-    font-size: 42px;
+    color: #0f172a;
+    font-size: 2.8rem;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
 }
 
 .menu-hero p:last-child {
     margin-top: 12px;
-
-    color: #737d90;
-
-    font-size: 16px;
+    color: #334155;
+    font-size: 1.1rem;
+    font-weight: 500;
 }
 
-
 /* =====================================================
-   CONTROLS
-===================================================== */
-
+   MENU CONTROLS (Floating Glass Dock)
+   ===================================================== */
 .menu-controls {
     position: sticky;
-
-    top: 10px;
-
-    z-index: 10;
-
-    padding: 18px;
-
+    top: 85px;
+    z-index: 50;
+    padding: 22px;
     margin-bottom: 35px;
-
-    background: rgba(255, 255, 255, 0.95);
-
-    border: 1px solid #e8e2dc;
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 8px 25px rgba(20, 30, 50, 0.06);
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.90);
+    border-radius: 24px;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 12px 35px rgba(20, 25, 45, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
 }
 
-
 /* =====================================================
-   SEARCH
-===================================================== */
-
+   SEARCH BAR
+   ===================================================== */
 .search-wrapper {
     display: flex;
-
     align-items: center;
-
-    gap: 10px;
-
-    padding: 12px 15px;
-
-    border: 1px solid #ddd8d2;
-
-    border-radius: 12px;
-
-    background: #ffffff;
-
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    gap: 12px;
+    padding: 12px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+    transition: all 0.2s ease;
 }
 
 .search-wrapper:focus-within {
-    border-color: #d96b27;
-    box-shadow: 0 0 0 3px rgba(217, 107, 39, 0.12);
+    border-color: #ea580c;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.18);
 }
 
 .search-wrapper span {
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .search-wrapper input {
     width: 100%;
-
     border: none;
-
     outline: none;
-
     background: transparent;
-
-    color: #172033;
-
-    font-size: 15px;
+    color: #0f172a;
+    font-size: 1rem;
+    font-weight: 500;
 }
 
 .search-wrapper input::placeholder {
-    color: #9aa1ad;
+    color: #64748b;
 }
 
-
 /* =====================================================
-   CATEGORY BUTTONS
-===================================================== */
-
+   CATEGORY BUTTONS (Glass Filter Pills)
+   ===================================================== */
 .category-buttons {
     display: flex;
-
     flex-wrap: wrap;
-
-    gap: 9px;
-
-    margin-top: 15px;
+    gap: 8px;
+    margin-top: 16px;
 }
 
 .category-btn {
-    padding: 9px 14px;
-
-    border: 1px solid #e2ddd7;
-
+    padding: 9px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
     border-radius: 20px;
-
-    background: #ffffff;
-
-    color: #5e6777;
-
-    font-size: 13px;
-
+    background: rgba(255, 255, 255, 0.65);
+    color: #475569;
+    font-size: 0.85rem;
+    font-weight: 600;
     cursor: pointer;
-
-    transition:
-        background 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all 0.2s ease;
 }
 
 .category-btn:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(255, 255, 255, 1);
+    color: #0f172a;
     transform: translateY(-1px);
-
-    border-color: #d96b27;
 }
 
 .category-btn.active {
-    background: #172033;
-
-    border-color: #172033;
-
+    background: rgba(15, 23, 42, 0.88);
+    border-color: rgba(15, 23, 42, 0.95);
     color: #ffffff;
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.22);
 }
 
-
 /* =====================================================
-   CLEAR BUTTON
-===================================================== */
-
+   CLEAR BUTTON & RESULT SUMMARY
+   ===================================================== */
 .clear-button {
-    margin-top: 15px;
-
-    padding: 8px 13px;
-
+    margin-top: 14px;
+    padding: 6px 12px;
     border: none;
-
     background: transparent;
-
-    color: #d96b27;
-
-    font-size: 13px;
-
+    color: #ea580c;
+    font-size: 0.84rem;
     font-weight: 700;
-
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .clear-button:hover {
+    color: #db2777;
     text-decoration: underline;
 }
 
 .result-summary {
     margin: 12px 2px 0;
-    color: #737d90;
-    font-size: 13px;
+    color: #475569;
+    font-size: 0.84rem;
+    font-weight: 600;
 }
 
-
 /* =====================================================
-   MENU BOX
-===================================================== */
-
+   MENU CATEGORY BOX
+   ===================================================== */
 .menu-box {
-    margin-bottom: 25px;
-
-    padding: 25px;
-
-    background: #ffffff;
-
-    border: 1px solid #e8e2dc;
-
-    border-radius: 20px;
-
-    box-shadow:
-        0 8px 25px rgba(20, 30, 50, 0.05);
-
-    animation: menu-enter 0.35s ease both;
+    margin-bottom: 28px;
+    padding: 28px;
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.80);
+    border-radius: 24px;
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    box-shadow: 0 10px 30px rgba(20, 25, 45, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    animation: menu-enter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 @keyframes menu-enter {
     from {
         opacity: 0;
-        transform: translateY(8px);
+        transform: translateY(10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -247,112 +189,132 @@ background: linear-gradient(90deg, rgba(255, 255, 255, 0.49) 0%, rgba(252, 176, 
 }
 
 .menu-box h2 {
-    margin: 0 0 18px;
-
-    color: #172033;
-
-    font-size: 22px;
+    margin: 0 0 20px;
+    color: #0f172a;
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
 }
 
-
 /* =====================================================
-   MENU ITEMS
-===================================================== */
-
+   MENU ITEMS (2-Column Glass Food Cards)
+   ===================================================== */
 .menu-items {
     display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
 }
 
 .menu-item {
     display: flex;
-
     align-items: center;
-
     justify-content: space-between;
-
-    padding: 14px 16px;
-
-    border: 1px solid #eee9e3;
-
-    border-radius: 13px;
-
-    background: #faf9f7;
-
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        border-color 0.2s ease;
+    gap: 16px;
+    padding: 16px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 4px 14px rgba(20, 25, 45, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    transition: all 0.22s ease;
 }
 
 .menu-item:hover {
-    transform: translateX(3px);
-
-    border-color: #f0d1b2;
-
-    background: #fff8f0;
+    transform: translateX(4px);
+    background: rgba(255, 255, 255, 0.90);
+    border-color: rgba(255, 255, 255, 1);
+    box-shadow: 0 8px 24px rgba(20, 25, 45, 0.08);
 }
 
-.menu-item span {
-    color: #3d4656;
-
-    font-size: 14px;
+.item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
-.menu-item strong {
-    color: #d96b27;
-
-    font-size: 14px;
+.item-info span {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 1rem;
 }
 
+.item-info small {
+    color: #475569;
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+
+.item-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.item-right strong {
+    color: #ea580c;
+    font-size: 1.1rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.availability {
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: rgba(220, 252, 231, 0.75);
+    color: #166534;
+    border: 1px solid rgba(134, 239, 172, 0.6);
+}
+
+.availability.unavailable {
+    background: rgba(254, 226, 226, 0.75);
+    color: #b91c1c;
+    border: 1px solid rgba(252, 165, 165, 0.6);
+}
 
 /* =====================================================
-   NO RESULTS
-===================================================== */
-
+   NO RESULTS EMPTY STATE
+   ===================================================== */
 .no-results {
     display: none;
-
     padding: 60px 20px;
-
     text-align: center;
-
-    border: 1px dashed #ddd6cf;
-
-    border-radius: 20px;
+    border: 1px dashed rgba(255, 255, 255, 0.85);
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.60);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
 }
 
 .no-results div {
-    font-size: 30px;
+    font-size: 36px;
+    margin-bottom: 12px;
 }
 
 .no-results h2 {
-    margin: 12px 0 5px;
-
-    color: #172033;
+    margin: 0 0 6px;
+    color: #0f172a;
+    font-size: 1.5rem;
+    font-weight: 800;
 }
 
 .no-results p {
     margin: 0;
-
-    color: #737d90;
+    color: #475569;
+    font-size: 0.95rem;
 }
 
-
 /* =====================================================
-   MOBILE
-===================================================== */
-
+   RESPONSIVE (MENU)
+   ===================================================== */
 @media (max-width: 700px) {
-
     .menu-page {
-        margin-top: 45px;
-
-        padding: 0 16px;
+        margin-top: 35px;
+        padding: 24px 16px;
+        border-radius: 24px;
     }
 
     .menu-hero h1 {
@@ -361,13 +323,14 @@ background: linear-gradient(90deg, rgba(255, 255, 255, 0.49) 0%, rgba(252, 176, 
 
     .menu-controls {
         position: static;
-        padding: 14px;
+        padding: 16px;
+        border-radius: 18px;
     }
 
     .category-buttons {
         flex-wrap: nowrap;
         overflow-x: auto;
-        padding-bottom: 4px;
+        padding-bottom: 6px;
         scrollbar-width: thin;
     }
 
@@ -382,51 +345,4 @@ background: linear-gradient(90deg, rgba(255, 255, 255, 0.49) 0%, rgba(252, 176, 
     .menu-box {
         padding: 20px;
     }
-
-}
-
-/* =====================================================
-   DATABASE MENU ITEM DETAILS
-   ===================================================== */
-
-.menu-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-.item-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.item-info span {
-    font-weight: 600;
-}
-
-.item-info small {
-    opacity: 0.65;
-    font-size: 0.85rem;
-}
-
-.item-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-}
-
-.item-right strong {
-    white-space: nowrap;
-}
-
-.availability {
-    font-size: 0.75rem;
-    opacity: 0.7;
-}
-
-.availability.unavailable {
-    opacity: 0.5;
 }
