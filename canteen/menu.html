@@ -3,35 +3,19 @@
 
 <head>
 
-    <!-- ==============================
-         BASIC SETTINGS
-    =============================== -->
-
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Menu | Campus Bites</title>
 
-
-    <!-- ==============================
-         CSS
-    =============================== -->
-
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/menu.css">
 
 </head>
 
 
 <body>
-
-
-    <!-- ==============================
-         NAVBAR
-    =============================== -->
 
     <header class="navbar">
 
@@ -41,7 +25,8 @@
         </div>
 
 
-        <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primaryNav" aria-expanded="false">
+        <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primaryNav"
+            aria-expanded="false">
             <span></span><span></span><span></span>
         </button>
 
@@ -55,10 +40,7 @@
                 Canteens
             </a>
 
-            <a
-                href="menu.html"
-                class="active"
-            >
+            <a href="menu.html" class="active">
                 Browse Cuisine
             </a>
 
@@ -67,17 +49,7 @@
     </header>
 
 
-
-    <!-- ==============================
-         MENU PAGE
-    =============================== -->
-
     <main class="menu-page">
-
-
-        <!-- ==============================
-             PAGE HEADING
-        =============================== -->
 
         <section class="menu-hero">
 
@@ -97,11 +69,6 @@
         </section>
 
 
-
-        <!-- ==============================
-             SEARCH
-        =============================== -->
-
         <section class="menu-controls">
 
             <div class="search-wrapper">
@@ -110,12 +77,7 @@
                     🔍
                 </span>
 
-                <input
-                    type="text"
-                    id="menuSearch"
-                    placeholder="Search food..."
-                    autocomplete="off"
-                >
+                <input type="text" id="menuSearch" placeholder="Search food..." autocomplete="off">
 
             </div>
 
@@ -124,69 +86,10 @@
                  CATEGORY BUTTONS
             =============================== -->
 
-            <div class="category-buttons">
+            <div class="category-buttons" id="categoryButtons">
 
-                <button
-                    class="category-btn active"
-                    data-category="all"
-                >
+                <button class="category-btn active" data-category="all">
                     All
-                </button>
-
-                <button
-                    class="category-btn"
-                    data-category="Breakfast"
-                >
-                    Breakfast
-                </button>
-
-                <button
-                    class="category-btn"
-                    data-category="South Indian"
-                >
-                    South Indian
-                </button>
-
-                <button
-                    class="category-btn"
-                    data-category="Chinese"
-                >
-                    Chinese
-                </button>
-
-                <button
-                    class="category-btn"
-                    data-category="Chapati / Paratha"
-                >
-                    Paratha
-                </button>
-
-                <button
-                    class="category-btn"
-                    data-category="Rice"
-                >
-                    Rice
-                </button>
-
-                <button
-                    class="category-btn"
-                    data-category="Sandwich"
-                >
-                    Sandwich
-                </button>
-
-                <button
-                    class="category-btn"
-                    data-category="Maggi"
-                >
-                    Maggi
-                </button>
-
-                <button
-                    class="category-btn"
-                    data-category="Beverages"
-                >
-                    Beverages
                 </button>
 
             </div>
@@ -196,11 +99,7 @@
                  CLEAR FILTERS
             =============================== -->
 
-            <button
-                id="clearFilters"
-                class="clear-button"
-                type="button"
-            >
+            <button id="clearFilters" class="clear-button" type="button">
                 Clear filters
             </button>
 
@@ -214,462 +113,9 @@
              MENU CONTAINER
         =============================== -->
 
-        <section
-            class="menu-container"
-            id="menuContainer"
-        >
+        <section class="menu-container" id="menuContainer">
 
-
-            <!-- ==============================
-                 BREAKFAST
-            =============================== -->
-
-            <div
-                class="menu-box"
-                data-category="Breakfast"
-            >
-
-                <h2>
-                    🍳 Breakfast
-                </h2>
-
-
-                <div class="menu-items">
-
-                    <div class="menu-item">
-                        <span>Poha</span>
-                        <strong>₹25</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Upma</span>
-                        <strong>₹25</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Idli Sambar</span>
-                        <strong>₹40</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Medu Vada</span>
-                        <strong>₹50</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Misal Pav</span>
-                        <strong>₹60</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Pav Bhaji</span>
-                        <strong>₹60</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Batata Vada</span>
-                        <strong>₹40</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Chole Bhature</span>
-                        <strong>₹50</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ==============================
-                 SOUTH INDIAN
-            =============================== -->
-
-            <div
-                class="menu-box"
-                data-category="South Indian"
-            >
-
-                <h2>
-                    🥞 South Indian
-                </h2>
-
-
-                <div class="menu-items">
-
-                    <div class="menu-item">
-                        <span>Plain Dosa</span>
-                        <strong>₹50</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Masala Dosa</span>
-                        <strong>₹55</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Cut Dosa</span>
-                        <strong>₹60</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Butter Dosa</span>
-                        <strong>₹65</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Paneer Dosa</span>
-                        <strong>₹85</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Cheese Dosa</span>
-                        <strong>₹85</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Mysore Dosa</span>
-                        <strong>₹75</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Plain Uttapa</span>
-                        <strong>₹55</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ==============================
-                 CHINESE
-            =============================== -->
-
-            <div
-                class="menu-box"
-                data-category="Chinese"
-            >
-
-                <h2>
-                    🍜 Chinese
-                </h2>
-
-
-                <div class="menu-items">
-
-                    <div class="menu-item">
-                        <span>Veg Fried Rice</span>
-                        <strong>₹85</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Veg Sez. Rice</span>
-                        <strong>₹95</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Veg Triple Rice</span>
-                        <strong>₹130</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Veg Hakka Noodles</span>
-                        <strong>₹95</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Veg Sez. Noodles</span>
-                        <strong>₹110</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Veg Triple Noodles</span>
-                        <strong>₹120</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ==============================
-                 CHAPATI / PARATHA
-            =============================== -->
-
-            <div
-                class="menu-box"
-                data-category="Chapati / Paratha"
-            >
-
-                <h2>
-                    🫓 Chapati / Paratha
-                </h2>
-
-
-                <div class="menu-items">
-
-                    <div class="menu-item">
-                        <span>Chapati</span>
-                        <strong>₹10</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Lachha Paratha</span>
-                        <strong>₹55</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Gobi Paratha</span>
-                        <strong>₹55</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Aloo Paratha</span>
-                        <strong>₹65</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Aloo Pyaz Paratha</span>
-                        <strong>₹70</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Paneer Paratha</span>
-                        <strong>₹70</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Veg Paratha</span>
-                        <strong>₹70</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ==============================
-                 RICE
-            =============================== -->
-
-            <div
-                class="menu-box"
-                data-category="Rice"
-            >
-
-                <h2>
-                    🍚 Rice
-                </h2>
-
-
-                <div class="menu-items">
-
-                    <div class="menu-item">
-                        <span>Veg Biryani</span>
-                        <strong>₹100</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Veg Pulao</span>
-                        <strong>₹90</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Paneer Pulao</span>
-                        <strong>₹110</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Steam Rice</span>
-                        <strong>₹50</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Jeera Rice</span>
-                        <strong>₹60</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Dal Khichdi</span>
-                        <strong>₹90</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Curd Rice</span>
-                        <strong>₹70</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ==============================
-                 SANDWICH
-            =============================== -->
-
-            <div
-                class="menu-box"
-                data-category="Sandwich"
-            >
-
-                <h2>
-                    🥪 Sandwich
-                </h2>
-
-
-                <div class="menu-items">
-
-                    <div class="menu-item">
-                        <span>Veg Sandwich</span>
-                        <strong>₹40</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Veg Cheese Sandwich</span>
-                        <strong>₹50</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Paneer Sandwich</span>
-                        <strong>₹60</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Paneer Cheese Sandwich</span>
-                        <strong>₹70</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Corn Cheese Sandwich</span>
-                        <strong>₹60</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Veg Club Sandwich</span>
-                        <strong>₹70</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Bombay Masala</span>
-                        <strong>₹50</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ==============================
-                 MAGGI
-            =============================== -->
-
-            <div
-                class="menu-box"
-                data-category="Maggi"
-            >
-
-                <h2>
-                    🍜 Maggi
-                </h2>
-
-
-                <div class="menu-items">
-
-                    <div class="menu-item">
-                        <span>Plain Maggi</span>
-                        <strong>₹40</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Masala Maggi</span>
-                        <strong>₹50</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Cheese Maggi</span>
-                        <strong>₹60</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Butter Maggi</span>
-                        <strong>₹60</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Paneer Maggi</span>
-                        <strong>₹60</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Peri Peri Maggi</span>
-                        <strong>₹60</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- ==============================
-                 BEVERAGES
-            =============================== -->
-
-            <div
-                class="menu-box"
-                data-category="Beverages"
-            >
-
-                <h2>
-                    ☕ Beverages
-                </h2>
-
-
-                <div class="menu-items">
-
-                    <div class="menu-item">
-                        <span>Cold Coffee</span>
-                        <strong>₹60</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Cold Bournvita</span>
-                        <strong>₹70</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Cold Chocolate</span>
-                        <strong>₹60</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Tea</span>
-                        <strong>₹20</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Black Tea</span>
-                        <strong>₹20</strong>
-                    </div>
-
-                    <div class="menu-item">
-                        <span>Green Tea</span>
-                        <strong>₹20</strong>
-                    </div>
-
-                </div>
-
-            </div>
-
-
+            <!-- Menu items will be dynamically inserted here -->
         </section>
 
 
@@ -677,10 +123,7 @@
              NO RESULTS MESSAGE
         =============================== -->
 
-        <div
-            id="noResults"
-            class="no-results"
-        >
+        <div id="noResults" class="no-results">
 
             <div>
                 🔍

@@ -27,3 +27,15 @@
 @import url("footer.css");
 
 @import url("responsive.css");
+
+/* =====================================================
+   WEBSITE BACKGROUND
+   ===================================================== */
+
+body {
+    background-image: url("C:\\Users\\aayus\\OneDrive\\Desktop\\gradient.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
