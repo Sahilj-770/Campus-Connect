@@ -274,3 +274,9 @@ body.dark-mode .nav-toggle {
     background: var(--glass-surface);
     border-color: var(--glass-border);
 }
+
+/* Use the same readable violet accents when these responsive helpers load. */
+.hero-button,
+.menu-button { background: linear-gradient(135deg, #6138d4, #a044df); }
+.hero-button:hover,
+.menu-button:hover { background: linear-gradient(135deg, #4b28ba, #812cc0); }

@@ -85,3 +85,10 @@
 
     font-size: 13px;
 }
+
+/* Dark translucent footer, deliberately separated from the bright wallpaper. */
+.site-footer { background-color: rgba(18, 15, 68, 0.82); }
+.footer-brand p,
+.footer-links a,
+.footer-bottom p { color: #ddd6fe; }
+.footer-bottom { border-top-color: rgba(221, 214, 254, 0.24); }

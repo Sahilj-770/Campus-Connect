@@ -157,3 +157,13 @@ nav a.active {
     .navbar nav.is-open { display: flex; }
     .navbar nav a { padding: 11px 12px; }
 }
+
+/* High-contrast glass navigation over the violet wallpaper. */
+.navbar { background-color: rgba(252, 250, 255, 0.76); border-bottom-color: rgba(255, 255, 255, 0.78); }
+nav a { color: #3f3a5d; }
+nav a:hover,
+nav a.active { background-color: rgba(225, 206, 255, 0.82); color: #4b28ba; }
+.search input,
+.nav-toggle { background: rgba(255, 255, 255, 0.78); border-color: rgba(255, 255, 255, 0.86); color: #17142f; }
+.search input:focus { border-color: #7c4ce0; }
+.theme-button:hover { background-color: rgba(193, 146, 255, 0.62); }

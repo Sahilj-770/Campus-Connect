@@ -143,3 +143,16 @@
 
     font-size: 20px;
 }
+
+/* Shared violet-glass fallback for this reusable section. */
+.featured-food,
+.food-item { background: rgba(255, 255, 255, 0.72); border-color: rgba(255, 255, 255, 0.78); }
+.food-category,
+.food-bottom span { color: #f4f4f6; }
+.featured-info h3,
+.food-bottom strong,
+.food-item h3,
+.food-item strong { color: #17142f; }
+.food-description,
+.food-item p { color: #3f3a5d; }
+.featured-icon { background: rgba(233, 213, 255, 0.68); }

@@ -316,3 +316,26 @@
         text-align: center;
     }
 }
+
+/* Violet wallpaper palette: keep the white glass bright enough for text. */
+.canteens-intro h1,
+.canteen-title h2 { color: var(--text-primary); }
+
+.canteens-intro > p:last-child,
+.canteen-content > p,
+.open-time,
+.favorite-btn { color: var(--text-secondary); }
+
+.favorite-message { color: var(--accent-orange); }
+
+.canteen-card { background: var(--glass-bg-card); }
+.canteen-card:hover { background: var(--glass-bg-card-hover); }
+
+.canteen-details span { color: var(--text-secondary); }
+
+.menu-button {
+    background: linear-gradient(135deg, #6138d4, #a044df);
+    box-shadow: 0 6px 16px rgba(73, 38, 163, 0.25);
+}
+
+.menu-button:hover { background: linear-gradient(135deg, #4b28ba, #812cc0); }

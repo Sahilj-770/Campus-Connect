@@ -270,6 +270,7 @@ body.dark-mode .home-footer p {
 
 .hero-text h1 span {
     background: linear-gradient(135deg, #ea580c 0%, #db2777 100%);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -894,3 +895,33 @@ body.dark-mode .home-footer,
 body.dark-mode .home-footer a,
 body.dark-mode .home-footer span,
 body.dark-mode .home-footer p { color: var(--muted-ink) !important; }
+
+/* Wallpaper-aligned home accents.  The right-hand Campus Pick remains a
+   darker glass panel so white menu text stays readable over the image. */
+.nav-action,
+.primary-button {
+    background: linear-gradient(135deg, #d9442e, #a044df);
+    box-shadow: 0 12px 24px rgba(73, 38, 163, 0.32);
+}
+
+.nav-action:hover,
+.primary-button:hover {
+    background: linear-gradient(135deg, #de2911, #9f0ac8);
+    border-color: #0f172a;
+    border-width: 2px;
+}
+
+.hero-card-area {
+    background: linear-gradient(145deg, rgba(18, 15, 68, 0.88), rgba(245, 245, 246, 0.76));
+    border-color: rgba(202, 22, 16, 0.34);
+    box-shadow: 0 25px 60px rgba(16, 8, 54, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.hero-card-area::before {
+    background: radial-gradient(circle, rgba(223, 58, 58, 0.6) 0%, rgba(253, 55, 1, 0.2) 70%, transparent 100%);
+}
+
+.floating-label,
+.food-card-info span { color: #e9d5ff; }
+
+.second-card .food-card-info span { color: #bbf7d0; }

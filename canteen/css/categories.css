@@ -97,3 +97,12 @@
 
     font-size: 14px;
 }
+
+/* Shared violet-glass fallback for this reusable section. */
+.category-heading p { color: #6138d4; }
+.category-heading h2,
+.category-card h3 { color: #17142f; }
+.category-heading span,
+.category-card p { color: #3f3a5d; }
+.category-card { background: rgba(255, 255, 255, 0.72); border-color: rgba(255, 255, 255, 0.78); }
+.category-icon { background: rgba(233, 213, 255, 0.68); }

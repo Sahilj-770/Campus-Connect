@@ -126,11 +126,11 @@ body.dark-mode .nav-toggle span {
 
 body {
     color: var(--ink);
-    background:
-        radial-gradient(circle at 12% 14%, rgba(165, 204, 255, 0.75), transparent 29rem),
-        radial-gradient(circle at 88% 8%, rgba(240, 173, 232, 0.64), transparent 27rem),
-        radial-gradient(circle at 56% 92%, rgba(165, 230, 215, 0.58), transparent 32rem),
-        linear-gradient(135deg, #e9efff 0%, #f7edff 48%, #e6faf5 100%);
+    background-color: #21105d;
+    background-image: url("../gradient.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     background-attachment: fixed;
 }
 

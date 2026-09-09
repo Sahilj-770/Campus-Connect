@@ -346,3 +346,27 @@
         padding: 20px;
     }
 }
+
+/* Violet wallpaper palette with high-contrast translucent surfaces. */
+.menu-page { background: var(--glass-bg-canvas); }
+.menu-hero h1,
+.menu-box h2,
+.item-info span,
+.no-results h2 { color: var(--text-primary); }
+
+.menu-hero p:last-child,
+.result-summary,
+.item-info small,
+.no-results p { color: var(--text-secondary); }
+
+.menu-controls,
+.menu-box,
+.menu-item { background: var(--glass-bg-card); }
+
+.category-btn.active {
+    background: linear-gradient(135deg, #6138d4, #8d42db);
+    border-color: rgba(255, 255, 255, 0.72);
+}
+
+.clear-button,
+.item-right strong { color: var(--accent-orange); }

@@ -173,3 +173,18 @@
 
     font-size: 15px;
 }
+
+/* Shared violet-glass fallback for the legacy hero. */
+.hero,
+.hero-preview,
+.food-preview { background-color: rgba(255, 255, 255, 0.72); border-color: rgba(255, 255, 255, 0.78); }
+.hero-tag { color: #f6f6f7; }
+.hero h1,
+.preview-title,
+.food-preview h3,
+.food-preview strong { color: #17142f; }
+.hero-text,
+.food-preview p { color: #3f3a5d; }
+.hero-button { background-color: #fefeff; }
+.hero-button:hover { background-color: #4b28ba; }
+.food-icon { background-color: rgba(233, 213, 255, 0.68); }

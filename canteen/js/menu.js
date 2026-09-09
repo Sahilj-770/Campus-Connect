@@ -2,47 +2,43 @@
 // CAMPUS BITES - MENU JAVASCRIPT
 // =====================================================
 
-
-// =====================================================
+// -----------------------------------------------------
 // 1. SELECT HTML ELEMENTS
-// =====================================================
+// -----------------------------------------------------
 
 const canteenTitle = document.querySelector("#canteenTitle");
-
 const menuContainer = document.querySelector("#menuContainer");
-
 const searchInput = document.querySelector("#menuSearch");
-
 const categoryButtonsContainer =
     document.querySelector(".category-buttons");
-
-const clearFilters =
-    document.querySelector("#clearFilters");
-
-const noResults =
-    document.querySelector("#noResults");
-
-const resultSummary =
-    document.querySelector("#resultSummary");
+const clearFilters = document.querySelector("#clearFilters");
+const noResults = document.querySelector("#noResults");
+const resultSummary = document.querySelector("#resultSummary");
 
 
-// =====================================================
+// -----------------------------------------------------
 // 2. GET CANTEEN FROM URL
-// =====================================================
-
-// Example:
-// menu.html?canteen=cafeteria
+// -----------------------------------------------------
 
 const urlParams = new URLSearchParams(window.location.search);
 
-const selectedCanteen = urlParams.get("canteen");
-
-console.log("Selected canteen:", selectedCanteen);
+let selectedCanteen = urlParams.get("canteen");
 
 
-// =====================================================
-// 3. CANTEEN NAME
-// =====================================================
+// -----------------------------------------------------
+// 3. DEFAULT CANTEEN
+// -----------------------------------------------------
+// If someone opens menu.html directly,
+// show Cafeteria instead of showing an error.
+
+if (!selectedCanteen) {
+    selectedCanteen = "cafeteria";
+}
+
+
+// -----------------------------------------------------
+// 4. CANTEEN NAMES
+// -----------------------------------------------------
 
 const canteenNames = {
     cafeteria: "Cafeteria Menu",
@@ -50,203 +46,123 @@ const canteenNames = {
     nescafe: "Nescafe Menu"
 };
 
-if (canteenNames[selectedCanteen]) {
-
-    canteenTitle.textContent =
-        canteenNames[selectedCanteen];
-
-} else {
-
-    canteenTitle.textContent = "Campus Menu";
-}
+canteenTitle.textContent =
+    canteenNames[selectedCanteen] || "Campus Menu";
 
 
-// =====================================================
-// 4. VARIABLES FOR MENU DATA
-// =====================================================
-
-// This array will contain the data
-// received from MySQL.
+// -----------------------------------------------------
+// 5. MENU DATA
+// -----------------------------------------------------
 
 let menuData = [];
-
-
-// This stores the currently selected category.
-
 let selectedCategory = "all";
 
 
-// =====================================================
-// 5. CATEGORY ICONS
-// =====================================================
-
-// These icons are only for visual appearance.
+// -----------------------------------------------------
+// 6. CATEGORY ICONS
+// -----------------------------------------------------
 
 const categoryIcons = {
-
     "Breakfast": "🍳",
-
     "South Indian": "🥞",
-
     "Chinese": "🍜",
-
     "Chapati / Paratha": "🫓",
-
     "Rice": "🍚",
-
     "Sandwich": "🥪",
-
     "Maggi": "🍜",
-
     "Beverages": "☕",
-
     "Pasta": "🍝",
-
     "Thali": "🍛",
-
     "Chat": "🥟"
-
 };
 
 
-// =====================================================
-// 6. FETCH MENU FROM BACKEND
-// =====================================================
+// -----------------------------------------------------
+// 7. LOAD MENU FROM DATABASE
+// -----------------------------------------------------
 
 function loadMenu() {
 
-    // Check whether a canteen was selected.
-
-    if (!selectedCanteen) {
-
-        showError("Please select a canteen first.");
-
-        return;
-    }
-
-
-    // API URL
-
     const apiURL =
-        "http://localhost:3000/api/menu/"
-        + selectedCanteen;
+        "http://localhost:3000/api/menu/" + selectedCanteen;
 
-
-    console.log("Fetching menu from:", apiURL);
-
-
-    // Fetch data from Express backend.
+    console.log("Loading:", apiURL);
 
     fetch(apiURL)
 
         .then(function(response) {
 
-            // Check whether server responded successfully.
-
             if (!response.ok) {
-
-                throw new Error(
-                    "Server returned an error."
-                );
+                throw new Error("Server error");
             }
 
-            // Convert response into JavaScript data.
-
             return response.json();
-
         })
 
         .then(function(data) {
 
-            console.log("Menu received from database:");
-            console.log(data);
-
-
-            // Check if backend returned an error.
+            console.log("Database data:", data);
 
             if (data.error) {
-
                 throw new Error(data.error);
             }
 
-
-            // Store database data.
-
             menuData = data;
-
-
-            // Create category buttons.
 
             createCategoryButtons();
 
-
-            // Display menu.
-
             displayMenu();
-
-
         })
 
         .catch(function(error) {
 
-            console.log("Menu loading error:", error);
+            console.error("Menu loading error:", error);
 
             showError(
-                "Unable to load menu. Make sure the backend is running."
+                "Unable to load menu. Make sure the backend server is running."
             );
-
         });
 }
 
 
-// =====================================================
-// 7. CREATE CATEGORY BUTTONS
-// =====================================================
+// -----------------------------------------------------
+// 8. CREATE CATEGORY BUTTONS
+// -----------------------------------------------------
 
 function createCategoryButtons() {
 
-    // Remove existing buttons.
-
     categoryButtonsContainer.innerHTML = "";
 
-
-    // Create ALL button.
+    // ALL BUTTON
 
     const allButton = document.createElement("button");
 
-    allButton.classList.add(
-        "category-btn",
-        "active"
-    );
+    allButton.classList.add("category-btn", "active");
 
     allButton.dataset.category = "all";
 
     allButton.textContent = "All";
 
-
     categoryButtonsContainer.appendChild(allButton);
 
 
-    // Get unique categories from database.
+    // GET UNIQUE CATEGORIES
 
     const categories = [];
 
-
     menuData.forEach(function(item) {
 
-        if (!categories.includes(item.category)) {
-
+        if (
+            item.category &&
+            !categories.includes(item.category)
+        ) {
             categories.push(item.category);
-
         }
 
     });
 
 
-    console.log("Categories:", categories);
-
-
-    // Create a button for every category.
+    // CREATE CATEGORY BUTTONS
 
     categories.forEach(function(category) {
 
@@ -256,23 +172,18 @@ function createCategoryButtons() {
 
         button.dataset.category = category;
 
-
-        // Get icon for category.
-
         const icon =
             categoryIcons[category] || "🍽️";
 
-
         button.textContent =
             icon + " " + category;
-
 
         categoryButtonsContainer.appendChild(button);
 
     });
 
 
-    // Add click events.
+    // BUTTON EVENTS
 
     const categoryButtons =
         document.querySelectorAll(".category-btn");
@@ -280,105 +191,77 @@ function createCategoryButtons() {
 
     categoryButtons.forEach(function(button) {
 
-        button.addEventListener(
-            "click",
-            function() {
+        button.addEventListener("click", function() {
 
-                // Store selected category.
-
-                selectedCategory =
-                    button.dataset.category;
+            selectedCategory =
+                button.dataset.category;
 
 
-                // Remove active from all buttons.
+            categoryButtons.forEach(function(btn) {
 
-                categoryButtons.forEach(
-                    function(btn) {
+                btn.classList.remove("active");
 
-                        btn.classList.remove("active");
-
-                    }
-                );
+            });
 
 
-                // Add active to clicked button.
+            button.classList.add("active");
 
-                button.classList.add("active");
+            displayMenu();
 
-
-                // Display filtered menu.
-
-                displayMenu();
-
-            }
-        );
+        });
 
     });
+
 }
 
 
-// =====================================================
-// 8. DISPLAY MENU
-// =====================================================
+// -----------------------------------------------------
+// 9. DISPLAY MENU
+// -----------------------------------------------------
 
 function displayMenu() {
 
-    // Remove previous menu.
-
     menuContainer.innerHTML = "";
 
-
-    // Get search text.
-
     const searchText =
-        searchInput.value
-            .toLowerCase()
-            .trim();
+        searchInput.value.toLowerCase().trim();
 
 
-    // Filter menu items.
+    // FILTER ITEMS
 
     const filteredItems =
         menuData.filter(function(item) {
 
-
-            // Check category.
-
             const categoryMatches =
-                selectedCategory === "all"
-                ||
+                selectedCategory === "all" ||
                 item.category === selectedCategory;
 
 
-            // Check search.
-
             const nameMatches =
+                item.item_name &&
                 item.item_name
                     .toLowerCase()
                     .includes(searchText);
 
 
             const descriptionMatches =
-                item.description
-                    &&
+                item.description &&
                 item.description
                     .toLowerCase()
                     .includes(searchText);
 
 
             const categorySearchMatches =
+                item.category &&
                 item.category
                     .toLowerCase()
                     .includes(searchText);
 
 
             const searchMatches =
-                searchText === ""
-                ||
-                nameMatches
-                ||
-                descriptionMatches
-                ||
+                searchText === "" ||
+                nameMatches ||
+                descriptionMatches ||
                 categorySearchMatches;
 
 
@@ -387,15 +270,9 @@ function displayMenu() {
         });
 
 
-    console.log(
-        "Filtered items:",
-        filteredItems
-    );
-
-
-    // =================================================
+    // -------------------------------------------------
     // NO RESULTS
-    // =================================================
+    // -------------------------------------------------
 
     if (filteredItems.length === 0) {
 
@@ -405,18 +282,15 @@ function displayMenu() {
             "No menu items found.";
 
         return;
-
     }
 
-
-    // Hide no-results message.
 
     noResults.style.display = "none";
 
 
-    // =================================================
+    // -------------------------------------------------
     // GROUP ITEMS BY CATEGORY
-    // =================================================
+    // -------------------------------------------------
 
     const groupedMenu = {};
 
@@ -434,225 +308,171 @@ function displayMenu() {
     });
 
 
-    // =================================================
-    // CREATE CATEGORY BOXES
-    // =================================================
+    // -------------------------------------------------
+    // CREATE MENU BOXES
+    // -------------------------------------------------
 
-    Object.keys(groupedMenu).forEach(
-        function(category) {
+    Object.keys(groupedMenu).forEach(function(category) {
+
+        const menuBox =
+            document.createElement("div");
+
+        menuBox.classList.add("menu-box");
 
 
-            // Create category box.
+        // CATEGORY HEADING
 
-            const menuBox =
+        const heading =
+            document.createElement("h2");
+
+        const icon =
+            categoryIcons[category] || "🍽️";
+
+        heading.textContent =
+            icon + " " + category;
+
+        menuBox.appendChild(heading);
+
+
+        // ITEMS CONTAINER
+
+        const itemsContainer =
+            document.createElement("div");
+
+        itemsContainer.classList.add("menu-items");
+
+
+        // CREATE EACH ITEM
+
+        groupedMenu[category].forEach(function(item) {
+
+            const menuItem =
                 document.createElement("div");
 
-            menuBox.classList.add("menu-box");
-
-            menuBox.dataset.category =
-                category;
+            menuItem.classList.add("menu-item");
 
 
-            // Create heading.
+            // ITEM INFORMATION
 
-            const heading =
-                document.createElement("h2");
-
-
-            const icon =
-                categoryIcons[category]
-                || "🍽️";
-
-
-            heading.textContent =
-                icon + " " + category;
-
-
-            menuBox.appendChild(heading);
-
-
-            // Create items container.
-
-            const itemsContainer =
+            const itemInfo =
                 document.createElement("div");
 
-            itemsContainer.classList.add(
-                "menu-items"
-            );
+            itemInfo.classList.add("item-info");
 
 
-            // =================================================
-            // CREATE EACH MENU ITEM
-            // =================================================
+            const itemName =
+                document.createElement("span");
 
-            groupedMenu[category].forEach(
-                function(item) {
+            itemName.textContent =
+                item.item_name;
 
-
-                    // Create menu item.
-
-                    const menuItem =
-                        document.createElement("div");
-
-                    menuItem.classList.add(
-                        "menu-item"
-                    );
+            itemInfo.appendChild(itemName);
 
 
-                    // =================================================
-                    // ITEM INFORMATION
-                    // =================================================
+            // DESCRIPTION
 
-                    const itemInfo =
-                        document.createElement("div");
+            if (item.description) {
 
-                    itemInfo.classList.add(
-                        "item-info"
-                    );
+                const description =
+                    document.createElement("small");
 
+                description.textContent =
+                    item.description;
 
-                    // Item name.
+                itemInfo.appendChild(description);
 
-                    const itemName =
-                        document.createElement("span");
-
-                    itemName.textContent =
-                        item.item_name;
+            }
 
 
-                    itemInfo.appendChild(itemName);
+            // RIGHT SIDE
+
+            const itemRight =
+                document.createElement("div");
+
+            itemRight.classList.add("item-right");
 
 
-                    // Description.
+            // PRICE
 
-                    if (item.description) {
+            const price =
+                document.createElement("strong");
 
-                        const description =
-                            document.createElement("small");
+            price.textContent =
+                "₹" + Number(item.price);
 
-                        description.textContent =
-                            item.description;
-
-
-                        itemInfo.appendChild(
-                            description
-                        );
-
-                    }
+            itemRight.appendChild(price);
 
 
-                    // =================================================
-                    // RIGHT SIDE
-                    // =================================================
+            // AVAILABILITY
 
-                    const itemRight =
-                        document.createElement("div");
+            if (item.availability) {
 
-                    itemRight.classList.add(
-                        "item-right"
-                    );
+                const availability =
+                    document.createElement("small");
 
+                availability.textContent =
+                    item.availability;
 
-                    // Price.
-
-                    const price =
-                        document.createElement("strong");
-
-                    price.textContent =
-                        "₹" + Number(item.price);
+                availability.classList.add(
+                    "availability"
+                );
 
 
-                    itemRight.appendChild(price);
+                if (
+                    item.availability
+                        .toLowerCase()
+                        .includes("not")
+                ) {
 
-
-                    // =================================================
-                    // AVAILABILITY
-                    // =================================================
-
-                    if (item.availability) {
-
-                        const availability =
-                            document.createElement("small");
-
-
-                        availability.textContent =
-                            item.availability;
-
-
-                        availability.classList.add(
-                            "availability"
-                        );
-
-
-                        if (
-                            item.availability
-                                .toLowerCase()
-                                .includes("not")
-                        ) {
-
-                            availability.classList.add(
-                                "unavailable"
-                            );
-
-                        }
-
-                        itemRight.appendChild(
-                            availability
-                        );
-
-                    }
-
-
-                    // Add right side.
-
-                    menuItem.appendChild(itemInfo);
-
-                    menuItem.appendChild(itemRight);
-
-
-                    // Add item to category.
-
-                    itemsContainer.appendChild(
-                        menuItem
+                    availability.classList.add(
+                        "unavailable"
                     );
 
                 }
-            );
+
+                itemRight.appendChild(
+                    availability
+                );
+
+            }
 
 
-            // Add items container.
+            // ADD EVERYTHING
 
-            menuBox.appendChild(
-                itemsContainer
-            );
+            menuItem.appendChild(itemInfo);
 
+            menuItem.appendChild(itemRight);
 
-            // Add category box to page.
+            itemsContainer.appendChild(menuItem);
 
-            menuContainer.appendChild(
-                menuBox
-            );
-
-        }
-    );
+        });
 
 
-    // =================================================
+        menuBox.appendChild(itemsContainer);
+
+        menuContainer.appendChild(menuBox);
+
+    });
+
+
+    // -------------------------------------------------
     // RESULT COUNT
-    // =================================================
+    // -------------------------------------------------
 
     resultSummary.textContent =
-        filteredItems.length
-        + " menu item"
-        + (filteredItems.length === 1 ? "" : "s")
-        + " found.";
+        filteredItems.length +
+        " menu item" +
+        (filteredItems.length === 1
+            ? ""
+            : "s") +
+        " found.";
 
 }
 
 
-// =====================================================
-// 9. SEARCH FUNCTION
-// =====================================================
+// -----------------------------------------------------
+// 10. SEARCH
+// -----------------------------------------------------
 
 searchInput.addEventListener(
     "input",
@@ -664,26 +484,18 @@ searchInput.addEventListener(
 );
 
 
-// =====================================================
-// 10. CLEAR FILTERS
-// =====================================================
+// -----------------------------------------------------
+// 11. CLEAR FILTERS
+// -----------------------------------------------------
 
 clearFilters.addEventListener(
     "click",
     function() {
 
-
-        // Clear search box.
-
         searchInput.value = "";
-
-
-        // Reset category.
 
         selectedCategory = "all";
 
-
-        // Reset active button.
 
         const categoryButtons =
             document.querySelectorAll(
@@ -715,29 +527,25 @@ clearFilters.addEventListener(
         }
 
 
-        // Display complete menu.
-
         displayMenu();
 
     }
 );
 
 
-// =====================================================
-// 11. SHOW ERROR
-// =====================================================
+// -----------------------------------------------------
+// 12. ERROR MESSAGE
+// -----------------------------------------------------
 
 function showError(message) {
 
     menuContainer.innerHTML = "";
-
 
     noResults.style.display = "block";
 
 
     const heading =
         noResults.querySelector("h2");
-
 
     const paragraph =
         noResults.querySelector("p");
@@ -761,8 +569,8 @@ function showError(message) {
 }
 
 
-// =====================================================
-// 12. START THE APPLICATION
-// =====================================================
+// -----------------------------------------------------
+// 13. START
+// -----------------------------------------------------
 
 loadMenu();
