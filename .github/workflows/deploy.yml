@@ -1,0 +1,170 @@
+name: Deploy Project
+
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_id:
+        description: 'Deployment ID'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install and build
+        run: |
+          set -e
+
+          # Detect package manager
+          if [ -f "bun.lockb" ] || [ -f "bun.lock" ]; then
+            PKG_MGR="bun"
+          elif [ -f "pnpm-lock.yaml" ]; then
+            PKG_MGR="pnpm"
+            npm install -g pnpm
+          elif [ -f "yarn.lock" ]; then
+            PKG_MGR="yarn"
+          else
+            PKG_MGR="npm"
+          fi
+          echo "Using package manager: $PKG_MGR"
+
+          IS_TURBO=false
+          if [ -f "turbo.json" ] || grep -q '"turbo"' package.json 2>/dev/null; then
+            IS_TURBO=true
+            echo "Turborepo detected, installing turbo globally..."
+            npm install -g turbo
+          fi
+
+          if [ "$PKG_MGR" = "bun" ]; then bun install
+          elif [ "$PKG_MGR" = "pnpm" ]; then pnpm install --frozen-lockfile
+          elif [ "$PKG_MGR" = "yarn" ]; then yarn install --frozen-lockfile
+          else npm install
+          fi
+
+          if grep -q '"react-scripts"' package.json 2>/dev/null; then
+            node -e "
+              const fs = require('fs');
+              const pkg = JSON.parse(fs.readFileSync('package.json'));
+              pkg.homepage = '.';
+              fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2));
+              console.log('Set homepage for CRA');
+            "
+          fi
+
+          for cfg in next.config.js next.config.ts next.config.mjs apps/web/next.config.js apps/web/next.config.ts apps/web/next.config.mjs; do
+            if [ -f "$cfg" ]; then
+              if ! grep -q "output" "$cfg"; then
+                node -e "
+                  const fs = require('fs');
+                  let c = fs.readFileSync('$cfg', 'utf8');
+                  c = c.replace(/const nextConfig[^=]*=s*{/, 'const nextConfig = { output: "export", trailingSlash: true,');
+                  fs.writeFileSync('$cfg', c);
+                  console.log('Patched ' + '$cfg' + ' for static export');
+                " 2>/dev/null || true
+              fi
+            fi
+          done
+
+          if [ "$IS_TURBO" = "true" ]; then
+            echo "Building with turbo --filter=web..."
+            if [ "$PKG_MGR" = "pnpm" ]; then
+              pnpm exec turbo run build --filter=web...
+            elif [ "$PKG_MGR" = "bun" ]; then
+              npx turbo run build --filter=web...
+            elif [ "$PKG_MGR" = "yarn" ]; then
+              npx turbo run build --filter=web...
+            else
+              npx turbo run build --filter=web...
+            fi
+          else
+            echo "Building normally..."
+            if [ "$PKG_MGR" = "bun" ]; then bun run build
+            elif [ "$PKG_MGR" = "pnpm" ]; then pnpm run build
+            elif [ "$PKG_MGR" = "yarn" ]; then yarn build
+            else npm run build
+            fi
+          fi
+        env:
+          CI: false
+
+      - name: Find build output and fix paths
+        run: |
+          echo "=== Searching for build output ==="
+          echo "Root contents:"
+          ls -la
+
+          echo "apps/ contents:"
+          ls -la apps/ 2>/dev/null || echo "no apps/ dir"
+
+          echo "apps/web/ contents:"
+          ls -la apps/web/ 2>/dev/null || echo "no apps/web/ dir"
+
+          BUILD_DIR=""
+          for dir in apps/web/out apps/web/dist apps/web/build apps/web/.next out dist build; do
+            if [ -d "$dir" ]; then
+              BUILD_DIR="$dir"
+              echo "Found build dir: $BUILD_DIR"
+              break
+            fi
+          done
+
+          if [ -z "$BUILD_DIR" ]; then
+            echo "Fallback: searching for index.html under apps/..."
+            FOUND=$(find apps -name "index.html" -not -path "*/node_modules/*" 2>/dev/null | head -1)
+            if [ -n "$FOUND" ]; then
+              BUILD_DIR=$(dirname "$FOUND")
+              echo "Found via index.html search: $BUILD_DIR"
+            fi
+          fi
+
+          if [ -z "$BUILD_DIR" ]; then
+            echo "ERROR: No build output directory found."
+            exit 1
+          fi
+
+          echo "BUILD_DIR=$BUILD_DIR" >> $GITHUB_ENV
+
+          if [ -f "$BUILD_DIR/index.html" ]; then
+            sed -i 's|href="/|href="./|g' "$BUILD_DIR/index.html"
+            sed -i 's|src="/|src="./|g' "$BUILD_DIR/index.html"
+            echo "Fixed asset paths in index.html"
+          fi
+
+      - name: Upload build
+        run: |
+          DEPLOYMENT_ID="b596d697-6411-44f4-989f-b72e69f0804d"
+          BUILD_DIR="$BUILD_DIR"
+
+          echo "Uploading from: $BUILD_DIR"
+          SUCCESS=0
+          FAIL=0
+
+          find "$BUILD_DIR" -type f | while read file; do
+            REL_PATH="${file#$BUILD_DIR/}"
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X POST https://scalone.vedantchavare04.workers.dev/upload \
+              -F "file=@$file" \
+              -F "path=$REL_PATH" \
+              -F "deploymentId=$DEPLOYMENT_ID")
+            if [ "$HTTP_CODE" = "200" ]; then
+              SUCCESS=$((SUCCESS+1))
+            else
+              FAIL=$((FAIL+1))
+              echo "Failed: $REL_PATH (HTTP $HTTP_CODE)"
+            fi
+          done
+
+          echo "Done: $SUCCESS uploaded, $FAIL failed"
+          echo "URL: https://scalone.vedantchavare04.workers.dev/deployments/$DEPLOYMENT_ID/"
