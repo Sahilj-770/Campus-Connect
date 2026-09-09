@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Browse Items - Campus Lost & Found</title>
+
+    <link rel="stylesheet" href="lost.css">
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+
+        <div class="logo">
+            🎓 Campus Lost & Found
+        </div>
+
+        <nav>
+            <a href="lost.html">Home</a>
+            <a href="lost-items.html">Lost Items</a>
+            <a href="found-items.html">Found Items</a>
+            <a href="browse.html">Browse Items</a>
+        </nav>
+
+        <a href="lost.html#report" class="login-btn">
+            Report Item →
+        </a>
+
+    </header>
+
+
+    <!-- Browse Items Section -->
+    <section class="items-page">
+
+        <div class="items-heading">
+
+            <p class="small-heading">BROWSE ITEMS</p>
+
+            <h1>Find an <span>Item</span></h1>
+
+            <p>
+                Search through lost and found items reported by students on campus.
+            </p>
+
+        </div>
+
+
+        <!-- Search and Filter -->
+        <div class="browse-controls">
+
+            <input
+                type="text"
+                id="browseSearch"
+                placeholder="Search for an item..."
+            >
+
+            <select id="statusFilter">
+
+                <option value="all">All Items</option>
+                <option value="lost">Lost Items</option>
+                <option value="found">Found Items</option>
+
+            </select>
+
+            <button id="browseButton">
+                Search
+            </button>
+
+        </div>
+
+
+        <!-- Items -->
+        <div class="items-grid">
+
+            <!-- Lost Item -->
+            <div class="item-card" data-status="lost">
+
+                <div class="item-image">
+                    🎧
+                </div>
+
+                <h3>Wireless Earphones</h3>
+
+                <p>Lost near the college library.</p>
+
+                <p><strong>Status:</strong> Lost</p>
+
+                <p><strong>Location:</strong> Library</p>
+
+                <button class="view-details" data-name="Wireless Earphones" data-status="Lost" data-location="Library">View Details</button>
+
+            </div>
+
+
+            <!-- Found Item -->
+            <div class="item-card" data-status="found">
+
+                <div class="item-image">
+                    🎒
+                </div>
+
+                <h3>Black Backpack</h3>
+
+                <p>Black backpack found near the main gate.</p>
+
+                <p><strong>Status:</strong> Found</p>
+
+                <p><strong>Location:</strong> Main Gate</p>
+
+                <button class="view-details" data-name="Black Backpack" data-status="Found" data-location="Main Gate">View Details</button>
+
+            </div>
+
+
+            <!-- Lost Item -->
+            <div class="item-card" data-status="lost">
+
+                <div class="item-image">
+                    📱
+                </div>
+
+                <h3>Mobile Phone</h3>
+
+                <p>Black mobile phone with a blue cover.</p>
+
+                <p><strong>Status:</strong> Lost</p>
+
+                <p><strong>Location:</strong> Classroom 204</p>
+
+                <button class="view-details" data-name="Mobile Phone" data-status="Lost" data-location="Classroom 204">View Details</button>
+
+            </div>
+
+
+            <!-- Found Item -->
+            <div class="item-card" data-status="found">
+
+                <div class="item-image">
+                    💳
+                </div>
+
+                <h3>Wallet</h3>
+
+                <p>Brown wallet found near the college canteen.</p>
+
+                <p><strong>Status:</strong> Found</p>
+
+                <p><strong>Location:</strong> Canteen</p>
+
+                <button class="view-details" data-name="Wallet" data-status="Found" data-location="Canteen">View Details</button>
+
+            </div>
+
+
+            <!-- Lost Item -->
+            <div class="item-card" data-status="lost">
+
+                <div class="item-image">
+                    🔑
+                </div>
+
+                <h3>Keychain</h3>
+
+                <p>Small black keychain with two keys.</p>
+
+                <p><strong>Status:</strong> Lost</p>
+
+                <p><strong>Location:</strong> Canteen</p>
+
+                <button class="view-details" data-name="Keychain" data-status="Lost" data-location="Canteen">View Details</button>
+
+            </div>
+
+
+            <!-- Found Item -->
+            <div class="item-card" data-status="found">
+
+                <div class="item-image">
+                    📓
+                </div>
+
+                <h3>Notebook</h3>
+
+                <p>Green notebook found inside a classroom.</p>
+
+                <p><strong>Status:</strong> Found</p>
+
+                <p><strong>Location:</strong> Classroom 105</p>
+
+                <button class="view-details" data-name="Notebook" data-status="Found" data-location="Classroom 105">View Details</button>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>© 2026 Campus Lost & Found</p>
+
+    </footer>
+<script src="lost.js"></script>
+</body>
+
+</html>
