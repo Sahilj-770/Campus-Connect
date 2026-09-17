@@ -5,11 +5,15 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-    <title>Menu | Campus Bites</title>
+    <title>Campus Bites - Browse Cuisine</title>
 
+    <!-- Main CSS -->
     <link rel="stylesheet" href="css/main.css">
+
+    <!-- Menu CSS -->
     <link rel="stylesheet" href="css/menu.css">
 
 </head>
@@ -17,166 +21,280 @@
 
 <body>
 
-    <header class="navbar">
 
-        <a href="index.html" class="logo">
+<!-- =====================================================
+     NAVBAR
+     ===================================================== -->
 
-            <span class="logo-icon">
-                🍽️
-            </span>
+<header class="navbar">
 
-            <span>
-                Campus Bites
-            </span>
+    <a href="index.html" class="logo">
 
+        <span class="logo-icon">🍽️</span>
+
+        <span>
+            Campus <span class="logo-highlight">Bites</span>
+        </span>
+
+    </a>
+
+
+    <nav>
+
+        <a href="index.html">
+            Home
         </a>
 
+        <a href="canteens.html">
+            Canteens
+        </a>
 
-        <button class="nav-toggle" type="button" aria-label="Open navigation" aria-controls="primaryNav"
-            aria-expanded="false">
-            <span></span><span></span><span></span>
-        </button>
+        <a href="menu.html" class="active">
+            Browse Cuisine
+        </a>
 
-        <nav id="primaryNav">
-
-            <a href="index.html">
-                Home
-            </a>
-
-            <a href="canteens.html">
-                Canteens
-            </a>
-
-            <a href="menu.html" class="active">
-                Browse Cuisine
-            </a>
-
-        </nav>
-
-    </header>
+    </nav>
 
 
-    <main class="menu-page">
+    <div class="cart-icon">
+        🛒
+        <span class="cart-count">0</span>
+    </div>
 
-        <section class="menu-hero">
-
-            <p class="eyebrow">
-                CAMPUS FOOD
-            </p>
-
-            <h1 id="canteenTitle">
-                Campus Menu
-            </h1>
-
-            <p>
-                Find something delicious for your
-                next lecture break.
-            </p>
-
-        </section>
+</header>
 
 
-        <section class="menu-controls">
 
-            <div class="search-wrapper">
+<!-- =====================================================
+     HERO
+     ===================================================== -->
 
-                <span>
-                    🔍
-                </span>
+<section class="menu-hero">
 
-                <input type="text" id="menuSearch" placeholder="Search food..." autocomplete="off">
+    <div class="menu-hero-content">
+
+        <p class="hero-small-text">
+            Good Food • Great Vibes
+        </p>
+
+
+        <h1>
+            All Campus
+            <span>Menus</span>
+        </h1>
+
+
+        <p class="hero-description">
+            Explore delicious options from all three canteens.
+            Find your next favourite!
+        </p>
+
+
+        <div class="hero-search">
+
+            <span>⌕</span>
+
+            <input
+                type="text"
+                id="menuSearch"
+                placeholder="Search for dishes..."
+            >
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     MAIN MENU AREA
+     ===================================================== -->
+
+<main class="menu-layout">
+
+
+    <!-- =================================================
+         SIDEBAR
+         ================================================= -->
+
+    <aside class="menu-sidebar">
+
+
+        <!-- CANTEENS -->
+
+        <div class="sidebar-section">
+
+            <div class="sidebar-heading">
+
+                <h3>🏪 Canteens</h3>
 
             </div>
 
 
-            <!-- ==============================
-                 CATEGORY BUTTONS
-            =============================== -->
+            <button
+                class="canteen-filter active"
+                data-canteen="all">
 
-            <div class="category-buttons" id="categoryButtons">
+                <span class="radio"></span>
 
-                <button class="category-btn active" data-category="all">
-                    All
-                </button>
+                <span>All Canteens</span>
 
-            </div>
-
-
-            <!-- ==============================
-                 CLEAR FILTERS
-            =============================== -->
-
-            <button id="clearFilters" class="clear-button" type="button">
-                Clear filters
             </button>
 
-            <p class="result-summary" id="resultSummary" aria-live="polite"></p>
 
-        </section>
+            <button
+                class="canteen-filter"
+                data-canteen="cafeteria">
 
+                <span class="radio"></span>
 
+                <span>🍴 Cafeteria</span>
 
-        <!-- ==============================
-             MENU CONTAINER
-        =============================== -->
-
-        <section class="menu-container" id="menuContainer">
-
-            <!-- Menu items will be dynamically inserted here -->
-        </section>
+            </button>
 
 
-        <!-- ==============================
-             NO RESULTS MESSAGE
-        =============================== -->
+            <button
+                class="canteen-filter"
+                data-canteen="timeless">
 
-        <div id="noResults" class="no-results">
+                <span class="radio"></span>
+
+                <span>☕ Timeless</span>
+
+            </button>
+
+
+            <button
+                class="canteen-filter"
+                data-canteen="nescafe">
+
+                <span class="radio"></span>
+
+                <span>🥤 Nescafe</span>
+
+            </button>
+
+        </div>
+
+
+
+        <!-- CATEGORY -->
+
+        <div class="sidebar-section">
+
+            <div class="sidebar-heading">
+
+                <h3>Categories</h3>
+
+            </div>
+
+
+            <div
+                class="category-buttons"
+                id="categoryButtons">
+
+            </div>
+
+        </div>
+
+
+
+        <!-- CLEAR -->
+
+        <button
+            id="clearFilters"
+            class="clear-filters">
+
+            ⌕ &nbsp; Clear filters
+
+        </button>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         MENU CONTENT
+         ================================================= -->
+
+    <section class="menu-content">
+
+
+        <!-- RESULT HEADER -->
+
+        <div class="menu-result-header">
 
             <div>
+
+                <h2 id="canteenTitle">
+                    Showing all items from
+                    <span>3 canteens</span>
+                </h2>
+
+
+                <p id="resultSummary">
+                    Loading menu items...
+                </p>
+
+            </div>
+
+
+            <div class="sort-box">
+
+                ↕ &nbsp;
+                Sort by:
+                <strong>Popularity</strong>
+
+                ˅
+
+            </div>
+
+        </div>
+
+
+
+        <!-- MENU ITEMS -->
+
+        <div id="menuContainer">
+
+        </div>
+
+
+
+        <!-- NO RESULTS -->
+
+        <div
+            id="noResults"
+            class="no-results"
+            style="display: none;">
+
+            <div class="no-results-icon">
                 🔍
             </div>
 
             <h2>
-                Nothing found
+                No menu items found
             </h2>
 
             <p>
-                Try another food item or category.
+                Try searching for something else.
             </p>
 
         </div>
 
-    </main>
+    </section>
+
+</main>
 
 
 
-    <!-- ==============================
-         FOOTER
-    =============================== -->
+<!-- =====================================================
+     JAVASCRIPT
+     ===================================================== -->
 
-    <footer class="site-footer">
-
-        <div class="footer-bottom">
-
-            <span>
-                © 2026 Campus Bites
-            </span>
-
-            <span>
-                Made for campus life.
-            </span>
-
-        </div>
-
-    </footer>
-
-
-
-    <!-- ==============================
-         JAVASCRIPT
-    =============================== -->
-
-    <script src="js/menu.js"></script>
+<script src="js/menu.js"></script>
 
 </body>
 

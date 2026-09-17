@@ -35,3 +35,4 @@ if (themeButton) {
         setTheme(!document.body.classList.contains("dark-mode"));
     });
 }
+

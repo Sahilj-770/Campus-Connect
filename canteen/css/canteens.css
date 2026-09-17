@@ -1,341 +1,1248 @@
 /* =====================================================
-   CAMPUS BITES - CANTEENS PAGE GLASS STYLES
+   CAMPUS BITES - CANTEENS PAGE
+   Food Website UI
    ===================================================== */
 
-.canteens-page {
-    max-width: 1200px;
-    margin: 60px auto 80px;
-    padding: 0 24px;
-}
 
 /* =====================================================
-   PAGE HEADER & INTRODUCTION
+   PAGE
    ===================================================== */
-.canteens-intro {
-    margin-bottom: 35px;
-}
 
-.canteens-intro .eyebrow {
-    margin-bottom: 12px;
-}
-
-.canteens-intro h1 {
+body {
     margin: 0;
-    color: #0f172a;
-    font-size: 2.8rem;
-    font-weight: 900;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
+    background: #f8f7f4;
+    color: #172033;
 }
 
-.canteens-intro > p:last-child {
-    margin-top: 14px;
-    color: #334155;
-    font-size: 1.1rem;
-    font-weight: 500;
-}
 
 /* =====================================================
-   FAVORITES NOTIFICATION
+   NAVBAR
    ===================================================== */
-.favorite-message {
-    min-height: 24px;
-    margin-bottom: 16px;
-    color: #ea580c;
-    font-size: 0.9rem;
-    font-weight: 700;
-    transition: all 0.2s ease;
+
+.navbar {
+    height: 76px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 4%;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #eeeeee;
+
+    box-sizing: border-box;
+
+    position: relative;
+    z-index: 100;
 }
 
-.favorite-message:not(:empty) {
-    display: inline-block;
-    padding: 6px 16px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.78);
-    border: 1px solid rgba(255, 255, 255, 0.90);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+
+/* LOGO */
+
+.logo {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    text-decoration: none;
+
+    color: #172033;
+
+    font-size: 25px;
+    font-weight: 800;
+
+    margin-right: 90px;
 }
+
+
+/* Orange logo icon */
+
+.logo-icon {
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e76a3c;
+
+    color: white;
+
+    border-radius: 12px;
+
+    font-size: 22px;
+
+    box-shadow:
+        0 5px 14px rgba(231, 106, 60, 0.20);
+}
+
+
+/* Bites */
+
+.logo-highlight {
+    color: #e76a3c;
+}
+
+
+/* =====================================================
+   NAV LINKS
+   ===================================================== */
+
+.navbar nav {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+
+.navbar nav a {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    padding: 13px 20px;
+
+    border-radius: 18px;
+
+    text-decoration: none;
+
+    color: #172033;
+
+    font-size: 16px;
+    font-weight: 600;
+
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+/* Hover */
+
+.navbar nav a:hover {
+    color: #e76a3c;
+
+    background: #fff5ef;
+}
+
+
+/* =====================================================
+   ACTIVE TAB
+   Same orange effect as Browse Cuisine
+   ===================================================== */
+
+.navbar nav a.active {
+
+    color: #e76a3c;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 8px 20px rgba(23, 32, 51, 0.08);
+
+}
+
+
+/* Orange bottom border */
+
+.navbar nav a.active::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 12px;
+    right: 12px;
+
+    bottom: -1px;
+
+    height: 3px;
+
+    background: #e76a3c;
+
+    border-radius: 5px;
+
+}
+
+
+/* =====================================================
+   CART
+   ===================================================== */
+
+.cart-icon {
+
+    margin-left: auto;
+
+    position: relative;
+
+    font-size: 25px;
+
+    color: #68758a;
+
+    cursor: pointer;
+}
+
+
+.cart-count {
+
+    position: absolute;
+
+    top: -9px;
+    right: -10px;
+
+    width: 20px;
+    height: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #e76a3c;
+
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   HERO
+   ===================================================== */
+
+.canteen-hero {
+
+    position: relative;
+
+    min-height: 255px;
+
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            90deg,
+            #241d19 0%,
+            #342720 42%,
+            #76675e 75%,
+            #aaa39e 100%
+        );
+
+}
+
+
+/* Decorative glow */
+
+.canteen-hero::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 450px;
+    height: 450px;
+
+    right: -100px;
+    top: -200px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(231, 106, 60, 0.35),
+            transparent 65%
+        );
+
+}
+
+
+/* Hero content */
+
+.hero-content {
+
+    position: relative;
+
+    z-index: 2;
+
+    width: min(1450px, 90%);
+
+    margin: auto;
+
+    padding: 42px 0;
+}
+
+
+/* Tagline */
+
+.hero-tagline {
+
+    margin: 0 0 12px;
+
+    color: #f29a58;
+
+    font-size: 19px;
+
+    font-weight: 700;
+
+    font-style: italic;
+
+}
+
+
+/* Main heading */
+
+.hero-content h1 {
+
+    margin: 0;
+
+    color: white;
+
+    font-size: clamp(42px, 5vw, 64px);
+
+    line-height: 1.05;
+
+    font-weight: 800;
+
+    letter-spacing: -2px;
+
+}
+
+
+.hero-content h1 span {
+
+    color: #e76a3c;
+
+}
+
+
+/* Description */
+
+.hero-description {
+
+    margin: 15px 0 0;
+
+    color: #f3f3f3;
+
+    font-size: 18px;
+
+    font-weight: 500;
+
+}
+
+
+/* =====================================================
+   MAIN PAGE
+   ===================================================== */
+
+.canteen-page {
+
+    display: grid;
+
+    grid-template-columns: 300px 1fr;
+
+    gap: 28px;
+
+    width: min(1500px, 94%);
+
+    margin: 30px auto 60px;
+
+}
+
+
+/* =====================================================
+   SIDEBAR
+   ===================================================== */
+
+.canteen-sidebar {
+
+    background: white;
+
+    border: 1px solid #e4e1dc;
+
+    border-radius: 14px;
+
+    padding: 24px 20px;
+
+    height: fit-content;
+
+    box-sizing: border-box;
+
+    box-shadow:
+        0 4px 15px rgba(23, 32, 51, 0.03);
+}
+
+
+.sidebar-section {
+
+    padding-bottom: 25px;
+
+    margin-bottom: 22px;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+
+.sidebar-section:last-of-type {
+
+    border-bottom: none;
+
+}
+
+
+.sidebar-section h2 {
+
+    margin: 0 0 17px;
+
+    color: #172033;
+
+    font-size: 18px;
+
+    font-weight: 750;
+
+}
+
+
+/* =====================================================
+   CANTEEN FILTERS
+   ===================================================== */
+
+.canteen-filter {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px 12px;
+
+    margin-bottom: 5px;
+
+    border-radius: 9px;
+
+    color: #607087;
+
+    font-size: 15px;
+
+    font-weight: 550;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.canteen-filter:hover {
+
+    background: #fff5ef;
+
+    color: #e76a3c;
+
+}
+
+
+/* Active */
+
+.canteen-filter.active {
+
+    background: #fff0e8;
+
+    color: #e76a3c;
+
+    font-weight: 700;
+
+}
+
+
+/* Radio */
+
+.radio {
+
+    width: 17px;
+    height: 17px;
+
+    border: 2px solid #c8ced5;
+
+    border-radius: 50%;
+
+    box-sizing: border-box;
+
+}
+
+
+.radio.active {
+
+    border-color: #e76a3c;
+
+    position: relative;
+
+}
+
+
+.radio.active::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 8px;
+    height: 8px;
+
+    background: #e76a3c;
+
+    border-radius: 50%;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+}
+
+
+/* =====================================================
+   CATEGORIES
+   ===================================================== */
+
+.category-list {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
+}
+
+
+.category-list span {
+
+    padding: 8px 13px;
+
+    border: 1px solid #dedbd7;
+
+    border-radius: 18px;
+
+    background: white;
+
+    color: #617086;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+
+}
+
+
+.category-list span:hover {
+
+    border-color: #e76a3c;
+
+    color: #e76a3c;
+
+    background: #fff8f4;
+
+}
+
+
+/* =====================================================
+   CLEAR FILTERS
+   ===================================================== */
+
+.clear-filters {
+
+    border: none;
+
+    background: transparent;
+
+    color: #e76a3c;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    padding: 5px 2px;
+
+}
+
+
+/* =====================================================
+   CONTENT
+   ===================================================== */
+
+.canteen-content {
+
+    min-width: 0;
+
+}
+
+
+/* =====================================================
+   SECTION HEADING
+   ===================================================== */
+
+.section-heading {
+
+    background: white;
+
+    border: 1px solid #e4e1dc;
+
+    border-radius: 14px;
+
+    padding: 22px 24px;
+
+    margin-bottom: 18px;
+
+}
+
+
+.section-heading p {
+
+    margin: 0 0 4px;
+
+    color: #e76a3c;
+
+    font-size: 13px;
+
+    font-weight: 750;
+
+    letter-spacing: 1.4px;
+
+}
+
+
+.section-heading h2 {
+
+    margin: 0;
+
+    color: #172033;
+
+    font-size: 27px;
+
+    font-weight: 800;
+
+}
+
+
+.section-heading span {
+
+    display: block;
+
+    margin-top: 5px;
+
+    color: #748197;
+
+    font-size: 15px;
+
+}
+
 
 /* =====================================================
    CANTEEN GRID
    ===================================================== */
+
 .canteen-grid {
+
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 20px;
+
 }
+
 
 /* =====================================================
-   CANTEEN CARD (Frosted Glass Card)
+   CANTEEN CARD
    ===================================================== */
+
 .canteen-card {
-    position: relative;
-    min-height: 400px;
-    padding: 32px;
-    display: flex;
-    flex-direction: column;
-    background: rgba(255, 255, 255, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.80);
-    border-radius: 26px;
-    backdrop-filter: blur(18px) saturate(180%);
-    -webkit-backdrop-filter: blur(18px) saturate(180%);
-    box-shadow: 0 12px 32px rgba(20, 25, 45, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-    cursor: pointer;
-    outline: none;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border: 1px solid #dedbd7;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 5px 16px rgba(23, 32, 51, 0.05);
+
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+
 }
+
 
 .canteen-card:hover {
-    transform: translateY(-7px);
-    background: rgba(255, 255, 255, 0.82);
-    border-color: rgba(255, 255, 255, 1);
-    box-shadow: 0 22px 48px rgba(20, 25, 45, 0.13), inset 0 1px 0 rgba(255, 255, 255, 1);
+
+    transform: translateY(-4px);
+
+    box-shadow:
+        0 12px 30px rgba(23, 32, 51, 0.10);
+
 }
 
-.canteen-card:focus-visible {
-    transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 1);
-    box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.35), 0 16px 36px rgba(20, 25, 45, 0.1);
+
+/* =====================================================
+   IMAGE
+   ===================================================== */
+
+.canteen-image {
+
+    position: relative;
+
+    height: 180px;
+
+    overflow: hidden;
+
+    background: #eeeae5;
+
 }
+
+
+.canteen-image img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    display: block;
+
+    transition: transform 0.4s ease;
+
+}
+
+
+.canteen-card:hover .canteen-image img {
+
+    transform: scale(1.04);
+
+}
+
 
 /* =====================================================
    FAVORITE BUTTON
    ===================================================== */
+
 .favorite-btn {
+
     position: absolute;
-    top: 22px;
-    right: 22px;
-    width: 44px;
-    height: 44px;
-    border: 1px solid rgba(255, 255, 255, 0.88);
+
+    top: 14px;
+    right: 14px;
+
+    width: 43px;
+    height: 43px;
+
+    border: none;
+
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.75);
-    color: #475569;
-    font-size: 22px;
-    cursor: pointer;
+
+    background: white;
+
+    color: #657187;
+
+    font-size: 23px;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-    transition: all 0.2s ease;
-    z-index: 2;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 5px 15px rgba(0, 0, 0, 0.12);
+
+    transition: 0.2s ease;
+
 }
+
 
 .favorite-btn:hover {
-    transform: scale(1.12);
-    background: rgba(255, 255, 255, 0.95);
-    color: #e11d48;
+
+    color: #e76a3c;
+
+    transform: scale(1.05);
+
 }
 
-.favorite-btn:active {
-    transform: scale(0.95);
-}
 
 .favorite-btn.active {
-    background: rgba(255, 228, 230, 0.88);
-    border-color: rgba(251, 113, 133, 0.65);
-    color: #e11d48;
-    box-shadow: 0 4px 14px rgba(225, 29, 72, 0.22);
+
+    color: #e76a3c;
+
 }
+
 
 /* =====================================================
-   CANTEEN ICON
+   CARD CONTENT
    ===================================================== */
-.canteen-icon {
-    width: 66px;
-    height: 66px;
+
+.canteen-card-content {
+
+    padding: 19px;
+
+}
+
+
+/* Title row */
+
+.canteen-title-row {
+
     display: flex;
+
     align-items: center;
-    justify-content: center;
-    margin-bottom: 28px;
-    border-radius: 20px;
-    font-size: 30px;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(255, 255, 255, 0.95);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    transition: transform 0.22s ease;
-}
 
-.canteen-card:hover .canteen-icon {
-    transform: scale(1.08);
-}
-
-.cafeteria-icon,
-.timeless-icon,
-.nescafe-icon {
-    background: rgba(255, 255, 255, 0.85);
-}
-
-/* =====================================================
-   TITLE & OPEN/CLOSED STATUS
-   ===================================================== */
-.canteen-title {
-    display: flex;
-    align-items: center;
     gap: 10px;
-    padding-right: 35px;
+
+    flex-wrap: wrap;
+
 }
 
-.canteen-title h2 {
+
+.canteen-title-row h3 {
+
     margin: 0;
-    color: #0f172a;
-    font-size: 1.65rem;
+
+    color: #172033;
+
+    font-size: 23px;
+
     font-weight: 800;
-    letter-spacing: -0.01em;
+
 }
+
+
+/* =====================================================
+   STATUS
+   ===================================================== */
 
 .status {
-    padding: 4px 11px;
+
+    padding: 5px 10px;
+
     border-radius: 20px;
-    font-size: 0.72rem;
-    font-weight: 800;
-    white-space: nowrap;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    background: rgba(220, 252, 231, 0.80);
-    color: #15803d;
-    border: 1px solid rgba(134, 239, 172, 0.65);
+
+    background: #eaf7e9;
+
+    color: #4f8a4c;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
 }
+
 
 .status.closed {
-    background: rgba(254, 226, 226, 0.80);
-    color: #b91c1c;
-    border: 1px solid rgba(252, 165, 165, 0.65);
+
+    background: #f5eeee;
+
+    color: #a45c5c;
+
 }
+
 
 /* =====================================================
-   DESCRIPTION & DETAILS CHIPS
+   DESCRIPTION
    ===================================================== */
-.canteen-content > p {
-    margin: 12px 0 22px;
-    color: #475569;
-    font-size: 0.94rem;
-    line-height: 1.6;
+
+.canteen-description {
+
+    min-height: 48px;
+
+    margin: 13px 0 15px;
+
+    color: #718096;
+
+    font-size: 15px;
+
+    line-height: 1.55;
+
 }
 
-.canteen-details {
+
+/* =====================================================
+   INFO
+   ===================================================== */
+
+.canteen-info {
+
     display: flex;
+
     flex-direction: column;
-    gap: 9px;
+
+    gap: 10px;
+
+    margin-bottom: 18px;
+
 }
 
-.canteen-details span {
-    width: fit-content;
-    padding: 7px 14px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.58);
-    border: 1px solid rgba(255, 255, 255, 0.78);
-    color: #334155;
-    font-size: 0.82rem;
-    font-weight: 600;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+
+.canteen-info span {
+
+    color: #303b4f;
+
+    font-size: 14px;
+
 }
+
 
 /* =====================================================
-   CARD FOOTER
+   BOTTOM
    ===================================================== */
-.canteen-footer {
-    margin-top: auto;
-    padding-top: 26px;
+
+.canteen-bottom {
+
     display: flex;
+
     align-items: center;
+
     justify-content: space-between;
-    gap: 15px;
-    border-top: 1px solid rgba(255, 255, 255, 0.55);
+
+    gap: 10px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #eeeeee;
+
 }
 
-.open-time {
-    color: #475569;
-    font-size: 0.84rem;
-    font-weight: 600;
+
+.canteen-bottom > span {
+
+    color: #303b4f;
+
+    font-size: 14px;
+
 }
+
+
+/* =====================================================
+   VIEW MENU BUTTON
+   ===================================================== */
 
 .menu-button {
-    padding: 11px 18px;
-    border-radius: 12px;
-    background: rgba(15, 23, 42, 0.85);
-    color: #ffffff;
-    text-decoration: none;
-    font-size: 0.85rem;
-    font-weight: 700;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.15);
-    transition: all 0.25s ease;
+
+    border: none;
+
+    padding: 12px 18px;
+
+    border-radius: 10px;
+
+    background: #e76a3c;
+
+    color: white;
+
+    font-size: 14px;
+
+    font-weight: 750;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 6px 14px rgba(231, 106, 60, 0.20);
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+
 }
+
 
 .menu-button:hover {
-    background: linear-gradient(135deg, #ea580c, #db2777);
-    border-color: rgba(255, 255, 255, 0.6);
-    transform: translateX(3px);
-    box-shadow: 0 8px 22px rgba(234, 88, 12, 0.28);
+
+    background: #d95c2f;
+
+    transform: translateY(-2px);
+
 }
+
 
 /* =====================================================
-   RESPONSIVE (CANTEENS)
+   FAVORITE MESSAGE
    ===================================================== */
-@media (max-width: 950px) {
-    .canteen-grid {
-        grid-template-columns: 1fr 1fr;
-    }
+
+#favoriteMessage {
+
+    margin-top: 15px;
+
+    color: #e76a3c;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
 }
 
-@media (max-width: 650px) {
-    .canteens-page {
-        margin-top: 40px;
-        padding: 0 18px;
-    }
 
-    .canteens-intro h1 {
-        font-size: 34px;
+/* =====================================================
+   FOOTER
+   ===================================================== */
+
+.canteen-footer {
+
+    display: grid;
+
+    grid-template-columns:
+        2fr 1fr 1fr 1fr;
+
+    gap: 40px;
+
+    padding: 55px 7%;
+
+    background: #172033;
+
+    color: white;
+
+}
+
+
+.canteen-footer h2 {
+
+    margin: 0 0 10px;
+
+    font-size: 22px;
+
+}
+
+
+.canteen-footer h3 {
+
+    margin: 0 0 13px;
+
+    font-size: 15px;
+
+}
+
+
+.canteen-footer p {
+
+    margin: 7px 0;
+
+    color: #aeb7c6;
+
+    font-size: 14px;
+
+}
+
+
+.canteen-footer a {
+
+    display: block;
+
+    margin: 7px 0;
+
+    color: #aeb7c6;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+}
+
+
+.canteen-footer a:hover {
+
+    color: #e76a3c;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 1100px) {
+
+    .canteen-page {
+
+        grid-template-columns: 240px 1fr;
+
     }
 
     .canteen-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
     }
 
-    .canteen-card {
-        min-height: 360px;
-        padding: 24px;
+}
+
+
+@media (max-width: 800px) {
+
+    .navbar {
+
+        padding: 0 20px;
+
     }
+
+    .logo {
+
+        margin-right: 20px;
+
+    }
+
+    .navbar nav {
+
+        gap: 3px;
+
+    }
+
+    .navbar nav a {
+
+        padding: 10px 12px;
+
+        font-size: 14px;
+
+    }
+
+
+    .canteen-page {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .canteen-sidebar {
+
+        display: none;
+
+    }
+
+
+    .canteen-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
 
     .canteen-footer {
-        align-items: stretch;
-        flex-direction: column;
+
+        grid-template-columns: 1fr 1fr;
+
     }
+
+}
+
+
+@media (max-width: 550px) {
+
+    .navbar {
+
+        height: auto;
+
+        min-height: 70px;
+
+    }
+
+    .logo {
+
+        font-size: 20px;
+
+    }
+
+    .logo-icon {
+
+        width: 38px;
+        height: 38px;
+
+    }
+
+    .navbar nav a {
+
+        font-size: 12px;
+
+        padding: 9px 8px;
+
+    }
+
+    .cart-icon {
+
+        display: none;
+
+    }
+
+
+    .canteen-hero {
+
+        min-height: 220px;
+
+    }
+
+
+    .hero-content {
+
+        width: 88%;
+
+    }
+
+
+    .hero-content h1 {
+
+        font-size: 40px;
+
+    }
+
+
+    .hero-description {
+
+        font-size: 15px;
+
+    }
+
+
+    .canteen-page {
+
+        width: 92%;
+
+        margin-top: 20px;
+
+    }
+
+
+    .canteen-bottom {
+
+        align-items: stretch;
+
+        flex-direction: column;
+
+    }
+
 
     .menu-button {
-        text-align: center;
+
+        width: 100%;
+
     }
+
+
+    .canteen-footer {
+
+        grid-template-columns: 1fr;
+
+    }
+
 }
-
-/* Violet wallpaper palette: keep the white glass bright enough for text. */
-.canteens-intro h1,
-.canteen-title h2 { color: var(--text-primary); }
-
-.canteens-intro > p:last-child,
-.canteen-content > p,
-.open-time,
-.favorite-btn { color: var(--text-secondary); }
-
-.favorite-message { color: var(--accent-orange); }
-
-.canteen-card { background: var(--glass-bg-card); }
-.canteen-card:hover { background: var(--glass-bg-card-hover); }
-
-.canteen-details span { color: var(--text-secondary); }
-
-.menu-button {
-    background: linear-gradient(135deg, #6138d4, #a044df);
-    box-shadow: 0 6px 16px rgba(73, 38, 163, 0.25);
-}
-
-.menu-button:hover { background: linear-gradient(135deg, #4b28ba, #812cc0); }

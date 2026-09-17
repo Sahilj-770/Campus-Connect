@@ -134,3 +134,97 @@ app.listen(PORT, function() {
 
 });
 
+// =====================================================
+// ALL CANTEENS MENU
+// =====================================================
+
+app.get("/api/menu/all", function(req, res) {
+
+    const queries = {
+
+        cafeteria: `
+            SELECT item_id, item_name, category, price,
+                   availability, description
+            FROM campus_cafeteria
+        `,
+
+        timeless: `
+            SELECT item_id, item_name, category, price,
+                   availability, description
+            FROM cafe_timeless
+        `,
+
+        nescafe: `
+            SELECT item_id, item_name, category, price,
+                   availability, description
+            FROM nescafe
+        `
+    };
+
+
+    db.query(queries.cafeteria, function(error, cafeteria) {
+
+        if (error) {
+            console.log("Cafeteria error:", error);
+            return res.status(500).json({
+                error: "Could not load cafeteria menu"
+            });
+        }
+
+
+        db.query(queries.timeless, function(error, timeless) {
+
+            if (error) {
+                console.log("Timeless error:", error);
+                return res.status(500).json({
+                    error: "Could not load Timeless menu"
+                });
+            }
+
+
+            db.query(queries.nescafe, function(error, nescafe) {
+
+                if (error) {
+                    console.log("Nescafe error:", error);
+                    return res.status(500).json({
+                        error: "Could not load Nescafe menu"
+                    });
+                }
+
+
+                const allItems = [
+
+                    ...cafeteria.map(function(item) {
+                        return {
+                            ...item,
+                            canteen: "Cafeteria"
+                        };
+                    }),
+
+                    ...timeless.map(function(item) {
+                        return {
+                            ...item,
+                            canteen: "Timeless"
+                        };
+                    }),
+
+                    ...nescafe.map(function(item) {
+                        return {
+                            ...item,
+                            canteen: "Nescafe"
+                        };
+                    })
+
+                ];
+
+
+                res.json(allItems);
+
+            });
+
+        });
+
+    });
+
+});
+

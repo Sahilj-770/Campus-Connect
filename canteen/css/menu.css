@@ -1,372 +1,900 @@
 /* =====================================================
-   CAMPUS BITES - MENU PAGE GLASS STYLES
+   CAMPUS BITES
+   BROWSE CUISINE
    ===================================================== */
 
-.menu-page {
-    max-width: 1200px;
-    margin: 60px auto 80px;
-    padding: 45px 40px;
-    background: rgba(255, 255, 255, 0.50);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.80);
-    border-radius: 32px;
-    box-shadow: 0 20px 50px rgba(20, 25, 45, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-}
 
 /* =====================================================
-   MENU HERO
+   PAGE
    ===================================================== */
-.menu-hero {
-    margin-bottom: 35px;
+
+body {
+    background: #f8f6f2;
+    color: #202332;
 }
 
-.menu-hero .eyebrow {
-    margin-bottom: 12px;
-}
-
-.menu-hero h1 {
-    margin: 0;
-    color: #0f172a;
-    font-size: 2.8rem;
-    font-weight: 900;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
-}
-
-.menu-hero p:last-child {
-    margin-top: 12px;
-    color: #334155;
-    font-size: 1.1rem;
-    font-weight: 500;
-}
 
 /* =====================================================
-   MENU CONTROLS (Floating Glass Dock)
+   NAVBAR
    ===================================================== */
-.menu-controls {
-    position: sticky;
-    top: 85px;
-    z-index: 50;
-    padding: 22px;
-    margin-bottom: 35px;
-    background: rgba(255, 255, 255, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.90);
-    border-radius: 24px;
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    box-shadow: 0 12px 35px rgba(20, 25, 45, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
-}
 
-/* =====================================================
-   SEARCH BAR
-   ===================================================== */
-.search-wrapper {
+.navbar {
+    height: 74px;
+
+    padding: 0 40px;
+
     display: flex;
     align-items: center;
+
+    background: #ffffff;
+
+    border-bottom: 1px solid #eeeeee;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+}
+
+
+/* Logo */
+
+.logo {
+    display: flex;
+    align-items: center;
+
     gap: 12px;
-    padding: 12px 18px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.72);
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
-    transition: all 0.2s ease;
+
+    font-size: 22px;
+    font-weight: 800;
+
+    color: #182033;
 }
 
-.search-wrapper:focus-within {
-    border-color: #ea580c;
-    background: rgba(255, 255, 255, 0.95);
-    box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.18);
+
+.logo-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f15a29;
+
+    border-radius: 10px;
+
+    font-size: 21px;
 }
 
-.search-wrapper span {
-    font-size: 18px;
+
+.logo-highlight {
+    color: #f15a29;
 }
 
-.search-wrapper input {
-    width: 100%;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: #0f172a;
-    font-size: 1rem;
-    font-weight: 500;
+
+/* Navigation */
+
+.navbar nav {
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    margin-left: 55px;
 }
 
-.search-wrapper input::placeholder {
-    color: #64748b;
+
+.navbar nav a {
+    padding: 13px 18px;
+
+    color: #303546;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    border-bottom: 3px solid transparent;
+
+    transition: 0.2s ease;
 }
+
+
+.navbar nav a:hover {
+    color: #f15a29;
+}
+
+
+.navbar nav a.active {
+    color: #f15a29;
+
+    border-bottom-color: #f15a29;
+}
+
+
+/* Cart */
+
+.cart-icon {
+    margin-left: auto;
+
+    font-size: 25px;
+
+    position: relative;
+
+    cursor: pointer;
+}
+
+
+.cart-count {
+    position: absolute;
+
+    top: -8px;
+    right: -10px;
+
+    width: 19px;
+    height: 19px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f15a29;
+    color: white;
+
+    border-radius: 50%;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
 
 /* =====================================================
-   CATEGORY BUTTONS (Glass Filter Pills)
+   HERO
    ===================================================== */
+
+.menu-hero {
+    min-height: 250px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 35px 5%;
+
+    position: relative;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(25, 16, 12, 0.96),
+            rgba(40, 24, 17, 0.78),
+            rgba(40, 24, 17, 0.35)
+        ),
+        url("../images/food-banner.jpg");
+
+    background-size: cover;
+    background-position: center;
+}
+
+
+.menu-hero-content {
+    width: 100%;
+    max-width: 900px;
+
+    color: white;
+}
+
+
+.hero-small-text {
+    margin-bottom: 10px;
+
+    color: #f5a23a;
+
+    font-size: 17px;
+    font-weight: 600;
+
+    font-style: italic;
+}
+
+
+.menu-hero h1 {
+    margin-bottom: 8px;
+
+    color: white;
+
+    font-size: clamp(40px, 5vw, 60px);
+
+    line-height: 1.05;
+
+    font-weight: 800;
+}
+
+
+.menu-hero h1 span {
+    color: #f16a2d;
+}
+
+
+.hero-description {
+    margin-bottom: 22px;
+
+    color: #f2f2f2;
+
+    font-size: 17px;
+}
+
+
+/* Search */
+
+.hero-search {
+    width: min(100%, 900px);
+
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 0 18px;
+
+    background: white;
+
+    border-radius: 28px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+
+.hero-search span {
+    color: #626978;
+
+    font-size: 28px;
+}
+
+
+.hero-search input {
+    flex: 1;
+
+    border: none;
+    outline: none;
+
+    font-family: inherit;
+
+    font-size: 15px;
+
+    color: #202332;
+}
+
+
+.hero-search input::placeholder {
+    color: #8a8f9b;
+}
+
+
+
+/* =====================================================
+   MAIN LAYOUT
+   ===================================================== */
+
+.menu-layout {
+    max-width: 1500px;
+
+    margin: 0 auto;
+
+    padding: 22px 30px 50px;
+
+    display: grid;
+
+    grid-template-columns: 290px 1fr;
+
+    gap: 25px;
+}
+
+
+
+/* =====================================================
+   SIDEBAR
+   ===================================================== */
+
+.menu-sidebar {
+    background: white;
+
+    border: 1px solid #e8e4df;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    height: fit-content;
+
+    position: sticky;
+
+    top: 95px;
+}
+
+
+.sidebar-section {
+    padding-bottom: 20px;
+
+    margin-bottom: 20px;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+
+.sidebar-heading {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-bottom: 15px;
+}
+
+
+.sidebar-heading h3 {
+    margin: 0;
+
+    font-size: 17px;
+
+    color: #202332;
+}
+
+
+/* Canteen buttons */
+
+.canteen-filter {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 11px 12px;
+
+    margin-bottom: 5px;
+
+    border: none;
+
+    background: transparent;
+
+    border-radius: 9px;
+
+    color: #626978;
+
+    font-family: inherit;
+
+    text-align: left;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+
+.canteen-filter:hover {
+    background: #fff3ed;
+}
+
+
+.canteen-filter.active {
+    background: #fff0e8;
+
+    color: #e75c25;
+
+    font-weight: 700;
+}
+
+
+.radio {
+    width: 18px;
+    height: 18px;
+
+    border: 2px solid #c7cbd1;
+
+    border-radius: 50%;
+
+    flex-shrink: 0;
+}
+
+
+.canteen-filter.active .radio {
+    border-color: #f15a29;
+
+    background:
+        radial-gradient(
+            circle,
+            #f15a29 0 5px,
+            transparent 6px
+        );
+}
+
+
+
+/* =====================================================
+   CATEGORY BUTTONS
+   ===================================================== */
+
 .category-buttons {
     display: flex;
+
     flex-wrap: wrap;
+
     gap: 8px;
-    margin-top: 16px;
 }
+
 
 .category-btn {
-    padding: 9px 18px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.65);
-    color: #475569;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    transition: all 0.2s ease;
+    padding: 8px 12px;
+
+    background: white;
+
+    border: 1px solid #dedede;
+
+    border-radius: 18px;
+
+    color: #4c5361;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    transition: 0.2s ease;
 }
 
+
 .category-btn:hover {
-    background: rgba(255, 255, 255, 0.95);
-    border-color: rgba(255, 255, 255, 1);
-    color: #0f172a;
+    border-color: #f15a29;
+
+    color: #f15a29;
+}
+
+
+.category-btn.active {
+    background: #f15a29;
+
+    color: white;
+
+    border-color: #f15a29;
+}
+
+
+/* Clear */
+
+.clear-filters {
+    width: 100%;
+
+    padding: 10px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #f15a29;
+
+    font-family: inherit;
+
+    text-align: left;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+
+/* =====================================================
+   MENU CONTENT
+   ===================================================== */
+
+.menu-content {
+    min-width: 0;
+}
+
+
+/* Result header */
+
+.menu-result-header {
+    min-height: 85px;
+
+    padding: 18px 20px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    background: white;
+
+    border: 1px solid #e8e4df;
+
+    border-radius: 12px;
+
+    margin-bottom: 15px;
+}
+
+
+.menu-result-header h2 {
+    margin-bottom: 5px;
+
+    font-size: 19px;
+}
+
+
+.menu-result-header h2 span {
+    color: #f15a29;
+}
+
+
+.menu-result-header p {
+    color: #747a86;
+
+    font-size: 14px;
+}
+
+
+/* Sort */
+
+.sort-box {
+    padding: 11px 15px;
+
+    border: 1px solid #e2dfdb;
+
+    border-radius: 10px;
+
+    background: white;
+
+    color: #555c68;
+
+    white-space: nowrap;
+
+    font-size: 13px;
+}
+
+
+
+/* =====================================================
+   CATEGORY MENU BOX
+   ===================================================== */
+
+.menu-box {
+    margin-bottom: 18px;
+
+    background: #fffdfb;
+
+    border: 1px solid #e7e2dd;
+
+    border-radius: 12px;
+
+    padding: 15px;
+}
+
+
+.menu-box h2 {
+    margin: 0 0 14px 5px;
+
+    font-size: 21px;
+}
+
+
+.menu-items {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 12px;
+}
+
+
+
+/* =====================================================
+   FOOD CARD
+   ===================================================== */
+
+.menu-item {
+    min-height: 190px;
+
+    display: grid;
+
+    grid-template-columns: 130px 1fr;
+
+    gap: 14px;
+
+    padding: 10px;
+
+    background: white;
+
+    border: 1px solid #e7e4e1;
+
+    border-radius: 12px;
+
+    box-shadow:
+        0 3px 10px rgba(0, 0, 0, 0.04);
+
+    transition: 0.2s ease;
+}
+
+
+.menu-item:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.09);
+}
+
+
+
+/* =====================================================
+   FOOD IMAGE
+   ===================================================== */
+
+.food-image {
+    width: 130px;
+    height: 170px;
+
+    object-fit: cover;
+
+    border-radius: 9px;
+
+    background: #f1ece6;
+}
+
+
+.food-image-placeholder {
+    width: 130px;
+    height: 170px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f4eee8;
+
+    border-radius: 9px;
+
+    font-size: 45px;
+}
+
+
+
+/* =====================================================
+   FOOD DETAILS
+   ===================================================== */
+
+.item-details {
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+.canteen-badge {
+    width: fit-content;
+
+    padding: 4px 9px;
+
+    margin-bottom: 8px;
+
+    border-radius: 12px;
+
+    background: #f07b45;
+
+    color: white;
+
+    font-size: 10px;
+
+    font-weight: 700;
+}
+
+
+.item-details h3 {
+    margin-bottom: 5px;
+
+    font-size: 17px;
+
+    line-height: 1.2;
+}
+
+
+.item-description {
+    color: #777d88;
+
+    font-size: 13px;
+
+    line-height: 1.45;
+}
+
+
+.item-bottom {
+    margin-top: auto;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+.item-price {
+    font-size: 17px;
+
+    font-weight: 800;
+
+    color: #202332;
+}
+
+
+.availability {
+    width: fit-content;
+
+    padding: 4px 9px;
+
+    background: #e8f7e9;
+
+    color: #408047;
+
+    border-radius: 12px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+.availability.unavailable {
+    background: #f7e5e5;
+
+    color: #a04444;
+}
+
+
+/* Add cart */
+
+.add-cart {
+    width: 100%;
+
+    padding: 9px 10px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #f15a29;
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    transition: 0.2s ease;
+}
+
+
+.add-cart:hover {
+    background: #df4e20;
+
     transform: translateY(-1px);
 }
 
-.category-btn.active {
-    background: rgba(15, 23, 42, 0.88);
-    border-color: rgba(15, 23, 42, 0.95);
-    color: #ffffff;
-    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.22);
-}
+
 
 /* =====================================================
-   CLEAR BUTTON & RESULT SUMMARY
+   NO RESULTS
    ===================================================== */
-.clear-button {
-    margin-top: 14px;
-    padding: 6px 12px;
-    border: none;
-    background: transparent;
-    color: #ea580c;
-    font-size: 0.84rem;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
 
-.clear-button:hover {
-    color: #db2777;
-    text-decoration: underline;
-}
-
-.result-summary {
-    margin: 12px 2px 0;
-    color: #475569;
-    font-size: 0.84rem;
-    font-weight: 600;
-}
-
-/* =====================================================
-   MENU CATEGORY BOX
-   ===================================================== */
-.menu-box {
-    margin-bottom: 28px;
-    padding: 28px;
-    background: rgba(255, 255, 255, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.80);
-    border-radius: 24px;
-    backdrop-filter: blur(18px) saturate(180%);
-    -webkit-backdrop-filter: blur(18px) saturate(180%);
-    box-shadow: 0 10px 30px rgba(20, 25, 45, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    animation: menu-enter 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes menu-enter {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.menu-box h2 {
-    margin: 0 0 20px;
-    color: #0f172a;
-    font-size: 1.5rem;
-    font-weight: 800;
-    letter-spacing: -0.01em;
-}
-
-/* =====================================================
-   MENU ITEMS (2-Column Glass Food Cards)
-   ===================================================== */
-.menu-items {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-}
-
-.menu-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    padding: 16px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow: 0 4px 14px rgba(20, 25, 45, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.95);
-    transition: all 0.22s ease;
-}
-
-.menu-item:hover {
-    transform: translateX(4px);
-    background: rgba(255, 255, 255, 0.90);
-    border-color: rgba(255, 255, 255, 1);
-    box-shadow: 0 8px 24px rgba(20, 25, 45, 0.08);
-}
-
-.item-info {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.item-info span {
-    font-weight: 700;
-    color: #0f172a;
-    font-size: 1rem;
-}
-
-.item-info small {
-    color: #475569;
-    font-size: 0.82rem;
-    line-height: 1.4;
-}
-
-.item-right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 4px;
-}
-
-.item-right strong {
-    color: #ea580c;
-    font-size: 1.1rem;
-    font-weight: 800;
-    white-space: nowrap;
-}
-
-.availability {
-    font-size: 0.72rem;
-    font-weight: 800;
-    padding: 2px 8px;
-    border-radius: 12px;
-    background: rgba(220, 252, 231, 0.75);
-    color: #166534;
-    border: 1px solid rgba(134, 239, 172, 0.6);
-}
-
-.availability.unavailable {
-    background: rgba(254, 226, 226, 0.75);
-    color: #b91c1c;
-    border: 1px solid rgba(252, 165, 165, 0.6);
-}
-
-/* =====================================================
-   NO RESULTS EMPTY STATE
-   ===================================================== */
 .no-results {
-    display: none;
-    padding: 60px 20px;
+    padding: 70px 20px;
+
     text-align: center;
-    border: 1px dashed rgba(255, 255, 255, 0.85);
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.60);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+
+    background: white;
+
+    border: 1px solid #e7e4e1;
+
+    border-radius: 12px;
 }
 
-.no-results div {
-    font-size: 36px;
-    margin-bottom: 12px;
+
+.no-results-icon {
+    font-size: 40px;
+
+    margin-bottom: 10px;
 }
+
 
 .no-results h2 {
-    margin: 0 0 6px;
-    color: #0f172a;
-    font-size: 1.5rem;
-    font-weight: 800;
+    margin-bottom: 8px;
 }
+
 
 .no-results p {
-    margin: 0;
-    color: #475569;
-    font-size: 0.95rem;
+    color: #777;
 }
 
+
+
 /* =====================================================
-   RESPONSIVE (MENU)
+   RESPONSIVE
    ===================================================== */
-@media (max-width: 700px) {
-    .menu-page {
-        margin-top: 35px;
-        padding: 24px 16px;
-        border-radius: 24px;
+
+@media (max-width: 1200px) {
+
+    .menu-layout {
+        grid-template-columns: 250px 1fr;
     }
 
-    .menu-hero h1 {
-        font-size: 34px;
+    .menu-items {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
     }
 
-    .menu-controls {
+}
+
+
+@media (max-width: 900px) {
+
+    .menu-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-sidebar {
         position: static;
-        padding: 16px;
-        border-radius: 18px;
     }
 
     .category-buttons {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        padding-bottom: 6px;
-        scrollbar-width: thin;
+        max-height: none;
     }
 
-    .category-btn {
-        white-space: nowrap;
+}
+
+
+@media (max-width: 650px) {
+
+    .navbar {
+        padding: 0 18px;
+    }
+
+    .navbar nav {
+        display: none;
+    }
+
+    .menu-hero {
+        padding: 30px 20px;
+    }
+
+    .menu-hero h1 {
+        font-size: 40px;
+    }
+
+    .menu-layout {
+        padding: 15px;
     }
 
     .menu-items {
         grid-template-columns: 1fr;
     }
 
-    .menu-box {
-        padding: 20px;
+    .menu-result-header {
+        align-items: flex-start;
+
+        flex-direction: column;
     }
+
+    .sort-box {
+        width: 100%;
+    }
+
 }
-
-/* Violet wallpaper palette with high-contrast translucent surfaces. */
-.menu-page { background: var(--glass-bg-canvas); }
-.menu-hero h1,
-.menu-box h2,
-.item-info span,
-.no-results h2 { color: var(--text-primary); }
-
-.menu-hero p:last-child,
-.result-summary,
-.item-info small,
-.no-results p { color: var(--text-secondary); }
-
-.menu-controls,
-.menu-box,
-.menu-item { background: var(--glass-bg-card); }
-
-.category-btn.active {
-    background: linear-gradient(135deg, #6138d4, #8d42db);
-    border-color: rgba(255, 255, 255, 0.72);
-}
-
-.clear-button,
-.item-right strong { color: var(--accent-orange); }

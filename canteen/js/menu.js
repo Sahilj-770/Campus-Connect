@@ -1,296 +1,351 @@
 // =====================================================
-// CAMPUS BITES - MENU JAVASCRIPT
+// CAMPUS BITES - BROWSE CUISINE
 // =====================================================
 
-// -----------------------------------------------------
-// 1. SELECT HTML ELEMENTS
-// -----------------------------------------------------
 
-const canteenTitle = document.querySelector("#canteenTitle");
-const menuContainer = document.querySelector("#menuContainer");
-const searchInput = document.querySelector("#menuSearch");
+// =====================================================
+// ELEMENTS
+// =====================================================
+
+const menuContainer =
+    document.querySelector("#menuContainer");
+
+const searchInput =
+    document.querySelector("#menuSearch");
+
 const categoryButtonsContainer =
-    document.querySelector(".category-buttons");
-const clearFilters = document.querySelector("#clearFilters");
-const noResults = document.querySelector("#noResults");
-const resultSummary = document.querySelector("#resultSummary");
+    document.querySelector("#categoryButtons");
+
+const clearFilters =
+    document.querySelector("#clearFilters");
+
+const noResults =
+    document.querySelector("#noResults");
+
+const resultSummary =
+    document.querySelector("#resultSummary");
+
+const canteenTitle =
+    document.querySelector("#canteenTitle");
 
 
-// -----------------------------------------------------
-// 2. GET CANTEEN FROM URL
-// -----------------------------------------------------
+// =====================================================
+// DATA
+// =====================================================
 
-const urlParams = new URLSearchParams(window.location.search);
+let allMenuItems = [];
 
-let selectedCanteen = urlParams.get("canteen");
+let selectedCanteen = "all";
 
-
-// -----------------------------------------------------
-// 3. DEFAULT CANTEEN
-// -----------------------------------------------------
-// If someone opens menu.html directly,
-// show Cafeteria instead of showing an error.
-
-if (!selectedCanteen) {
-    selectedCanteen = "cafeteria";
-}
-
-
-// -----------------------------------------------------
-// 4. CANTEEN NAMES
-// -----------------------------------------------------
-
-const canteenNames = {
-    cafeteria: "Cafeteria Menu",
-    timeless: "Timeless Menu",
-    nescafe: "Nescafe Menu"
-};
-
-canteenTitle.textContent =
-    canteenNames[selectedCanteen] || "Campus Menu";
-
-
-// -----------------------------------------------------
-// 5. MENU DATA
-// -----------------------------------------------------
-
-let menuData = [];
 let selectedCategory = "all";
 
 
-// -----------------------------------------------------
-// 6. CATEGORY ICONS
-// -----------------------------------------------------
+// =====================================================
+// FOOD IMAGES
+// =====================================================
 
-const categoryIcons = {
-    "Breakfast": "🍳",
-    "South Indian": "🥞",
-    "Chinese": "🍜",
-    "Chapati / Paratha": "🫓",
-    "Rice": "🍚",
-    "Sandwich": "🥪",
-    "Maggi": "🍜",
-    "Beverages": "☕",
-    "Pasta": "🍝",
-    "Thali": "🍛",
-    "Chat": "🥟"
+const foodImages = {
+
+    "Poha":
+        "images/poha.jpg",
+
+    "Idli Sambar":
+        "images/idli-sambar.jpg",
+
+    "Upma":
+        "images/upma.jpg",
+
+    "Veg Burger":
+        "images/veg-burger.jpg",
+
+    "White Sauce Pasta":
+        "images/white-sauce-pasta.jpg",
+
+    "Cold Coffee":
+        "images/cold-coffee.jpg",
+
+    "North Indian Thali":
+        "images/thali.jpg",
+
+    "Maggi":
+        "images/maggi.jpg",
+
+    "Veg Sandwich":
+        "images/veg-sandwich.jpg"
+
 };
 
 
-// -----------------------------------------------------
-// 7. LOAD MENU FROM DATABASE
-// -----------------------------------------------------
+// =====================================================
+// CANTEEN NAMES
+// =====================================================
 
-function loadMenu() {
+const canteenNames = {
 
-    const apiURL =
-        "http://localhost:3000/api/menu/" + selectedCanteen;
+    cafeteria: "Cafeteria",
 
-    console.log("Loading:", apiURL);
+    timeless: "Timeless",
 
-    fetch(apiURL)
+    nescafe: "Nescafe"
+
+};
+
+
+// =====================================================
+// LOAD ALL MENUS
+// =====================================================
+
+function loadAllMenus() {
+
+    const canteens = [
+        "cafeteria",
+        "timeless",
+        "nescafe"
+    ];
+
+
+    const requests = canteens.map(function(canteen) {
+
+        return fetch(
+            "http://localhost:3000/api/menu/" + canteen
+        )
 
         .then(function(response) {
 
             if (!response.ok) {
-                throw new Error("Server error");
+
+                throw new Error(
+                    "Could not load " + canteen
+                );
+
             }
 
             return response.json();
+
         })
 
         .then(function(data) {
 
-            console.log("Database data:", data);
+            return data.map(function(item) {
 
-            if (data.error) {
-                throw new Error(data.error);
-            }
+                return {
 
-            menuData = data;
+                    ...item,
+
+                    canteen: canteen
+
+                };
+
+            });
+
+        });
+
+    });
+
+
+    Promise.all(requests)
+
+        .then(function(results) {
+
+            allMenuItems = results.flat();
+
+            console.log(
+                "All menu items:",
+                allMenuItems
+            );
+
 
             createCategoryButtons();
 
             displayMenu();
+
         })
+
 
         .catch(function(error) {
 
-            console.error("Menu loading error:", error);
+            console.log(
+                "Menu loading error:",
+                error
+            );
+
 
             showError(
-                "Unable to load menu. Make sure the backend server is running."
+                "Unable to load menu. Make sure the backend is running."
             );
+
         });
+
 }
 
 
-// -----------------------------------------------------
-// 8. CREATE CATEGORY BUTTONS
-// -----------------------------------------------------
+// =====================================================
+// CREATE CATEGORY BUTTONS
+// =====================================================
 
 function createCategoryButtons() {
 
     categoryButtonsContainer.innerHTML = "";
 
-    // ALL BUTTON
-
-    const allButton = document.createElement("button");
-
-    allButton.classList.add("category-btn", "active");
-
-    allButton.dataset.category = "all";
-
-    allButton.textContent = "All";
-
-    categoryButtonsContainer.appendChild(allButton);
-
-
-    // GET UNIQUE CATEGORIES
 
     const categories = [];
 
-    menuData.forEach(function(item) {
+
+    allMenuItems.forEach(function(item) {
 
         if (
             item.category &&
             !categories.includes(item.category)
         ) {
+
             categories.push(item.category);
+
         }
 
     });
 
 
-    // CREATE CATEGORY BUTTONS
-
     categories.forEach(function(category) {
 
-        const button = document.createElement("button");
+        const button =
+            document.createElement("button");
 
-        button.classList.add("category-btn");
 
-        button.dataset.category = category;
+        button.classList.add(
+            "category-btn"
+        );
 
-        const icon =
-            categoryIcons[category] || "🍽️";
+
+        button.dataset.category =
+            category;
+
 
         button.textContent =
-            icon + " " + category;
-
-        categoryButtonsContainer.appendChild(button);
-
-    });
+            category;
 
 
-    // BUTTON EVENTS
-
-    const categoryButtons =
-        document.querySelectorAll(".category-btn");
-
-
-    categoryButtons.forEach(function(button) {
-
-        button.addEventListener("click", function() {
-
-            selectedCategory =
-                button.dataset.category;
+        categoryButtonsContainer.appendChild(
+            button
+        );
 
 
-            categoryButtons.forEach(function(btn) {
+        button.addEventListener(
+            "click",
+            function() {
 
-                btn.classList.remove("active");
+                selectedCategory =
+                    category;
 
-            });
 
+                updateCategoryButtons();
 
-            button.classList.add("active");
+                displayMenu();
 
-            displayMenu();
-
-        });
+            }
+        );
 
     });
 
 }
 
 
-// -----------------------------------------------------
-// 9. DISPLAY MENU
-// -----------------------------------------------------
+// =====================================================
+// CATEGORY BUTTON STATE
+// =====================================================
+
+function updateCategoryButtons() {
+
+    const buttons =
+        document.querySelectorAll(
+            ".category-btn"
+        );
+
+
+    buttons.forEach(function(button) {
+
+        button.classList.remove("active");
+
+    });
+
+}
+
+
+// =====================================================
+// DISPLAY MENU
+// =====================================================
 
 function displayMenu() {
 
     menuContainer.innerHTML = "";
 
+
     const searchText =
-        searchInput.value.toLowerCase().trim();
+        searchInput.value
+            .toLowerCase()
+            .trim();
 
-
-    // FILTER ITEMS
 
     const filteredItems =
-        menuData.filter(function(item) {
+        allMenuItems.filter(function(item) {
 
-            const categoryMatches =
+
+            const matchesCanteen =
+                selectedCanteen === "all" ||
+                item.canteen === selectedCanteen;
+
+
+            const matchesCategory =
                 selectedCategory === "all" ||
                 item.category === selectedCategory;
 
 
-            const nameMatches =
-                item.item_name &&
+            const matchesSearch =
+                searchText === "" ||
+
                 item.item_name
                     .toLowerCase()
-                    .includes(searchText);
+                    .includes(searchText) ||
+
+                (item.description &&
+                    item.description
+                        .toLowerCase()
+                        .includes(searchText)) ||
+
+                (item.category &&
+                    item.category
+                        .toLowerCase()
+                        .includes(searchText));
 
 
-            const descriptionMatches =
-                item.description &&
-                item.description
-                    .toLowerCase()
-                    .includes(searchText);
-
-
-            const categorySearchMatches =
-                item.category &&
-                item.category
-                    .toLowerCase()
-                    .includes(searchText);
-
-
-            const searchMatches =
-                searchText === "" ||
-                nameMatches ||
-                descriptionMatches ||
-                categorySearchMatches;
-
-
-            return categoryMatches && searchMatches;
+            return (
+                matchesCanteen &&
+                matchesCategory &&
+                matchesSearch
+            );
 
         });
 
 
-    // -------------------------------------------------
-    // NO RESULTS
-    // -------------------------------------------------
+    resultSummary.textContent =
+        filteredItems.length +
+        " menu items found";
+
 
     if (filteredItems.length === 0) {
 
-        noResults.style.display = "block";
-
-        resultSummary.textContent =
-            "No menu items found.";
+        noResults.style.display =
+            "block";
 
         return;
+
     }
 
 
-    noResults.style.display = "none";
+    noResults.style.display =
+        "none";
 
 
-    // -------------------------------------------------
-    // GROUP ITEMS BY CATEGORY
-    // -------------------------------------------------
+    // Group by category
 
     const groupedMenu = {};
 
@@ -303,176 +358,276 @@ function displayMenu() {
 
         }
 
-        groupedMenu[item.category].push(item);
+
+        groupedMenu[item.category].push(
+            item
+        );
 
     });
 
 
-    // -------------------------------------------------
-    // CREATE MENU BOXES
-    // -------------------------------------------------
+    Object.keys(groupedMenu)
+        .forEach(function(category) {
 
-    Object.keys(groupedMenu).forEach(function(category) {
-
-        const menuBox =
-            document.createElement("div");
-
-        menuBox.classList.add("menu-box");
-
-
-        // CATEGORY HEADING
-
-        const heading =
-            document.createElement("h2");
-
-        const icon =
-            categoryIcons[category] || "🍽️";
-
-        heading.textContent =
-            icon + " " + category;
-
-        menuBox.appendChild(heading);
-
-
-        // ITEMS CONTAINER
-
-        const itemsContainer =
-            document.createElement("div");
-
-        itemsContainer.classList.add("menu-items");
-
-
-        // CREATE EACH ITEM
-
-        groupedMenu[category].forEach(function(item) {
-
-            const menuItem =
-                document.createElement("div");
-
-            menuItem.classList.add("menu-item");
-
-
-            // ITEM INFORMATION
-
-            const itemInfo =
-                document.createElement("div");
-
-            itemInfo.classList.add("item-info");
-
-
-            const itemName =
-                document.createElement("span");
-
-            itemName.textContent =
-                item.item_name;
-
-            itemInfo.appendChild(itemName);
-
-
-            // DESCRIPTION
-
-            if (item.description) {
-
-                const description =
-                    document.createElement("small");
-
-                description.textContent =
-                    item.description;
-
-                itemInfo.appendChild(description);
-
-            }
-
-
-            // RIGHT SIDE
-
-            const itemRight =
-                document.createElement("div");
-
-            itemRight.classList.add("item-right");
-
-
-            // PRICE
-
-            const price =
-                document.createElement("strong");
-
-            price.textContent =
-                "₹" + Number(item.price);
-
-            itemRight.appendChild(price);
-
-
-            // AVAILABILITY
-
-            if (item.availability) {
-
-                const availability =
-                    document.createElement("small");
-
-                availability.textContent =
-                    item.availability;
-
-                availability.classList.add(
-                    "availability"
-                );
-
-
-                if (
-                    item.availability
-                        .toLowerCase()
-                        .includes("not")
-                ) {
-
-                    availability.classList.add(
-                        "unavailable"
-                    );
-
-                }
-
-                itemRight.appendChild(
-                    availability
-                );
-
-            }
-
-
-            // ADD EVERYTHING
-
-            menuItem.appendChild(itemInfo);
-
-            menuItem.appendChild(itemRight);
-
-            itemsContainer.appendChild(menuItem);
+            createCategorySection(
+                category,
+                groupedMenu[category]
+            );
 
         });
-
-
-        menuBox.appendChild(itemsContainer);
-
-        menuContainer.appendChild(menuBox);
-
-    });
-
-
-    // -------------------------------------------------
-    // RESULT COUNT
-    // -------------------------------------------------
-
-    resultSummary.textContent =
-        filteredItems.length +
-        " menu item" +
-        (filteredItems.length === 1
-            ? ""
-            : "s") +
-        " found.";
 
 }
 
 
-// -----------------------------------------------------
-// 10. SEARCH
-// -----------------------------------------------------
+// =====================================================
+// CREATE CATEGORY SECTION
+// =====================================================
+
+function createCategorySection(
+    category,
+    items
+) {
+
+    const menuBox =
+        document.createElement("div");
+
+
+    menuBox.classList.add(
+        "menu-box"
+    );
+
+
+    const heading =
+        document.createElement("h2");
+
+
+    heading.textContent =
+        "🍽️ " + category;
+
+
+    menuBox.appendChild(
+        heading
+    );
+
+
+    const itemsContainer =
+        document.createElement("div");
+
+
+    itemsContainer.classList.add(
+        "menu-items"
+    );
+
+
+    items.forEach(function(item) {
+
+        const card =
+            createFoodCard(item);
+
+
+        itemsContainer.appendChild(
+            card
+        );
+
+    });
+
+
+    menuBox.appendChild(
+        itemsContainer
+    );
+
+
+    menuContainer.appendChild(
+        menuBox
+    );
+
+}
+
+
+// =====================================================
+// CREATE FOOD CARD
+// =====================================================
+
+function createFoodCard(item) {
+
+    const card =
+        document.createElement("div");
+
+
+    card.classList.add(
+        "menu-item"
+    );
+
+
+    // IMAGE
+
+    let imageHTML = "";
+
+
+    if (foodImages[item.item_name]) {
+
+        imageHTML = `
+            <img
+                src="${foodImages[item.item_name]}"
+                alt="${item.item_name}"
+                class="food-image"
+            >
+        `;
+
+    } else {
+
+        imageHTML = `
+            <div class="food-image-placeholder">
+                🍽️
+            </div>
+        `;
+
+    }
+
+
+    // DETAILS
+
+    const details =
+        document.createElement("div");
+
+
+    details.classList.add(
+        "item-details"
+    );
+
+
+    details.innerHTML = `
+
+        <span class="canteen-badge">
+            ${canteenNames[item.canteen]}
+        </span>
+
+        <h3>
+            ${item.item_name}
+        </h3>
+
+        <p class="item-description">
+            ${item.description || "Delicious campus favourite."}
+        </p>
+
+        <div class="item-bottom">
+
+            <strong class="item-price">
+                ₹${Number(item.price)}
+            </strong>
+
+            <span class="availability ${
+                item.availability &&
+                item.availability
+                    .toLowerCase()
+                    .includes("not")
+                    ? "unavailable"
+                    : ""
+            }">
+
+                ${item.availability || "Available"}
+
+            </span>
+
+            <button
+                class="add-cart"
+                type="button">
+
+                🛒 &nbsp; Add to Cart
+
+            </button>
+
+        </div>
+
+    `;
+
+
+    card.innerHTML =
+        imageHTML;
+
+
+    card.appendChild(
+        details
+    );
+
+
+    return card;
+
+}
+
+
+// =====================================================
+// CANTEEN FILTER
+// =====================================================
+
+const canteenFilters =
+    document.querySelectorAll(
+        ".canteen-filter"
+    );
+
+
+canteenFilters.forEach(function(button) {
+
+    button.addEventListener(
+        "click",
+        function() {
+
+            selectedCanteen =
+                button.dataset.canteen;
+
+
+            canteenFilters.forEach(
+                function(btn) {
+
+                    btn.classList.remove(
+                        "active"
+                    );
+
+                }
+            );
+
+
+            button.classList.add(
+                "active"
+            );
+
+
+            updateTitle();
+
+            displayMenu();
+
+        }
+    );
+
+});
+
+
+// =====================================================
+// UPDATE TITLE
+// =====================================================
+
+function updateTitle() {
+
+    if (selectedCanteen === "all") {
+
+        canteenTitle.innerHTML =
+            'Showing all items from <span>3 canteens</span>';
+
+    } else {
+
+        canteenTitle.innerHTML =
+            "Showing items from <span>" +
+            canteenNames[selectedCanteen] +
+            "</span>";
+
+    }
+
+}
+
+
+// =====================================================
+// SEARCH
+// =====================================================
 
 searchInput.addEventListener(
     "input",
@@ -484,9 +639,9 @@ searchInput.addEventListener(
 );
 
 
-// -----------------------------------------------------
-// 11. CLEAR FILTERS
-// -----------------------------------------------------
+// =====================================================
+// CLEAR FILTERS
+// =====================================================
 
 clearFilters.addEventListener(
     "click",
@@ -494,16 +649,12 @@ clearFilters.addEventListener(
 
         searchInput.value = "";
 
+        selectedCanteen = "all";
+
         selectedCategory = "all";
 
 
-        const categoryButtons =
-            document.querySelectorAll(
-                ".category-btn"
-            );
-
-
-        categoryButtons.forEach(
+        canteenFilters.forEach(
             function(button) {
 
                 button.classList.remove(
@@ -514,18 +665,14 @@ clearFilters.addEventListener(
         );
 
 
-        const allButton =
-            document.querySelector(
-                '.category-btn[data-category="all"]'
-            );
+        document
+            .querySelector(
+                '.canteen-filter[data-canteen="all"]'
+            )
+            .classList.add("active");
 
 
-        if (allButton) {
-
-            allButton.classList.add("active");
-
-        }
-
+        updateTitle();
 
         displayMenu();
 
@@ -533,44 +680,34 @@ clearFilters.addEventListener(
 );
 
 
-// -----------------------------------------------------
-// 12. ERROR MESSAGE
-// -----------------------------------------------------
+// =====================================================
+// ERROR
+// =====================================================
 
 function showError(message) {
 
     menuContainer.innerHTML = "";
 
-    noResults.style.display = "block";
+    noResults.style.display =
+        "block";
 
 
-    const heading =
-        noResults.querySelector("h2");
-
-    const paragraph =
-        noResults.querySelector("p");
-
-
-    if (heading) {
-
-        heading.textContent =
-            "Menu unavailable";
-
-    }
+    noResults.querySelector(
+        "h2"
+    ).textContent =
+        "Menu unavailable";
 
 
-    if (paragraph) {
-
-        paragraph.textContent =
-            message;
-
-    }
+    noResults.querySelector(
+        "p"
+    ).textContent =
+        message;
 
 }
 
 
-// -----------------------------------------------------
-// 13. START
-// -----------------------------------------------------
+// =====================================================
+// START
+// =====================================================
 
-loadMenu();
+loadAllMenus();
