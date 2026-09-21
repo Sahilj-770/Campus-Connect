@@ -62,13 +62,13 @@ $image_path = "";
 
 
 if (
-    isset($_FILES["image"]) &&
-    $_FILES["image"]["error"] === UPLOAD_ERR_OK
+    isset($_FILES["item_image"]) &&
+    $_FILES["item_image"]["error"] === UPLOAD_ERR_OK
 ) {
 
-    $image_name = $_FILES["image"]["name"];
-    $image_tmp = $_FILES["image"]["tmp_name"];
-    $image_size = $_FILES["image"]["size"];
+    $image_name = $_FILES["item_image"]["name"];
+    $image_tmp = $_FILES["item_image"]["tmp_name"];
+    $image_size = $_FILES["item_image"]["size"];
 
 
     /* ---------------------------------------------
