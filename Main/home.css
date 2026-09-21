@@ -906,11 +906,33 @@ body {
   }
 
   .home-nav-links {
-    gap: 12px;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 18px 24px 24px;
+    background: rgba(255, 255, 255, 0.98);
+    border-bottom: 2px solid #eee7df;
+    box-shadow: 0 14px 30px rgba(23, 32, 51, 0.1);
+    backdrop-filter: blur(16px);
   }
 
-  .home-nav-links a:not(.nav-signin) {
-    display: none;
+  .home-nav-links.show-menu {
+    display: flex;
+  }
+
+  .home-nav-links a {
+    display: block !important;
+    padding: 10px 14px;
+    border-radius: 8px;
+  }
+
+  .home-nav-links a:hover {
+    background: #fff4e8;
   }
 
   .home-hero {
@@ -1015,4 +1037,243 @@ body {
   .service-arrow {
     transition: none;
   }
+}
+
+
+/* ---- Scroll-reveal for home page ---- */
+/* Same system as the dashboard. Elements start hidden and move in
+   when scrolled into view. JavaScript handles adding .visible class. */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal:nth-child(2) { transition-delay: 0.08s; }
+.reveal:nth-child(3) { transition-delay: 0.16s; }
+.reveal:nth-child(4) { transition-delay: 0.24s; }
+
+/* ---- Dot-grid pattern on the events section background ---- */
+/* radial-gradient() can create a tiny dot by making a small
+   colored circle (1px) that tiles across the element.
+   background-size controls how far apart the dots are spaced. */
+
+.home-events-section {
+  background-color: #fff4eb;
+  background-image: radial-gradient(circle, rgba(249,115,22,0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ---- Stronger hover on the featured service card ---- */
+.service-card-featured:hover {
+  background: linear-gradient(135deg, #ffe8d0 0%, #ffffff 75%);
+}
+
+
+/* ============================================================
+   DARK MODE - HOME PAGE (index.html)
+   ============================================================ */
+
+body.dark-mode {
+  background: #111827;
+}
+
+body.dark-mode .home-navbar {
+  background: rgba(17, 24, 39, 0.95);
+  border-bottom-color: #374151;
+}
+
+body.dark-mode .home-nav-links a {
+  color: #9ca3af;
+}
+
+body.dark-mode .home-nav-links a:hover,
+body.dark-mode .home-nav-links a.active {
+  color: #f97316;
+}
+
+body.dark-mode .home-hero::before {
+  background: #1e2a3a;
+  opacity: 0.8;
+}
+
+body.dark-mode .home-hero::after {
+  background: #1a2535;
+}
+
+body.dark-mode .home-hero h1 {
+  color: #f9fafb;
+}
+
+body.dark-mode .hero-description {
+  color: #9ca3af;
+}
+
+body.dark-mode .home-hero .college-label {
+  color: #f3b47f;
+}
+
+body.dark-mode .home-btn-secondary {
+  background: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+body.dark-mode .home-btn-secondary:hover {
+  border-color: #ea580c;
+}
+
+/* --- Dashboard preview widget (inside hero) --- */
+body.dark-mode .dashboard-preview {
+  background: rgba(31, 41, 55, 0.96);
+  border-color: #374151;
+}
+
+body.dark-mode .dashboard-preview::before {
+  background: #2d3748;
+}
+
+body.dark-mode .preview-topbar {
+  border-bottom-color: #374151;
+}
+
+body.dark-mode .preview-brand {
+  color: #f9fafb;
+}
+
+body.dark-mode .preview-welcome strong {
+  color: #f9fafb;
+}
+
+body.dark-mode .preview-stat {
+  background: #273244;
+  border-color: #374151;
+}
+
+body.dark-mode .preview-stat strong {
+  color: #f9fafb;
+}
+
+body.dark-mode .preview-card {
+  background: #273244;
+  border-color: #374151;
+}
+
+body.dark-mode .preview-card-heading {
+  color: #f9fafb;
+}
+
+body.dark-mode .preview-event {
+  border-top-color: #374151;
+}
+
+body.dark-mode .preview-event > div:last-child strong {
+  color: #f9fafb;
+}
+
+/* --- Stats strip --- */
+body.dark-mode .stat-highlight {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode .stat-highlight strong {
+  color: #f9fafb;
+}
+
+body.dark-mode .stat-highlight span {
+  color: #9ca3af;
+}
+
+body.dark-mode .stat-highlight + .stat-highlight {
+  border-left-color: #374151;
+}
+
+/* --- Service cards --- */
+body.dark-mode .service-card {
+  background: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+body.dark-mode .service-card-featured {
+  background: linear-gradient(135deg, #1e2d3a 0%, #1f2937 75%);
+}
+
+body.dark-mode .service-card:hover {
+  border-color: #ea580c;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+body.dark-mode .service-icon {
+  background: rgba(249, 115, 22, 0.15);
+}
+
+body.dark-mode .service-content h3 {
+  color: #f9fafb;
+}
+
+body.dark-mode .service-content p {
+  color: #9ca3af;
+}
+
+body.dark-mode .service-arrow {
+  color: #6b7280;
+}
+
+/* --- Events section --- */
+body.dark-mode .home-events-section {
+  background-color: #0f172a;
+  background-image: radial-gradient(circle, rgba(249,115,22,0.1) 1px, transparent 1px);
+}
+
+body.dark-mode .event-card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode .event-card:hover {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .event-card-content h3 {
+  color: #f9fafb;
+}
+
+body.dark-mode .event-card-content p {
+  color: #9ca3af;
+}
+
+/* --- Section headings --- */
+body.dark-mode .section-intro h2,
+body.dark-mode .home-cta h2 {
+  color: #f9fafb;
+}
+
+body.dark-mode .section-intro > p {
+  color: #9ca3af;
+}
+
+body.dark-mode .section-label {
+  color: #f3b47f;
+}
+
+/* --- CTA section --- */
+body.dark-mode .home-cta {
+  background: #0f172a;
+}
+
+/* --- Footer --- */
+body.dark-mode .home-footer {
+  background: #0a0f1a;
+}
+
+body.dark-mode .footer-bottom {
+  border-top-color: rgba(255, 255, 255, 0.06);
 }

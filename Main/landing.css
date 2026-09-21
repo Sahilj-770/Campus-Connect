@@ -1,0 +1,330 @@
+/* Landing Page Styles */
+
+:root {
+      --orange: #d96b27;
+      --orange-dark: #a84a18;
+      --navy: #182033;
+      --cream: #fff4e8;
+      --muted: #667085;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--cream);
+      color: var(--navy);
+    }
+
+    .landing-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 7%;
+      background: white;
+      border-bottom: 2px solid #e9e5df;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--navy);
+      text-decoration: none;
+      font-size: 21px;
+      font-weight: 700;
+    }
+
+    .logo img { width: 42px; height: 42px; object-fit: contain; }
+
+    .nav-link {
+      color: var(--muted);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .nav-link:hover { color: var(--orange); }
+
+    .landing-hero {
+      min-height: 72vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 70px 7%;
+      text-align: center;
+      background: linear-gradient(135deg, #fff4e8 0%, #ffffff 100%);
+    }
+
+    .hero-content { max-width: 800px; }
+
+    .college-label {
+      margin: 0 0 16px;
+      color: var(--orange-dark);
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .5px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 20px;
+      font-size: 58px;
+      line-height: 1.08;
+      letter-spacing: -2px;
+    }
+
+    h1 span { color: var(--orange); }
+
+    .hero-content > p:not(.college-label) {
+      max-width: 650px;
+      margin: 0 auto 30px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 13px 24px;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .btn-primary { background: var(--orange); color: white; }
+    .btn-primary:hover { background: var(--orange-dark); transform: translateY(-2px); }
+
+    .btn-secondary {
+      background: white;
+      color: var(--navy);
+      border: 2px solid #e5ded5;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--orange);
+      color: var(--orange-dark);
+      transform: translateY(-2px);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: -25px auto 0;
+      padding: 0 25px 60px;
+    }
+
+    .feature {
+      padding: 25px;
+      background: white;
+      border: 2px solid #e9e5df;
+      border-radius: 18px;
+      text-align: center;
+    }
+
+    .feature-icon { font-size: 28px; }
+    .feature h3 { margin: 12px 0 8px; }
+
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .landing-footer {
+      padding: 22px 7%;
+      background: var(--navy);
+      color: #aeb7c5;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    .landing-footer p { margin: 4px 0; }
+
+    /* --- Mobile responsive styles --- */
+    @media (max-width: 700px) {
+      h1 { font-size: 38px; letter-spacing: -1px; }
+      .features { grid-template-columns: 1fr; }
+      .actions { flex-direction: column; align-items: center; }
+      .btn { width: 100%; max-width: 260px; text-align: center; }
+    }
+
+    /* ---- Fade-up animation for hero content on page load ---- */
+    /* @keyframes defines an animation sequence.
+       "from" = start state, "to" = end state.
+       The hero content starts 20px below and invisible,
+       then moves up and becomes visible over 0.7 seconds. */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-content {
+      animation: fadeUp 0.7s ease both;
+    }
+
+    /* Floating blob behind the hero (pure CSS decorative element) */
+    .hero-blob {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hero-blob--1 {
+      width: 320px;
+      height: 320px;
+      top: -80px;
+      right: -60px;
+      background: radial-gradient(circle, rgba(217,107,39,0.12), transparent 70%);
+      animation: floatBlob 7s ease-in-out infinite;
+    }
+
+    .hero-blob--2 {
+      width: 200px;
+      height: 200px;
+      bottom: -40px;
+      left: -40px;
+      background: radial-gradient(circle, rgba(168,74,24,0.08), transparent 70%);
+      animation: floatBlob 9s ease-in-out infinite reverse;
+    }
+
+    /* floatBlob gently moves the circle up and down forever */
+    @keyframes floatBlob {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-18px); }
+    }
+
+    /* Make the hero section position:relative so the blobs stay inside it */
+    .landing-hero { position: relative; overflow: hidden; }
+    .hero-content  { position: relative; z-index: 1; }
+
+    /* Feature cards: add a colored left border that grows on hover */
+    .feature {
+      border-left: 3px solid transparent;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .feature:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 32px rgba(24, 32, 51, 0.08);
+      border-color: var(--orange);
+    }
+
+    /* Buttons get a stronger shadow on hover */
+    .btn-primary:hover {
+      box-shadow: 0 8px 20px rgba(168, 74, 24, 0.3);
+    }
+    .btn-secondary:hover {
+      box-shadow: 0 8px 20px rgba(24, 32, 51, 0.08);
+    }
+
+    /* ============================================================
+       DARK MODE - LANDING PAGE
+       style.css is NOT loaded here so we add dark mode inline.
+       ============================================================ */
+
+    body.dark-mode {
+      background: #111827;
+      color: #f9fafb;
+    }
+
+    body.dark-mode .landing-nav {
+      background: #1f2937;
+      border-bottom-color: #374151;
+    }
+
+    body.dark-mode .logo { color: #f9fafb; }
+
+    body.dark-mode .nav-link { color: #9ca3af; }
+    body.dark-mode .nav-link:hover { color: var(--orange); }
+
+    body.dark-mode .landing-hero {
+      background: linear-gradient(135deg, #0f172a 0%, #1f2937 100%);
+    }
+
+    body.dark-mode h1 { color: #f9fafb; }
+
+    body.dark-mode .college-label { color: #f3b47f; }
+
+    body.dark-mode .hero-content > p:not(.college-label) {
+      color: #9ca3af;
+    }
+
+    body.dark-mode .hero-blob--1 {
+      background: radial-gradient(circle, rgba(249,115,22,0.18), transparent 70%);
+    }
+
+    body.dark-mode .btn-secondary {
+      background: #273244;
+      color: #f9fafb;
+      border-color: #374151;
+    }
+
+    body.dark-mode .btn-secondary:hover {
+      border-color: var(--orange);
+      color: #f3b47f;
+    }
+
+    body.dark-mode .feature {
+      background: #1f2937;
+      border-color: #374151;
+    }
+
+    body.dark-mode .feature h3 { color: #f9fafb; }
+    body.dark-mode .feature p  { color: #9ca3af; }
+
+    body.dark-mode .feature:hover {
+      border-color: var(--orange);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    /* UI controls inserted by script.js */
+    .dark-mode-btn, .top-btn {
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      border-radius: 10px;
+      position: fixed;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .dark-mode-btn {
+      bottom: 20px;
+      width: 45px;
+      height: 45px;
+      background: white;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    }
+
+    .top-btn {
+      bottom: 75px;
+      width: 40px;
+      height: 40px;
+      background: var(--orange);
+      color: white;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .top-btn.show-top-btn {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    body.dark-mode .dark-mode-btn {
+      background: #1f2937;
+      color: #f9fafb;
+    }

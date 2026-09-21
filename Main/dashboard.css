@@ -270,3 +270,477 @@
     margin-top: 20px;
   }
 }
+
+
+/* ============================================================
+   VISUAL IMPROVEMENTS - appended styles
+   ============================================================ */
+
+/* ---- 1. Dark navy hero banner ---- */
+/* This replaces the plain white welcome section.
+   It uses a CSS gradient from dark navy to a slightly lighter navy.
+   The ::before and ::after create two big semi-transparent orange
+   "glowing" circles in the background using border-radius:50%. */
+
+.dash-hero {
+  background: linear-gradient(135deg, #172033 0%, #1e2d4a 60%, #24385a 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.dash-hero::before,
+.dash-hero::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(249, 115, 22, 0.07);
+}
+
+.dash-hero::before {
+  width: 380px;
+  height: 380px;
+  top: -120px;
+  right: -80px;
+}
+
+.dash-hero::after {
+  width: 260px;
+  height: 260px;
+  bottom: -100px;
+  left: -60px;
+}
+
+.dash-hero-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding-top: 52px;
+  padding-bottom: 52px;
+  position: relative;
+  z-index: 1;
+}
+
+.dash-hero .dashboard-label {
+  color: #f3b47f;
+  margin-bottom: 8px;
+}
+
+.dash-hero h1 {
+  max-width: 700px;
+  margin: 8px 0 10px;
+  font-size: clamp(30px, 5vw, 54px);
+  line-height: 1.05;
+  color: white;
+}
+
+.dash-hero-sub {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 17px;
+  margin: 0;
+}
+
+/* The date box inside the hero gets a frosted-glass look */
+.dash-hero .date-box {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+  min-width: 160px;
+}
+
+.dash-hero .date-box span {
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.dash-hero .date-box strong {
+  color: white;
+  font-size: 20px;
+}
+
+/* ---- 2. Stat cards revamp ---- */
+/* .dashboard-stats gets negative top margin so the cards
+   visually "overlap" the hero banner - creates a layered effect. */
+
+.dashboard-stats {
+  margin-top: -26px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Override the existing stat-card layout to be column-based */
+.stat-card {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding-top: 28px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* The colored accent bar sits at the very top of each card */
+.stat-accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: 20px 20px 0 0;
+}
+
+/* Each card type gets its own gradient color on the accent bar */
+.stat-card--notices .stat-accent-bar {
+  background: linear-gradient(90deg, #f97316, #ea580c);
+}
+.stat-card--events .stat-accent-bar {
+  background: linear-gradient(90deg, #6366f1, #4f46e5);
+}
+.stat-card--lost .stat-accent-bar {
+  background: linear-gradient(90deg, #10b981, #059669);
+}
+
+/* Each card's icon bubble gets a matching tint */
+.stat-card--notices .stat-icon { background: #fff1e4; color: #f97316; }
+.stat-card--events  .stat-icon { background: #eef2ff; color: #6366f1; }
+.stat-card--lost    .stat-icon { background: #ecfdf5; color: #10b981; }
+
+.stat-icon svg { width: 22px; height: 22px; }
+
+/* The big number */
+.stat-body strong {
+  font-size: 38px;
+  line-height: 1;
+  display: block;
+}
+
+.stat-body span {
+  display: block;
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Small "View all" link at the bottom of each stat card */
+.stat-link {
+  margin-top: 4px;
+  color: var(--primary);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.stat-link:hover { text-decoration: underline; }
+
+/* ---- 3. Quick action accent colors ---- */
+/* Each button has a colored left accent bar (::before pseudo-element).
+   A pseudo-element is a CSS trick to insert a visual element
+   without adding extra HTML - it's like an invisible div
+   that you style with CSS. */
+
+.quick-action {
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-action::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  transition: width 0.2s ease;
+}
+
+.quick-action:hover::before { width: 5px; }
+
+.quick-action--orange::before { background: #f97316; }
+.quick-action--blue::before   { background: #6366f1; }
+.quick-action--teal::before   { background: #0d9488; }
+.quick-action--green::before  { background: #10b981; }
+
+/* Icon bubble inside each quick action */
+.qa-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  flex-shrink: 0;
+}
+
+.quick-action--orange .qa-icon { background: #fff1e4; color: #f97316; }
+.quick-action--blue   .qa-icon { background: #eef2ff; color: #6366f1; }
+.quick-action--teal   .qa-icon { background: #f0fdfa; color: #0d9488; }
+.quick-action--green  .qa-icon { background: #ecfdf5; color: #10b981; }
+
+.qa-icon svg { width: 18px; height: 18px; }
+
+.qa-label { flex: 1; font-size: 15px; }
+
+.qa-arrow { color: var(--text-muted); }
+.qa-arrow svg { width: 16px; height: 16px; }
+
+/* ---- 4. Service card icon bubbles ---- */
+/* Each service card now has a dedicated colored bubble at the top,
+   similar to how the home page service cards look. */
+
+.dc-icon {
+  display: grid;
+  place-items: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+}
+
+.dc-icon svg { width: 22px; height: 22px; }
+
+.dc-icon--orange { background: #fff1e4; color: #f97316; }
+.dc-icon--purple { background: #f3f0ff; color: #7c3aed; }
+.dc-icon--green  { background: #ecfdf5; color: #10b981; }
+.dc-icon--teal   { background: #f0fdfa; color: #0d9488; }
+.dc-icon--navy   { background: #eef2f7; color: #172033; }
+
+/* Small uppercase label above card title */
+.dc-tag {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--primary-dark);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.dashboard-card h3 {
+  margin: 0 0 8px;
+}
+
+/* Colored link inside service cards */
+.dc-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.dc-link:hover { text-decoration: underline; }
+
+/* ---- 5. Update items - colored left border ---- */
+/* The left border acts as a visual color signal for each category
+   (orange = notices, blue = events, teal = canteen) */
+
+.update-item {
+  display: flex;
+  gap: 14px;
+  padding: 16px 0 16px 14px;
+  border-top: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  align-items: flex-start;
+  transition: border-color 0.2s ease;
+}
+
+.update-item:first-of-type { border-top: 0; }
+
+.update-item--orange { border-left-color: #f97316; }
+.update-item--blue   { border-left-color: #6366f1; }
+.update-item--teal   { border-left-color: #0d9488; }
+
+/* Icon bubble inside each update row */
+.update-icon {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.update-item--orange .update-icon { background: #fff1e4; color: #f97316; }
+.update-item--blue   .update-icon { background: #eef2ff; color: #6366f1; }
+.update-item--teal   .update-icon { background: #f0fdfa; color: #0d9488; }
+
+.update-icon svg { width: 16px; height: 16px; }
+
+.update-item strong { display: block; font-size: 15px; margin-bottom: 3px; }
+.update-item p { margin: 0; color: var(--text-muted); font-size: 13px; line-height: 1.5; }
+
+/* ---- 6. Event date box - navy background (like index.html) ---- */
+/* The original was a washed-out orange. Now it matches the
+   event cards on the home page for visual consistency. */
+
+.event-date {
+  min-width: 54px;
+  padding: 10px 8px;
+  background: var(--text-main);
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.event-date strong {
+  display: block;
+  font-size: 21px;
+  line-height: 1;
+  color: white;
+}
+
+.event-date span {
+  display: block;
+  margin-top: 3px;
+  font-size: 10px;
+  font-weight: 800;
+  color: #fed7aa;
+}
+
+/* ---- 7. Scroll-reveal animation ---- */
+/* Elements with class "reveal" start invisible and slightly below
+   their final position. When they enter the viewport, JavaScript
+   adds the "visible" class, and CSS transition smoothly animates them
+   into place. The delay is staggered per nth-child. */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delay: each card animates 80ms after the previous one */
+.reveal:nth-child(2) { transition-delay: 0.08s; }
+.reveal:nth-child(3) { transition-delay: 0.16s; }
+.reveal:nth-child(4) { transition-delay: 0.24s; }
+.reveal:nth-child(5) { transition-delay: 0.32s; }
+.reveal:nth-child(6) { transition-delay: 0.40s; }
+
+/* ---- 8. Mobile fixes for the hero ---- */
+@media (max-width: 700px) {
+  .dash-hero-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .stat-card {
+    padding-top: 26px;
+  }
+}
+
+
+/* ============================================================
+   DARK MODE - DASHBOARD PAGE (dashboard.html)
+   ============================================================ */
+
+/* --- Hero banner (already dark, just deepen it) --- */
+body.dark-mode .dash-hero {
+  background: linear-gradient(135deg, #0d1526 0%, #111f35 60%, #152540 100%);
+}
+
+body.dark-mode .dash-hero h1 {
+  color: #f9fafb;
+}
+
+body.dark-mode .dash-hero-sub {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* --- Stat cards --- */
+body.dark-mode .stat-card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode .stat-card--notices .stat-icon { background: rgba(249, 115, 22, 0.15); }
+body.dark-mode .stat-card--events  .stat-icon { background: rgba(99, 102, 241, 0.15); }
+body.dark-mode .stat-card--lost    .stat-icon { background: rgba(16, 185, 129, 0.15); }
+
+body.dark-mode .stat-body strong {
+  color: #f9fafb;
+}
+
+body.dark-mode .stat-body span {
+  color: #9ca3af;
+}
+
+body.dark-mode .stat-link {
+  color: #f97316;
+}
+
+/* --- Quick action buttons --- */
+body.dark-mode .quick-action {
+  background: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+body.dark-mode .quick-action:hover {
+  background: #273244;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+body.dark-mode .quick-action--orange .qa-icon { background: rgba(249, 115, 22, 0.15); }
+body.dark-mode .quick-action--blue   .qa-icon { background: rgba(99, 102, 241, 0.15); }
+body.dark-mode .quick-action--teal   .qa-icon { background: rgba(13, 148, 136, 0.15); }
+body.dark-mode .quick-action--green  .qa-icon { background: rgba(16, 185, 129, 0.15); }
+
+body.dark-mode .qa-label { color: #f9fafb; }
+body.dark-mode .qa-arrow { color: #6b7280; }
+
+/* --- Service cards (Campus Services grid) --- */
+body.dark-mode .dashboard-card {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode .dashboard-card:hover {
+  border-color: #ea580c;
+  box-shadow: 0 16px 34px rgba(0, 0, 0, 0.35);
+}
+
+body.dark-mode .dashboard-card h3 { color: #f9fafb; }
+body.dark-mode .dashboard-card p  { color: #9ca3af; }
+
+body.dark-mode .dc-icon--orange { background: rgba(249, 115, 22, 0.15); }
+body.dark-mode .dc-icon--purple { background: rgba(124, 58, 237, 0.15); }
+body.dark-mode .dc-icon--green  { background: rgba(16, 185, 129, 0.15); }
+body.dark-mode .dc-icon--teal   { background: rgba(13, 148, 136, 0.15); }
+body.dark-mode .dc-icon--navy   { background: rgba(255, 255, 255, 0.07); color: #9ca3af; }
+
+body.dark-mode .dc-tag  { color: #f3b47f; }
+body.dark-mode .dc-link { color: #f97316; }
+
+/* --- Update and Event panels --- */
+body.dark-mode .dashboard-panel {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+body.dark-mode .dashboard-panel h2 { color: #f9fafb; }
+
+body.dark-mode .update-item {
+  border-top-color: #374151;
+}
+
+body.dark-mode .update-item--orange .update-icon { background: rgba(249, 115, 22, 0.15); }
+body.dark-mode .update-item--blue   .update-icon { background: rgba(99, 102, 241, 0.15); }
+body.dark-mode .update-item--teal   .update-icon { background: rgba(13, 148, 136, 0.15); }
+
+body.dark-mode .update-item strong { color: #f9fafb; }
+body.dark-mode .update-item p      { color: #9ca3af; }
+
+body.dark-mode .event-item { border-top-color: #374151; }
+body.dark-mode .event-item strong { color: #f9fafb; }
+body.dark-mode .event-item p      { color: #9ca3af; }
+
+body.dark-mode .event-date {
+  background: #0f172a;
+}
+
+/* --- Section headings --- */
+body.dark-mode .section-heading h2 { color: #f9fafb; }
+body.dark-mode .section-heading > p { color: #9ca3af; }
+body.dark-mode .dashboard-label { color: #f3b47f; }

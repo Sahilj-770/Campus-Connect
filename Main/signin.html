@@ -303,8 +303,14 @@
   <script>
   document.querySelector("form").addEventListener("submit", function(event) {
     event.preventDefault();
-
-    window.location.href = "../index.html";
+    const emailInput = document.getElementById("email");
+    if (emailInput && emailInput.value.trim()) {
+      const email = emailInput.value.trim();
+      let studentName = email.split("@")[0];
+      studentName = studentName.charAt(0).toUpperCase() + studentName.slice(1);
+      localStorage.setItem("studentName", studentName);
+    }
+    window.location.href = "dashboard.html";
   });
 </script>
 </body>

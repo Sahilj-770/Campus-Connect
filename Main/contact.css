@@ -68,8 +68,8 @@
 .contact-form {
   padding: 34px;
   background: white;
-  border: 3px solid var(black);
-  border-bottom: 8px solid var(black);
+  border: 3px solid var(--text-main);
+  border-bottom: 8px solid var(--text-main);
   border-radius: 22px;
   box-shadow: 0 18px 45px rgba(23, 32, 51, 0.08);
 }
@@ -151,4 +151,73 @@
   .contact-form {
     padding: 24px;
   }
+}
+
+/* ============================================================
+   DARK MODE - CONTACT PAGE (contact.html)
+   ============================================================ */
+
+body.dark-mode .contact-hero {
+  background: linear-gradient(135deg, #0d1526 0%, #111f35 60%, #152540 100%);
+  color: #f9fafb;
+}
+
+body.dark-mode .contact-hero .college-label {
+  color: #f3b47f;
+}
+
+body.dark-mode .contact-hero h1 {
+  color: #f9fafb;
+}
+
+body.dark-mode .contact-hero p:not(.college-label) {
+  color: #9ca3af;
+}
+
+body.dark-mode .contact-details h2 {
+  color: #f9fafb;
+}
+
+body.dark-mode .contact-details > p:not(.dashboard-label) {
+  color: #9ca3af;
+}
+
+body.dark-mode .contact-detail-item strong {
+  color: #f9fafb;
+}
+
+body.dark-mode .contact-detail-item p {
+  color: #9ca3af;
+}
+
+body.dark-mode .contact-form {
+  background: #1f2937;
+  border-color: #374151;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-mode .contact-form h2 {
+  color: #f9fafb;
+}
+
+body.dark-mode .contact-form label {
+  color: #f9fafb;
+}
+
+body.dark-mode .contact-form input,
+body.dark-mode .contact-form textarea {
+  background: #111827;
+  color: #f9fafb;
+  border-color: #374151;
+}
+
+body.dark-mode .contact-form input::placeholder,
+body.dark-mode .contact-form textarea::placeholder {
+  color: #6b7280;
+}
+
+body.dark-mode .contact-form input:focus,
+body.dark-mode .contact-form textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(232, 117, 45, 0.25);
 }
