@@ -1,6 +1,5 @@
 /* =====================================================
    CAMPUS BITES - CANTEENS PAGE
-   Food Website UI
    ===================================================== */
 
 
@@ -9,10 +8,15 @@
    ===================================================== */
 
 body {
+
     margin: 0;
+
     background: #f8f7f4;
+
     color: #172033;
+
 }
+
 
 
 /* =====================================================
@@ -20,9 +24,11 @@ body {
    ===================================================== */
 
 .navbar {
+
     height: 76px;
 
     display: flex;
+
     align-items: center;
 
     padding: 0 4%;
@@ -34,14 +40,18 @@ body {
     box-sizing: border-box;
 
     position: relative;
+
     z-index: 100;
+
 }
 
 
 /* LOGO */
 
 .logo {
+
     display: flex;
+
     align-items: center;
 
     gap: 12px;
@@ -51,20 +61,26 @@ body {
     color: #172033;
 
     font-size: 25px;
+
     font-weight: 800;
 
     margin-right: 90px;
+
 }
 
 
-/* Orange logo icon */
+/* LOGO ICON */
 
 .logo-icon {
+
     width: 44px;
+
     height: 44px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     background: #e76a3c;
@@ -77,33 +93,41 @@ body {
 
     box-shadow:
         0 5px 14px rgba(231, 106, 60, 0.20);
+
 }
 
 
-/* Bites */
+/* LOGO HIGHLIGHT */
 
 .logo-highlight {
+
     color: #e76a3c;
+
 }
+
 
 
 /* =====================================================
-   NAV LINKS
+   NAVIGATION
    ===================================================== */
 
 .navbar nav {
+
     display: flex;
 
     align-items: center;
 
     gap: 12px;
+
 }
 
 
 .navbar nav a {
+
     position: relative;
 
     display: flex;
+
     align-items: center;
 
     padding: 13px 20px;
@@ -115,28 +139,27 @@ body {
     color: #172033;
 
     font-size: 16px;
+
     font-weight: 600;
 
     transition:
         background 0.25s ease,
         color 0.25s ease,
         box-shadow 0.25s ease;
+
 }
 
 
-/* Hover */
-
 .navbar nav a:hover {
+
     color: #e76a3c;
 
     background: #fff5ef;
+
 }
 
 
-/* =====================================================
-   ACTIVE TAB
-   Same orange effect as Browse Cuisine
-   ===================================================== */
+/* ACTIVE */
 
 .navbar nav a.active {
 
@@ -150,8 +173,6 @@ body {
 }
 
 
-/* Orange bottom border */
-
 .navbar nav a.active::after {
 
     content: "";
@@ -159,6 +180,7 @@ body {
     position: absolute;
 
     left: 12px;
+
     right: 12px;
 
     bottom: -1px;
@@ -170,6 +192,7 @@ body {
     border-radius: 5px;
 
 }
+
 
 
 /* =====================================================
@@ -187,6 +210,7 @@ body {
     color: #68758a;
 
     cursor: pointer;
+
 }
 
 
@@ -195,13 +219,17 @@ body {
     position: absolute;
 
     top: -9px;
+
     right: -10px;
 
     width: 20px;
+
     height: 20px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     background: #e76a3c;
@@ -211,8 +239,11 @@ body {
     border-radius: 50%;
 
     font-size: 11px;
+
     font-weight: 700;
+
 }
+
 
 
 /* =====================================================
@@ -226,6 +257,7 @@ body {
     min-height: 255px;
 
     display: flex;
+
     align-items: center;
 
     overflow: hidden;
@@ -242,7 +274,7 @@ body {
 }
 
 
-/* Decorative glow */
+/* ORANGE GLOW */
 
 .canteen-hero::after {
 
@@ -251,9 +283,11 @@ body {
     position: absolute;
 
     width: 450px;
+
     height: 450px;
 
     right: -100px;
+
     top: -200px;
 
     background:
@@ -266,7 +300,7 @@ body {
 }
 
 
-/* Hero content */
+/* HERO CONTENT */
 
 .hero-content {
 
@@ -279,10 +313,9 @@ body {
     margin: auto;
 
     padding: 42px 0;
+
 }
 
-
-/* Tagline */
 
 .hero-tagline {
 
@@ -298,8 +331,6 @@ body {
 
 }
 
-
-/* Main heading */
 
 .hero-content h1 {
 
@@ -325,8 +356,6 @@ body {
 }
 
 
-/* Description */
-
 .hero-description {
 
     margin: 15px 0 0;
@@ -338,6 +367,7 @@ body {
     font-weight: 500;
 
 }
+
 
 
 /* =====================================================
@@ -357,6 +387,7 @@ body {
     margin: 30px auto 60px;
 
 }
+
 
 
 /* =====================================================
@@ -379,6 +410,7 @@ body {
 
     box-shadow:
         0 4px 15px rgba(23, 32, 51, 0.03);
+
 }
 
 
@@ -389,6 +421,7 @@ body {
     margin-bottom: 22px;
 
     border-bottom: 1px solid #eeeeee;
+
 }
 
 
@@ -410,6 +443,7 @@ body {
     font-weight: 750;
 
 }
+
 
 
 /* =====================================================
@@ -439,6 +473,7 @@ body {
     cursor: pointer;
 
     transition: 0.2s ease;
+
 }
 
 
@@ -451,8 +486,6 @@ body {
 }
 
 
-/* Active */
-
 .canteen-filter.active {
 
     background: #fff0e8;
@@ -464,11 +497,13 @@ body {
 }
 
 
-/* Radio */
+
+/* RADIO */
 
 .radio {
 
     width: 17px;
+
     height: 17px;
 
     border: 2px solid #c8ced5;
@@ -496,6 +531,7 @@ body {
     position: absolute;
 
     width: 8px;
+
     height: 8px;
 
     background: #e76a3c;
@@ -503,11 +539,13 @@ body {
     border-radius: 50%;
 
     top: 50%;
+
     left: 50%;
 
     transform: translate(-50%, -50%);
 
 }
+
 
 
 /* =====================================================
@@ -521,6 +559,7 @@ body {
     flex-wrap: wrap;
 
     gap: 8px;
+
 }
 
 
@@ -556,6 +595,7 @@ body {
 }
 
 
+
 /* =====================================================
    CLEAR FILTERS
    ===================================================== */
@@ -579,6 +619,7 @@ body {
 }
 
 
+
 /* =====================================================
    CONTENT
    ===================================================== */
@@ -588,6 +629,7 @@ body {
     min-width: 0;
 
 }
+
 
 
 /* =====================================================
@@ -650,6 +692,7 @@ body {
 }
 
 
+
 /* =====================================================
    CANTEEN GRID
    ===================================================== */
@@ -664,6 +707,7 @@ body {
     gap: 20px;
 
 }
+
 
 
 /* =====================================================
@@ -700,6 +744,7 @@ body {
 }
 
 
+
 /* =====================================================
    IMAGE
    ===================================================== */
@@ -708,11 +753,13 @@ body {
 
     position: relative;
 
-    height: 180px;
+    height: 245px;
 
     overflow: hidden;
 
     background: #eeeae5;
+
+    isolation: isolate;
 
 }
 
@@ -720,22 +767,135 @@ body {
 .canteen-image img {
 
     width: 100%;
+
     height: 100%;
 
     object-fit: cover;
 
     display: block;
 
-    transition: transform 0.4s ease;
+    transition:
+        transform 0.5s ease,
+        filter 0.5s ease;
 
 }
 
 
-.canteen-card:hover .canteen-image img {
+/* Image positioning */
 
-    transform: scale(1.04);
+.canteen-card:nth-child(1)
+.canteen-image img {
+
+    object-position: center 52%;
 
 }
+
+
+.canteen-card:nth-child(2)
+.canteen-image img {
+
+    object-position: center 48%;
+
+}
+
+
+.canteen-card:nth-child(3)
+.canteen-image img {
+
+    object-position: center 48%;
+
+}
+
+
+
+/* =====================================================
+   IMAGE → CONTENT BLEND
+   ===================================================== */
+
+.canteen-image::after {
+
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(17, 24, 39, 0) 45%,
+            rgba(17, 24, 39, 0.10) 72%,
+            rgba(17, 24, 39, 0.30) 100%
+        );
+
+}
+
+
+/* CAFETERIA OVERLAY */
+
+.canteen-card:nth-child(1)
+.canteen-image::after {
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(78, 51, 34, 0) 45%,
+            rgba(78, 51, 34, 0.12) 72%,
+            rgba(42, 31, 25, 0.32) 100%
+        );
+
+}
+
+
+/* TIMELESS OVERLAY */
+
+.canteen-card:nth-child(2)
+.canteen-image::after {
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(12, 18, 24, 0) 42%,
+            rgba(12, 18, 24, 0.14) 70%,
+            rgba(12, 18, 24, 0.38) 100%
+        );
+
+}
+
+
+/* NESCAFE OVERLAY */
+
+.canteen-card:nth-child(3)
+.canteen-image::after {
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(55, 18, 20, 0) 45%,
+            rgba(55, 18, 20, 0.10) 70%,
+            rgba(35, 20, 22, 0.34) 100%
+        );
+
+}
+
+
+/* IMAGE HOVER */
+
+.canteen-card:hover
+.canteen-image img {
+
+    transform: scale(1.045);
+
+    filter:
+        saturate(1.04)
+        contrast(1.02);
+
+}
+
 
 
 /* =====================================================
@@ -746,24 +906,33 @@ body {
 
     position: absolute;
 
+    z-index: 3;
+
     top: 14px;
+
     right: 14px;
 
     width: 43px;
+
     height: 43px;
 
     border: none;
 
     border-radius: 50%;
 
-    background: white;
+    background:
+        rgba(255, 255, 255, 0.94);
 
-    color: #657187;
+    color: #536176;
+
+    backdrop-filter: blur(8px);
 
     font-size: 23px;
 
     display: flex;
+
     align-items: center;
+
     justify-content: center;
 
     cursor: pointer;
@@ -792,18 +961,53 @@ body {
 }
 
 
+
 /* =====================================================
    CARD CONTENT
    ===================================================== */
 
 .canteen-card-content {
 
-    padding: 19px;
+    position: relative;
+
+    padding: 21px 20px 20px;
+
+    background: #ffffff;
 
 }
 
 
-/* Title row */
+/* Small orange blend line */
+
+.canteen-card-content::before {
+
+    content: "";
+
+    position: absolute;
+
+    left: 20px;
+
+    right: 20px;
+
+    top: 0;
+
+    height: 2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(231, 106, 60, 0),
+            rgba(231, 106, 60, 0.22),
+            rgba(231, 106, 60, 0)
+        );
+
+}
+
+
+
+/* =====================================================
+   TITLE
+   ===================================================== */
 
 .canteen-title-row {
 
@@ -822,13 +1026,16 @@ body {
 
     margin: 0;
 
-    color: #172033;
+    color: #1a2233;
 
-    font-size: 23px;
+    font-size: 24px;
 
     font-weight: 800;
 
+    letter-spacing: -0.35px;
+
 }
+
 
 
 /* =====================================================
@@ -861,6 +1068,7 @@ body {
 }
 
 
+
 /* =====================================================
    DESCRIPTION
    ===================================================== */
@@ -871,13 +1079,16 @@ body {
 
     margin: 13px 0 15px;
 
-    color: #718096;
+    color: #68778e;
 
     font-size: 15px;
 
-    line-height: 1.55;
+    line-height: 1.6;
+
+    font-weight: 500;
 
 }
+
 
 
 /* =====================================================
@@ -899,11 +1110,14 @@ body {
 
 .canteen-info span {
 
-    color: #303b4f;
+    color: #344155;
 
     font-size: 14px;
 
+    font-weight: 550;
+
 }
+
 
 
 /* =====================================================
@@ -929,11 +1143,14 @@ body {
 
 .canteen-bottom > span {
 
-    color: #303b4f;
+    color: #59677d;
 
     font-size: 14px;
 
+    font-weight: 550;
+
 }
+
 
 
 /* =====================================================
@@ -977,6 +1194,7 @@ body {
 }
 
 
+
 /* =====================================================
    FAVORITE MESSAGE
    ===================================================== */
@@ -992,6 +1210,7 @@ body {
     font-weight: 600;
 
 }
+
 
 
 /* =====================================================
@@ -1067,6 +1286,7 @@ body {
 }
 
 
+
 /* =====================================================
    RESPONSIVE
    ===================================================== */
@@ -1078,6 +1298,7 @@ body {
         grid-template-columns: 240px 1fr;
 
     }
+
 
     .canteen-grid {
 
@@ -1097,17 +1318,20 @@ body {
 
     }
 
+
     .logo {
 
         margin-right: 20px;
 
     }
 
+
     .navbar nav {
 
         gap: 3px;
 
     }
+
 
     .navbar nav a {
 
@@ -1158,18 +1382,22 @@ body {
 
     }
 
+
     .logo {
 
         font-size: 20px;
 
     }
 
+
     .logo-icon {
 
         width: 38px;
+
         height: 38px;
 
     }
+
 
     .navbar nav a {
 
@@ -1178,6 +1406,7 @@ body {
         padding: 9px 8px;
 
     }
+
 
     .cart-icon {
 
@@ -1219,6 +1448,13 @@ body {
         width: 92%;
 
         margin-top: 20px;
+
+    }
+
+
+    .canteen-image {
+
+        height: 225px;
 
     }
 

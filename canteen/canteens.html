@@ -12,9 +12,31 @@
 
     <!-- Canteens Page CSS -->
     <link rel="stylesheet" href="css/canteens.css">
+
+    <!-- Preload card images -->
+    <link
+        rel="preload"
+        as="image"
+        href="images/cafeteria.jpg"
+        fetchpriority="high">
+
+    <link
+        rel="preload"
+        as="image"
+        href="images/timeless.jpg"
+        fetchpriority="high">
+
+    <link
+        rel="preload"
+        as="image"
+        href="images/nescafe.jpg"
+        fetchpriority="high">
+
 </head>
 
+
 <body>
+
 
     <!-- =====================================================
          NAVBAR
@@ -23,26 +45,35 @@
     <header class="navbar">
 
         <!-- Logo -->
+
         <a href="index.html" class="logo">
 
             <span class="logo-icon">🍴</span>
 
             <span>
-                Campus <span class="logo-highlight">Bites</span>
+                Campus
+                <span class="logo-highlight">
+                    Bites
+                </span>
             </span>
 
         </a>
 
 
         <!-- Navigation -->
+
         <nav>
 
             <a href="index.html">
                 Home
             </a>
 
-            <a href="canteens.html" class="active">
+            <a
+                href="canteens.html"
+                class="active">
+
                 Canteens
+
             </a>
 
             <a href="menu.html">
@@ -53,9 +84,15 @@
 
 
         <!-- Cart -->
+
         <div class="cart-icon">
+
             🛒
-            <span class="cart-count">0</span>
+
+            <span class="cart-count">
+                0
+            </span>
+
         </div>
 
     </header>
@@ -63,7 +100,7 @@
 
 
     <!-- =====================================================
-         HERO / EXPLORE SECTION
+         HERO
          ===================================================== -->
 
     <section class="canteen-hero">
@@ -77,13 +114,17 @@
             </p>
 
             <h1>
+
                 Choose your
                 <span>canteen</span>
+
             </h1>
 
             <p class="hero-description">
+
                 Find a place to grab something delicious
                 between lectures.
+
             </p>
 
         </div>
@@ -98,11 +139,15 @@
 
     <main class="canteen-page">
 
+
         <!-- =================================================
              SIDEBAR
              ================================================= -->
 
         <aside class="canteen-sidebar">
+
+
+            <!-- CANTEENS -->
 
             <div class="sidebar-section">
 
@@ -111,7 +156,6 @@
                 </h2>
 
 
-                <!-- All Canteens -->
                 <div class="canteen-filter active">
 
                     <span class="radio active"></span>
@@ -123,7 +167,6 @@
                 </div>
 
 
-                <!-- Cafeteria -->
                 <div class="canteen-filter">
 
                     <span class="radio"></span>
@@ -135,7 +178,6 @@
                 </div>
 
 
-                <!-- Timeless -->
                 <div class="canteen-filter">
 
                     <span class="radio"></span>
@@ -147,7 +189,6 @@
                 </div>
 
 
-                <!-- Nescafe -->
                 <div class="canteen-filter">
 
                     <span class="radio"></span>
@@ -162,9 +203,7 @@
 
 
 
-            <!-- =================================================
-                 CATEGORIES
-                 ================================================= -->
+            <!-- CATEGORIES -->
 
             <div class="sidebar-section categories">
 
@@ -193,7 +232,8 @@
             </div>
 
 
-            <!-- Clear -->
+            <!-- CLEAR FILTERS -->
+
             <button class="clear-filters">
                 ⚱ Clear filters
             </button>
@@ -203,13 +243,13 @@
 
 
         <!-- =================================================
-             CANTEENS CONTENT
+             CONTENT
              ================================================= -->
 
         <section class="canteen-content">
 
 
-            <!-- Section heading -->
+            <!-- SECTION HEADING -->
 
             <div class="section-heading">
 
@@ -224,8 +264,8 @@
                     </h2>
 
                     <span>
-                        Choose from our campus canteens and
-                        enjoy your favourite food.
+                        Choose from our campus canteens
+                        and enjoy your favourite food.
                     </span>
 
                 </div>
@@ -245,19 +285,24 @@
                      CAFETERIA
                      ================================================= -->
 
-                <article class="canteen-card"
+                <article
+                    class="canteen-card"
                     data-canteen="cafeteria"
                     data-opening="8"
                     data-closing="20">
 
 
-                    <!-- Image -->
+                    <!-- IMAGE -->
 
                     <div class="canteen-image">
 
                         <img
-                            src="images/cafeteria.jpg"
-                            alt="Cafeteria food">
+                            src="images/cafeteria.webp"
+                            alt="Cafeteria food"
+                            loading="eager"
+                            fetchpriority="high"
+                            decoding="async">
+
 
                         <button
                             class="favorite-btn"
@@ -271,7 +316,7 @@
                     </div>
 
 
-                    <!-- Card content -->
+                    <!-- CONTENT -->
 
                     <div class="canteen-card-content">
 
@@ -289,8 +334,10 @@
 
 
                         <p class="canteen-description">
-                            Fresh meals, snacks and beverages
-                            for students.
+
+                            Fresh meals, snacks and
+                            beverages for students.
+
                         </p>
 
 
@@ -319,7 +366,7 @@
                                 onclick="window.location.href='menu.html?canteen=cafeteria'">
 
                                 View Menu →
-                                
+
                             </button>
 
                         </div>
@@ -334,17 +381,24 @@
                      TIMELESS
                      ================================================= -->
 
-                <article class="canteen-card"
+                <article
+                    class="canteen-card"
                     data-canteen="timeless"
                     data-opening="8"
                     data-closing="23">
 
 
+                    <!-- IMAGE -->
+
                     <div class="canteen-image">
 
                         <img
-                            src="images/timeless.jpg"
-                            alt="Timeless cafe">
+                            src="images/timeless.webp"
+                            alt="Timeless cafe"
+                            loading="eager"
+                            fetchpriority="high"
+                            decoding="async">
+
 
                         <button
                             class="favorite-btn"
@@ -357,6 +411,8 @@
 
                     </div>
 
+
+                    <!-- CONTENT -->
 
                     <div class="canteen-card-content">
 
@@ -374,8 +430,10 @@
 
 
                         <p class="canteen-description">
+
                             A relaxed spot for coffee,
                             conversations and study breaks.
+
                         </p>
 
 
@@ -419,17 +477,24 @@
                      NESCAFE
                      ================================================= -->
 
-                <article class="canteen-card"
+                <article
+                    class="canteen-card"
                     data-canteen="nescafe"
                     data-opening="8"
                     data-closing="20.5">
 
 
+                    <!-- IMAGE -->
+
                     <div class="canteen-image">
 
                         <img
-                            src="images/nescafe.jpg"
-                            alt="Nescafe drinks">
+                            src="images/nescafe.webp"
+                            alt="Nescafe drinks"
+                            loading="eager"
+                            fetchpriority="high"
+                            decoding="async">
+
 
                         <button
                             class="favorite-btn"
@@ -442,6 +507,8 @@
 
                     </div>
 
+
+                    <!-- CONTENT -->
 
                     <div class="canteen-card-content">
 
@@ -459,8 +526,10 @@
 
 
                         <p class="canteen-description">
+
                             Coffee, coolers and quick bites
                             when you need them.
+
                         </p>
 
 
@@ -501,7 +570,7 @@
             </div>
 
 
-            <!-- Favorite message -->
+            <!-- FAVORITE MESSAGE -->
 
             <p id="favoriteMessage"></p>
 
@@ -516,6 +585,7 @@
          ===================================================== -->
 
     <footer class="canteen-footer">
+
 
         <div>
 
@@ -592,6 +662,7 @@
 
 
     <!-- JavaScript -->
+
     <script src="js/canteens.js"></script>
 
 </body>

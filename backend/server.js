@@ -1,3 +1,5 @@
+
+
 // =====================================================
 // 1. IMPORT PACKAGES
 // =====================================================
@@ -5,6 +7,11 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
+
+const fs = require("fs");
+const path = require("path");
+
+
 
 
 // =====================================================
@@ -227,4 +234,193 @@ app.get("/api/menu/all", function(req, res) {
     });
 
 });
+
+// ==========================================
+// AI FOOD IMAGE GENERATOR
+// ==========================================
+
+app.get(
+    "/api/food-image/:canteen/:foodName",
+    async function(req, res) {
+
+        const canteen =
+            req.params.canteen;
+
+        const foodName =
+            req.params.foodName;
+
+
+        // Create a safe filename
+
+        const safeCanteen =
+            canteen
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-");
+
+        const safeFoodName =
+            foodName
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, "-");
+
+
+        const fileName =
+            safeCanteen + "-" +
+            safeFoodName +
+            ".jpg";
+
+
+        const filePath =
+            path.join(
+                foodImagesFolder,
+                fileName
+            );
+
+
+        // ======================================
+        // 1. IMAGE ALREADY EXISTS
+        // ======================================
+
+        if (fs.existsSync(filePath)) {
+
+            console.log(
+                "Using saved image:",
+                fileName
+            );
+
+            return res.json({
+
+                image:
+                    "/food-images/" +
+                    fileName
+
+            });
+
+        }
+
+
+        // ======================================
+        // 2. GENERATE NEW AI IMAGE
+        // ======================================
+
+        console.log(
+            "Generating AI image for:",
+            foodName
+        );
+
+
+        const prompt =
+            "Professional realistic food photography " +
+            "of " +
+            foodName +
+            ", Indian college cafeteria food, " +
+            "appetizing presentation, served on a " +
+            "clean ceramic plate, warm natural lighting, " +
+            "close-up food photography, realistic texture, " +
+            "high quality, no people, no text, no watermark";
+
+
+        const imageURL =
+            "https://image.pollinations.ai/prompt/" +
+            encodeURIComponent(prompt) +
+            "?model=flux" +
+            "&width=600" +
+            "&height=400" +
+            "&nologo=true" +
+            "&private=true";
+
+
+        try {
+
+            const response =
+                await fetch(imageURL);
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "AI image generation failed: " +
+                    response.status
+                );
+
+            }
+
+
+            // Convert response to image data
+
+            const imageBuffer =
+                Buffer.from(
+                    await response.arrayBuffer()
+                );
+
+
+            // Save image permanently
+
+            fs.writeFileSync(
+                filePath,
+                imageBuffer
+            );
+
+
+            console.log(
+                "Image saved:",
+                fileName
+            );
+
+
+            // Send saved image path
+
+            res.json({
+
+                image:
+                    "/food-images/" +
+                    fileName
+
+            });
+
+
+        } catch (error) {
+
+            console.log(
+                "AI image error:",
+                error.message
+            );
+
+
+            res.status(500).json({
+
+                error:
+                    "Could not generate food image"
+
+            });
+
+        }
+
+    }
+);
+
+// ==========================================
+// AI FOOD IMAGE STORAGE
+// ==========================================
+
+const foodImagesFolder =
+    path.join(__dirname, "food-images");
+
+
+// Make saved images accessible to the website
+
+app.use(
+    "/food-images",
+    express.static(foodImagesFolder)
+);
+
+
+// Create folder if it does not exist
+
+if (!fs.existsSync(foodImagesFolder)) {
+
+    fs.mkdirSync(foodImagesFolder, {
+        recursive: true
+    });
+
+}
 

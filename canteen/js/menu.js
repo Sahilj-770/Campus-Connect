@@ -41,42 +41,6 @@ let selectedCategory = "all";
 
 
 // =====================================================
-// FOOD IMAGES
-// =====================================================
-
-const foodImages = {
-
-    "Poha":
-        "images/poha.jpg",
-
-    "Idli Sambar":
-        "images/idli-sambar.jpg",
-
-    "Upma":
-        "images/upma.jpg",
-
-    "Veg Burger":
-        "images/veg-burger.jpg",
-
-    "White Sauce Pasta":
-        "images/white-sauce-pasta.jpg",
-
-    "Cold Coffee":
-        "images/cold-coffee.jpg",
-
-    "North Indian Thali":
-        "images/thali.jpg",
-
-    "Maggi":
-        "images/maggi.jpg",
-
-    "Veg Sandwich":
-        "images/veg-sandwich.jpg"
-
-};
-
-
-// =====================================================
 // CANTEEN NAMES
 // =====================================================
 
@@ -87,6 +51,37 @@ const canteenNames = {
     timeless: "Timeless",
 
     nescafe: "Nescafe"
+
+};
+
+
+// =====================================================
+// CATEGORY ICONS
+// =====================================================
+
+const categoryIcons = {
+
+    "Breakfast": "🍳",
+
+    "South Indian": "🥞",
+
+    "Chinese": "🍜",
+
+    "Chapati / Paratha": "🫓",
+
+    "Rice": "🍚",
+
+    "Sandwich": "🥪",
+
+    "Maggi": "🍜",
+
+    "Beverages": "☕",
+
+    "Pasta": "🍝",
+
+    "Thali": "🍛",
+
+    "Chat": "🥟"
 
 };
 
@@ -147,7 +142,9 @@ function loadAllMenus() {
 
         .then(function(results) {
 
-            allMenuItems = results.flat();
+            allMenuItems =
+                results.flat();
+
 
             console.log(
                 "All menu items:",
@@ -198,7 +195,9 @@ function createCategoryButtons() {
             !categories.includes(item.category)
         ) {
 
-            categories.push(item.category);
+            categories.push(
+                item.category
+            );
 
         }
 
@@ -220,8 +219,12 @@ function createCategoryButtons() {
             category;
 
 
+        const icon =
+            categoryIcons[category] || "🍽️";
+
+
         button.textContent =
-            category;
+            icon + " " + category;
 
 
         categoryButtonsContainer.appendChild(
@@ -263,9 +266,28 @@ function updateCategoryButtons() {
 
     buttons.forEach(function(button) {
 
-        button.classList.remove("active");
+        button.classList.remove(
+            "active"
+        );
 
     });
+
+
+    const selectedButton =
+        document.querySelector(
+            '.category-btn[data-category="' +
+            selectedCategory +
+            '"]'
+        );
+
+
+    if (selectedButton) {
+
+        selectedButton.classList.add(
+            "active"
+        );
+
+    }
 
 }
 
@@ -306,15 +328,19 @@ function displayMenu() {
                     .toLowerCase()
                     .includes(searchText) ||
 
-                (item.description &&
+                (
+                    item.description &&
                     item.description
                         .toLowerCase()
-                        .includes(searchText)) ||
+                        .includes(searchText)
+                ) ||
 
-                (item.category &&
+                (
+                    item.category &&
                     item.category
                         .toLowerCase()
-                        .includes(searchText));
+                        .includes(searchText)
+                );
 
 
             return (
@@ -345,7 +371,9 @@ function displayMenu() {
         "none";
 
 
-    // Group by category
+    // =================================================
+    // GROUP BY CATEGORY
+    // =================================================
 
     const groupedMenu = {};
 
@@ -401,8 +429,12 @@ function createCategorySection(
         document.createElement("h2");
 
 
+    const icon =
+        categoryIcons[category] || "🍽️";
+
+
     heading.textContent =
-        "🍽️ " + category;
+        icon + " " + category;
 
 
     menuBox.appendChild(
@@ -459,33 +491,101 @@ function createFoodCard(item) {
     );
 
 
-    // IMAGE
+    // =================================================
+    // AI FOOD IMAGE
+    // =================================================
 
-    let imageHTML = "";
-
-
-    if (foodImages[item.item_name]) {
-
-        imageHTML = `
-            <img
-                src="${foodImages[item.item_name]}"
-                alt="${item.item_name}"
-                class="food-image"
-            >
-        `;
-
-    } else {
-
-        imageHTML = `
-            <div class="food-image-placeholder">
-                🍽️
-            </div>
-        `;
-
-    }
+    const foodImage =
+        document.createElement("img");
 
 
+    foodImage.classList.add(
+        "food-image"
+    );
+
+
+    // Placeholder while image is being generated
+
+    foodImage.src =
+        "https://placehold.co/600x400/f3f3f3/777?text=Generating...";
+
+
+    foodImage.alt =
+        item.item_name;
+
+
+    // Prevent broken-image icon
+
+    foodImage.onerror =
+        function() {
+
+            foodImage.src =
+                "https://placehold.co/600x400/f3f3f3/777?text=Food";
+
+        };
+
+
+    // =================================================
+    // ASK BACKEND FOR AI IMAGE
+    // =================================================
+
+    const imageAPI =
+        "http://localhost:3000/api/food-image/" +
+        encodeURIComponent(item.canteen) +
+        "/" +
+        encodeURIComponent(item.item_name);
+
+
+    fetch(imageAPI)
+
+        .then(function(response) {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Could not generate image"
+                );
+
+            }
+
+            return response.json();
+
+        })
+
+        .then(function(data) {
+
+            if (data.image) {
+
+                foodImage.src =
+                    "http://localhost:3000" +
+                    data.image;
+
+            }
+
+        })
+
+        .catch(function(error) {
+
+            console.log(
+                "AI image error for " +
+                item.item_name +
+                ":",
+                error
+            );
+
+            // Keep placeholder if generation fails
+
+        });
+
+
+    card.appendChild(
+        foodImage
+    );
+
+
+    // =================================================
     // DETAILS
+    // =================================================
 
     const details =
         document.createElement("div");
@@ -502,19 +602,23 @@ function createFoodCard(item) {
             ${canteenNames[item.canteen]}
         </span>
 
+
         <h3>
             ${item.item_name}
         </h3>
 
+
         <p class="item-description">
             ${item.description || "Delicious campus favourite."}
         </p>
+
 
         <div class="item-bottom">
 
             <strong class="item-price">
                 ₹${Number(item.price)}
             </strong>
+
 
             <span class="availability ${
                 item.availability &&
@@ -529,6 +633,7 @@ function createFoodCard(item) {
 
             </span>
 
+
             <button
                 class="add-cart"
                 type="button">
@@ -540,10 +645,6 @@ function createFoodCard(item) {
         </div>
 
     `;
-
-
-    card.innerHTML =
-        imageHTML;
 
 
     card.appendChild(
@@ -665,12 +766,22 @@ clearFilters.addEventListener(
         );
 
 
-        document
-            .querySelector(
+        const allCanteenButton =
+            document.querySelector(
                 '.canteen-filter[data-canteen="all"]'
-            )
-            .classList.add("active");
+            );
 
+
+        if (allCanteenButton) {
+
+            allCanteenButton.classList.add(
+                "active"
+            );
+
+        }
+
+
+        updateCategoryButtons();
 
         updateTitle();
 
@@ -688,20 +799,37 @@ function showError(message) {
 
     menuContainer.innerHTML = "";
 
+
     noResults.style.display =
         "block";
 
 
-    noResults.querySelector(
-        "h2"
-    ).textContent =
-        "Menu unavailable";
+    const heading =
+        noResults.querySelector(
+            "h2"
+        );
 
 
-    noResults.querySelector(
-        "p"
-    ).textContent =
-        message;
+    const paragraph =
+        noResults.querySelector(
+            "p"
+        );
+
+
+    if (heading) {
+
+        heading.textContent =
+            "Menu unavailable";
+
+    }
+
+
+    if (paragraph) {
+
+        paragraph.textContent =
+            message;
+
+    }
 
 }
 

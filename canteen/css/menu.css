@@ -898,3 +898,54 @@ body {
     }
 
 }
+
+/* ==========================================
+   AI FOOD IMAGES
+   ========================================== */
+
+.food-image {
+    width: 120px;
+
+    height: 90px;
+
+    object-fit: cover;
+
+    border-radius: 12px;
+
+    flex-shrink: 0;
+
+    background: #eeeeee;
+
+    display: block;
+
+    transition: 0.3s ease;
+}
+
+
+.food-image:hover {
+    transform: scale(1.03);
+}
+
+
+.menu-item {
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+}
+
+
+/* ==========================================
+   MOBILE
+   ========================================== */
+
+@media (max-width: 600px) {
+
+    .food-image {
+        width: 85px;
+
+        height: 70px;
+    }
+
+}
