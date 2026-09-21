@@ -631,6 +631,7 @@ body {
 
 
 
+
 /* =====================================================
    FOOD IMAGE
    ===================================================== */
@@ -947,5 +948,359 @@ body {
 
         height: 70px;
     }
+
+}
+
+
+/* =====================================================
+   CART BUTTON
+   ===================================================== */
+
+#cartButton {
+
+    position: fixed;
+
+    right: 25px;
+
+    bottom: 25px;
+
+    width: 60px;
+
+    height: 60px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #df6638;
+
+    color: white;
+
+    font-size: 25px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.2);
+
+    z-index: 999;
+
+}
+
+
+#cartCount {
+
+    position: absolute;
+
+    top: -5px;
+
+    right: -5px;
+
+    min-width: 22px;
+
+    height: 22px;
+
+    padding: 2px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #172033;
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+}
+
+
+/* =====================================================
+   ADDED BUTTON
+   ===================================================== */
+
+.add-cart.added {
+
+    background: #5d8b58;
+
+}
+
+
+/* =====================================================
+   CART OVERLAY
+   ===================================================== */
+
+#cartOverlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0, 0, 0, 0.45);
+
+    z-index: 1000;
+
+}
+
+
+/* =====================================================
+   CART PANEL
+   ===================================================== */
+
+.cart-panel {
+
+    position: absolute;
+
+    top: 0;
+
+    right: 0;
+
+    width: 420px;
+
+    max-width: 90%;
+
+    height: 100%;
+
+    background: white;
+
+    box-shadow:
+        -10px 0 30px rgba(0, 0, 0, 0.15);
+
+    display: flex;
+
+    flex-direction: column;
+
+}
+
+
+/* =====================================================
+   CART HEADER
+   ===================================================== */
+
+.cart-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 22px;
+
+    border-bottom: 1px solid #eee;
+
+}
+
+
+.cart-header h2 {
+
+    margin: 0;
+
+    color: #172033;
+
+}
+
+
+#closeCart {
+
+    border: none;
+
+    background: #f3f3f3;
+
+    width: 38px;
+
+    height: 38px;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+}
+
+
+/* =====================================================
+   CART CONTENT
+   ===================================================== */
+
+.cart-content {
+
+    padding: 20px;
+
+    overflow-y: auto;
+
+}
+
+
+/* =====================================================
+   CART ITEM
+   ===================================================== */
+
+.cart-item {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 16px 0;
+
+    border-bottom: 1px solid #eee;
+
+}
+
+
+.cart-item div {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+}
+
+
+.cart-item strong {
+
+    color: #172033;
+
+    font-size: 17px;
+
+}
+
+
+.cart-item small {
+
+    color: #888;
+
+}
+
+
+.cart-item span {
+
+    color: #df6638;
+
+    font-weight: 700;
+
+}
+
+
+.remove-cart-item {
+
+    border: none;
+
+    background: #fdeaea;
+
+    color: #c85c5c;
+
+    width: 32px;
+
+    height: 32px;
+
+    border-radius: 50%;
+
+    cursor: pointer;
+
+}
+
+
+/* =====================================================
+   CART TOTAL
+   ===================================================== */
+
+.cart-total {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 25px;
+
+    padding-top: 20px;
+
+    border-top: 2px solid #eee;
+
+    font-size: 20px;
+
+}
+
+
+.cart-total strong:last-child {
+
+    color: #df6638;
+
+}
+
+
+/* =====================================================
+   CHECKOUT
+   ===================================================== */
+
+.checkout-button {
+
+    width: 100%;
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #df6638;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+}
+
+
+/* =====================================================
+   EMPTY CART
+   ===================================================== */
+
+.empty-cart {
+
+    text-align: center;
+
+    padding: 70px 20px;
+
+}
+
+
+.empty-cart div {
+
+    font-size: 50px;
+
+}
+
+
+.empty-cart h3 {
+
+    color: #172033;
+
+}
+
+
+.empty-cart p {
+
+    color: #718096;
 
 }
