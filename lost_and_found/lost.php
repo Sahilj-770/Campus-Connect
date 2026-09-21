@@ -20,7 +20,7 @@ if (!$lost_result) {
 
 /* Get 4 most recent FOUND items */
 $found_sql = "SELECT *
-              FROM lost_items
+              FROM found_items
               WHERE LOWER(status) = 'found'
               ORDER BY serial_number DESC
               LIMIT 4";
