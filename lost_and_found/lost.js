@@ -1,74 +1,104 @@
-let searchInput = document.getElementById("browseSearch");
+// ===============================
+// BROWSE / SEARCH
+// ===============================
+
+let browseSearch = document.getElementById("browseSearch");
 let statusFilter = document.getElementById("statusFilter");
 let browseButton = document.getElementById("browseButton");
 
 if (browseButton) {
-    browseButton.addEventListener("click", function() {
+    browseButton.addEventListener("click", function () {
 
-        let searchText = searchInput.value.toLowerCase();
-        let selectedStatus = statusFilter.value;
-        let items = document.querySelectorAll(".item-card");
+        let searchValue = "";
 
-        items.forEach(function(item) {
+        if (browseSearch) {
+            searchValue = browseSearch.value.toLowerCase().trim();
+        }
 
-            let itemName = item.querySelector("h3").textContent.toLowerCase();
-            let itemStatus = item.getAttribute("data-status");
+        let selectedStatus = "all";
 
-            if (
-                itemName.includes(searchText) &&
-                (selectedStatus === "all" || selectedStatus === itemStatus)
-            ) {
-                item.style.display = "block";
+        if (statusFilter) {
+            selectedStatus = statusFilter.value.toLowerCase();
+        }
+
+        let cards = document.querySelectorAll(".item-card");
+
+        cards.forEach(function (card) {
+
+            let cardText = card.innerText.toLowerCase();
+
+            let cardStatus = card.getAttribute("data-status");
+
+            let matchesSearch =
+                searchValue === "" ||
+                cardText.includes(searchValue);
+
+            let matchesStatus =
+                selectedStatus === "all" ||
+                cardStatus === selectedStatus;
+
+            if (matchesSearch && matchesStatus) {
+                card.style.display = "";
             } else {
-                item.style.display = "none";
+                card.style.display = "none";
             }
 
         });
-
     });
 }
 
+
+// ===============================
+// VIEW DETAILS BUTTON
+// ===============================
+
 let detailButtons = document.querySelectorAll(".view-details");
 
-detailButtons.forEach(function(button) {
+detailButtons.forEach(function (button) {
 
-    button.addEventListener("click", function() {
+    button.addEventListener("click", function () {
 
-        let name = button.getAttribute("data-name");
-        let status = button.getAttribute("data-status");
-        let location = button.getAttribute("data-location");
+        let name = button.getAttribute("data-name") || "";
+        let status = button.getAttribute("data-status") || "";
+        let location = button.getAttribute("data-location") || "";
 
         alert(
-            "Item: " + name +
-            "\nStatus: " + status +
-            "\nLocation: " + location
+            "Item Details\n\n" +
+            "Item: " + name + "\n" +
+            "Status: " + status + "\n" +
+            "Location: " + location
         );
 
     });
 
 });
-let submitReport = document.getElementById("submitReport");
 
-if (submitReport) {
-    submitReport.addEventListener("click", function() {
 
-    let name = document.getElementById("itemName").value;
-    let status = document.getElementById("itemStatus").value;
-    let location = document.getElementById("itemLocation").value;
-    let description = document.getElementById("itemDescription").value;
+// ===============================
+// REPORT FORM
+// ===============================
+//
+// Lost  → reportlostitem.php → lost_items
+// Found → reportfounditem.php → found_items
+//
 
-    if (name === "" || location === "" || description === "") {
-        alert("Please fill all the details.");
-        return;
-    }
+let reportForm = document.querySelector(".report-form form");
+let itemStatus = document.getElementById("itemStatus");
 
-    alert(
-        "Report Submitted!\n\n" +
-        "Item: " + name +
-        "\nStatus: " + status +
-        "\nLocation: " + location +
-        "\nDescription: " + description
-    );
+if (reportForm && itemStatus) {
 
-});
+    reportForm.addEventListener("submit", function () {
+
+        if (itemStatus.value === "found") {
+
+            reportForm.action = "reportfounditem.php";
+
+        } else {
+
+            reportForm.action = "reportlostitem.php";
+
+        }
+
+    });
+
 }
