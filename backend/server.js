@@ -20,7 +20,7 @@ const path = require("path");
 
 const app = express();
 
-const PORT = 3000;
+const PORT = Number(process.env.PORT || 3000);
 
 
 // =====================================================
@@ -35,11 +35,11 @@ app.use(cors());
 // =====================================================
 
 const db = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "Aayush@52007",
-    database: "campusconnect"
+    host: process.env.DB_HOST || "localhost",
+    port: Number(process.env.DB_PORT || 3307),
+    user: process.env.DB_USER || "root",
+    password: process.env.DB_PASSWORD || "",
+    database: process.env.DB_NAME || "campusconnect"
 });
 
 
