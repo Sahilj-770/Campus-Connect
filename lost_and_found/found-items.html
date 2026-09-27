@@ -2,157 +2,446 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Found Items - Campus Lost & Found</title>
 
     <link rel="stylesheet" href="lost.css">
+
 </head>
+
 
 <body>
 
-    <!-- Navigation Bar -->
+
+    <!-- ================= NAVIGATION BAR ================= -->
+
     <header class="navbar">
 
         <div class="logo">
-            🎓 Campus Lost & Found
+
+            <img
+                src="logo.png"
+                alt="Lost & Found Logo"
+                class="logo-image"
+            >
+
+            <span>
+                Campus Lost & Found
+            </span>
+
         </div>
 
+
         <nav>
-            <a href="lost.html">Home</a>
-            <a href="lost-items.html">Lost Items</a>
-            <a href="found-items.html">Found Items</a>
-            <a href="browse.html">Browse Items</a>
+
+            <a href="lost.html">
+                Home
+            </a>
+
+            <a href="lost-items.html">
+                Lost Items
+            </a>
+
+            <a href="found-items.html">
+                Found Items
+            </a>
+
+            <a href="browse.html">
+                Browse Items
+            </a>
+
         </nav>
 
-        <a href="lost.html#report" class="login-btn">
+
+        <a
+            href="lost.html#report"
+            class="login-btn"
+        >
             Report Item →
         </a>
 
     </header>
 
 
-    <!-- Found Items Section -->
+
+    <!-- ================= FOUND ITEMS PAGE ================= -->
+
     <section class="items-page">
+
 
         <div class="items-heading">
 
-            <p class="small-heading">FOUND ITEMS</p>
+            <p class="small-heading">
+                FOUND ITEMS
+            </p>
 
-            <h1>Items that are <span>Found</span></h1>
+
+            <h1>
+
+                Items that are
+                <span>Found</span>
+
+            </h1>
+
 
             <p>
+
                 Browse items that have been found by students on campus.
                 You may find something that belongs to you.
+
             </p>
 
         </div>
 
 
-        <!-- Found Items -->
-        <div class="items-grid">
 
-            <!-- Item 1 -->
-            <div class="item-card">
+        <!-- ================= FOUND ITEMS ================= -->
 
-                <div class="item-image">
-                    🎒
-                </div>
+        <div
+            class="items-grid"
+            id="foundItemsGrid"
+        >
 
-                <h3>Black Backpack</h3>
+            <div class="no-items" id="loadingMessage">
 
-                <p>Black backpack found near the main gate.</p>
+                <h3>
+                    Loading found items...
+                </h3>
 
-                <p><strong>Location:</strong> Main Gate</p>
-
-                <button>View Details</button>
-
-            </div>
-
-
-            <!-- Item 2 -->
-            <div class="item-card">
-
-                <div class="item-image">
-                    💳
-                </div>
-
-                <h3>Wallet</h3>
-
-                <p>Brown wallet found near the college canteen.</p>
-
-                <p><strong>Location:</strong> Canteen</p>
-
-                <button>View Details</button>
-
-            </div>
-
-
-            <!-- Item 3 -->
-            <div class="item-card">
-
-                <div class="item-image">
-                    🔑
-                </div>
-
-                <h3>Set of Keys</h3>
-
-                <p>Three keys found near the parking area.</p>
-
-                <p><strong>Location:</strong> Parking Area</p>
-
-                <button>View Details</button>
-
-            </div>
-
-
-            <!-- Item 4 -->
-            <div class="item-card">
-
-                <div class="item-image">
-                    📓
-                </div>
-
-                <h3>Notebook</h3>
-
-                <p>Green notebook found inside a classroom.</p>
-
-                <p><strong>Location:</strong> Classroom 105</p>
-
-                <button>View Details</button>
-
-            </div>
-
-
-            <!-- Item 5 -->
-            <div class="item-card">
-
-                <div class="item-image">
-                    🧥
-                </div>
-
-                <h3>Black Jacket</h3>
-
-                <p>Black jacket found in the college auditorium.</p>
-
-                <p><strong>Location:</strong> Auditorium</p>
-
-                <button>View Details</button>
+                <p>
+                    Please wait.
+                </p>
 
             </div>
 
         </div>
 
+
     </section>
 
 
-    <!-- Footer -->
+
+    <!-- ================= FOOTER ================= -->
+
     <footer>
 
-        <p>© 2026 Campus Lost & Found</p>
+        <p>
+            © 2026 Campus Lost & Found
+        </p>
 
     </footer>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        const API_URL =
+            "http://localhost:3000/api/lost-found/found";
+
+
+        const foundItemsGrid =
+            document.getElementById("foundItemsGrid");
+
+
+
+        // =====================================================
+        // LOAD FOUND ITEMS FROM EXPRESS + MYSQL
+        // =====================================================
+
+        async function loadFoundItems() {
+
+            try {
+
+                const response =
+                    await fetch(API_URL);
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Server returned an error."
+                    );
+
+                }
+
+
+                const items =
+                    await response.json();
+
+
+                console.log(
+                    "Found items received:",
+                    items
+                );
+
+
+                // Remove loading message
+
+                foundItemsGrid.innerHTML = "";
+
+
+
+                // =================================================
+                // NO FOUND ITEMS
+                // =================================================
+
+                if (
+                    !Array.isArray(items) ||
+                    items.length === 0
+                ) {
+
+                    foundItemsGrid.innerHTML = `
+
+                        <div class="no-items">
+
+                            <h3>
+                                No found items reported yet.
+                            </h3>
+
+                            <p>
+                                Be the first to report a found item.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+
+                // =================================================
+                // CREATE CARDS FROM DATABASE
+                // =================================================
+
+                items.forEach(function(item) {
+
+
+                    const itemName =
+                        item.item_name || "Unknown Item";
+
+
+                    const description =
+                        item.description ||
+                        "No description provided.";
+
+
+                    const location =
+                        item.location ||
+                        "Location not specified";
+
+
+                    const status =
+                        item.status || "found";
+
+
+
+                    // =================================================
+                    // IMAGE
+                    // =================================================
+
+                    let imageHTML = `
+
+                        <span style="font-size: 60px;">
+                            📦
+                        </span>
+
+                    `;
+
+
+                    if (
+                        item.image &&
+                        item.image.trim() !== ""
+                    ) {
+
+                        const imagePath =
+                            item.image.trim();
+
+
+                        imageHTML = `
+
+                            <img
+                                src="${imagePath}"
+                                alt="${escapeHTML(itemName)}"
+                                class="lost-item-image"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                            >
+
+                            <span
+                                style="
+                                    display:none;
+                                    font-size:60px;
+                                "
+                            >
+                                📦
+                            </span>
+
+                        `;
+
+                    }
+
+
+
+                    // =================================================
+                    // CREATE CARD
+                    // =================================================
+
+                    const card =
+                        document.createElement("div");
+
+
+                    card.className =
+                        "item-card";
+
+
+                    card.setAttribute(
+                        "data-status",
+                        status.toLowerCase()
+                    );
+
+
+                    card.innerHTML = `
+
+                        <!-- ================= IMAGE ================= -->
+
+                        <div class="item-image orange-image">
+
+                            ${imageHTML}
+
+                        </div>
+
+
+
+                        <!-- ================= CONTENT ================= -->
+
+                        <div class="item-content">
+
+
+                            <div class="item-top">
+
+                                <span class="status found">
+
+                                    FOUND
+
+                                </span>
+
+
+                                <span class="date">
+
+                                    Recently
+
+                                </span>
+
+                            </div>
+
+
+
+                            <h3>
+
+                                ${escapeHTML(itemName)}
+
+                            </h3>
+
+
+
+                            <p>
+
+                                ${escapeHTML(description)}
+
+                            </p>
+
+
+
+                            <div class="item-location">
+
+                                📍
+
+                                ${escapeHTML(location)}
+
+                            </div>
+
+
+                        </div>
+
+                    `;
+
+
+                    foundItemsGrid.appendChild(card);
+
+                });
+
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Found items loading error:",
+                    error
+                );
+
+
+                foundItemsGrid.innerHTML = `
+
+                    <div class="no-items">
+
+                        <h3>
+                            Could not load found items.
+                        </h3>
+
+                        <p>
+                            Make sure the Express server is running.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+
+        // =====================================================
+        // PREVENT DATABASE TEXT FROM BEING INTERPRETED AS HTML
+        // =====================================================
+
+        function escapeHTML(value) {
+
+            return String(value)
+
+                .replace(/&/g, "&amp;")
+
+                .replace(/</g, "&lt;")
+
+                .replace(/>/g, "&gt;")
+
+                .replace(/"/g, "&quot;")
+
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+
+        // =====================================================
+        // START
+        // =====================================================
+
+        loadFoundItems();
+
+    </script>
+
 
 </body>
 

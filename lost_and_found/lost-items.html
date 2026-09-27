@@ -2,141 +2,520 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Lost Items - Campus Lost & Found</title>
 
     <link rel="stylesheet" href="lost.css">
+
 </head>
+
 
 <body>
 
-    <!-- Navigation Bar -->
+
+    <!-- =====================================================
+         NAVIGATION BAR
+         ===================================================== -->
+
     <header class="navbar">
+
         <div class="logo">
-            🎓 Campus Lost & Found
+
+            <img
+                src="logo.png"
+                alt="Lost & Found Logo"
+                class="logo-image"
+            >
+
+            <span>
+                Campus Lost & Found
+            </span>
+
         </div>
 
+
         <nav>
-            <a href="lost.html">Home</a>
-            <a href="lost-items.html">Lost Items</a>
-            <a href="found-items.html">Found Items</a>
-            <a href="browse.html">Browse Items</a>
+
+            <a href="lost.html">
+                Home
+            </a>
+
+            <a href="lost-items.html">
+                Lost Items
+            </a>
+
+            <a href="found-items.html">
+                Found Items
+            </a>
+
+            <a href="browse.html">
+                Browse Items
+            </a>
+
         </nav>
 
-        <a href="lost.html#report" class="login-btn">
+
+        <a
+            href="lost.html#report"
+            class="login-btn"
+        >
             Report Item →
         </a>
+
     </header>
 
 
-    <!-- Lost Items Section -->
+
+    <!-- =====================================================
+         LOST ITEMS PAGE
+         ===================================================== -->
+
     <section class="items-page">
 
-        <div class="items-heading">
-            <p class="small-heading">LOST ITEMS</p>
 
-            <h1>Items that are <span>Lost</span></h1>
+        <!-- ================= HEADING ================= -->
+
+        <div class="items-heading">
+
+            <p class="small-heading">
+                LOST ITEMS
+            </p>
+
+
+            <h1>
+
+                Items that are
+                <span>Lost</span>
+
+            </h1>
+
 
             <p>
-                Browse items reported lost by students on campus.
-                Maybe you can help someone find what they are looking for.
+
+                Browse items that have been reported lost
+                by students on campus.
+
             </p>
+
         </div>
 
 
-        <!-- Lost Items -->
-        <div class="items-grid">
 
-            <!-- Item 1 -->
-            <div class="item-card">
-                <div class="item-image">
-                    🎧
-                </div>
+        <!-- =================================================
+             DATABASE ITEMS WILL APPEAR HERE
+             ================================================= -->
 
-                <h3>Wireless Earphones</h3>
+        <div
+            class="items-grid"
+            id="lostItemsContainer"
+        >
 
-                <p>Lost near the college library.</p>
+            <!-- Loading message -->
 
-                <p><strong>Location:</strong> Library</p>
+            <div
+                class="no-items"
+                id="loadingMessage"
+            >
 
-                <button>View Details</button>
-            </div>
+                <h3>
+                    Loading lost items...
+                </h3>
 
+                <p>
+                    Please wait.
+                </p>
 
-            <!-- Item 2 -->
-            <div class="item-card">
-                <div class="item-image">
-                    🔑
-                </div>
-
-                <h3>Keychain</h3>
-
-                <p>Small black keychain with two keys.</p>
-
-                <p><strong>Location:</strong> Canteen</p>
-
-                <button>View Details</button>
-            </div>
-
-
-            <!-- Item 3 -->
-            <div class="item-card">
-                <div class="item-image">
-                    📱
-                </div>
-
-                <h3>Mobile Phone</h3>
-
-                <p>Black mobile phone with a blue cover.</p>
-
-                <p><strong>Location:</strong> Classroom 204</p>
-
-                <button>View Details</button>
-            </div>
-
-
-            <!-- Item 4 -->
-            <div class="item-card">
-                <div class="item-image">
-                    📚
-                </div>
-
-                <h3>Notebook</h3>
-
-                <p>Blue notebook containing class notes.</p>
-
-                <p><strong>Location:</strong> Seminar Hall</p>
-
-                <button>View Details</button>
-            </div>
-
-
-            <!-- Item 5 -->
-            <div class="item-card">
-                <div class="item-image">
-                    🎒
-                </div>
-
-                <h3>Backpack</h3>
-
-                <p>Black backpack with a small keychain.</p>
-
-                <p><strong>Location:</strong> Parking Area</p>
-
-                <button>View Details</button>
             </div>
 
         </div>
+
 
     </section>
 
 
-    <!-- Footer -->
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
     <footer>
-        <p>© 2026 Campus Lost & Found</p>
+
+        <p>
+            © 2026 Campus Lost & Found
+        </p>
+
     </footer>
+
+
+
+    <!-- =====================================================
+         DATABASE LOADING SCRIPT
+         ===================================================== -->
+
+    <script>
+
+        /*
+         * Express backend API
+         *
+         * This endpoint returns:
+         *
+         * GET /api/lost-found/lost
+         *
+         * The data comes directly from MySQL.
+         */
+
+        const API_URL =
+            "http://localhost:3000/api/lost-found/lost";
+
+
+        /*
+         * Container where cards will be created
+         */
+
+        const container =
+            document.getElementById("lostItemsContainer");
+
+
+        /*
+         * Load lost items from database
+         */
+
+        async function loadLostItems() {
+
+            try {
+
+                /*
+                 * Ask Express backend for lost items
+                 */
+
+                const response =
+                    await fetch(API_URL);
+
+
+                /*
+                 * Check if API responded correctly
+                 */
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Server returned an error."
+                    );
+
+                }
+
+
+                /*
+                 * Convert response to JSON
+                 */
+
+                const items =
+                    await response.json();
+
+
+                /*
+                 * Remove loading message
+                 */
+
+                container.innerHTML = "";
+
+
+                /*
+                 * If there are no lost items
+                 */
+
+                if (
+                    !Array.isArray(items) ||
+                    items.length === 0
+                ) {
+
+                    container.innerHTML = `
+
+                        <div class="no-items">
+
+                            <h3>
+                                No lost items reported yet.
+                            </h3>
+
+                            <p>
+                                Be the first to report a lost item.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+                /*
+                 * Create one card for every
+                 * item returned by MySQL.
+                 */
+
+                items.forEach(function(item) {
+
+
+                    /*
+                     * Get database values safely
+                     */
+
+                    const itemName =
+                        item.item_name || "Unknown Item";
+
+
+                    const description =
+                        item.description || "No description provided.";
+
+
+                    const location =
+                        item.location || "Location not specified";
+
+
+                    const status =
+                        item.status || "lost";
+
+
+                    /*
+                     * IMAGE
+                     *
+                     * Database example:
+                     *
+                     * uploads/items/keychain.jpg
+                     *
+                     * Because lost-items.html is inside
+                     * lost_and_found/, this becomes:
+                     *
+                     * uploads/items/keychain.jpg
+                     */
+
+                    let imageHTML = `
+
+                        <span style="font-size: 60px;">
+                            📦
+                        </span>
+
+                    `;
+
+
+                    if (
+                        item.image &&
+                        item.image.trim() !== ""
+                    ) {
+
+                        let imagePath =
+                            item.image.trim();
+
+
+                        /*
+                         * If database contains:
+                         *
+                         * uploads/items/keychain.jpg
+                         *
+                         * use it directly.
+                         */
+
+                        imageHTML = `
+
+                            <img
+                                src="${imagePath}"
+                                alt="${escapeHTML(itemName)}"
+                                class="lost-item-image"
+                                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
+                            >
+
+                            <span
+                                style="
+                                    display:none;
+                                    font-size:60px;
+                                "
+                            >
+                                📦
+                            </span>
+
+                        `;
+
+                    }
+
+
+                    /*
+                     * Create the card
+                     */
+
+                    const card = document.createElement("div");
+
+                    card.className =
+                        "item-card";
+
+
+                    /*
+                     * Store status for your existing
+                     * browse/search JavaScript
+                     */
+
+                    card.setAttribute(
+                        "data-status",
+                        status.toLowerCase()
+                    );
+
+
+                    /*
+                     * Put database information
+                     * inside the card
+                     */
+
+                    card.innerHTML = `
+
+
+                        <!-- ================= IMAGE ================= -->
+
+                        <div class="item-image blue-image">
+
+                            ${imageHTML}
+
+                        </div>
+
+
+
+                        <!-- ================= CONTENT ================= -->
+
+                        <div class="item-content">
+
+
+                            <div class="item-top">
+
+
+                                <span class="status lost">
+
+                                    LOST
+
+                                </span>
+
+
+                                <span class="date">
+
+                                    Recently
+
+                                </span>
+
+
+                            </div>
+
+
+
+                            <h3>
+
+                                ${escapeHTML(itemName)}
+
+                            </h3>
+
+
+
+                            <p>
+
+                                ${escapeHTML(description)}
+
+                            </p>
+
+
+
+                            <div class="item-location">
+
+                                📍
+
+                                ${escapeHTML(location)}
+
+                            </div>
+
+
+                        </div>
+
+
+                    `;
+
+
+                    /*
+                     * Add card to webpage
+                     */
+
+                    container.appendChild(card);
+
+                });
+
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Lost items loading error:",
+                    error
+                );
+
+
+                /*
+                 * Show error on webpage
+                 */
+
+                container.innerHTML = `
+
+                    <div class="no-items">
+
+                        <h3>
+                            Could not load lost items.
+                        </h3>
+
+                        <p>
+                            Make sure the Express server is running.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+
+        /*
+         * Prevent database text from being interpreted
+         * as HTML.
+         */
+
+        function escapeHTML(value) {
+
+            return String(value)
+
+                .replace(/&/g, "&amp;")
+
+                .replace(/</g, "&lt;")
+
+                .replace(/>/g, "&gt;")
+
+                .replace(/"/g, "&quot;")
+
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+
+        /*
+         * START DATABASE LOADING
+         */
+
+        loadLostItems();
+
+    </script>
+
 
 </body>
 

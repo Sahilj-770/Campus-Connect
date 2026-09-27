@@ -2,63 +2,126 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Campus Lost & Found</title>
 
-    <link rel="stylesheet" href="lost.css">
+    <link
+        rel="stylesheet"
+        href="lost.css"
+    >
+
 </head>
 
+
 <body>
+
 
     <!-- ================= NAVBAR ================= -->
 
     <header class="navbar">
 
         <div class="logo">
-            <img src="logo.png" alt="Lost & Found Logo" class="logo-image">
-            <span>Campus Lost & Found</span>
+
+            <img
+                src="logo.png"
+                alt="Lost & Found Logo"
+                class="logo-image"
+            >
+
+            <span>
+                Campus Lost & Found
+            </span>
+
         </div>
 
+
         <nav>
-            <a href="#home">Home</a>
-            <a href="lost-items.html">Lost Items</a>
-            <a href="found-items.html">Found Items</a>
-            <a href="browse.html">Browse Items</a>
+
+            <a href="#home">
+                Home
+            </a>
+
+            <a href="lost-items.html">
+                Lost Items
+            </a>
+
+            <a href="found-items.html">
+                Found Items
+            </a>
+
+            <a href="browse.html">
+                Browse Items
+            </a>
+
         </nav>
 
-        <a href="#report" class="login-btn">Report Item →</a>
+
+        <a
+            href="#report"
+            class="login-btn"
+        >
+            Report Item →
+        </a>
 
     </header>
 
 
+
     <!-- ================= HERO SECTION ================= -->
 
-    <section class="hero" id="home">
+    <section
+        class="hero"
+        id="home"
+    >
 
         <div class="hero-text">
 
-            <p class="small-heading">CAMPUS LOST & FOUND</p>
+            <p class="small-heading">
+                CAMPUS LOST & FOUND
+            </p>
+
 
             <h1>
+
                 Lost something?
-                <span>Let's find it.</span>
+
+                <span>
+                    Let's find it.
+                </span>
+
             </h1>
 
+
             <p class="hero-description">
+
                 A simple place for students to report lost items,
                 post things they have found and reconnect belongings
                 with their owners.
+
             </p>
+
 
             <div class="hero-buttons">
 
-                <a href="#report" class="primary-btn">
+                <a
+                    href="#report"
+                    class="primary-btn"
+                >
                     Report an Item
                 </a>
 
-                <a href="#items" class="secondary-btn">
+
+                <a
+                    href="#items"
+                    class="secondary-btn"
+                >
                     Browse Items
                 </a>
 
@@ -67,15 +130,20 @@
         </div>
 
 
+
         <div class="hero-box">
 
             <div class="search-box">
 
-                <h3>Looking for something?</h3>
+                <h3>
+                    Looking for something?
+                </h3>
+
 
                 <p>
                     Search through recently reported items.
                 </p>
+
 
                 <div class="search-bar">
 
@@ -85,7 +153,10 @@
                         placeholder="Search for an item..."
                     >
 
-                    <button id="searchButton">Search</button>
+
+                    <button id="searchButton">
+                        Search
+                    </button>
 
                 </div>
 
@@ -103,14 +174,21 @@
 
         <div class="section-title">
 
-            <p class="small-heading">GET STARTED</p>
+            <p class="small-heading">
+                GET STARTED
+            </p>
 
-            <h2>What would you like to do?</h2>
+
+            <h2>
+                What would you like to do?
+            </h2>
 
         </div>
 
 
+
         <div class="quick-cards">
+
 
             <div class="quick-card">
 
@@ -118,12 +196,17 @@
                     🎒
                 </div>
 
-                <h3>I lost something</h3>
+
+                <h3>
+                    I lost something
+                </h3>
+
 
                 <p>
                     Report an item you have lost around
                     the college campus.
                 </p>
+
 
                 <a href="#report">
                     Report Lost Item →
@@ -132,18 +215,24 @@
             </div>
 
 
+
             <div class="quick-card">
 
                 <div class="quick-icon found-icon">
                     ✓
                 </div>
 
-                <h3>I found something</h3>
+
+                <h3>
+                    I found something
+                </h3>
+
 
                 <p>
                     Help another student by reporting
                     an item you have found.
                 </p>
+
 
                 <a href="#report">
                     Report Found Item →
@@ -152,18 +241,24 @@
             </div>
 
 
+
             <div class="quick-card">
 
                 <div class="quick-icon search-icon">
                     🔍
                 </div>
 
-                <h3>I'm looking for an item</h3>
+
+                <h3>
+                    I'm looking for an item
+                </h3>
+
 
                 <p>
                     Browse reported items and see if
                     something belongs to you.
                 </p>
+
 
                 <a href="#items">
                     View Lost & Found →
@@ -171,188 +266,101 @@
 
             </div>
 
+
         </div>
 
     </section>
 
 
 
-    <!-- ================= RECENT ITEMS ================= -->
+    <!-- =====================================================
+         RECENT ITEMS
+         ===================================================== -->
 
-    <section class="items-section" id="items">
+    <section
+        class="items-section"
+        id="items"
+    >
 
         <div class="section-heading-row">
 
             <div>
 
-                <p class="small-heading">RECENT REPORTS</p>
+                <p class="small-heading">
+                    RECENT REPORTS
+                </p>
 
-                <h2>Recently reported items</h2>
+
+                <h2>
+                    Recently reported items
+                </h2>
 
             </div>
 
-            <a href="#items" class="view-all">
+
+            <a
+                href="lost-items.html"
+                class="view-all"
+            >
                 View all →
             </a>
 
         </div>
 
 
-        <div class="item-grid">
+
+        <!-- ================= RECENTLY LOST ================= -->
+
+        <h3 class="recent-category-title">
+            Recently Lost Items
+        </h3>
 
 
-            <!-- ITEM 1 -->
+        <div
+            class="item-grid"
+            id="recentLostContainer"
+        >
 
-            <div class="item-card">
-
-                <div class="item-image blue-image">
-                    🎧
-                </div>
-
-                <div class="item-content">
-
-                    <div class="item-top">
-
-                        <span class="status lost">
-                            LOST
-                        </span>
-
-                        <span class="date">
-                            Today
-                        </span>
-
-                    </div>
-
-                    <h3>Wireless Earphones</h3>
-
-                    <p>
-                        Black wireless earphones in a
-                        small charging case.
-                    </p>
-
-                    <div class="item-location">
-                        📍 Library
-                    </div>
-
-                </div>
-
+            <div
+                style="
+                    grid-column: 1 / -1;
+                    text-align: center;
+                    padding: 50px;
+                    color: #71819a;
+                    font-size: 18px;
+                "
+            >
+                Loading recently lost items...
             </div>
 
-
-
-            <!-- ITEM 2 -->
-
-            <div class="item-card">
-
-                <div class="item-image orange-image">
-                    🎒
-                </div>
-
-                <div class="item-content">
-
-                    <div class="item-top">
-
-                        <span class="status found">
-                            FOUND
-                        </span>
-
-                        <span class="date">
-                            Yesterday
-                        </span>
-
-                    </div>
-
-                    <h3>Black Backpack</h3>
-
-                    <p>
-                        Black college backpack found
-                        near the cafeteria.
-                    </p>
-
-                    <div class="item-location">
-                        📍 Cafeteria
-                    </div>
-
-                </div>
-
-            </div>
+        </div>
 
 
 
-            <!-- ITEM 3 -->
+        <!-- ================= RECENTLY FOUND ================= -->
 
-            <div class="item-card">
+        <h3 class="recent-category-title">
 
-                <div class="item-image green-image">
-                    🪪
-                </div>
+            Recently Found Items
 
-                <div class="item-content">
-
-                    <div class="item-top">
-
-                        <span class="status found">
-                            FOUND
-                        </span>
-
-                        <span class="date">
-                            2 days ago
-                        </span>
-
-                    </div>
-
-                    <h3>College ID Card</h3>
-
-                    <p>
-                        Student identity card found
-                        outside the main building.
-                    </p>
-
-                    <div class="item-location">
-                        📍 Main Building
-                    </div>
-
-                </div>
-
-            </div>
+        </h3>
 
 
+        <div
+            class="item-grid"
+            id="recentFoundContainer"
+        >
 
-            <!-- ITEM 4 -->
-
-            <div class="item-card">
-
-                <div class="item-image purple-image">
-                    🔑
-                </div>
-
-                <div class="item-content">
-
-                    <div class="item-top">
-
-                        <span class="status lost">
-                            LOST
-                        </span>
-
-                        <span class="date">
-                            3 days ago
-                        </span>
-
-                    </div>
-
-                    <h3>Keychain</h3>
-
-                    <p>
-                        Small blue keychain with
-                        two keys attached.
-                    </p>
-
-                    <div class="item-location">
-                        📍 Parking Area
-                    </div>
-
-                </div>
-
+            <div
+                style="
+                    grid-column: 1 / -1;
+                    text-align: center;
+                    padding: 50px;
+                    color: #71819a;
+                    font-size: 18px;
+                "
+            >
+                Loading recently found items...
             </div>
 
         </div>
@@ -363,19 +371,29 @@
 
     <!-- ================= HOW IT WORKS ================= -->
 
-    <section class="how-section" id="how-it-works">
+    <section
+        class="how-section"
+        id="how-it-works"
+    >
 
         <div class="section-title">
 
-            <p class="small-heading">SIMPLE PROCESS</p>
+            <p class="small-heading">
+                SIMPLE PROCESS
+            </p>
 
-            <h2>How Campus Lost & Found works</h2>
+
+            <h2>
+                How Campus Lost & Found works
+            </h2>
+
 
             <p>
                 Getting an item back doesn't have to be complicated.
             </p>
 
         </div>
+
 
 
         <div class="steps">
@@ -387,7 +405,11 @@
                     01
                 </div>
 
-                <h3>Report</h3>
+
+                <h3>
+                    Report
+                </h3>
+
 
                 <p>
                     Submit details about the item you
@@ -397,13 +419,18 @@
             </div>
 
 
+
             <div class="step">
 
                 <div class="step-number">
                     02
                 </div>
 
-                <h3>Search</h3>
+
+                <h3>
+                    Search
+                </h3>
+
 
                 <p>
                     Students can browse the reported
@@ -413,13 +440,18 @@
             </div>
 
 
+
             <div class="step">
 
                 <div class="step-number">
                     03
                 </div>
 
-                <h3>Match</h3>
+
+                <h3>
+                    Match
+                </h3>
+
 
                 <p>
                     Compare the item details to find
@@ -429,13 +461,18 @@
             </div>
 
 
+
             <div class="step">
 
                 <div class="step-number">
                     04
                 </div>
 
-                <h3>Collect</h3>
+
+                <h3>
+                    Collect
+                </h3>
+
 
                 <p>
                     Contact the concerned person and
@@ -443,6 +480,7 @@
                 </p>
 
             </div>
+
 
         </div>
 
@@ -456,36 +494,55 @@
 
         <div class="stat">
 
-            <h2>120+</h2>
+            <h2>
+                120+
+            </h2>
 
-            <p>Items Reported</p>
-
-        </div>
-
-
-        <div class="stat">
-
-            <h2>85+</h2>
-
-            <p>Items Returned</p>
+            <p>
+                Items Reported
+            </p>
 
         </div>
 
 
+
         <div class="stat">
 
-            <h2>60+</h2>
+            <h2>
+                85+
+            </h2>
 
-            <p>Active Students</p>
+            <p>
+                Items Returned
+            </p>
 
         </div>
 
 
+
         <div class="stat">
 
-            <h2>24/7</h2>
+            <h2>
+                60+
+            </h2>
 
-            <p>Reporting Available</p>
+            <p>
+                Active Students
+            </p>
+
+        </div>
+
+
+
+        <div class="stat">
+
+            <h2>
+                24/7
+            </h2>
+
+            <p>
+                Reporting Available
+            </p>
 
         </div>
 
@@ -495,15 +552,22 @@
 
     <!-- ================= REPORT SECTION ================= -->
 
-    <section class="report-section" id="report">
+    <section
+        class="report-section"
+        id="report"
+    >
 
         <div class="report-content">
 
-            <p class="small-heading">REPORT AN ITEM</p>
+            <p class="small-heading">
+                REPORT AN ITEM
+            </p>
+
 
             <h2>
                 Report a lost or found item.
             </h2>
+
 
             <p>
                 Enter the details below so other students
@@ -513,11 +577,13 @@
         </div>
 
 
+
         <div class="report-form">
 
-            <!-- DATABASE CONNECTION STARTS HERE -->
+            <form id="reportForm">
 
-            <form method="POST" action="reportlostitem.php">
+
+                <!-- ITEM NAME -->
 
                 <input
                     type="text"
@@ -526,6 +592,9 @@
                     placeholder="Item name"
                     required
                 >
+
+
+                <!-- LOST / FOUND -->
 
                 <select
                     id="itemStatus"
@@ -543,6 +612,9 @@
 
                 </select>
 
+
+                <!-- LOCATION -->
+
                 <input
                     type="text"
                     id="itemLocation"
@@ -551,12 +623,106 @@
                     required
                 >
 
+
+                <!-- DESCRIPTION -->
+
                 <textarea
                     id="itemDescription"
                     name="description"
                     placeholder="Describe the item"
                     required
                 ></textarea>
+
+
+                <!-- ================= IMAGE UPLOAD ================= -->
+
+                <div
+                    style="
+                        margin-top: 12px;
+                        margin-bottom: 15px;
+                    "
+                >
+
+                    <label
+                        for="itemImage"
+                        style="
+                            display: block;
+                            margin-bottom: 8px;
+                            font-weight: 600;
+                            color: #14213d;
+                        "
+                    >
+                        Upload Item Image
+                    </label>
+
+
+                    <input
+                        type="file"
+                        id="itemImage"
+                        name="image"
+                        accept="image/*"
+                        style="
+                            width: 100%;
+                            padding: 12px;
+                            border: 1px solid #d8e0eb;
+                            border-radius: 10px;
+                            background: white;
+                            box-sizing: border-box;
+                        "
+                    >
+
+
+                    <small
+                        style="
+                            display: block;
+                            margin-top: 6px;
+                            color: #71819a;
+                        "
+                    >
+                        Upload a clear photo of the lost or found item.
+                    </small>
+
+                </div>
+
+
+                <!-- IMAGE PREVIEW -->
+
+                <div
+                    id="imagePreviewContainer"
+                    style="
+                        display: none;
+                        margin-bottom: 15px;
+                    "
+                >
+
+                    <p
+                        style="
+                            margin-bottom: 8px;
+                            color: #14213d;
+                            font-weight: 600;
+                        "
+                    >
+                        Image Preview
+                    </p>
+
+
+                    <img
+                        id="imagePreview"
+                        src=""
+                        alt="Item preview"
+                        style="
+                            width: 180px;
+                            height: 140px;
+                            object-fit: cover;
+                            border-radius: 12px;
+                            border: 1px solid #d8e0eb;
+                        "
+                    >
+
+                </div>
+
+
+                <!-- SUBMIT -->
 
                 <button
                     type="submit"
@@ -566,9 +732,8 @@
                     Submit Report
                 </button>
 
-            </form>
 
-            <!-- DATABASE CONNECTION ENDS HERE -->
+            </form>
 
         </div>
 
@@ -582,9 +747,13 @@
 
         <div class="footer-main">
 
+
             <div class="footer-about">
 
-                <h3>Campus Lost & Found</h3>
+                <h3>
+                    Campus Lost & Found
+                </h3>
+
 
                 <p>
                     A student-friendly platform for
@@ -595,32 +764,57 @@
             </div>
 
 
+
             <div class="footer-links">
 
-                <h4>Quick Links</h4>
+                <h4>
+                    Quick Links
+                </h4>
 
-                <a href="#home">Home</a>
 
-                <a href="#items">Lost Items</a>
+                <a href="#home">
+                    Home
+                </a>
 
-                <a href="#how-it-works">How It Works</a>
+
+                <a href="lost-items.html">
+                    Lost Items
+                </a>
+
+
+                <a href="#how-it-works">
+                    How It Works
+                </a>
 
             </div>
 
 
+
             <div class="footer-links">
 
-                <h4>Contact</h4>
+                <h4>
+                    Contact
+                </h4>
 
-                <p>College Campus</p>
 
-                <p>Student Support Desk</p>
+                <p>
+                    College Campus
+                </p>
 
-                <p>campus@example.com</p>
+
+                <p>
+                    Student Support Desk
+                </p>
+
+
+                <p>
+                    campus@example.com
+                </p>
 
             </div>
 
         </div>
+
 
 
         <div class="footer-bottom">
@@ -628,6 +822,7 @@
             <p>
                 © 2026 Campus Lost & Found
             </p>
+
 
             <p>
                 Made for students
@@ -638,7 +833,1317 @@
     </footer>
 
 
-    <script src="lost.js"></script>
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script>
+
+
+        // =====================================================
+        // EXPRESS API
+        // =====================================================
+
+        const API_BASE =
+            "http://localhost:3000/api/lost-found";
+
+
+
+        // =====================================================
+        // IMAGE MAP
+        // Used when database item has no image
+        // =====================================================
+
+        const imageMap = {
+
+            "mobile cover":
+                "uploads/items/mobilecover.jpg",
+
+            "mobile":
+                "uploads/items/mobile.jpg",
+
+            "black wallet":
+                "uploads/items/blackwallet.jpg",
+
+            "college id card":
+                "uploads/items/collegeidcard.jpg",
+
+            "keychain":
+                "uploads/items/keychain.jpg",
+
+            "umbrella":
+                "uploads/items/umbrella.jpg",
+
+            "laptop charger":
+                "uploads/items/laptopcharger.jpg",
+
+            "notebook":
+                "uploads/items/notebook.jpg",
+
+            "earphones":
+                "uploads/items/earphones.jpg",
+
+            "usb drive":
+                "uploads/items/usbdrive.jpg",
+
+            "scientific calculator":
+                "uploads/items/scientificcalculator.jpg",
+
+            "water bottle":
+                "uploads/items/waterbottle.jpg"
+
+        };
+
+
+
+        // =====================================================
+        // GET IMAGE URL
+        // IMPORTANT FIX:
+        // Uses localhost absolute URL so images work correctly
+        // =====================================================
+
+        function getImageUrl(image, itemName) {
+
+            let imageValue =
+                image
+                    ? String(image).trim()
+                    : "";
+
+
+            /*
+             * If there is no image in database,
+             * check our existing image map.
+             */
+
+            if (imageValue === "" && itemName) {
+
+                const itemKey =
+                    String(itemName)
+                        .trim()
+                        .toLowerCase();
+
+                imageValue =
+                    imageMap[itemKey] || "";
+
+            }
+
+
+            if (imageValue === "") {
+                return "";
+            }
+
+
+            /*
+             * Uploaded base64 image
+             */
+
+            if (
+                imageValue.startsWith("data:image/")
+            ) {
+
+                return imageValue;
+
+            }
+
+
+            /*
+             * Full URL
+             */
+
+            if (
+                imageValue.startsWith("http://") ||
+                imageValue.startsWith("https://")
+            ) {
+
+                return imageValue;
+
+            }
+
+
+            /*
+             * Existing uploads path
+             *
+             * uploads/items/keychain.jpg
+             *
+             * becomes:
+             *
+             * http://localhost/Campus-Connect/
+             * lost_and_found/uploads/items/keychain.jpg
+             */
+
+            if (
+                imageValue.startsWith("uploads/") ||
+                imageValue.startsWith("uploads\\")
+            ) {
+
+                return (
+                    "http://localhost/Campus-Connect/" +
+                    "lost_and_found/" +
+                    imageValue.replace(/\\/g, "/")
+                );
+
+            }
+
+
+            /*
+             * Absolute local path
+             */
+
+            if (imageValue.startsWith("/")) {
+
+                return (
+                    "http://localhost" +
+                    imageValue
+                );
+
+            }
+
+
+            return (
+                "http://localhost/Campus-Connect/" +
+                "lost_and_found/" +
+                imageValue
+            );
+
+        }
+
+
+
+        // =====================================================
+        // CREATE ITEM CARD
+        // =====================================================
+
+        function createItemCard(item) {
+
+            const card =
+                document.createElement("div");
+
+            card.className =
+                "item-card";
+
+
+            // STATUS
+
+            const status =
+                String(item.status || "")
+                    .trim()
+                    .toLowerCase();
+
+
+            const statusText =
+                status === "found"
+                    ? "FOUND"
+                    : "LOST";
+
+
+            const statusClass =
+                status === "found"
+                    ? "found"
+                    : "lost";
+
+
+            // ITEM NAME
+
+            const itemName =
+                item.item_name ||
+                "Unknown Item";
+
+
+            // DESCRIPTION
+
+            const description =
+                item.description ||
+                "No description available.";
+
+
+            // LOCATION
+
+            const location =
+                item.location ||
+                "Unknown location";
+
+
+            // IMAGE
+
+            const imageUrl =
+                getImageUrl(
+                    item.image,
+                    itemName
+                );
+
+
+            let imageHTML = "";
+
+
+            if (imageUrl !== "") {
+
+                imageHTML = `
+
+                    <img
+                        src="${imageUrl}"
+                        alt="${escapeHTML(itemName)}"
+                        class="lost-item-image"
+                        onerror="
+                            this.style.display='none';
+                            this.parentElement.innerHTML=
+                            '<span style=&quot;font-size:60px;&quot;>📦</span>';
+                        "
+                    >
+
+                `;
+
+            } else {
+
+                imageHTML = `
+
+                    <span
+                        style="
+                            font-size: 60px;
+                        "
+                    >
+                        📦
+                    </span>
+
+                `;
+
+            }
+
+
+            // IMAGE BACKGROUND
+
+            let imageClass =
+                "blue-image";
+
+
+            if (status === "found") {
+
+                imageClass =
+                    "orange-image";
+
+            }
+
+
+            // CARD
+
+            card.innerHTML = `
+
+                <div
+                    class="item-image ${imageClass}"
+                >
+
+                    ${imageHTML}
+
+                </div>
+
+
+                <div class="item-content">
+
+                    <div class="item-top">
+
+                        <span
+                            class="status ${statusClass}"
+                        >
+
+                            ${statusText}
+
+                        </span>
+
+
+                        <span class="date">
+
+                            Recently
+
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+
+                        ${escapeHTML(itemName)}
+
+                    </h3>
+
+
+                    <p>
+
+                        ${escapeHTML(description)}
+
+                    </p>
+
+
+                    <div class="item-location">
+
+                        📍
+
+                        ${escapeHTML(location)}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            return card;
+
+        }
+
+
+
+        // =====================================================
+        // ESCAPE HTML
+        // =====================================================
+
+        function escapeHTML(value) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+
+        // =====================================================
+        // LOAD RECENT LOST + FOUND
+        // =====================================================
+
+        async function loadRecentItems() {
+
+            const lostContainer =
+                document.getElementById(
+                    "recentLostContainer"
+                );
+
+
+            const foundContainer =
+                document.getElementById(
+                    "recentFoundContainer"
+                );
+
+
+            try {
+
+                // ================= LOST =================
+
+                const lostResponse =
+                    await fetch(
+                        API_BASE + "/lost"
+                    );
+
+
+                if (!lostResponse.ok) {
+
+                    throw new Error(
+                        "Could not fetch lost items"
+                    );
+
+                }
+
+
+                const lostItems =
+                    await lostResponse.json();
+
+
+
+                // ================= FOUND =================
+
+                const foundResponse =
+                    await fetch(
+                        API_BASE + "/found"
+                    );
+
+
+                if (!foundResponse.ok) {
+
+                    throw new Error(
+                        "Could not fetch found items"
+                    );
+
+                }
+
+
+                const foundItems =
+                    await foundResponse.json();
+
+
+
+                // ================= LAST 4 LOST =================
+
+                const recentLost =
+                    Array.isArray(lostItems)
+                        ? lostItems.slice(0, 4)
+                        : [];
+
+
+
+                // ================= LAST 4 FOUND =================
+
+                const recentFound =
+                    Array.isArray(foundItems)
+                        ? foundItems.slice(0, 4)
+                        : [];
+
+
+
+                // CLEAR
+
+                lostContainer.innerHTML =
+                    "";
+
+                foundContainer.innerHTML =
+                    "";
+
+
+
+                // ADD LOST
+
+                recentLost.forEach(
+                    function(item) {
+
+                        lostContainer.appendChild(
+                            createItemCard(item)
+                        );
+
+                    }
+                );
+
+
+
+                // ADD FOUND
+
+                recentFound.forEach(
+                    function(item) {
+
+                        foundContainer.appendChild(
+                            createItemCard(item)
+                        );
+
+                    }
+                );
+
+
+
+                // NO LOST
+
+                if (
+                    recentLost.length === 0
+                ) {
+
+                    lostContainer.innerHTML = `
+
+                        <div
+                            style="
+                                grid-column: 1 / -1;
+                                text-align: center;
+                                padding: 50px 20px;
+                                color: #71819a;
+                            "
+                        >
+
+                            <h3>
+                                No lost items reported yet.
+                            </h3>
+
+                            <p>
+                                Be the first to report a lost item.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                }
+
+
+
+                // NO FOUND
+
+                if (
+                    recentFound.length === 0
+                ) {
+
+                    foundContainer.innerHTML = `
+
+                        <div
+                            style="
+                                grid-column: 1 / -1;
+                                text-align: center;
+                                padding: 50px 20px;
+                                color: #71819a;
+                            "
+                        >
+
+                            <h3>
+                                No found items reported yet.
+                            </h3>
+
+                            <p>
+                                Be the first to report a found item.
+                            </p>
+
+                        </div>
+
+                    `;
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Error loading recent items:",
+                    error
+                );
+
+
+                lostContainer.innerHTML = `
+
+                    <div
+                        style="
+                            grid-column: 1 / -1;
+                            text-align: center;
+                            padding: 70px 20px;
+                            color: #71819a;
+                        "
+                    >
+
+                        <h3>
+                            Unable to load lost items.
+                        </h3>
+
+                        <p>
+                            Please make sure the Express server
+                            is running on port 3000.
+                        </p>
+
+                    </div>
+
+                `;
+
+
+                foundContainer.innerHTML = `
+
+                    <div
+                        style="
+                            grid-column: 1 / -1;
+                            text-align: center;
+                            padding: 70px 20px;
+                            color: #71819a;
+                        "
+                    >
+
+                        <h3>
+                            Unable to load found items.
+                        </h3>
+
+                        <p>
+                            Please make sure the Express server
+                            is running on port 3000.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+
+        // =====================================================
+        // IMAGE COMPRESSION
+        // Converts uploaded image into smaller JPEG data
+        // =====================================================
+
+        function compressImage(file) {
+
+            return new Promise(
+                function(resolve, reject) {
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload =
+                        function(event) {
+
+                            const img =
+                                new Image();
+
+
+                            img.onload =
+                                function() {
+
+                                    const MAX_SIZE =
+                                        700;
+
+
+                                    let width =
+                                        img.width;
+
+                                    let height =
+                                        img.height;
+
+
+                                    /*
+                                     * Resize large images
+                                     */
+
+                                    if (
+                                        width > MAX_SIZE ||
+                                        height > MAX_SIZE
+                                    ) {
+
+                                        if (
+                                            width > height
+                                        ) {
+
+                                            height =
+                                                Math.round(
+                                                    height *
+                                                    MAX_SIZE /
+                                                    width
+                                                );
+
+                                            width =
+                                                MAX_SIZE;
+
+                                        } else {
+
+                                            width =
+                                                Math.round(
+                                                    width *
+                                                    MAX_SIZE /
+                                                    height
+                                                );
+
+                                            height =
+                                                MAX_SIZE;
+
+                                        }
+
+                                    }
+
+
+                                    const canvas =
+                                        document.createElement(
+                                            "canvas"
+                                        );
+
+
+                                    canvas.width =
+                                        width;
+
+                                    canvas.height =
+                                        height;
+
+
+                                    const context =
+                                        canvas.getContext(
+                                            "2d"
+                                        );
+
+
+                                    context.drawImage(
+                                        img,
+                                        0,
+                                        0,
+                                        width,
+                                        height
+                                    );
+
+
+                                    /*
+                                     * Compress to JPEG
+                                     */
+
+                                    const compressed =
+                                        canvas.toDataURL(
+                                            "image/jpeg",
+                                            0.65
+                                        );
+
+
+                                    resolve(
+                                        compressed
+                                    );
+
+                                };
+
+
+                            img.onerror =
+                                function() {
+
+                                    reject(
+                                        new Error(
+                                            "Could not read image."
+                                        )
+                                    );
+
+                                };
+
+
+                            img.src =
+                                event.target.result;
+
+                        };
+
+
+                    reader.onerror =
+                        function() {
+
+                            reject(
+                                new Error(
+                                    "Could not read selected image."
+                                )
+                            );
+
+                        };
+
+
+                    reader.readAsDataURL(file);
+
+                }
+            );
+
+        }
+
+
+
+        // =====================================================
+        // IMAGE PREVIEW
+        // =====================================================
+
+        const imageInput =
+            document.getElementById(
+                "itemImage"
+            );
+
+
+        const imagePreview =
+            document.getElementById(
+                "imagePreview"
+            );
+
+
+        const imagePreviewContainer =
+            document.getElementById(
+                "imagePreviewContainer"
+            );
+
+
+        let selectedImageData =
+            "";
+
+
+
+        if (imageInput) {
+
+            imageInput.addEventListener(
+                "change",
+                async function() {
+
+                    const file =
+                        imageInput.files[0];
+
+
+                    if (!file) {
+
+                        selectedImageData =
+                            "";
+
+                        imagePreviewContainer.style.display =
+                            "none";
+
+                        return;
+
+                    }
+
+
+                    /*
+                     * Make sure selected file is an image
+                     */
+
+                    if (
+                        !file.type.startsWith(
+                            "image/"
+                        )
+                    ) {
+
+                        alert(
+                            "Please select an image file."
+                        );
+
+                        imageInput.value =
+                            "";
+
+                        return;
+
+                    }
+
+
+                    try {
+
+                        selectedImageData =
+                            await compressImage(
+                                file
+                            );
+
+
+                        imagePreview.src =
+                            selectedImageData;
+
+
+                        imagePreviewContainer.style.display =
+                            "block";
+
+
+                    } catch (error) {
+
+                        console.error(
+                            error
+                        );
+
+
+                        alert(
+                            "Could not process the image."
+                        );
+
+                        selectedImageData =
+                            "";
+
+                    }
+
+                }
+            );
+
+        }
+
+
+
+        // =====================================================
+        // REPORT ITEM
+        // =====================================================
+
+        const reportForm =
+            document.getElementById(
+                "reportForm"
+            );
+
+
+        if (reportForm) {
+
+            reportForm.addEventListener(
+                "submit",
+                async function(event) {
+
+                    event.preventDefault();
+
+
+                    const submitButton =
+                        document.getElementById(
+                            "submitReport"
+                        );
+
+
+                    const itemName =
+                        document
+                            .getElementById(
+                                "itemName"
+                            )
+                            .value
+                            .trim();
+
+
+                    const status =
+                        document
+                            .getElementById(
+                                "itemStatus"
+                            )
+                            .value;
+
+
+                    const location =
+                        document
+                            .getElementById(
+                                "itemLocation"
+                            )
+                            .value
+                            .trim();
+
+
+                    const description =
+                        document
+                            .getElementById(
+                                "itemDescription"
+                            )
+                            .value
+                            .trim();
+
+
+
+                    if (
+                        itemName === "" ||
+                        location === "" ||
+                        description === ""
+                    ) {
+
+                        alert(
+                            "Please fill in all the details."
+                        );
+
+                        return;
+
+                    }
+
+
+
+                    try {
+
+                        submitButton.disabled =
+                            true;
+
+
+                        submitButton.innerText =
+                            "Submitting...";
+
+
+
+                        /*
+                         * If the user selected an image,
+                         * use the uploaded image.
+                         *
+                         * Otherwise backend imageMap
+                         * will be used automatically.
+                         */
+
+                        let image =
+                            selectedImageData;
+
+
+
+                        /*
+                         * POST TO EXPRESS
+                         */
+
+                        const response =
+                            await fetch(
+                                API_BASE,
+                                {
+
+                                    method:
+                                        "POST",
+
+                                    headers:
+                                        {
+                                            "Content-Type":
+                                                "application/json"
+                                        },
+
+                                    body:
+                                        JSON.stringify({
+
+                                            item_name:
+                                                itemName,
+
+                                            status:
+                                                status,
+
+                                            location:
+                                                location,
+
+                                            description:
+                                                description,
+
+                                            image:
+                                                image
+
+                                        })
+
+                                }
+                            );
+
+
+
+                        const data =
+                            await response.json();
+
+
+
+                        if (!response.ok) {
+
+                            throw new Error(
+                                data.error ||
+                                "Could not submit report."
+                            );
+
+                        }
+
+
+
+                        alert(
+                            "Item reported successfully!"
+                        );
+
+
+                        /*
+                         * Reset form
+                         */
+
+                        reportForm.reset();
+
+
+                        selectedImageData =
+                            "";
+
+
+                        imagePreviewContainer.style.display =
+                            "none";
+
+
+                        imagePreview.src =
+                            "";
+
+
+                        /*
+                         * Reload recent items
+                         */
+
+                        await loadRecentItems();
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Report error:",
+                            error
+                        );
+
+
+                        alert(
+                            "Could not submit the report.\n\n" +
+                            error.message
+                        );
+
+                    } finally {
+
+                        submitButton.disabled =
+                            false;
+
+
+                        submitButton.innerText =
+                            "Submit Report";
+
+                    }
+
+                }
+            );
+
+        }
+
+
+
+        // =====================================================
+        // HOME PAGE SEARCH
+        // Searches BOTH lost and found
+        // =====================================================
+
+        const searchButton =
+            document.getElementById(
+                "searchButton"
+            );
+
+
+        const searchInput =
+            document.getElementById(
+                "searchInput"
+            );
+
+
+        if (
+            searchButton &&
+            searchInput
+        ) {
+
+            searchButton.addEventListener(
+                "click",
+                function() {
+
+                    const searchValue =
+                        searchInput.value
+                            .trim()
+                            .toLowerCase();
+
+
+
+                    if (
+                        searchValue === ""
+                    ) {
+
+                        document
+                            .getElementById(
+                                "items"
+                            )
+                            .scrollIntoView({
+                                behavior:
+                                    "smooth"
+                            });
+
+                        return;
+
+                    }
+
+
+
+                    /*
+                     * Search all 8 cards:
+                     *
+                     * 4 Lost
+                     * 4 Found
+                     */
+
+                    const cards =
+                        document.querySelectorAll(
+                            "#recentLostContainer .item-card, " +
+                            "#recentFoundContainer .item-card"
+                        );
+
+
+                    let foundMatch =
+                        false;
+
+
+
+                    cards.forEach(
+                        function(card) {
+
+                            const text =
+                                card.innerText
+                                    .toLowerCase();
+
+
+                            if (
+                                text.includes(
+                                    searchValue
+                                )
+                            ) {
+
+                                card.style.display =
+                                    "";
+
+                                foundMatch =
+                                    true;
+
+                            } else {
+
+                                card.style.display =
+                                    "none";
+
+                            }
+
+                        }
+                    );
+
+
+
+                    /*
+                     * Scroll to recent items.
+                     *
+                     * DOES NOT CHANGE URL.
+                     */
+
+                    document
+                        .getElementById(
+                            "items"
+                        )
+                        .scrollIntoView({
+                            behavior:
+                                "smooth"
+                        });
+
+
+
+                    if (
+                        !foundMatch
+                    ) {
+
+                        alert(
+                            "No matching item found in recent reports."
+                        );
+
+                    }
+
+                }
+            );
+
+
+
+            /*
+             * Press ENTER to search
+             */
+
+            searchInput.addEventListener(
+                "keydown",
+                function(event) {
+
+                    if (
+                        event.key === "Enter"
+                    ) {
+
+                        searchButton.click();
+
+                    }
+
+                }
+            );
+
+        }
+
+
+
+        // =====================================================
+        // LOAD ITEMS WHEN PAGE OPENS
+        // =====================================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadRecentItems();
+
+            }
+        );
+
+
+    </script>
+
 
 </body>
 
