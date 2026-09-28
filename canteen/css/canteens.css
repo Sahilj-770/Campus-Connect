@@ -244,6 +244,161 @@ body {
 
 }
 
+/* =====================================================
+   FLOATING CART BUTTON
+   ===================================================== */
+
+#cartButton {
+
+    position: fixed;
+
+    width: 120px;
+    height: 120px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background: #d16b42;
+
+    color: white;
+
+    font-size: 42px;
+
+    cursor: pointer;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.20);
+
+    z-index: 9999;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* =====================================================
+   HOME PAGE
+   Cart → upper right
+   ===================================================== */
+
+#cartButton.cart-home {
+
+    top: 90px;
+
+    right: 35px;
+
+}
+
+
+/* =====================================================
+   CANTEENS + MENU
+   Cart → bottom right
+   ===================================================== */
+
+#cartButton.cart-bottom {
+
+    right: 30px;
+
+    bottom: 30px;
+
+}
+
+
+/* =====================================================
+   HOVER
+   ===================================================== */
+
+#cartButton:hover {
+
+    transform: scale(1.05);
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.25);
+
+}
+
+
+/* =====================================================
+   CART COUNT
+   ===================================================== */
+
+#cartCount {
+
+    position: absolute;
+
+    top: -5px;
+
+    right: -5px;
+
+    min-width: 32px;
+
+    height: 32px;
+
+    padding: 3px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: #172033;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    box-sizing: border-box;
+
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+    #cartButton {
+
+        width: 70px;
+
+        height: 70px;
+
+        font-size: 28px;
+
+    }
+
+    #cartButton.cart-home {
+
+        top: 75px;
+
+        right: 20px;
+
+    }
+
+    #cartButton.cart-bottom {
+
+        right: 20px;
+
+        bottom: 20px;
+
+    }
+
+}
+
 
 
 /* =====================================================

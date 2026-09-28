@@ -5,8 +5,7 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Campus Bites - Browse Cuisine</title>
 
@@ -22,279 +21,257 @@
 <body>
 
 
-<!-- =====================================================
+    <!-- =====================================================
      NAVBAR
      ===================================================== -->
 
-<header class="navbar">
+    <header class="navbar">
 
-    <a href="index.html" class="logo">
+        <a href="index.html" class="logo">
 
-        <span class="logo-icon">🍽️</span>
+            <span class="logo-icon">🍽️</span>
 
-        <span>
-            Campus <span class="logo-highlight">Bites</span>
-        </span>
+            <span>
+                Campus <span class="logo-highlight">Bites</span>
+            </span>
 
-    </a>
-
-
-    <nav>
-
-        <a href="index.html">
-            Home
         </a>
 
-        <a href="canteens.html">
-            Canteens
-        </a>
 
-        <a href="menu.html" class="active">
-            Browse Cuisine
-        </a>
+        <nav>
 
-    </nav>
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="canteens.html">
+                Canteens
+            </a>
+
+            <a href="menu.html" class="active">
+                Browse Cuisine
+            </a>
+
+        </nav>
+
+    </header>
 
 
-    <div class="cart-icon">
-        🛒
-        <span class="cart-count">0</span>
-    </div>
 
-</header>
-
-
-
-<!-- =====================================================
+    <!-- =====================================================
      HERO
      ===================================================== -->
 
-<section class="menu-hero">
+    <section class="menu-hero">
 
-    <div class="menu-hero-content">
+        <div class="menu-hero-content">
 
-        <p class="hero-small-text">
-            Good Food • Great Vibes
-        </p>
-
-
-        <h1>
-            All Campus
-            <span>Menus</span>
-        </h1>
-
-
-        <p class="hero-description">
-            Explore delicious options from all three canteens.
-            Find your next favourite!
-        </p>
-
-
-        <div class="hero-search">
-
-            <span>⌕</span>
-
-            <input
-                type="text"
-                id="menuSearch"
-                placeholder="Search for dishes..."
-            >
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     MAIN MENU AREA
-     ===================================================== -->
-
-<main class="menu-layout">
-
-
-    <!-- =================================================
-         SIDEBAR
-         ================================================= -->
-
-    <aside class="menu-sidebar">
-
-
-        <!-- CANTEENS -->
-
-        <div class="sidebar-section">
-
-            <div class="sidebar-heading">
-
-                <h3>🏪 Canteens</h3>
-
-            </div>
-
-
-            <button
-                class="canteen-filter active"
-                data-canteen="all">
-
-                <span class="radio"></span>
-
-                <span>All Canteens</span>
-
-            </button>
-
-
-            <button
-                class="canteen-filter"
-                data-canteen="cafeteria">
-
-                <span class="radio"></span>
-
-                <span>🍴 Cafeteria</span>
-
-            </button>
-
-
-            <button
-                class="canteen-filter"
-                data-canteen="timeless">
-
-                <span class="radio"></span>
-
-                <span>☕ Timeless</span>
-
-            </button>
-
-
-            <button
-                class="canteen-filter"
-                data-canteen="nescafe">
-
-                <span class="radio"></span>
-
-                <span>🥤 Nescafe</span>
-
-            </button>
-
-        </div>
-
-
-
-        <!-- CATEGORY -->
-
-        <div class="sidebar-section">
-
-            <div class="sidebar-heading">
-
-                <h3>Categories</h3>
-
-            </div>
-
-
-            <div
-                class="category-buttons"
-                id="categoryButtons">
-
-            </div>
-
-        </div>
-
-
-
-        <!-- CLEAR -->
-
-        <button
-            id="clearFilters"
-            class="clear-filters">
-
-            ⌕ &nbsp; Clear filters
-
-        </button>
-
-    </aside>
-
-
-
-    <!-- =================================================
-         MENU CONTENT
-         ================================================= -->
-
-    <section class="menu-content">
-
-
-        <!-- RESULT HEADER -->
-
-        <div class="menu-result-header">
-
-            <div>
-
-                <h2 id="canteenTitle">
-                    Showing all items from
-                    <span>3 canteens</span>
-                </h2>
-
-
-                <p id="resultSummary">
-                    Loading menu items...
-                </p>
-
-            </div>
-
-
-            <div class="sort-box">
-
-                ↕ &nbsp;
-                Sort by:
-                <strong>Popularity</strong>
-
-                ˅
-
-            </div>
-
-        </div>
-
-
-
-        <!-- MENU ITEMS -->
-
-        <div id="menuContainer">
-
-        </div>
-
-
-
-        <!-- NO RESULTS -->
-
-        <div
-            id="noResults"
-            class="no-results"
-            style="display: none;">
-
-            <div class="no-results-icon">
-                🔍
-            </div>
-
-            <h2>
-                No menu items found
-            </h2>
-
-            <p>
-                Try searching for something else.
+            <p class="hero-small-text">
+                Good Food • Great Vibes
             </p>
+
+
+            <h1>
+                All Campus
+                <span>Menus</span>
+            </h1>
+
+
+            <p class="hero-description">
+                Explore delicious options from all three canteens.
+                Find your next favourite!
+            </p>
+
+
+            <div class="hero-search">
+
+                <span>⌕</span>
+
+                <input type="text" id="menuSearch" placeholder="Search for dishes...">
+
+            </div>
 
         </div>
 
     </section>
 
-</main>
+
+
+    <!-- =====================================================
+     MAIN MENU AREA
+     ===================================================== -->
+
+    <main class="menu-layout">
+
+
+        <!-- =================================================
+         SIDEBAR
+         ================================================= -->
+
+        <aside class="menu-sidebar">
+
+
+            <!-- CANTEENS -->
+
+            <div class="sidebar-section">
+
+                <div class="sidebar-heading">
+
+                    <h3>🏪 Canteens</h3>
+
+                </div>
+
+
+                <button class="canteen-filter active" data-canteen="all">
+
+                    <span class="radio"></span>
+
+                    <span>All Canteens</span>
+
+                </button>
+
+
+                <button class="canteen-filter" data-canteen="cafeteria">
+
+                    <span class="radio"></span>
+
+                    <span>🍴 Cafeteria</span>
+
+                </button>
+
+
+                <button class="canteen-filter" data-canteen="timeless">
+
+                    <span class="radio"></span>
+
+                    <span>☕ Timeless</span>
+
+                </button>
+
+
+                <button class="canteen-filter" data-canteen="nescafe">
+
+                    <span class="radio"></span>
+
+                    <span>🥤 Nescafe</span>
+
+                </button>
+
+            </div>
 
 
 
-<!-- =====================================================
+            <!-- CATEGORY -->
+
+            <div class="sidebar-section">
+
+                <div class="sidebar-heading">
+
+                    <h3>Categories</h3>
+
+                </div>
+
+
+                <div class="category-buttons" id="categoryButtons">
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CLEAR -->
+
+            <button id="clearFilters" class="clear-filters">
+
+                ⌕ &nbsp; Clear filters
+
+            </button>
+
+        </aside>
+
+
+
+        <!-- =================================================
+         MENU CONTENT
+         ================================================= -->
+
+        <section class="menu-content">
+
+
+            <!-- RESULT HEADER -->
+
+            <div class="menu-result-header">
+
+                <div>
+
+                    <h2 id="canteenTitle">
+                        Showing all items from
+                        <span>3 canteens</span>
+                    </h2>
+
+
+                    <p id="resultSummary">
+                        Loading menu items...
+                    </p>
+
+                </div>
+
+
+                <div class="sort-box">
+
+                    ↕ &nbsp;
+                    Sort by:
+                    <strong>Popularity</strong>
+
+                    ˅
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MENU ITEMS -->
+
+            <div id="menuContainer">
+
+            </div>
+
+
+
+            <!-- NO RESULTS -->
+
+            <div id="noResults" class="no-results" style="display: none;">
+
+                <div class="no-results-icon">
+                    🔍
+                </div>
+
+                <h2>
+                    No menu items found
+                </h2>
+
+                <p>
+                    Try searching for something else.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
      JAVASCRIPT
      ===================================================== -->
 
-<script src="js/menu.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/menu.js"></script>
+
+
 
 </body>
 

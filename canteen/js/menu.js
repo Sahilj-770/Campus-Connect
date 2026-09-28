@@ -1219,5 +1219,4 @@ function showError(message) {
 createCartButton();
 
 updateCartCount();
-
 loadAllMenus();

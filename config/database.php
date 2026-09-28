@@ -11,7 +11,7 @@ $host = getenv("DB_HOST") ?: "localhost";
 $username = getenv("DB_USER") ?: "root";
 $password = getenv("DB_PASSWORD") ?: "";
 $database = getenv("DB_NAME") ?: "campusconnect";
-$port = (int) (getenv("DB_PORT") ?: 3307);
+$port = (int) (getenv("DB_PORT") ?: 3306);
 
 $conn = new mysqli(
     $host,
