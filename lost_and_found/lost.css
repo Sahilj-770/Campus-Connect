@@ -1413,4 +1413,14 @@ footer {
     .browse-controls {
         flex-direction: column;
     }
+
+    /* ================= RECENT ITEM HEADINGS ================= */
+
+.recent-category-title {
+    margin-top: 45px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 700;
+    color: #14213d;
+}
 }

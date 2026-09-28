@@ -2,54 +2,175 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Browse Items - Campus Lost & Found</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <link rel="stylesheet" href="lost.css">
+    <title>
+        Browse Items - Campus Lost & Found
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="lost.css"
+    >
+
+    <style>
+
+        .browse-results {
+            margin-top: 50px;
+        }
+
+        .browse-message {
+            text-align: center;
+            padding: 60px 20px;
+            color: #71819a;
+        }
+
+        .browse-message h3 {
+            color: #14213d;
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+
+        .browse-card {
+            overflow: hidden;
+        }
+
+        .browse-card .item-image {
+            min-height: 260px;
+        }
+
+        .browse-card .item-image img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .details-btn {
+            margin-top: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            background: #14213d;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .details-btn:hover {
+            background: #c85a00;
+        }
+
+        .details-box {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f7f8fa;
+            display: none;
+        }
+
+        .details-box.show {
+            display: block;
+        }
+
+        .details-box p {
+            margin: 7px 0;
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-    <!-- Navigation Bar -->
+
+    <!-- ================= NAVBAR ================= -->
+
     <header class="navbar">
 
         <div class="logo">
-            🎓 Campus Lost & Found
+
+            <img
+                src="logo.png"
+                alt="Lost & Found Logo"
+                class="logo-image"
+            >
+
+            <span>
+                Campus Lost & Found
+            </span>
+
         </div>
 
+
         <nav>
-            <a href="lost.html">Home</a>
-            <a href="lost-items.html">Lost Items</a>
-            <a href="found-items.html">Found Items</a>
-            <a href="browse.html">Browse Items</a>
+
+            <a href="lost.html">
+                Home
+            </a>
+
+            <a href="lost-items.html">
+                Lost Items
+            </a>
+
+            <a href="found-items.html">
+                Found Items
+            </a>
+
+            <a href="browse.html">
+                Browse Items
+            </a>
+
         </nav>
 
-        <a href="lost.html#report" class="login-btn">
+
+        <a
+            href="lost.html#report"
+            class="login-btn"
+        >
             Report Item →
         </a>
 
     </header>
 
 
-    <!-- Browse Items Section -->
+
+    <!-- ================= BROWSE PAGE ================= -->
+
     <section class="items-page">
 
         <div class="items-heading">
 
-            <p class="small-heading">BROWSE ITEMS</p>
+            <p class="small-heading">
+                BROWSE ITEMS
+            </p>
 
-            <h1>Find an <span>Item</span></h1>
+
+            <h1>
+                Find an
+                <span>Item</span>
+            </h1>
+
 
             <p>
-                Search through lost and found items reported by students on campus.
+                Search through lost and found items
+                reported by students on campus.
             </p>
 
         </div>
 
 
-        <!-- Search and Filter -->
+
+        <!-- ================= SEARCH ================= -->
+
         <div class="browse-controls">
 
             <input
@@ -58,13 +179,23 @@
                 placeholder="Search for an item..."
             >
 
+
             <select id="statusFilter">
 
-                <option value="all">All Items</option>
-                <option value="lost">Lost Items</option>
-                <option value="found">Found Items</option>
+                <option value="all">
+                    All Items
+                </option>
+
+                <option value="lost">
+                    Lost Items
+                </option>
+
+                <option value="found">
+                    Found Items
+                </option>
 
             </select>
+
 
             <button id="browseButton">
                 Search
@@ -73,125 +204,23 @@
         </div>
 
 
-        <!-- Items -->
-        <div class="items-grid">
 
-            <!-- Lost Item -->
-            <div class="item-card" data-status="lost">
+        <!-- ================= RESULTS ================= -->
 
-                <div class="item-image">
-                    🎧
-                </div>
+        <div
+            class="items-grid browse-results"
+            id="browseResults"
+        >
 
-                <h3>Wireless Earphones</h3>
+            <div class="browse-message">
 
-                <p>Lost near the college library.</p>
+                <h3>
+                    Loading items...
+                </h3>
 
-                <p><strong>Status:</strong> Lost</p>
-
-                <p><strong>Location:</strong> Library</p>
-
-                <button class="view-details" data-name="Wireless Earphones" data-status="Lost" data-location="Library">View Details</button>
-
-            </div>
-
-
-            <!-- Found Item -->
-            <div class="item-card" data-status="found">
-
-                <div class="item-image">
-                    🎒
-                </div>
-
-                <h3>Black Backpack</h3>
-
-                <p>Black backpack found near the main gate.</p>
-
-                <p><strong>Status:</strong> Found</p>
-
-                <p><strong>Location:</strong> Main Gate</p>
-
-                <button class="view-details" data-name="Black Backpack" data-status="Found" data-location="Main Gate">View Details</button>
-
-            </div>
-
-
-            <!-- Lost Item -->
-            <div class="item-card" data-status="lost">
-
-                <div class="item-image">
-                    📱
-                </div>
-
-                <h3>Mobile Phone</h3>
-
-                <p>Black mobile phone with a blue cover.</p>
-
-                <p><strong>Status:</strong> Lost</p>
-
-                <p><strong>Location:</strong> Classroom 204</p>
-
-                <button class="view-details" data-name="Mobile Phone" data-status="Lost" data-location="Classroom 204">View Details</button>
-
-            </div>
-
-
-            <!-- Found Item -->
-            <div class="item-card" data-status="found">
-
-                <div class="item-image">
-                    💳
-                </div>
-
-                <h3>Wallet</h3>
-
-                <p>Brown wallet found near the college canteen.</p>
-
-                <p><strong>Status:</strong> Found</p>
-
-                <p><strong>Location:</strong> Canteen</p>
-
-                <button class="view-details" data-name="Wallet" data-status="Found" data-location="Canteen">View Details</button>
-
-            </div>
-
-
-            <!-- Lost Item -->
-            <div class="item-card" data-status="lost">
-
-                <div class="item-image">
-                    🔑
-                </div>
-
-                <h3>Keychain</h3>
-
-                <p>Small black keychain with two keys.</p>
-
-                <p><strong>Status:</strong> Lost</p>
-
-                <p><strong>Location:</strong> Canteen</p>
-
-                <button class="view-details" data-name="Keychain" data-status="Lost" data-location="Canteen">View Details</button>
-
-            </div>
-
-
-            <!-- Found Item -->
-            <div class="item-card" data-status="found">
-
-                <div class="item-image">
-                    📓
-                </div>
-
-                <h3>Notebook</h3>
-
-                <p>Green notebook found inside a classroom.</p>
-
-                <p><strong>Status:</strong> Found</p>
-
-                <p><strong>Location:</strong> Classroom 105</p>
-
-                <button class="view-details" data-name="Notebook" data-status="Found" data-location="Classroom 105">View Details</button>
+                <p>
+                    Please wait.
+                </p>
 
             </div>
 
@@ -200,13 +229,789 @@
     </section>
 
 
-    <!-- Footer -->
+
+    <!-- ================= FOOTER ================= -->
+
     <footer>
 
-        <p>© 2026 Campus Lost & Found</p>
+        <p>
+            © 2026 Campus Lost & Found
+        </p>
 
     </footer>
-<script src="lost.js"></script>
+
+
+
+    <!-- ================= JAVASCRIPT ================= -->
+
+    <script>
+
+        // =====================================================
+        // EXPRESS API
+        // =====================================================
+
+        const API_BASE =
+            "http://localhost:3000/api/lost-found";
+
+
+        const resultsContainer =
+            document.getElementById(
+                "browseResults"
+            );
+
+
+        const searchInput =
+            document.getElementById(
+                "browseSearch"
+            );
+
+
+        const statusFilter =
+            document.getElementById(
+                "statusFilter"
+            );
+
+
+        const searchButton =
+            document.getElementById(
+                "browseButton"
+            );
+
+
+        // =====================================================
+        // IMAGE MAP
+        // =====================================================
+
+        const imageMap = {
+
+            "mobile cover":
+                "uploads/items/mobilecover.jpg",
+
+            "mobile":
+                "uploads/items/mobile.jpg",
+
+            "black wallet":
+                "uploads/items/blackwallet.jpg",
+
+            "college id card":
+                "uploads/items/collegeidcard.jpg",
+
+            "keychain":
+                "uploads/items/keychain.jpg",
+
+            "umbrella":
+                "uploads/items/umbrella.jpg",
+
+            "laptop charger":
+                "uploads/items/laptopcharger.jpg",
+
+            "notebook":
+                "uploads/items/notebook.jpg",
+
+            "earphones":
+                "uploads/items/earphones.jpg",
+
+            "usb drive":
+                "uploads/items/usbdrive.jpg",
+
+            "scientific calculator":
+                "uploads/items/scientificcalculator.jpg",
+
+            "water bottle":
+                "uploads/items/waterbottle.jpg"
+
+        };
+
+
+        // =====================================================
+        // IMAGE URL
+        // =====================================================
+
+        function getImageUrl(item) {
+
+            let image =
+                String(item.image || "").trim();
+
+
+            if (image !== "") {
+
+                if (
+                    image.startsWith("http://") ||
+                    image.startsWith("https://")
+                ) {
+
+                    return image;
+
+                }
+
+
+                if (image.startsWith("/")) {
+
+                    return image;
+
+                }
+
+
+                if (
+                    image.startsWith("uploads/") ||
+                    image.startsWith("uploads\\")
+                ) {
+
+                    return (
+                        "/Campus-Connect/lost_and_found/" +
+                        image.replace(/\\/g, "/")
+                    );
+
+                }
+
+            }
+
+
+            const itemName =
+                String(item.item_name || "")
+                    .trim()
+                    .toLowerCase();
+
+
+            if (imageMap[itemName]) {
+
+                return (
+                    "/Campus-Connect/lost_and_found/" +
+                    imageMap[itemName]
+                );
+
+            }
+
+
+            return "";
+
+        }
+
+
+        // =====================================================
+        // ESCAPE HTML
+        // =====================================================
+
+        function escapeHTML(value) {
+
+            return String(value || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+        // =====================================================
+        // LOAD BOTH TABLES
+        // =====================================================
+
+        async function loadItems() {
+
+            try {
+
+                const lostResponse =
+                    await fetch(
+                        API_BASE + "/lost"
+                    );
+
+
+                const foundResponse =
+                    await fetch(
+                        API_BASE + "/found"
+                    );
+
+
+                if (
+                    !lostResponse.ok ||
+                    !foundResponse.ok
+                ) {
+
+                    throw new Error(
+                        "Could not load items."
+                    );
+
+                }
+
+
+                const lostItems =
+                    await lostResponse.json();
+
+
+                const foundItems =
+                    await foundResponse.json();
+
+
+                const allLost =
+                    Array.isArray(lostItems)
+                        ? lostItems
+                        : [];
+
+
+                const allFound =
+                    Array.isArray(foundItems)
+                        ? foundItems
+                        : [];
+
+
+                // Add status explicitly
+
+                const lost =
+                    allLost.map(function(item) {
+
+                        return {
+                            ...item,
+                            status: "lost"
+                        };
+
+                    });
+
+
+                const found =
+                    allFound.map(function(item) {
+
+                        return {
+                            ...item,
+                            status: "found"
+                        };
+
+                    });
+
+
+                const allItems =
+                    [...lost, ...found];
+
+
+                // Store globally
+
+                window.allBrowseItems =
+                    allItems;
+
+
+                // Check if Home page gave us a search
+
+                const savedSearch =
+                    sessionStorage.getItem(
+                        "browseSearch"
+                    );
+
+
+                if (savedSearch) {
+
+                    searchInput.value =
+                        savedSearch;
+
+
+                    // Remove it so refresh doesn't
+                    // repeatedly search
+
+                    sessionStorage.removeItem(
+                        "browseSearch"
+                    );
+
+
+                    searchItems();
+
+                } else {
+
+                    displayItems(allItems);
+
+                }
+
+
+            } catch (error) {
+
+                console.error(
+                    "Browse error:",
+                    error
+                );
+
+
+                resultsContainer.innerHTML = `
+
+                    <div class="browse-message">
+
+                        <h3>
+                            Unable to load items
+                        </h3>
+
+                        <p>
+                            Make sure the Express server
+                            is running on port 3000.
+                        </p>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+        // =====================================================
+        // SEARCH ITEMS
+        // =====================================================
+
+        function searchItems() {
+
+            const searchValue =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+
+            const selectedStatus =
+                statusFilter.value;
+
+
+            let filtered =
+                window.allBrowseItems || [];
+
+
+            // ---------------------------------------------
+            // SEARCH TEXT
+            // ---------------------------------------------
+
+            if (searchValue !== "") {
+
+                filtered =
+                    filtered.filter(function(item) {
+
+                        const name =
+                            String(
+                                item.item_name || ""
+                            ).toLowerCase();
+
+
+                        const description =
+                            String(
+                                item.description || ""
+                            ).toLowerCase();
+
+
+                        const location =
+                            String(
+                                item.location || ""
+                            ).toLowerCase();
+
+
+                        return (
+                            name.includes(searchValue) ||
+                            description.includes(searchValue) ||
+                            location.includes(searchValue)
+                        );
+
+                    });
+
+            }
+
+
+            // ---------------------------------------------
+            // LOST / FOUND FILTER
+            // ---------------------------------------------
+
+            if (
+                selectedStatus !== "all"
+            ) {
+
+                filtered =
+                    filtered.filter(function(item) {
+
+                        return (
+                            String(item.status)
+                                .toLowerCase() ===
+                            selectedStatus
+                        );
+
+                    });
+
+            }
+
+
+            displayItems(filtered);
+
+        }
+
+
+        // =====================================================
+        // DISPLAY ITEMS
+        // =====================================================
+
+        function displayItems(items) {
+
+            resultsContainer.innerHTML = "";
+
+
+            if (
+                !Array.isArray(items) ||
+                items.length === 0
+            ) {
+
+                resultsContainer.innerHTML = `
+
+                    <div class="browse-message">
+
+                        <h3>
+                            No matching item found.
+                        </h3>
+
+                        <p>
+                            Try another item name,
+                            location or description.
+                        </p>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+            items.forEach(function(item) {
+
+                const card =
+                    document.createElement("div");
+
+
+                card.className =
+                    "item-card browse-card";
+
+
+                const status =
+                    String(item.status || "")
+                        .toLowerCase();
+
+
+                const statusText =
+                    status === "found"
+                        ? "FOUND"
+                        : "LOST";
+
+
+                const statusClass =
+                    status === "found"
+                        ? "found"
+                        : "lost";
+
+
+                const itemName =
+                    item.item_name ||
+                    "Unknown Item";
+
+
+                const description =
+                    item.description ||
+                    "No description available.";
+
+
+                const location =
+                    item.location ||
+                    "Unknown location";
+
+
+                const personName =
+                    item.person_name ||
+                    "Not available";
+
+
+                const contact =
+                    item.contact_number ||
+                    "Not available";
+
+
+                const rollNumber =
+                    item.roll_number ||
+                    "Not available";
+
+
+                const imageUrl =
+                    getImageUrl(item);
+
+
+                let imageHTML;
+
+
+                if (imageUrl !== "") {
+
+                    imageHTML = `
+
+                        <img
+                            src="${imageUrl}"
+                            alt="${escapeHTML(itemName)}"
+                            onerror="
+                                this.onerror=null;
+                                this.style.display='none';
+                            "
+                        >
+
+                    `;
+
+                } else {
+
+                    imageHTML = `
+
+                        <div
+                            style="
+                                height:260px;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                font-size:70px;
+                            "
+                        >
+                            📦
+                        </div>
+
+                    `;
+
+                }
+
+
+                card.innerHTML = `
+
+                    <div
+                        class="item-image ${
+                            status === "found"
+                                ? "orange-image"
+                                : "blue-image"
+                        }"
+                    >
+
+                        ${imageHTML}
+
+                    </div>
+
+
+                    <div class="item-content">
+
+                        <div class="item-top">
+
+                            <span
+                                class="status ${statusClass}"
+                            >
+                                ${statusText}
+                            </span>
+
+
+                            <span class="date">
+                                Recently
+                            </span>
+
+                        </div>
+
+
+                        <h3>
+                            ${escapeHTML(itemName)}
+                        </h3>
+
+
+                        <p>
+                            ${escapeHTML(description)}
+                        </p>
+
+
+                        <div class="item-location">
+
+                            📍
+                            ${escapeHTML(location)}
+
+                        </div>
+
+
+                        <button
+                            class="details-btn"
+                        >
+                            View Details
+                        </button>
+
+
+                        <div
+                            class="details-box"
+                        >
+
+                            <p>
+                                <strong>
+                                    Status:
+                                </strong>
+
+                                ${statusText}
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    Location:
+                                </strong>
+
+                                ${escapeHTML(location)}
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    Description:
+                                </strong>
+
+                                ${escapeHTML(description)}
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    Name:
+                                </strong>
+
+                                ${escapeHTML(personName)}
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    Roll Number:
+                                </strong>
+
+                                ${escapeHTML(rollNumber)}
+                            </p>
+
+
+                            <p>
+                                <strong>
+                                    Contact:
+                                </strong>
+
+                                ${escapeHTML(contact)}
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                // -----------------------------------------
+                // VIEW DETAILS BUTTON
+                // -----------------------------------------
+
+                const detailsButton =
+                    card.querySelector(
+                        ".details-btn"
+                    );
+
+
+                const detailsBox =
+                    card.querySelector(
+                        ".details-box"
+                    );
+
+
+                detailsButton.addEventListener(
+                    "click",
+                    function() {
+
+                        detailsBox.classList.toggle(
+                            "show"
+                        );
+
+
+                        if (
+                            detailsBox.classList.contains(
+                                "show"
+                            )
+                        ) {
+
+                            detailsButton.textContent =
+                                "Hide Details";
+
+                        } else {
+
+                            detailsButton.textContent =
+                                "View Details";
+
+                        }
+
+                    }
+                );
+
+
+                resultsContainer.appendChild(
+                    card
+                );
+
+            });
+
+        }
+
+
+        // =====================================================
+        // SEARCH BUTTON
+        // =====================================================
+
+        searchButton.addEventListener(
+            "click",
+            function() {
+
+                searchItems();
+
+            }
+        );
+
+
+        // =====================================================
+        // ENTER KEY
+        // =====================================================
+
+        searchInput.addEventListener(
+            "keydown",
+            function(event) {
+
+                if (event.key === "Enter") {
+
+                    event.preventDefault();
+
+                    searchItems();
+
+                }
+
+            }
+        );
+
+
+        // =====================================================
+        // FILTER CHANGE
+        // =====================================================
+
+        statusFilter.addEventListener(
+            "change",
+            function() {
+
+                searchItems();
+
+            }
+        );
+
+
+        // =====================================================
+        // START
+        // =====================================================
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            function() {
+
+                loadItems();
+
+            }
+        );
+
+    </script>
+
+
 </body>
 
 </html>

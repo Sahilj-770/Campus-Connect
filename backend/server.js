@@ -1,5 +1,4 @@
 
-
 // =====================================================
 // 1. IMPORT PACKAGES
 // =====================================================
@@ -28,6 +27,7 @@ const PORT = Number(process.env.PORT || 3000);
 // =====================================================
 
 app.use(cors());
+app.use(express.json({ limit: "5mb" }));
 
 
 // =====================================================
@@ -42,6 +42,13 @@ const db = mysql.createConnection({
     database: "campusconnect"
 });
 
+<<<<<<< HEAD
+=======
+
+const lostFoundRoutes = require("./routes/lostFound");
+
+
+>>>>>>> 23163274edacf8da6e76fee96a0ec102c1639f11
 // =====================================================
 // 5. TEST MYSQL CONNECTION
 // =====================================================
@@ -58,6 +65,15 @@ db.connect(function(error) {
 });
 
 
+app.use(function(req, res, next) {
+    req.db = db;
+    next();
+});
+
+
+app.use("/api/lost-found", lostFoundRoutes);
+
+
 // =====================================================
 // 6. TEST BACKEND
 // =====================================================
@@ -67,6 +83,7 @@ app.get("/", function(req, res) {
     res.send("Campus Connect Backend is working!");
 
 });
+
 
 // =====================================================
 // 8. GET MENU FROM MYSQL
@@ -139,6 +156,7 @@ app.listen(PORT, function() {
     console.log(`Server running at http://localhost:${PORT}`);
 
 });
+
 
 // =====================================================
 // ALL CANTEENS MENU
@@ -233,6 +251,7 @@ app.get("/api/menu/all", function(req, res) {
     });
 
 });
+
 
 // ==========================================
 // AI FOOD IMAGE GENERATOR
@@ -397,6 +416,7 @@ app.get(
     }
 );
 
+
 // ==========================================
 // AI FOOD IMAGE STORAGE
 // ==========================================
@@ -422,4 +442,3 @@ if (!fs.existsSync(foodImagesFolder)) {
     });
 
 }
-
