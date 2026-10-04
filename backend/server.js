@@ -1,4 +1,3 @@
-
 // =====================================================
 // 1. IMPORT PACKAGES
 // =====================================================
@@ -11,8 +10,6 @@ const fs = require("fs");
 const path = require("path");
 
 
-
-
 // =====================================================
 // 2. CREATE EXPRESS APP
 // =====================================================
@@ -23,11 +20,14 @@ const PORT = Number(process.env.PORT || 3000);
 
 
 // =====================================================
-// 3. ENABLE CORS
+// 3. ENABLE CORS + JSON
 // =====================================================
 
 app.use(cors());
-app.use(express.json({ limit: "5mb" }));
+
+app.use(express.json({
+    limit: "10mb"
+}));
 
 
 // =====================================================
@@ -35,20 +35,31 @@ app.use(express.json({ limit: "5mb" }));
 // =====================================================
 
 const db = mysql.createConnection({
-    host: "localhost",
-    port: 3306,
-    user: "root",
-    password: "",
-    database: "campusconnect"
+
+    host: process.env.DB_HOST || "localhost",
+
+    port: Number(
+        process.env.DB_PORT || 3307
+    ),
+
+    user: process.env.DB_USER || "root",
+
+    password: process.env.DB_PASSWORD || "",
+
+    database:
+        process.env.DB_NAME || "campusconnect"
+
 });
 
-<<<<<<< HEAD
-=======
 
-const lostFoundRoutes = require("./routes/lostFound");
+// =====================================================
+// LOST & FOUND ROUTES
+// =====================================================
+
+const lostFoundRoutes =
+    require("./routes/lostfound");
 
 
->>>>>>> 23163274edacf8da6e76fee96a0ec102c1639f11
 // =====================================================
 // 5. TEST MYSQL CONNECTION
 // =====================================================
@@ -56,206 +67,495 @@ const lostFoundRoutes = require("./routes/lostFound");
 db.connect(function(error) {
 
     if (error) {
-        console.log("MySQL connection failed:", error);
+
+        console.log(
+            "MySQL connection failed:",
+            error
+        );
+
         return;
+
     }
 
-    console.log("MySQL connected successfully!");
+    console.log(
+        "MySQL connected successfully!"
+    );
 
 });
-
-
-app.use(function(req, res, next) {
-    req.db = db;
-    next();
-});
-
-
-app.use("/api/lost-found", lostFoundRoutes);
 
 
 // =====================================================
-// 6. TEST BACKEND
+// MAKE DATABASE AVAILABLE TO ROUTES
+// =====================================================
+
+app.use(function(req, res, next) {
+
+    req.db = db;
+
+    next();
+
+});
+
+
+// =====================================================
+// LOST & FOUND API
+// =====================================================
+
+app.use(
+    "/api/lost-found",
+    lostFoundRoutes
+);
+
+
+// =====================================================
+// 6. LOST & FOUND FRONTEND
+// =====================================================
+
+// Your project structure should be:
+//
+// Campus-Connect
+// │
+// ├── backend
+// │   ├── server.js
+// │   └── routes
+// │
+// └── lost_and_found
+//     ├── lost.html
+//     ├── lost-items.html
+//     ├── found-items.html
+//     ├── browse.html
+//     ├── lost.css
+//     ├── logo.png
+//     └── uploads
+//
+
+const frontendPath =
+    path.join(
+        __dirname,
+        "..",
+        "lost_and_found"
+    );
+
+
+// =====================================================
+// CHECK FRONTEND FOLDER
+// =====================================================
+
+console.log(
+    "Lost & Found frontend path:",
+    frontendPath
+);
+
+
+if (!fs.existsSync(frontendPath)) {
+
+    console.log(
+        "WARNING: lost_and_found folder was NOT found."
+    );
+
+    console.log(
+        "Expected folder:",
+        frontendPath
+    );
+
+} else {
+
+    console.log(
+        "Lost & Found frontend folder found!"
+    );
+
+}
+
+
+// =====================================================
+// SERVE LOST & FOUND FILES
+// =====================================================
+
+app.use(
+    express.static(frontendPath)
+);
+
+
+// =====================================================
+// ALSO SUPPORT /lost_and_found/ URL
+// =====================================================
+
+app.use(
+    "/lost_and_found",
+    express.static(frontendPath)
+);
+
+
+// =====================================================
+// HOME PAGE
 // =====================================================
 
 app.get("/", function(req, res) {
 
-    res.send("Campus Connect Backend is working!");
+    res.sendFile(
+        path.join(
+            frontendPath,
+            "lost.html"
+        )
+    );
 
 });
 
 
 // =====================================================
-// 8. GET MENU FROM MYSQL
+// EXPLICIT LOST & FOUND PAGES
 // =====================================================
 
-app.get("/api/menu/:canteen", function(req, res) {
+// Home
+app.get(
+    "/lost_and_found/lost.html",
+    function(req, res) {
 
-    const canteen = req.params.canteen;
-
-    let tableName;
-
-
-    // Decide which MySQL table to use
-
-    if (canteen === "cafeteria") {
-
-        tableName = "campus_cafeteria";
-
-    } else if (canteen === "timeless") {
-
-        tableName = "cafe_timeless";
-
-    } else if (canteen === "nescafe") {
-
-        tableName = "nescafe";
-
-    } else {
-
-        return res.status(400).json({
-            error: "Invalid canteen"
-        });
+        res.sendFile(
+            path.join(
+                frontendPath,
+                "lost.html"
+            )
+        );
 
     }
+);
 
 
-    // Get menu items from MySQL
+// Lost Items
+app.get(
+    "/lost_and_found/lost-items.html",
+    function(req, res) {
 
-    const query = `
-        SELECT item_id, item_name, category, price, availability, description
-        FROM ${tableName}
-    `;
+        res.sendFile(
+            path.join(
+                frontendPath,
+                "lost-items.html"
+            )
+        );
+
+    }
+);
 
 
-    db.query(query, function(error, results) {
+// Found Items
+app.get(
+    "/lost_and_found/found-items.html",
+    function(req, res) {
 
-        if (error) {
+        res.sendFile(
+            path.join(
+                frontendPath,
+                "found-items.html"
+            )
+        );
 
-            console.log("Database query failed:", error);
+    }
+);
 
-            return res.status(500).json({
-                error: "Could not fetch menu"
+
+// Browse
+app.get(
+    "/lost_and_found/browse.html",
+    function(req, res) {
+
+        res.sendFile(
+            path.join(
+                frontendPath,
+                "browse.html"
+            )
+        );
+
+    }
+);
+
+
+// =====================================================
+// 7. GET MENU FROM MYSQL
+// =====================================================
+
+app.get(
+    "/api/menu/:canteen",
+    function(req, res) {
+
+        const canteen =
+            req.params.canteen;
+
+        let tableName;
+
+
+        // Decide which MySQL table to use
+
+        if (canteen === "cafeteria") {
+
+            tableName =
+                "campus_cafeteria";
+
+        }
+
+        else if (canteen === "timeless") {
+
+            tableName =
+                "cafe_timeless";
+
+        }
+
+        else if (canteen === "nescafe") {
+
+            tableName =
+                "nescafe";
+
+        }
+
+        else {
+
+            return res.status(400).json({
+
+                error:
+                    "Invalid canteen"
+
             });
 
         }
 
 
-        res.json(results);
+        // Get menu items from MySQL
 
-    });
+        const query = `
 
-});
+            SELECT
+                item_id,
+                item_name,
+                category,
+                price,
+                availability,
+                description
+
+            FROM ${tableName}
+
+        `;
 
 
-// =====================================================
-// 7. START SERVER
-// =====================================================
+        db.query(
+            query,
+            function(error, results) {
 
-app.listen(PORT, function() {
+                if (error) {
 
-    console.log(`Server running at http://localhost:${PORT}`);
+                    console.log(
+                        "Database query failed:",
+                        error
+                    );
 
-});
+                    return res.status(500).json({
+
+                        error:
+                            "Could not fetch menu"
+
+                    });
+
+                }
+
+
+                res.json(results);
+
+            }
+        );
+
+    }
+);
 
 
 // =====================================================
 // ALL CANTEENS MENU
 // =====================================================
 
-app.get("/api/menu/all", function(req, res) {
+app.get(
+    "/api/menu/all",
+    function(req, res) {
 
-    const queries = {
+        const queries = {
 
-        cafeteria: `
-            SELECT item_id, item_name, category, price,
-                   availability, description
-            FROM campus_cafeteria
-        `,
+            cafeteria: `
 
-        timeless: `
-            SELECT item_id, item_name, category, price,
-                   availability, description
-            FROM cafe_timeless
-        `,
+                SELECT
+                    item_id,
+                    item_name,
+                    category,
+                    price,
+                    availability,
+                    description
 
-        nescafe: `
-            SELECT item_id, item_name, category, price,
-                   availability, description
-            FROM nescafe
-        `
-    };
+                FROM campus_cafeteria
+
+            `,
+
+            timeless: `
+
+                SELECT
+                    item_id,
+                    item_name,
+                    category,
+                    price,
+                    availability,
+                    description
+
+                FROM cafe_timeless
+
+            `,
+
+            nescafe: `
+
+                SELECT
+                    item_id,
+                    item_name,
+                    category,
+                    price,
+                    availability,
+                    description
+
+                FROM nescafe
+
+            `
+
+        };
 
 
-    db.query(queries.cafeteria, function(error, cafeteria) {
-
-        if (error) {
-            console.log("Cafeteria error:", error);
-            return res.status(500).json({
-                error: "Could not load cafeteria menu"
-            });
-        }
-
-
-        db.query(queries.timeless, function(error, timeless) {
-
-            if (error) {
-                console.log("Timeless error:", error);
-                return res.status(500).json({
-                    error: "Could not load Timeless menu"
-                });
-            }
-
-
-            db.query(queries.nescafe, function(error, nescafe) {
+        db.query(
+            queries.cafeteria,
+            function(error, cafeteria) {
 
                 if (error) {
-                    console.log("Nescafe error:", error);
+
+                    console.log(
+                        "Cafeteria error:",
+                        error
+                    );
+
                     return res.status(500).json({
-                        error: "Could not load Nescafe menu"
+
+                        error:
+                            "Could not load cafeteria menu"
+
                     });
+
                 }
 
 
-                const allItems = [
+                db.query(
+                    queries.timeless,
+                    function(error, timeless) {
 
-                    ...cafeteria.map(function(item) {
-                        return {
-                            ...item,
-                            canteen: "Cafeteria"
-                        };
-                    }),
+                        if (error) {
 
-                    ...timeless.map(function(item) {
-                        return {
-                            ...item,
-                            canteen: "Timeless"
-                        };
-                    }),
+                            console.log(
+                                "Timeless error:",
+                                error
+                            );
 
-                    ...nescafe.map(function(item) {
-                        return {
-                            ...item,
-                            canteen: "Nescafe"
-                        };
-                    })
+                            return res.status(500).json({
 
-                ];
+                                error:
+                                    "Could not load Timeless menu"
+
+                            });
+
+                        }
 
 
-                res.json(allItems);
+                        db.query(
+                            queries.nescafe,
+                            function(error, nescafe) {
 
-            });
+                                if (error) {
 
-        });
+                                    console.log(
+                                        "Nescafe error:",
+                                        error
+                                    );
 
-    });
+                                    return res.status(500).json({
 
-});
+                                        error:
+                                            "Could not load Nescafe menu"
+
+                                    });
+
+                                }
 
 
-// ==========================================
+                                const allItems = [
+
+                                    ...cafeteria.map(
+                                        function(item) {
+
+                                            return {
+
+                                                ...item,
+
+                                                canteen:
+                                                    "Cafeteria"
+
+                                            };
+
+                                        }
+                                    ),
+
+
+                                    ...timeless.map(
+                                        function(item) {
+
+                                            return {
+
+                                                ...item,
+
+                                                canteen:
+                                                    "Timeless"
+
+                                            };
+
+                                        }
+                                    ),
+
+
+                                    ...nescafe.map(
+                                        function(item) {
+
+                                            return {
+
+                                                ...item,
+
+                                                canteen:
+                                                    "Nescafe"
+
+                                            };
+
+                                        }
+                                    )
+
+                                ];
+
+
+                                res.json(
+                                    allItems
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    }
+);
+
+
+// =====================================================
 // AI FOOD IMAGE GENERATOR
-// ==========================================
+// =====================================================
 
 app.get(
     "/api/food-image/:canteen/:foodName",
@@ -268,21 +568,29 @@ app.get(
             req.params.foodName;
 
 
-        // Create a safe filename
+        // Create safe filename
 
         const safeCanteen =
             canteen
                 .toLowerCase()
-                .replace(/[^a-z0-9]+/g, "-");
+                .replace(
+                    /[^a-z0-9]+/g,
+                    "-"
+                );
+
 
         const safeFoodName =
             foodName
                 .toLowerCase()
-                .replace(/[^a-z0-9]+/g, "-");
+                .replace(
+                    /[^a-z0-9]+/g,
+                    "-"
+                );
 
 
         const fileName =
-            safeCanteen + "-" +
+            safeCanteen +
+            "-" +
             safeFoodName +
             ".jpg";
 
@@ -295,7 +603,7 @@ app.get(
 
 
         // ======================================
-        // 1. IMAGE ALREADY EXISTS
+        // IMAGE ALREADY EXISTS
         // ======================================
 
         if (fs.existsSync(filePath)) {
@@ -304,6 +612,7 @@ app.get(
                 "Using saved image:",
                 fileName
             );
+
 
             return res.json({
 
@@ -317,7 +626,7 @@ app.get(
 
 
         // ======================================
-        // 2. GENERATE NEW AI IMAGE
+        // GENERATE NEW AI IMAGE
         // ======================================
 
         console.log(
@@ -396,7 +705,9 @@ app.get(
             });
 
 
-        } catch (error) {
+        }
+
+        catch (error) {
 
             console.log(
                 "AI image error:",
@@ -417,28 +728,60 @@ app.get(
 );
 
 
-// ==========================================
+// =====================================================
 // AI FOOD IMAGE STORAGE
-// ==========================================
+// =====================================================
 
 const foodImagesFolder =
-    path.join(__dirname, "food-images");
+    path.join(
+        __dirname,
+        "food-images"
+    );
 
 
-// Make saved images accessible to the website
+// =====================================================
+// MAKE FOOD IMAGES ACCESSIBLE
+// =====================================================
 
 app.use(
     "/food-images",
-    express.static(foodImagesFolder)
+    express.static(
+        foodImagesFolder
+    )
 );
 
 
-// Create folder if it does not exist
+// =====================================================
+// CREATE FOOD IMAGE FOLDER
+// =====================================================
 
-if (!fs.existsSync(foodImagesFolder)) {
+if (
+    !fs.existsSync(
+        foodImagesFolder
+    )
+) {
 
-    fs.mkdirSync(foodImagesFolder, {
-        recursive: true
-    });
+    fs.mkdirSync(
+        foodImagesFolder,
+        {
+            recursive: true
+        }
+    );
 
 }
+
+
+// =====================================================
+// START SERVER
+// =====================================================
+
+app.listen(
+    PORT,
+    function() {
+
+        console.log(
+            `Server running at http://localhost:${PORT}`
+        );
+
+    }
+);

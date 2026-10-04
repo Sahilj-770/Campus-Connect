@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -147,6 +148,7 @@
 
     <section class="items-page">
 
+
         <div class="items-heading">
 
             <p class="small-heading">
@@ -155,14 +157,18 @@
 
 
             <h1>
+
                 Find an
                 <span>Item</span>
+
             </h1>
 
 
             <p>
+
                 Search through lost and found items
                 reported by students on campus.
+
             </p>
 
         </div>
@@ -198,7 +204,9 @@
 
 
             <button id="browseButton">
+
                 Search
+
             </button>
 
         </div>
@@ -226,6 +234,7 @@
 
         </div>
 
+
     </section>
 
 
@@ -246,12 +255,13 @@
 
     <script>
 
+
         // =====================================================
         // EXPRESS API
         // =====================================================
 
         const API_BASE =
-            "http://localhost:3000/api/lost-found";
+            "/api/lost-found";
 
 
         const resultsContainer =
@@ -276,6 +286,7 @@
             document.getElementById(
                 "browseButton"
             );
+
 
 
         // =====================================================
@@ -323,60 +334,196 @@
         };
 
 
+
         // =====================================================
         // IMAGE URL
         // =====================================================
 
         function getImageUrl(item) {
 
+
             let image =
                 String(item.image || "").trim();
 
 
-            if (image !== "") {
+            // -------------------------------------------------
+            // NO IMAGE
+            // -------------------------------------------------
 
-                if (
-                    image.startsWith("http://") ||
-                    image.startsWith("https://")
-                ) {
+            if (image === "") {
 
-                    return image;
-
-                }
-
-
-                if (image.startsWith("/")) {
-
-                    return image;
-
-                }
-
-
-                if (
-                    image.startsWith("uploads/") ||
-                    image.startsWith("uploads\\")
-                ) {
-
-                    return (
-                        "/Campus-Connect/lost_and_found/" +
-                        image.replace(/\\/g, "/")
-                    );
-
-                }
+                return getFallbackImage(item);
 
             }
 
 
-            const itemName =
-                String(item.item_name || "")
-                    .trim()
-                    .toLowerCase();
+
+            // -------------------------------------------------
+            // DATA IMAGE
+            // -------------------------------------------------
+
+            if (
+                image.startsWith("data:image/")
+            ) {
+
+                return image;
+
+            }
 
 
-            if (imageMap[itemName]) {
+
+            // -------------------------------------------------
+            // NORMAL HTTP IMAGE
+            // -------------------------------------------------
+
+            if (
+                image.startsWith("http://") ||
+                image.startsWith("https://")
+            ) {
+
+                return image;
+
+            }
+
+
+
+            // -------------------------------------------------
+            // ABSOLUTE WEBSITE PATH
+            // -------------------------------------------------
+
+            if (
+                image.startsWith("/")
+            ) {
+
+                return image;
+
+            }
+
+
+
+            // -------------------------------------------------
+            // NORMAL UPLOAD PATH
+            //
+            // Example:
+            // uploads/items/blackwallet.jpg
+            // -------------------------------------------------
+
+            image =
+                image.replace(/\\/g, "/");
+
+
+            if (
+                image.startsWith("uploads/")
+            ) {
 
                 return (
-                    "/Campus-Connect/lost_and_found/" +
+                    "/lost_and_found/" +
+                    image
+                );
+
+            }
+
+
+
+            // -------------------------------------------------
+            // OLD CAMPUS-CONNECT PATH
+            // -------------------------------------------------
+
+            if (
+                image.includes(
+                    "/Campus-Connect/lost_and_found/"
+                )
+            ) {
+
+                const cleanPath =
+                    image.split(
+                        "/Campus-Connect/lost_and_found/"
+                    )[1];
+
+                return (
+                    "/lost_and_found/" +
+                    cleanPath
+                );
+
+            }
+
+
+
+            // -------------------------------------------------
+            // OLD RELATIVE PATH
+            // -------------------------------------------------
+
+            if (
+                image.includes(
+                    "lost_and_found/"
+                )
+            ) {
+
+                const cleanPath =
+                    image.split(
+                        "lost_and_found/"
+                    )[1];
+
+                return (
+                    "/lost_and_found/" +
+                    cleanPath
+                );
+
+            }
+
+
+
+            // -------------------------------------------------
+            // IMAGE FILE NAME ONLY
+            // -------------------------------------------------
+
+            if (
+                image.endsWith(".jpg") ||
+                image.endsWith(".jpeg") ||
+                image.endsWith(".png") ||
+                image.endsWith(".webp")
+            ) {
+
+                return (
+                    "/lost_and_found/uploads/items/" +
+                    image
+                );
+
+            }
+
+
+
+            // -------------------------------------------------
+            // FALLBACK IMAGE
+            // -------------------------------------------------
+
+            return getFallbackImage(item);
+
+        }
+
+
+
+        // =====================================================
+        // FALLBACK IMAGE
+        // =====================================================
+
+        function getFallbackImage(item) {
+
+
+            const itemName =
+                String(
+                    item.item_name || ""
+                )
+                .trim()
+                .toLowerCase();
+
+
+            if (
+                imageMap[itemName]
+            ) {
+
+                return (
+                    "/lost_and_found/" +
                     imageMap[itemName]
                 );
 
@@ -388,6 +535,7 @@
         }
 
 
+
         // =====================================================
         // ESCAPE HTML
         // =====================================================
@@ -395,22 +543,45 @@
         function escapeHTML(value) {
 
             return String(value || "")
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
 
         }
 
 
+
         // =====================================================
-        // LOAD BOTH TABLES
+        // LOAD BOTH LOST + FOUND ITEMS
         // =====================================================
 
         async function loadItems() {
 
+
             try {
+
 
                 const lostResponse =
                     await fetch(
@@ -436,12 +607,14 @@
                 }
 
 
+
                 const lostItems =
                     await lostResponse.json();
 
 
                 const foundItems =
                     await foundResponse.json();
+
 
 
                 const allLost =
@@ -456,41 +629,68 @@
                         : [];
 
 
-                // Add status explicitly
+
+                // -------------------------------------------------
+                // ADD STATUS
+                // -------------------------------------------------
 
                 const lost =
-                    allLost.map(function(item) {
+                    allLost.map(
+                        function(item) {
 
-                        return {
-                            ...item,
-                            status: "lost"
-                        };
+                            return {
 
-                    });
+                                ...item,
+
+                                status: "lost"
+
+                            };
+
+                        }
+                    );
 
 
                 const found =
-                    allFound.map(function(item) {
+                    allFound.map(
+                        function(item) {
 
-                        return {
-                            ...item,
-                            status: "found"
-                        };
+                            return {
 
-                    });
+                                ...item,
 
+                                status: "found"
+
+                            };
+
+                        }
+                    );
+
+
+
+                // -------------------------------------------------
+                // COMBINE
+                // -------------------------------------------------
 
                 const allItems =
-                    [...lost, ...found];
+                    [
+                        ...lost,
+                        ...found
+                    ];
 
 
-                // Store globally
+
+                // -------------------------------------------------
+                // STORE GLOBALLY
+                // -------------------------------------------------
 
                 window.allBrowseItems =
                     allItems;
 
 
-                // Check if Home page gave us a search
+
+                // -------------------------------------------------
+                // CHECK FOR SAVED SEARCH
+                // -------------------------------------------------
 
                 const savedSearch =
                     sessionStorage.getItem(
@@ -498,14 +698,13 @@
                     );
 
 
-                if (savedSearch) {
+                if (
+                    savedSearch
+                ) {
 
                     searchInput.value =
                         savedSearch;
 
-
-                    // Remove it so refresh doesn't
-                    // repeatedly search
 
                     sessionStorage.removeItem(
                         "browseSearch"
@@ -514,14 +713,19 @@
 
                     searchItems();
 
-                } else {
+                }
+                else {
 
-                    displayItems(allItems);
+                    displayItems(
+                        allItems
+                    );
 
                 }
 
 
-            } catch (error) {
+            }
+            catch (error) {
+
 
                 console.error(
                     "Browse error:",
@@ -551,11 +755,13 @@
         }
 
 
+
         // =====================================================
         // SEARCH ITEMS
         // =====================================================
 
         function searchItems() {
+
 
             const searchValue =
                 searchInput.value
@@ -571,69 +777,103 @@
                 window.allBrowseItems || [];
 
 
-            // ---------------------------------------------
-            // SEARCH TEXT
-            // ---------------------------------------------
 
-            if (searchValue !== "") {
+            // -------------------------------------------------
+            // SEARCH TEXT
+            // -------------------------------------------------
+
+            if (
+                searchValue !== ""
+            ) {
 
                 filtered =
-                    filtered.filter(function(item) {
-
-                        const name =
-                            String(
-                                item.item_name || ""
-                            ).toLowerCase();
+                    filtered.filter(
+                        function(item) {
 
 
-                        const description =
-                            String(
-                                item.description || ""
-                            ).toLowerCase();
+                            const name =
+                                String(
+                                    item.item_name || ""
+                                )
+                                .toLowerCase();
 
 
-                        const location =
-                            String(
-                                item.location || ""
-                            ).toLowerCase();
+                            const description =
+                                String(
+                                    item.description || ""
+                                )
+                                .toLowerCase();
 
 
-                        return (
-                            name.includes(searchValue) ||
-                            description.includes(searchValue) ||
-                            location.includes(searchValue)
-                        );
+                            const location =
+                                String(
+                                    item.location || ""
+                                )
+                                .toLowerCase();
 
-                    });
+
+                            return (
+
+                                name.includes(
+                                    searchValue
+                                )
+
+                                ||
+
+                                description.includes(
+                                    searchValue
+                                )
+
+                                ||
+
+                                location.includes(
+                                    searchValue
+                                )
+
+                            );
+
+                        }
+                    );
 
             }
 
 
-            // ---------------------------------------------
+
+            // -------------------------------------------------
             // LOST / FOUND FILTER
-            // ---------------------------------------------
+            // -------------------------------------------------
 
             if (
                 selectedStatus !== "all"
             ) {
 
                 filtered =
-                    filtered.filter(function(item) {
+                    filtered.filter(
+                        function(item) {
 
-                        return (
-                            String(item.status)
+                            return (
+
+                                String(
+                                    item.status || ""
+                                )
                                 .toLowerCase() ===
-                            selectedStatus
-                        );
+                                selectedStatus
 
-                    });
+                            );
+
+                        }
+                    );
 
             }
 
 
-            displayItems(filtered);
+
+            displayItems(
+                filtered
+            );
 
         }
+
 
 
         // =====================================================
@@ -642,7 +882,10 @@
 
         function displayItems(items) {
 
-            resultsContainer.innerHTML = "";
+
+            resultsContainer.innerHTML =
+                "";
+
 
 
             if (
@@ -672,280 +915,347 @@
             }
 
 
-            items.forEach(function(item) {
 
-                const card =
-                    document.createElement("div");
+            // =================================================
+            // CREATE CARDS
+            // =================================================
 
+            items.forEach(
+                function(item) {
 
-                card.className =
-                    "item-card browse-card";
 
-
-                const status =
-                    String(item.status || "")
-                        .toLowerCase();
-
-
-                const statusText =
-                    status === "found"
-                        ? "FOUND"
-                        : "LOST";
-
-
-                const statusClass =
-                    status === "found"
-                        ? "found"
-                        : "lost";
-
-
-                const itemName =
-                    item.item_name ||
-                    "Unknown Item";
-
-
-                const description =
-                    item.description ||
-                    "No description available.";
-
-
-                const location =
-                    item.location ||
-                    "Unknown location";
-
-
-                const personName =
-                    item.person_name ||
-                    "Not available";
-
-
-                const contact =
-                    item.contact_number ||
-                    "Not available";
-
-
-                const rollNumber =
-                    item.roll_number ||
-                    "Not available";
-
-
-                const imageUrl =
-                    getImageUrl(item);
-
-
-                let imageHTML;
-
-
-                if (imageUrl !== "") {
-
-                    imageHTML = `
-
-                        <img
-                            src="${imageUrl}"
-                            alt="${escapeHTML(itemName)}"
-                            onerror="
-                                this.onerror=null;
-                                this.style.display='none';
-                            "
-                        >
-
-                    `;
-
-                } else {
-
-                    imageHTML = `
-
-                        <div
-                            style="
-                                height:260px;
-                                display:flex;
-                                align-items:center;
-                                justify-content:center;
-                                font-size:70px;
-                            "
-                        >
-                            📦
-                        </div>
-
-                    `;
-
-                }
-
-
-                card.innerHTML = `
-
-                    <div
-                        class="item-image ${
-                            status === "found"
-                                ? "orange-image"
-                                : "blue-image"
-                        }"
-                    >
-
-                        ${imageHTML}
-
-                    </div>
-
-
-                    <div class="item-content">
-
-                        <div class="item-top">
-
-                            <span
-                                class="status ${statusClass}"
-                            >
-                                ${statusText}
-                            </span>
-
-
-                            <span class="date">
-                                Recently
-                            </span>
-
-                        </div>
-
-
-                        <h3>
-                            ${escapeHTML(itemName)}
-                        </h3>
-
-
-                        <p>
-                            ${escapeHTML(description)}
-                        </p>
-
-
-                        <div class="item-location">
-
-                            📍
-                            ${escapeHTML(location)}
-
-                        </div>
-
-
-                        <button
-                            class="details-btn"
-                        >
-                            View Details
-                        </button>
-
-
-                        <div
-                            class="details-box"
-                        >
-
-                            <p>
-                                <strong>
-                                    Status:
-                                </strong>
-
-                                ${statusText}
-                            </p>
-
-
-                            <p>
-                                <strong>
-                                    Location:
-                                </strong>
-
-                                ${escapeHTML(location)}
-                            </p>
-
-
-                            <p>
-                                <strong>
-                                    Description:
-                                </strong>
-
-                                ${escapeHTML(description)}
-                            </p>
-
-
-                            <p>
-                                <strong>
-                                    Name:
-                                </strong>
-
-                                ${escapeHTML(personName)}
-                            </p>
-
-
-                            <p>
-                                <strong>
-                                    Roll Number:
-                                </strong>
-
-                                ${escapeHTML(rollNumber)}
-                            </p>
-
-
-                            <p>
-                                <strong>
-                                    Contact:
-                                </strong>
-
-                                ${escapeHTML(contact)}
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-
-                // -----------------------------------------
-                // VIEW DETAILS BUTTON
-                // -----------------------------------------
-
-                const detailsButton =
-                    card.querySelector(
-                        ".details-btn"
-                    );
-
-
-                const detailsBox =
-                    card.querySelector(
-                        ".details-box"
-                    );
-
-
-                detailsButton.addEventListener(
-                    "click",
-                    function() {
-
-                        detailsBox.classList.toggle(
-                            "show"
+                    const card =
+                        document.createElement(
+                            "div"
                         );
 
 
-                        if (
-                            detailsBox.classList.contains(
-                                "show"
-                            )
-                        ) {
+                    card.className =
+                        "item-card browse-card";
 
-                            detailsButton.textContent =
-                                "Hide Details";
 
-                        } else {
 
-                            detailsButton.textContent =
-                                "View Details";
+                    const status =
+                        String(
+                            item.status || ""
+                        )
+                        .toLowerCase();
 
-                        }
+
+                    const statusText =
+                        status === "found"
+                            ? "FOUND"
+                            : "LOST";
+
+
+                    const statusClass =
+                        status === "found"
+                            ? "found"
+                            : "lost";
+
+
+
+                    const itemName =
+                        item.item_name ||
+                        "Unknown Item";
+
+
+                    const description =
+                        item.description ||
+                        "No description available.";
+
+
+                    const location =
+                        item.location ||
+                        "Unknown location";
+
+
+                    const personName =
+                        item.person_name ||
+                        "Not available";
+
+
+                    const contact =
+                        item.contact_number ||
+                        "Not available";
+
+
+                    const rollNumber =
+                        item.roll_number ||
+                        "Not available";
+
+
+
+                    // =================================================
+                    // IMAGE
+                    // =================================================
+
+                    const imageUrl =
+                        getImageUrl(item);
+
+
+                    let imageHTML;
+
+
+
+                    if (
+                        imageUrl !== ""
+                    ) {
+
+                        imageHTML = `
+
+                            <img
+                                src="${escapeHTML(imageUrl)}"
+                                alt="${escapeHTML(itemName)}"
+                                class="browse-item-image"
+                                onerror="
+                                    this.onerror=null;
+                                    this.style.display='none';
+                                    this.parentElement.innerHTML='<div style=&quot;height:260px;display:flex;align-items:center;justify-content:center;font-size:70px;&quot;>📦</div>';
+                                "
+                            >
+
+                        `;
 
                     }
-                );
+                    else {
+
+                        imageHTML = `
+
+                            <div
+                                style="
+                                    height:260px;
+                                    display:flex;
+                                    align-items:center;
+                                    justify-content:center;
+                                    font-size:70px;
+                                "
+                            >
+                                📦
+                            </div>
+
+                        `;
+
+                    }
 
 
-                resultsContainer.appendChild(
-                    card
-                );
 
-            });
+                    // =================================================
+                    // CARD HTML
+                    // =================================================
+
+                    card.innerHTML = `
+
+                        <div
+                            class="item-image ${
+                                status === "found"
+                                    ? "orange-image"
+                                    : "blue-image"
+                            }"
+                        >
+
+                            ${imageHTML}
+
+                        </div>
+
+
+
+                        <div class="item-content">
+
+
+                            <div class="item-top">
+
+                                <span
+                                    class="status ${statusClass}"
+                                >
+
+                                    ${statusText}
+
+                                </span>
+
+
+                                <span class="date">
+
+                                    Recently
+
+                                </span>
+
+                            </div>
+
+
+
+                            <h3>
+
+                                ${escapeHTML(itemName)}
+
+                            </h3>
+
+
+
+                            <p>
+
+                                ${escapeHTML(description)}
+
+                            </p>
+
+
+
+                            <div class="item-location">
+
+                                📍
+
+                                ${escapeHTML(location)}
+
+                            </div>
+
+
+
+                            <button
+                                class="details-btn"
+                                type="button"
+                            >
+
+                                View Details
+
+                            </button>
+
+
+
+                            <div
+                                class="details-box"
+                            >
+
+                                <p>
+
+                                    <strong>
+                                        Status:
+                                    </strong>
+
+                                    ${statusText}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Location:
+                                    </strong>
+
+                                    ${escapeHTML(location)}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Description:
+                                    </strong>
+
+                                    ${escapeHTML(description)}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Name:
+                                    </strong>
+
+                                    ${escapeHTML(personName)}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Roll Number:
+                                    </strong>
+
+                                    ${escapeHTML(rollNumber)}
+
+                                </p>
+
+
+                                <p>
+
+                                    <strong>
+                                        Contact:
+                                    </strong>
+
+                                    ${escapeHTML(contact)}
+
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+                    `;
+
+
+
+                    // =================================================
+                    // VIEW DETAILS BUTTON
+                    // =================================================
+
+                    const detailsButton =
+                        card.querySelector(
+                            ".details-btn"
+                        );
+
+
+                    const detailsBox =
+                        card.querySelector(
+                            ".details-box"
+                        );
+
+
+                    detailsButton.addEventListener(
+                        "click",
+                        function() {
+
+
+                            detailsBox.classList.toggle(
+                                "show"
+                            );
+
+
+                            if (
+                                detailsBox.classList.contains(
+                                    "show"
+                                )
+                            ) {
+
+                                detailsButton.textContent =
+                                    "Hide Details";
+
+                            }
+                            else {
+
+                                detailsButton.textContent =
+                                    "View Details";
+
+                            }
+
+                        }
+                    );
+
+
+
+                    resultsContainer.appendChild(
+                        card
+                    );
+
+                }
+            );
 
         }
+
 
 
         // =====================================================
@@ -962,6 +1272,7 @@
         );
 
 
+
         // =====================================================
         // ENTER KEY
         // =====================================================
@@ -970,7 +1281,9 @@
             "keydown",
             function(event) {
 
-                if (event.key === "Enter") {
+                if (
+                    event.key === "Enter"
+                ) {
 
                     event.preventDefault();
 
@@ -980,6 +1293,7 @@
 
             }
         );
+
 
 
         // =====================================================
@@ -996,6 +1310,7 @@
         );
 
 
+
         // =====================================================
         // START
         // =====================================================
@@ -1008,6 +1323,7 @@
 
             }
         );
+
 
     </script>
 

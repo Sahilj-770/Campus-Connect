@@ -165,7 +165,7 @@
                 if (!response.ok) {
 
                     throw new Error(
-                        "Server returned an error."
+                        "Server returned HTTP " + response.status
                     );
 
                 }
@@ -176,7 +176,7 @@
 
 
                 console.log(
-                    "Found items received:",
+                    "Found items received from Express:",
                     items
                 );
 
@@ -259,17 +259,17 @@
 
                     if (
                         item.image &&
-                        item.image.trim() !== ""
+                        String(item.image).trim() !== ""
                     ) {
 
                         const imagePath =
-                            item.image.trim();
+                            String(item.image).trim();
 
 
                         imageHTML = `
 
                             <img
-                                src="${imagePath}"
+                                src="${escapeHTML(imagePath)}"
                                 alt="${escapeHTML(itemName)}"
                                 class="lost-item-image"
                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
@@ -413,7 +413,7 @@
 
 
         // =====================================================
-        // PREVENT DATABASE TEXT FROM BEING INTERPRETED AS HTML
+        // ESCAPE DATABASE TEXT
         // =====================================================
 
         function escapeHTML(value) {

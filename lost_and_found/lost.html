@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,7 +24,9 @@
 <body>
 
 
-    <!-- ================= NAVBAR ================= -->
+    <!-- =====================================================
+         NAVBAR
+         ===================================================== -->
 
     <header class="navbar">
 
@@ -74,7 +77,9 @@
 
 
 
-    <!-- ================= HERO SECTION ================= -->
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
 
     <section
         class="hero"
@@ -168,7 +173,9 @@
 
 
 
-    <!-- ================= QUICK ACTIONS ================= -->
+    <!-- =====================================================
+         QUICK ACTIONS
+         ===================================================== -->
 
     <section class="quick-section">
 
@@ -309,7 +316,9 @@
 
 
 
-        <!-- ================= RECENTLY LOST ================= -->
+        <!-- =================================================
+             RECENTLY LOST
+             ================================================= -->
 
         <h3 class="recent-category-title">
             Recently Lost Items
@@ -337,12 +346,12 @@
 
 
 
-        <!-- ================= RECENTLY FOUND ================= -->
+        <!-- =================================================
+             RECENTLY FOUND
+             ================================================= -->
 
         <h3 class="recent-category-title">
-
             Recently Found Items
-
         </h3>
 
 
@@ -369,7 +378,9 @@
 
 
 
-    <!-- ================= HOW IT WORKS ================= -->
+    <!-- =====================================================
+         HOW IT WORKS
+         ===================================================== -->
 
     <section
         class="how-section"
@@ -488,7 +499,9 @@
 
 
 
-    <!-- ================= STATISTICS ================= -->
+    <!-- =====================================================
+         STATISTICS
+         ===================================================== -->
 
     <section class="stats-section">
 
@@ -550,7 +563,9 @@
 
 
 
-    <!-- ================= REPORT SECTION ================= -->
+    <!-- =====================================================
+         REPORT ITEM
+         ===================================================== -->
 
     <section
         class="report-section"
@@ -634,7 +649,9 @@
                 ></textarea>
 
 
-                <!-- ================= IMAGE UPLOAD ================= -->
+                <!-- =================================================
+                     IMAGE UPLOAD
+                     ================================================= -->
 
                 <div
                     style="
@@ -685,7 +702,10 @@
                 </div>
 
 
-                <!-- IMAGE PREVIEW -->
+
+                <!-- =================================================
+                     IMAGE PREVIEW
+                     ================================================= -->
 
                 <div
                     id="imagePreviewContainer"
@@ -722,6 +742,7 @@
                 </div>
 
 
+
                 <!-- SUBMIT -->
 
                 <button
@@ -741,7 +762,9 @@
 
 
 
-    <!-- ================= FOOTER ================= -->
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
 
     <footer id="contact">
 
@@ -846,13 +869,13 @@
         // =====================================================
 
         const API_BASE =
-            "http://localhost:3000/api/lost-found";
+            "/api/lost-found";
 
 
 
         // =====================================================
         // IMAGE MAP
-        // Used when database item has no image
+        // Existing images already present in uploads/items
         // =====================================================
 
         const imageMap = {
@@ -864,6 +887,9 @@
                 "uploads/items/mobile.jpg",
 
             "black wallet":
+                "uploads/items/blackwallet.jpg",
+
+            "wallet":
                 "uploads/items/blackwallet.jpg",
 
             "college id card":
@@ -887,6 +913,9 @@
             "usb drive":
                 "uploads/items/usbdrive.jpg",
 
+            "pendrive":
+                "uploads/items/usbdrive.jpg",
+
             "scientific calculator":
                 "uploads/items/scientificcalculator.jpg",
 
@@ -898,12 +927,13 @@
 
 
         // =====================================================
-        // GET IMAGE URL
-        // IMPORTANT FIX:
-        // Uses localhost absolute URL so images work correctly
+        // GET CORRECT IMAGE URL
         // =====================================================
 
-        function getImageUrl(image, itemName) {
+        function getImageUrl(
+            image,
+            itemName
+        ) {
 
             let imageValue =
                 image
@@ -911,17 +941,21 @@
                     : "";
 
 
-            /*
-             * If there is no image in database,
-             * check our existing image map.
-             */
+            // -------------------------------------------------
+            // If database has no image,
+            // use existing fallback image
+            // -------------------------------------------------
 
-            if (imageValue === "" && itemName) {
+            if (
+                imageValue === "" &&
+                itemName
+            ) {
 
                 const itemKey =
                     String(itemName)
                         .trim()
                         .toLowerCase();
+
 
                 imageValue =
                     imageMap[itemKey] || "";
@@ -929,17 +963,27 @@
             }
 
 
-            if (imageValue === "") {
+            // -------------------------------------------------
+            // No image
+            // -------------------------------------------------
+
+            if (
+                imageValue === ""
+            ) {
+
                 return "";
+
             }
 
 
-            /*
-             * Uploaded base64 image
-             */
+            // -------------------------------------------------
+            // Base64 image
+            // -------------------------------------------------
 
             if (
-                imageValue.startsWith("data:image/")
+                imageValue.startsWith(
+                    "data:image/"
+                )
             ) {
 
                 return imageValue;
@@ -947,13 +991,17 @@
             }
 
 
-            /*
-             * Full URL
-             */
+            // -------------------------------------------------
+            // Full URL
+            // -------------------------------------------------
 
             if (
-                imageValue.startsWith("http://") ||
-                imageValue.startsWith("https://")
+                imageValue.startsWith(
+                    "http://"
+                ) ||
+                imageValue.startsWith(
+                    "https://"
+                )
             ) {
 
                 return imageValue;
@@ -961,49 +1009,63 @@
             }
 
 
-            /*
-             * Existing uploads path
-             *
-             * uploads/items/keychain.jpg
-             *
-             * becomes:
-             *
-             * http://localhost/Campus-Connect/
-             * lost_and_found/uploads/items/keychain.jpg
-             */
+            // -------------------------------------------------
+            // Uploaded image
+            //
+            // Database:
+            //
+            // uploads/items/black_bag_123.jpg
+            //
+            // Browser:
+            //
+            // /lost_and_found/uploads/items/black_bag_123.jpg
+            // -------------------------------------------------
 
             if (
-                imageValue.startsWith("uploads/") ||
-                imageValue.startsWith("uploads\\")
+                imageValue.startsWith(
+                    "uploads/"
+                ) ||
+                imageValue.startsWith(
+                    "uploads\\"
+                )
             ) {
 
                 return (
-                    "http://localhost/Campus-Connect/" +
-                    "lost_and_found/" +
-                    imageValue.replace(/\\/g, "/")
+                    "/lost_and_found/" +
+                    imageValue.replace(
+                        /\\/g,
+                        "/"
+                    )
                 );
 
             }
 
 
-            /*
-             * Absolute local path
-             */
+            // -------------------------------------------------
+            // Already has lost_and_found path
+            // -------------------------------------------------
 
-            if (imageValue.startsWith("/")) {
+            if (
+                imageValue.startsWith(
+                    "/lost_and_found/"
+                )
+            ) {
 
-                return (
-                    "http://localhost" +
-                    imageValue
-                );
+                return imageValue;
 
             }
 
+
+            // -------------------------------------------------
+            // Any other relative path
+            // -------------------------------------------------
 
             return (
-                "http://localhost/Campus-Connect/" +
-                "lost_and_found/" +
-                imageValue
+                "/lost_and_found/" +
+                imageValue.replace(
+                    /^\/+/,
+                    ""
+                )
             );
 
         }
@@ -1017,18 +1079,25 @@
         function createItemCard(item) {
 
             const card =
-                document.createElement("div");
+                document.createElement(
+                    "div"
+                );
+
 
             card.className =
                 "item-card";
 
 
+            // -------------------------------------------------
             // STATUS
+            // -------------------------------------------------
 
             const status =
-                String(item.status || "")
-                    .trim()
-                    .toLowerCase();
+                String(
+                    item.status || ""
+                )
+                .trim()
+                .toLowerCase();
 
 
             const statusText =
@@ -1043,28 +1112,36 @@
                     : "lost";
 
 
+            // -------------------------------------------------
             // ITEM NAME
+            // -------------------------------------------------
 
             const itemName =
                 item.item_name ||
                 "Unknown Item";
 
 
+            // -------------------------------------------------
             // DESCRIPTION
+            // -------------------------------------------------
 
             const description =
                 item.description ||
                 "No description available.";
 
 
+            // -------------------------------------------------
             // LOCATION
+            // -------------------------------------------------
 
             const location =
                 item.location ||
                 "Unknown location";
 
 
+            // -------------------------------------------------
             // IMAGE
+            // -------------------------------------------------
 
             const imageUrl =
                 getImageUrl(
@@ -1073,10 +1150,12 @@
                 );
 
 
-            let imageHTML = "";
+            let imageHTML;
 
 
-            if (imageUrl !== "") {
+            if (
+                imageUrl !== ""
+            ) {
 
                 imageHTML = `
 
@@ -1084,16 +1163,13 @@
                         src="${imageUrl}"
                         alt="${escapeHTML(itemName)}"
                         class="lost-item-image"
-                        onerror="
-                            this.style.display='none';
-                            this.parentElement.innerHTML=
-                            '<span style=&quot;font-size:60px;&quot;>📦</span>';
-                        "
+                        onerror="handleImageError(this)"
                     >
 
                 `;
 
-            } else {
+            }
+            else {
 
                 imageHTML = `
 
@@ -1110,13 +1186,17 @@
             }
 
 
+            // -------------------------------------------------
             // IMAGE BACKGROUND
+            // -------------------------------------------------
 
             let imageClass =
                 "blue-image";
 
 
-            if (status === "found") {
+            if (
+                status === "found"
+            ) {
 
                 imageClass =
                     "orange-image";
@@ -1124,7 +1204,9 @@
             }
 
 
+            // -------------------------------------------------
             // CARD
+            // -------------------------------------------------
 
             card.innerHTML = `
 
@@ -1138,6 +1220,7 @@
 
 
                 <div class="item-content">
+
 
                     <div class="item-top">
 
@@ -1181,6 +1264,7 @@
 
                     </div>
 
+
                 </div>
 
             `;
@@ -1193,10 +1277,69 @@
 
 
         // =====================================================
+        // IMAGE ERROR HANDLER
+        // =====================================================
+
+        function handleImageError(
+            image
+        ) {
+
+            console.error(
+                "Image could not load:",
+                image.src
+            );
+
+
+            image.style.display =
+                "none";
+
+
+            const parent =
+                image.parentElement;
+
+
+            if (
+                parent &&
+                !parent.querySelector(
+                    ".image-fallback"
+                )
+            ) {
+
+                const fallback =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                fallback.className =
+                    "image-fallback";
+
+
+                fallback.style.fontSize =
+                    "60px";
+
+
+                fallback.innerText =
+                    "📦";
+
+
+                parent.appendChild(
+                    fallback
+                );
+
+            }
+
+        }
+
+
+
+        // =====================================================
         // ESCAPE HTML
         // =====================================================
 
-        function escapeHTML(value) {
+        function escapeHTML(
+            value
+        ) {
 
             return String(value)
 
@@ -1249,18 +1392,24 @@
 
             try {
 
-                // ================= LOST =================
+
+                // =================================================
+                // LOST
+                // =================================================
 
                 const lostResponse =
                     await fetch(
-                        API_BASE + "/lost"
+                        API_BASE +
+                        "/lost"
                     );
 
 
-                if (!lostResponse.ok) {
+                if (
+                    !lostResponse.ok
+                ) {
 
                     throw new Error(
-                        "Could not fetch lost items"
+                        "Could not fetch lost items."
                     );
 
                 }
@@ -1271,18 +1420,23 @@
 
 
 
-                // ================= FOUND =================
+                // =================================================
+                // FOUND
+                // =================================================
 
                 const foundResponse =
                     await fetch(
-                        API_BASE + "/found"
+                        API_BASE +
+                        "/found"
                     );
 
 
-                if (!foundResponse.ok) {
+                if (
+                    !foundResponse.ok
+                ) {
 
                     throw new Error(
-                        "Could not fetch found items"
+                        "Could not fetch found items."
                     );
 
                 }
@@ -1293,41 +1447,57 @@
 
 
 
-                // ================= LAST 4 LOST =================
+                // =================================================
+                // MOST RECENT 4
+                // =================================================
 
                 const recentLost =
-                    Array.isArray(lostItems)
-                        ? lostItems.slice(0, 4)
+                    Array.isArray(
+                        lostItems
+                    )
+                        ? lostItems.slice(
+                            0,
+                            4
+                        )
                         : [];
 
-
-
-                // ================= LAST 4 FOUND =================
 
                 const recentFound =
-                    Array.isArray(foundItems)
-                        ? foundItems.slice(0, 4)
+                    Array.isArray(
+                        foundItems
+                    )
+                        ? foundItems.slice(
+                            0,
+                            4
+                        )
                         : [];
 
 
 
+                // =================================================
                 // CLEAR
+                // =================================================
 
                 lostContainer.innerHTML =
                     "";
+
 
                 foundContainer.innerHTML =
                     "";
 
 
 
-                // ADD LOST
+                // =================================================
+                // LOST CARDS
+                // =================================================
 
                 recentLost.forEach(
                     function(item) {
 
                         lostContainer.appendChild(
-                            createItemCard(item)
+                            createItemCard(
+                                item
+                            )
                         );
 
                     }
@@ -1335,13 +1505,17 @@
 
 
 
-                // ADD FOUND
+                // =================================================
+                // FOUND CARDS
+                // =================================================
 
                 recentFound.forEach(
                     function(item) {
 
                         foundContainer.appendChild(
-                            createItemCard(item)
+                            createItemCard(
+                                item
+                            )
                         );
 
                     }
@@ -1349,7 +1523,9 @@
 
 
 
-                // NO LOST
+                // =================================================
+                // NO LOST ITEMS
+                // =================================================
 
                 if (
                     recentLost.length === 0
@@ -1382,7 +1558,9 @@
 
 
 
-                // NO FOUND
+                // =================================================
+                // NO FOUND ITEMS
+                // =================================================
 
                 if (
                     recentFound.length === 0
@@ -1414,7 +1592,10 @@
                 }
 
 
-            } catch (error) {
+            }
+            catch (
+                error
+            ) {
 
                 console.error(
                     "Error loading recent items:",
@@ -1478,168 +1659,16 @@
 
 
         // =====================================================
-        // IMAGE COMPRESSION
-        // Converts uploaded image into smaller JPEG data
+        // =====================================================
+        // REPORT ITEM
+        // =====================================================
         // =====================================================
 
-        function compressImage(file) {
-
-            return new Promise(
-                function(resolve, reject) {
-
-                    const reader =
-                        new FileReader();
-
-
-                    reader.onload =
-                        function(event) {
-
-                            const img =
-                                new Image();
-
-
-                            img.onload =
-                                function() {
-
-                                    const MAX_SIZE =
-                                        700;
-
-
-                                    let width =
-                                        img.width;
-
-                                    let height =
-                                        img.height;
-
-
-                                    /*
-                                     * Resize large images
-                                     */
-
-                                    if (
-                                        width > MAX_SIZE ||
-                                        height > MAX_SIZE
-                                    ) {
-
-                                        if (
-                                            width > height
-                                        ) {
-
-                                            height =
-                                                Math.round(
-                                                    height *
-                                                    MAX_SIZE /
-                                                    width
-                                                );
-
-                                            width =
-                                                MAX_SIZE;
-
-                                        } else {
-
-                                            width =
-                                                Math.round(
-                                                    width *
-                                                    MAX_SIZE /
-                                                    height
-                                                );
-
-                                            height =
-                                                MAX_SIZE;
-
-                                        }
-
-                                    }
-
-
-                                    const canvas =
-                                        document.createElement(
-                                            "canvas"
-                                        );
-
-
-                                    canvas.width =
-                                        width;
-
-                                    canvas.height =
-                                        height;
-
-
-                                    const context =
-                                        canvas.getContext(
-                                            "2d"
-                                        );
-
-
-                                    context.drawImage(
-                                        img,
-                                        0,
-                                        0,
-                                        width,
-                                        height
-                                    );
-
-
-                                    /*
-                                     * Compress to JPEG
-                                     */
-
-                                    const compressed =
-                                        canvas.toDataURL(
-                                            "image/jpeg",
-                                            0.65
-                                        );
-
-
-                                    resolve(
-                                        compressed
-                                    );
-
-                                };
-
-
-                            img.onerror =
-                                function() {
-
-                                    reject(
-                                        new Error(
-                                            "Could not read image."
-                                        )
-                                    );
-
-                                };
-
-
-                            img.src =
-                                event.target.result;
-
-                        };
-
-
-                    reader.onerror =
-                        function() {
-
-                            reject(
-                                new Error(
-                                    "Could not read selected image."
-                                )
-                            );
-
-                        };
-
-
-                    reader.readAsDataURL(file);
-
-                }
+        const reportForm =
+            document.getElementById(
+                "reportForm"
             );
 
-        }
-
-
-
-        // =====================================================
-        // IMAGE PREVIEW
-        // =====================================================
 
         const imageInput =
             document.getElementById(
@@ -1659,37 +1688,39 @@
             );
 
 
-        let selectedImageData =
-            "";
 
+        // =====================================================
+        // IMAGE PREVIEW
+        // =====================================================
 
-
-        if (imageInput) {
+        if (
+            imageInput
+        ) {
 
             imageInput.addEventListener(
                 "change",
-                async function() {
+                function() {
 
                     const file =
                         imageInput.files[0];
 
 
-                    if (!file) {
-
-                        selectedImageData =
-                            "";
+                    if (
+                        !file
+                    ) {
 
                         imagePreviewContainer.style.display =
                             "none";
+
+
+                        imagePreview.src =
+                            "";
+
 
                         return;
 
                     }
 
-
-                    /*
-                     * Make sure selected file is an image
-                     */
 
                     if (
                         !file.type.startsWith(
@@ -1701,45 +1732,28 @@
                             "Please select an image file."
                         );
 
+
                         imageInput.value =
                             "";
+
 
                         return;
 
                     }
 
 
-                    try {
-
-                        selectedImageData =
-                            await compressImage(
-                                file
-                            );
-
-
-                        imagePreview.src =
-                            selectedImageData;
-
-
-                        imagePreviewContainer.style.display =
-                            "block";
-
-
-                    } catch (error) {
-
-                        console.error(
-                            error
+                    const imageURL =
+                        URL.createObjectURL(
+                            file
                         );
 
 
-                        alert(
-                            "Could not process the image."
-                        );
+                    imagePreview.src =
+                        imageURL;
 
-                        selectedImageData =
-                            "";
 
-                    }
+                    imagePreviewContainer.style.display =
+                        "block";
 
                 }
             );
@@ -1749,16 +1763,12 @@
 
 
         // =====================================================
-        // REPORT ITEM
+        // SUBMIT REPORT
         // =====================================================
 
-        const reportForm =
-            document.getElementById(
-                "reportForm"
-            );
-
-
-        if (reportForm) {
+        if (
+            reportForm
+        ) {
 
             reportForm.addEventListener(
                 "submit",
@@ -1809,6 +1819,10 @@
 
 
 
+                    // =================================================
+                    // VALIDATION
+                    // =================================================
+
                     if (
                         itemName === "" ||
                         location === "" ||
@@ -1819,6 +1833,7 @@
                             "Please fill in all the details."
                         );
 
+
                         return;
 
                     }
@@ -1826,6 +1841,11 @@
 
 
                     try {
+
+
+                        // =================================================
+                        // DISABLE BUTTON
+                        // =================================================
 
                         submitButton.disabled =
                             true;
@@ -1836,68 +1856,94 @@
 
 
 
-                        /*
-                         * If the user selected an image,
-                         * use the uploaded image.
-                         *
-                         * Otherwise backend imageMap
-                         * will be used automatically.
-                         */
+                        // =================================================
+                        // CREATE FORM DATA
+                        // =================================================
 
-                        let image =
-                            selectedImageData;
+                        const formData =
+                            new FormData();
 
 
 
-                        /*
-                         * POST TO EXPRESS
-                         */
+                        formData.append(
+                            "item_name",
+                            itemName
+                        );
+
+
+                        formData.append(
+                            "status",
+                            status
+                        );
+
+
+                        formData.append(
+                            "location",
+                            location
+                        );
+
+
+                        formData.append(
+                            "description",
+                            description
+                        );
+
+
+
+                        // =================================================
+                        // REAL IMAGE FILE
+                        // =================================================
+
+                        if (
+                            imageInput &&
+                            imageInput.files.length > 0
+                        ) {
+
+                            formData.append(
+                                "image",
+                                imageInput.files[0]
+                            );
+
+                        }
+
+
+
+                        // =================================================
+                        // SEND TO EXPRESS
+                        // =================================================
 
                         const response =
                             await fetch(
-                                API_BASE,
+                                "/api/lost-found",
                                 {
 
                                     method:
                                         "POST",
 
-                                    headers:
-                                        {
-                                            "Content-Type":
-                                                "application/json"
-                                        },
-
                                     body:
-                                        JSON.stringify({
-
-                                            item_name:
-                                                itemName,
-
-                                            status:
-                                                status,
-
-                                            location:
-                                                location,
-
-                                            description:
-                                                description,
-
-                                            image:
-                                                image
-
-                                        })
+                                        formData
 
                                 }
                             );
 
 
 
+                        // =================================================
+                        // READ RESPONSE
+                        // =================================================
+
                         const data =
                             await response.json();
 
 
 
-                        if (!response.ok) {
+                        // =================================================
+                        // ERROR
+                        // =================================================
+
+                        if (
+                            !response.ok
+                        ) {
 
                             throw new Error(
                                 data.error ||
@@ -1908,38 +1954,77 @@
 
 
 
+                        // =================================================
+                        // SUCCESS LOG
+                        // =================================================
+
+                        console.log(
+                            "Report saved:",
+                            data
+                        );
+
+
+                        console.log(
+                            "Saved image:",
+                            data.item.image
+                        );
+
+
+
+                        // =================================================
+                        // SUCCESS MESSAGE
+                        // =================================================
+
                         alert(
                             "Item reported successfully!"
                         );
 
 
-                        /*
-                         * Reset form
-                         */
+
+                        // =================================================
+                        // RESET FORM
+                        // =================================================
 
                         reportForm.reset();
 
 
-                        selectedImageData =
-                            "";
+
+                        // =================================================
+                        // RESET IMAGE PREVIEW
+                        // =================================================
+
+                        if (
+                            imagePreviewContainer
+                        ) {
+
+                            imagePreviewContainer.style.display =
+                                "none";
+
+                        }
 
 
-                        imagePreviewContainer.style.display =
-                            "none";
+                        if (
+                            imagePreview
+                        ) {
+
+                            imagePreview.src =
+                                "";
+
+                        }
 
 
-                        imagePreview.src =
-                            "";
 
-
-                        /*
-                         * Reload recent items
-                         */
+                        // =================================================
+                        // RELOAD HOME ITEMS
+                        // =================================================
 
                         await loadRecentItems();
 
 
-                    } catch (error) {
+                    }
+                    catch (
+                        error
+                    ) {
 
                         console.error(
                             "Report error:",
@@ -1952,7 +2037,13 @@
                             error.message
                         );
 
-                    } finally {
+                    }
+                    finally {
+
+
+                        // =================================================
+                        // ENABLE BUTTON AGAIN
+                        // =================================================
 
                         submitButton.disabled =
                             false;
@@ -1972,7 +2063,6 @@
 
         // =====================================================
         // HOME PAGE SEARCH
-        // Searches BOTH lost and found
         // =====================================================
 
         const searchButton =
@@ -1987,6 +2077,7 @@
             );
 
 
+
         if (
             searchButton &&
             searchInput
@@ -1996,12 +2087,17 @@
                 "click",
                 function() {
 
+
                     const searchValue =
                         searchInput.value
                             .trim()
                             .toLowerCase();
 
 
+
+                    // -------------------------------------------------
+                    // EMPTY SEARCH
+                    // -------------------------------------------------
 
                     if (
                         searchValue === ""
@@ -2016,18 +2112,16 @@
                                     "smooth"
                             });
 
+
                         return;
 
                     }
 
 
 
-                    /*
-                     * Search all 8 cards:
-                     *
-                     * 4 Lost
-                     * 4 Found
-                     */
+                    // -------------------------------------------------
+                    // GET ALL CARDS
+                    // -------------------------------------------------
 
                     const cards =
                         document.querySelectorAll(
@@ -2040,6 +2134,10 @@
                         false;
 
 
+
+                    // -------------------------------------------------
+                    // SEARCH
+                    // -------------------------------------------------
 
                     cards.forEach(
                         function(card) {
@@ -2058,10 +2156,12 @@
                                 card.style.display =
                                     "";
 
+
                                 foundMatch =
                                     true;
 
-                            } else {
+                            }
+                            else {
 
                                 card.style.display =
                                     "none";
@@ -2073,11 +2173,9 @@
 
 
 
-                    /*
-                     * Scroll to recent items.
-                     *
-                     * DOES NOT CHANGE URL.
-                     */
+                    // -------------------------------------------------
+                    // SCROLL
+                    // -------------------------------------------------
 
                     document
                         .getElementById(
@@ -2089,6 +2187,10 @@
                         });
 
 
+
+                    // -------------------------------------------------
+                    // NO RESULT
+                    // -------------------------------------------------
 
                     if (
                         !foundMatch
@@ -2105,16 +2207,17 @@
 
 
 
-            /*
-             * Press ENTER to search
-             */
+            // -------------------------------------------------
+            // ENTER KEY
+            // -------------------------------------------------
 
             searchInput.addEventListener(
                 "keydown",
                 function(event) {
 
                     if (
-                        event.key === "Enter"
+                        event.key ===
+                        "Enter"
                     ) {
 
                         searchButton.click();
@@ -2132,14 +2235,7 @@
         // LOAD ITEMS WHEN PAGE OPENS
         // =====================================================
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            function() {
-
-                loadRecentItems();
-
-            }
-        );
+        loadRecentItems();
 
 
     </script>

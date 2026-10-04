@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -5,11 +6,19 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <title>Lost Items - Campus Lost & Found</title>
+    <title>
+        Lost Items - Campus Lost & Found
+    </title>
 
-    <link rel="stylesheet" href="lost.css">
+    <link
+        rel="stylesheet"
+        href="lost.css"
+    >
 
 </head>
 
@@ -77,8 +86,6 @@
     <section class="items-page">
 
 
-        <!-- ================= HEADING ================= -->
-
         <div class="items-heading">
 
             <p class="small-heading">
@@ -106,15 +113,13 @@
 
 
         <!-- =================================================
-             DATABASE ITEMS WILL APPEAR HERE
+             LOST ITEMS
              ================================================= -->
 
         <div
             class="items-grid"
-            id="lostItemsContainer"
+            id="lostItemsGrid"
         >
-
-            <!-- Loading message -->
 
             <div
                 class="no-items"
@@ -153,87 +158,599 @@
 
 
     <!-- =====================================================
-         DATABASE LOADING SCRIPT
+         JAVASCRIPT
          ===================================================== -->
 
     <script>
 
-        /*
-         * Express backend API
-         *
-         * This endpoint returns:
-         *
-         * GET /api/lost-found/lost
-         *
-         * The data comes directly from MySQL.
-         */
+
+        // =====================================================
+        // API
+        // =====================================================
 
         const API_URL =
-            "http://localhost:3000/api/lost-found/lost";
+            "/api/lost-found/lost";
 
 
-        /*
-         * Container where cards will be created
-         */
-
-        const container =
-            document.getElementById("lostItemsContainer");
+        const lostItemsGrid =
+            document.getElementById(
+                "lostItemsGrid"
+            );
 
 
-        /*
-         * Load lost items from database
-         */
+
+        // =====================================================
+        // IMAGE MAP
+        // =====================================================
+
+        const imageMap = {
+
+            "mobile cover":
+                "mobilecover.jpg",
+
+            "mobile":
+                "mobile.jpg",
+
+            "black wallet":
+                "blackwallet.jpg",
+
+            "wallet":
+                "blackwallet.jpg",
+
+            "college id card":
+                "collegeidcard.jpg",
+
+            "keychain":
+                "keychain.jpg",
+
+            "umbrella":
+                "umbrella.jpg",
+
+            "laptop charger":
+                "laptopcharger.jpg",
+
+            "notebook":
+                "notebook.jpg",
+
+            "earphones":
+                "earphones.jpg",
+
+            "usb drive":
+                "usbdrive.jpg",
+
+            "pendrive":
+                "usbdrive.jpg",
+
+            "scientific calculator":
+                "scientificcalculator.jpg",
+
+            "water bottle":
+                "waterbottle.jpg"
+
+        };
+
+
+
+        // =====================================================
+        // GET IMAGE URL
+        // =====================================================
+
+        function getImageUrl(
+            databaseImage,
+            itemName
+        ) {
+
+            const name =
+                String(itemName || "")
+                    .trim()
+                    .toLowerCase();
+
+
+            /*
+             * IMPORTANT
+             *
+             * For known items, use the exact
+             * Express URL directly.
+             *
+             * This avoids all relative-path
+             * problems.
+             */
+
+            if (
+                imageMap[name]
+            ) {
+
+                return (
+                    window.location.origin +
+                    "/lost_and_found/uploads/items/" +
+                    imageMap[name] +
+                    "?v=100"
+                );
+
+            }
+
+
+            // -------------------------------------------------
+            // IF DATABASE CONTAINS AN IMAGE
+            // -------------------------------------------------
+
+            let image =
+                String(
+                    databaseImage || ""
+                ).trim();
+
+
+            if (
+                image === ""
+            ) {
+
+                return "";
+
+            }
+
+
+            // -------------------------------------------------
+            // BASE64
+            // -------------------------------------------------
+
+            if (
+                image.startsWith(
+                    "data:image/"
+                )
+            ) {
+
+                return image;
+
+            }
+
+
+            // -------------------------------------------------
+            // FULL URL
+            // -------------------------------------------------
+
+            if (
+                image.startsWith(
+                    "http://"
+                ) ||
+                image.startsWith(
+                    "https://"
+                )
+            ) {
+
+                return image;
+
+            }
+
+
+            // -------------------------------------------------
+            // CLEAN PATH
+            // -------------------------------------------------
+
+            image =
+                image.replace(
+                    /\\/g,
+                    "/"
+                );
+
+
+            image =
+                image.replace(
+                    /^\/+/,
+                    ""
+                );
+
+
+            // Remove lost_and_found if already present
+
+            if (
+                image.startsWith(
+                    "lost_and_found/"
+                )
+            ) {
+
+                image =
+                    image.substring(
+                        "lost_and_found/".length
+                    );
+
+            }
+
+
+            // -------------------------------------------------
+            // FINAL DATABASE IMAGE URL
+            // -------------------------------------------------
+
+            return (
+                window.location.origin +
+                "/lost_and_found/" +
+                image +
+                "?v=100"
+            );
+
+        }
+
+
+
+        // =====================================================
+        // ESCAPE HTML
+        // =====================================================
+
+        function escapeHTML(
+            value
+        ) {
+
+            return String(value)
+
+                .replace(
+                    /&/g,
+                    "&amp;"
+                )
+
+                .replace(
+                    /</g,
+                    "&lt;"
+                )
+
+                .replace(
+                    />/g,
+                    "&gt;"
+                )
+
+                .replace(
+                    /"/g,
+                    "&quot;"
+                )
+
+                .replace(
+                    /'/g,
+                    "&#039;"
+                );
+
+        }
+
+
+
+        // =====================================================
+        // IMAGE ERROR HANDLER
+        // =====================================================
+
+        function imageError(
+            img,
+            itemName
+        ) {
+
+            console.error(
+                "IMAGE FAILED:",
+                img.src
+            );
+
+
+            const name =
+                String(itemName || "")
+                    .trim()
+                    .toLowerCase();
+
+
+            /*
+             * If the known image fails,
+             * try the same path without
+             * cache parameter.
+             */
+
+            if (
+                imageMap[name] &&
+                !img.dataset.retry
+            ) {
+
+                img.dataset.retry =
+                    "yes";
+
+
+                img.src =
+                    window.location.origin +
+                    "/lost_and_found/uploads/items/" +
+                    imageMap[name];
+
+                return;
+
+            }
+
+
+            // -------------------------------------------------
+            // FINAL FALLBACK
+            // -------------------------------------------------
+
+            img.style.display =
+                "none";
+
+
+            const parent =
+                img.parentElement;
+
+
+            if (
+                parent &&
+                !parent.querySelector(
+                    ".image-fallback"
+                )
+            ) {
+
+                const span =
+                    document.createElement(
+                        "span"
+                    );
+
+
+                span.className =
+                    "image-fallback";
+
+
+                span.style.fontSize =
+                    "60px";
+
+
+                span.textContent =
+                    "📦";
+
+
+                parent.appendChild(
+                    span
+                );
+
+            }
+
+        }
+
+
+
+        // =====================================================
+        // CREATE CARD
+        // =====================================================
+
+        function createCard(
+            item
+        ) {
+
+
+            const itemName =
+                item.item_name ||
+                "Unknown Item";
+
+
+            const description =
+                item.description ||
+                "No description provided.";
+
+
+            const location =
+                item.location ||
+                "Location not specified";
+
+
+            const status =
+                item.status ||
+                "lost";
+
+
+            // -------------------------------------------------
+            // IMAGE URL
+            // -------------------------------------------------
+
+            const imageUrl =
+                getImageUrl(
+                    item.image,
+                    itemName
+                );
+
+
+            console.log(
+                "--------------------------------"
+            );
+
+
+            console.log(
+                "ITEM:",
+                itemName
+            );
+
+
+            console.log(
+                "DATABASE IMAGE:",
+                item.image
+            );
+
+
+            console.log(
+                "FINAL IMAGE:",
+                imageUrl
+            );
+
+
+            console.log(
+                "--------------------------------"
+            );
+
+
+            // -------------------------------------------------
+            // IMAGE
+            // -------------------------------------------------
+
+            let imageHTML = `
+
+                <span
+                    class="image-fallback"
+                    style="
+                        font-size:60px;
+                    "
+                >
+                    📦
+                </span>
+
+            `;
+
+
+            if (
+                imageUrl !== ""
+            ) {
+
+                imageHTML = `
+
+                    <img
+                        src="${imageUrl}"
+                        alt="${escapeHTML(itemName)}"
+                        class="lost-item-image"
+                        onerror="imageError(this, '${escapeHTML(itemName)}')"
+                    >
+
+                `;
+
+            }
+
+
+
+            // -------------------------------------------------
+            // CARD
+            // -------------------------------------------------
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "item-card";
+
+
+            card.setAttribute(
+                "data-status",
+                String(status).toLowerCase()
+            );
+
+
+            card.innerHTML = `
+
+                <div class="item-image blue-image">
+
+                    ${imageHTML}
+
+                </div>
+
+
+                <div class="item-content">
+
+
+                    <div class="item-top">
+
+                        <span class="status lost">
+
+                            LOST
+
+                        </span>
+
+
+                        <span class="date">
+
+                            Recently
+
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+
+                        ${escapeHTML(itemName)}
+
+                    </h3>
+
+
+                    <p>
+
+                        ${escapeHTML(description)}
+
+                    </p>
+
+
+                    <div class="item-location">
+
+                        📍
+
+                        ${escapeHTML(location)}
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+
+            return card;
+
+        }
+
+
+
+        // =====================================================
+        // LOAD LOST ITEMS
+        // =====================================================
 
         async function loadLostItems() {
 
+
             try {
 
-                /*
-                 * Ask Express backend for lost items
-                 */
+
+                console.log(
+                    "Loading from:",
+                    API_URL
+                );
+
 
                 const response =
-                    await fetch(API_URL);
+                    await fetch(
+                        API_URL +
+                        "?v=100"
+                    );
 
 
-                /*
-                 * Check if API responded correctly
-                 */
-
-                if (!response.ok) {
+                if (
+                    !response.ok
+                ) {
 
                     throw new Error(
-                        "Server returned an error."
+                        "HTTP Error: " +
+                        response.status
                     );
 
                 }
 
 
-                /*
-                 * Convert response to JSON
-                 */
-
                 const items =
                     await response.json();
 
 
-                /*
-                 * Remove loading message
-                 */
+                console.log(
+                    "ITEMS FROM DATABASE:",
+                    items
+                );
 
-                container.innerHTML = "";
+
+                lostItemsGrid.innerHTML =
+                    "";
 
 
-                /*
-                 * If there are no lost items
-                 */
+                // -------------------------------------------------
+                // NO ITEMS
+                // -------------------------------------------------
 
                 if (
                     !Array.isArray(items) ||
                     items.length === 0
                 ) {
 
-                    container.innerHTML = `
+                    lostItemsGrid.innerHTML = `
 
                         <div class="no-items">
 
@@ -254,216 +771,42 @@
                 }
 
 
-                /*
-                 * Create one card for every
-                 * item returned by MySQL.
-                 */
+                // -------------------------------------------------
+                // ADD CARDS
+                // -------------------------------------------------
 
-                items.forEach(function(item) {
+                items.forEach(
+                    function(item) {
 
-
-                    /*
-                     * Get database values safely
-                     */
-
-                    const itemName =
-                        item.item_name || "Unknown Item";
+                        const card =
+                            createCard(
+                                item
+                            );
 
 
-                    const description =
-                        item.description || "No description provided.";
-
-
-                    const location =
-                        item.location || "Location not specified";
-
-
-                    const status =
-                        item.status || "lost";
-
-
-                    /*
-                     * IMAGE
-                     *
-                     * Database example:
-                     *
-                     * uploads/items/keychain.jpg
-                     *
-                     * Because lost-items.html is inside
-                     * lost_and_found/, this becomes:
-                     *
-                     * uploads/items/keychain.jpg
-                     */
-
-                    let imageHTML = `
-
-                        <span style="font-size: 60px;">
-                            📦
-                        </span>
-
-                    `;
-
-
-                    if (
-                        item.image &&
-                        item.image.trim() !== ""
-                    ) {
-
-                        let imagePath =
-                            item.image.trim();
-
-
-                        /*
-                         * If database contains:
-                         *
-                         * uploads/items/keychain.jpg
-                         *
-                         * use it directly.
-                         */
-
-                        imageHTML = `
-
-                            <img
-                                src="${imagePath}"
-                                alt="${escapeHTML(itemName)}"
-                                class="lost-item-image"
-                                onerror="this.style.display='none'; this.nextElementSibling.style.display='block';"
-                            >
-
-                            <span
-                                style="
-                                    display:none;
-                                    font-size:60px;
-                                "
-                            >
-                                📦
-                            </span>
-
-                        `;
+                        lostItemsGrid.appendChild(
+                            card
+                        );
 
                     }
-
-
-                    /*
-                     * Create the card
-                     */
-
-                    const card = document.createElement("div");
-
-                    card.className =
-                        "item-card";
-
-
-                    /*
-                     * Store status for your existing
-                     * browse/search JavaScript
-                     */
-
-                    card.setAttribute(
-                        "data-status",
-                        status.toLowerCase()
-                    );
-
-
-                    /*
-                     * Put database information
-                     * inside the card
-                     */
-
-                    card.innerHTML = `
-
-
-                        <!-- ================= IMAGE ================= -->
-
-                        <div class="item-image blue-image">
-
-                            ${imageHTML}
-
-                        </div>
-
-
-
-                        <!-- ================= CONTENT ================= -->
-
-                        <div class="item-content">
-
-
-                            <div class="item-top">
-
-
-                                <span class="status lost">
-
-                                    LOST
-
-                                </span>
-
-
-                                <span class="date">
-
-                                    Recently
-
-                                </span>
-
-
-                            </div>
-
-
-
-                            <h3>
-
-                                ${escapeHTML(itemName)}
-
-                            </h3>
-
-
-
-                            <p>
-
-                                ${escapeHTML(description)}
-
-                            </p>
-
-
-
-                            <div class="item-location">
-
-                                📍
-
-                                ${escapeHTML(location)}
-
-                            </div>
-
-
-                        </div>
-
-
-                    `;
-
-
-                    /*
-                     * Add card to webpage
-                     */
-
-                    container.appendChild(card);
-
-                });
+                );
 
 
             }
 
-            catch (error) {
+
+            catch (
+                error
+            ) {
+
 
                 console.error(
-                    "Lost items loading error:",
+                    "ERROR:",
                     error
                 );
 
 
-                /*
-                 * Show error on webpage
-                 */
-
-                container.innerHTML = `
+                lostItemsGrid.innerHTML = `
 
                     <div class="no-items">
 
@@ -472,7 +815,7 @@
                         </h3>
 
                         <p>
-                            Make sure the Express server is running.
+                            Please make sure the Express server is running.
                         </p>
 
                     </div>
@@ -485,34 +828,12 @@
 
 
 
-        /*
-         * Prevent database text from being interpreted
-         * as HTML.
-         */
-
-        function escapeHTML(value) {
-
-            return String(value)
-
-                .replace(/&/g, "&amp;")
-
-                .replace(/</g, "&lt;")
-
-                .replace(/>/g, "&gt;")
-
-                .replace(/"/g, "&quot;")
-
-                .replace(/'/g, "&#039;");
-
-        }
-
-
-
-        /*
-         * START DATABASE LOADING
-         */
+        // =====================================================
+        // START
+        // =====================================================
 
         loadLostItems();
+
 
     </script>
 
