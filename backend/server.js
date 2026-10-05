@@ -2,6 +2,8 @@
 // 1. IMPORT PACKAGES
 // =====================================================
 
+require("dotenv").config();
+
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
@@ -35,20 +37,11 @@ app.use(express.json({
 // =====================================================
 
 const db = mysql.createConnection({
-
-    host: process.env.DB_HOST || "localhost",
-
-    port: Number(
-        process.env.DB_PORT || 3307
-    ),
-
-    user: process.env.DB_USER || "root",
-
-    password: process.env.DB_PASSWORD || "",
-
-    database:
-        process.env.DB_NAME || "campusconnect"
-
+    host: process.env.localhost,
+    user: process.env.root,
+    password: process.env.dypcoe,
+    database: process.env.campusconnect,
+    port: Number(process.env.DB_PORT || 3306)
 });
 
 
