@@ -461,7 +461,7 @@ function loadAllMenus() {
     const requests = canteens.map(function (canteen) {
 
         return fetch(
-            "http://localhost:3000/api/menu/" + canteen
+            "/api/menu/" + canteen
         )
 
             .then(function (response) {
@@ -889,7 +889,7 @@ function createFoodCard(item) {
     // =================================================
 
     const imageAPI =
-        "http://localhost:3000/api/food-image/" +
+        "/api/food-image/" +
         encodeURIComponent(item.canteen) +
         "/" +
         encodeURIComponent(item.item_name);
@@ -916,7 +916,6 @@ function createFoodCard(item) {
             if (data.image) {
 
                 foodImage.src =
-                    "http://localhost:3000" +
                     data.image;
 
             }
