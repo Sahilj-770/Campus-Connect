@@ -142,7 +142,7 @@ if (reportForm) {
             // Send data to Express backend
 
             const response = await fetch(
-                "http://localhost:3000/api/lost-found",
+                "/api/lost-found",
                 {
                     method: "POST",
 
@@ -239,7 +239,7 @@ async function loadLostItems() {
     try {
 
         const response = await fetch(
-            "http://localhost:3000/api/lost-found/lost"
+            "/api/lost-found/lost"
         );
 
 
@@ -404,7 +404,7 @@ async function loadFoundItems() {
     try {
 
         const response = await fetch(
-            "http://localhost:3000/api/lost-found/found"
+            "/api/lost-found/found"
         );
 
 
