@@ -178,20 +178,35 @@ app.use(
     express.static(frontendPath)
 );
 
+// Serve uploaded Lost & Found images
+app.use(
+    "/uploads",
+    express.static(
+        path.join(
+            __dirname,
+            "..",
+            "lost_and_found",
+            "uploads"
+        )
+    )
+);
+
 
 // =====================================================
 // HOME PAGE
 // =====================================================
 
 app.get("/", function(req, res) {
+    res.json({
+        status: "ok",
+        service: "CampusConnect API"
+    });
+});
 
-    res.sendFile(
-        path.join(
-            frontendPath,
-            "lost.html"
-        )
-    );
-
+app.get("/health", function(req, res) {
+    res.json({
+        status: "healthy"
+    });
 });
 
 
