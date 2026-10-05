@@ -36,12 +36,20 @@ app.use(express.json({
 // 4. CONNECT TO MYSQL
 // =====================================================
 
-const db = mysql.createConnection({
-    host: process.env.localhost,
-    user: process.env.root,
-    password: process.env.dypcoe,
-    database: process.env.campusconnect,
-    port: Number(process.env.DB_PORT || 3306)
+const canteenDB = mysql.createConnection({
+    host: process.env.CANTEEN_DB_HOST,
+    user: process.env.CANTEEN_DB_USER,
+    password: process.env.CANTEEN_DB_PASSWORD || "",
+    database: process.env.CANTEEN_DB_NAME,
+    port: Number(process.env.CANTEEN_DB_PORT || 3306)
+});
+
+const lostFoundDB = mysql.createConnection({
+    host: process.env.LOST_FOUND_DB_HOST,
+    user: process.env.LOST_FOUND_DB_USER,
+    password: process.env.LOST_FOUND_DB_PASSWORD || "",
+    database: process.env.LOST_FOUND_DB_NAME,
+    port: Number(process.env.LOST_FOUND_DB_PORT || 3306)
 });
 
 
@@ -57,23 +65,20 @@ const lostFoundRoutes =
 // 5. TEST MYSQL CONNECTION
 // =====================================================
 
-db.connect(function(error) {
-
+canteenDB.connect(function(error) {
     if (error) {
-
-        console.log(
-            "MySQL connection failed:",
-            error
-        );
-
-        return;
-
+        console.log("Canteen MySQL connection failed:", error);
+    } else {
+        console.log("Canteen MySQL connected successfully!");
     }
+});
 
-    console.log(
-        "MySQL connected successfully!"
-    );
-
+lostFoundDB.connect(function(error) {
+    if (error) {
+        console.log("Lost & Found MySQL connection failed:", error);
+    } else {
+        console.log("Lost & Found MySQL connected successfully!");
+    }
 });
 
 
@@ -81,13 +86,7 @@ db.connect(function(error) {
 // MAKE DATABASE AVAILABLE TO ROUTES
 // =====================================================
 
-app.use(function(req, res, next) {
-
-    req.db = db;
-
-    next();
-
-});
+// Database access is assigned per feature below so each module uses its own MySQL database.
 
 
 // =====================================================
@@ -96,6 +95,10 @@ app.use(function(req, res, next) {
 
 app.use(
     "/api/lost-found",
+    function(req, res, next) {
+        req.db = lostFoundDB;
+        next();
+    },
     lostFoundRoutes
 );
 
@@ -344,7 +347,7 @@ app.get(
         `;
 
 
-        db.query(
+        canteenDB.query(
             query,
             function(error, results) {
 
@@ -429,7 +432,7 @@ app.get(
         };
 
 
-        db.query(
+        canteenDB.query(
             queries.cafeteria,
             function(error, cafeteria) {
 
@@ -450,7 +453,7 @@ app.get(
                 }
 
 
-                db.query(
+                canteenDB.query(
                     queries.timeless,
                     function(error, timeless) {
 
@@ -471,7 +474,7 @@ app.get(
                         }
 
 
-                        db.query(
+                        canteenDB.query(
                             queries.nescafe,
                             function(error, nescafe) {
 
@@ -785,6 +788,7 @@ if (
 
 app.listen(
     PORT,
+    "0.0.0.0",
     function() {
 
         console.log(
