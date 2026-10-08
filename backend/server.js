@@ -166,56 +166,38 @@ console.log(
     frontendPath
 );
 
+const frontendAvailable =
+    fs.existsSync(frontendPath);
 
-if (!fs.existsSync(frontendPath)) {
-
+if (!frontendAvailable) {
     console.log(
-        "WARNING: lost_and_found folder was NOT found."
+        "Lost & Found frontend is not inside the Render service root; Vercel serves the frontend in production."
     );
-
-    console.log(
-        "Expected folder:",
-        frontendPath
-    );
-
 } else {
-
     console.log(
         "Lost & Found frontend folder found!"
     );
 
+    // Local development convenience: serve the frontend when it is available.
+    app.use(
+        express.static(frontendPath)
+    );
+
+    app.use(
+        "/lost_and_found",
+        express.static(frontendPath)
+    );
 }
 
-
-// =====================================================
-// SERVE LOST & FOUND FILES
-// =====================================================
-
-app.use(
-    express.static(frontendPath)
+// Render runtime uploads live inside backend/uploads.
+const uploadsPath = path.join(
+    __dirname,
+    "uploads"
 );
 
-
-// =====================================================
-// ALSO SUPPORT /lost_and_found/ URL
-// =====================================================
-
-app.use(
-    "/lost_and_found",
-    express.static(frontendPath)
-);
-
-// Serve uploaded Lost & Found images
 app.use(
     "/uploads",
-    express.static(
-        path.join(
-            __dirname,
-            "..",
-            "lost_and_found",
-            "uploads"
-        )
-    )
+    express.static(uploadsPath)
 );
 
 
@@ -238,72 +220,80 @@ app.get("/health", function(req, res) {
 
 
 // =====================================================
-// EXPLICIT LOST & FOUND PAGES
+// 7. OPTIONAL LOST & FOUND PAGE ROUTES
 // =====================================================
 
-// Home
-app.get(
-    "/lost_and_found/lost.html",
-    function(req, res) {
+if (frontendAvailable) {
 
-        res.sendFile(
-            path.join(
-                frontendPath,
-                "lost.html"
-            )
-        );
+    
+    
+    // Home
+    app.get(
+        "/lost_and_found/lost.html",
+        function(req, res) {
+    
+            res.sendFile(
+                path.join(
+                    frontendPath,
+                    "lost.html"
+                )
+            );
+    
+        }
+    );
+    
+    
+    // Lost Items
+    app.get(
+        "/lost_and_found/lost-items.html",
+        function(req, res) {
+    
+            res.sendFile(
+                path.join(
+                    frontendPath,
+                    "lost-items.html"
+                )
+            );
+    
+        }
+    );
+    
+    
+    // Found Items
+    app.get(
+        "/lost_and_found/found-items.html",
+        function(req, res) {
+    
+            res.sendFile(
+                path.join(
+                    frontendPath,
+                    "found-items.html"
+                )
+            );
+    
+        }
+    );
+    
+    
+    // Browse
+    app.get(
+        "/lost_and_found/browse.html",
+        function(req, res) {
+    
+            res.sendFile(
+                path.join(
+                    frontendPath,
+                    "browse.html"
+                )
+            );
+    
+        }
+    );
+    
+    
+    
 
-    }
-);
-
-
-// Lost Items
-app.get(
-    "/lost_and_found/lost-items.html",
-    function(req, res) {
-
-        res.sendFile(
-            path.join(
-                frontendPath,
-                "lost-items.html"
-            )
-        );
-
-    }
-);
-
-
-// Found Items
-app.get(
-    "/lost_and_found/found-items.html",
-    function(req, res) {
-
-        res.sendFile(
-            path.join(
-                frontendPath,
-                "found-items.html"
-            )
-        );
-
-    }
-);
-
-
-// Browse
-app.get(
-    "/lost_and_found/browse.html",
-    function(req, res) {
-
-        res.sendFile(
-            path.join(
-                frontendPath,
-                "browse.html"
-            )
-        );
-
-    }
-);
-
+}
 
 // =====================================================
 // 7. GET MENU FROM MYSQL
