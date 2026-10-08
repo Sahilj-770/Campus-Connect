@@ -36,20 +36,44 @@ app.use(express.json({
 // 4. CONNECT TO MYSQL
 // =====================================================
 
+const canteenSslCa = process.env.CANTEEN_DB_SSL_CA
+    ? process.env.CANTEEN_DB_SSL_CA.replace(/\\n/g, "\n")
+    : "";
+
 const canteenDB = mysql.createConnection({
     host: process.env.CANTEEN_DB_HOST,
     user: process.env.CANTEEN_DB_USER,
     password: process.env.CANTEEN_DB_PASSWORD || "",
     database: process.env.CANTEEN_DB_NAME,
-    port: Number(process.env.CANTEEN_DB_PORT || 3306)
+    port: Number(process.env.CANTEEN_DB_PORT || 3306),
+    ...(canteenSslCa
+        ? {
+            ssl: {
+                ca: canteenSslCa,
+                rejectUnauthorized: true
+            }
+        }
+        : {})
 });
+
+const lostFoundSslCa = process.env.LOST_FOUND_DB_SSL_CA
+    ? process.env.LOST_FOUND_DB_SSL_CA.replace(/\\n/g, "\n")
+    : "";
 
 const lostFoundDB = mysql.createConnection({
     host: process.env.LOST_FOUND_DB_HOST,
     user: process.env.LOST_FOUND_DB_USER,
     password: process.env.LOST_FOUND_DB_PASSWORD || "",
     database: process.env.LOST_FOUND_DB_NAME,
-    port: Number(process.env.LOST_FOUND_DB_PORT || 3306)
+    port: Number(process.env.LOST_FOUND_DB_PORT || 3306),
+    ...(lostFoundSslCa
+        ? {
+            ssl: {
+                ca: lostFoundSslCa,
+                rejectUnauthorized: true
+            }
+        }
+        : {})
 });
 
 
