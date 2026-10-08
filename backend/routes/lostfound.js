@@ -10,11 +10,11 @@ const router = express.Router();
 // IMAGE UPLOAD FOLDER
 // =====================================================
 
+// Runtime uploads must live inside the Render service root (backend).
+// Render services with root directory "backend" cannot access sibling folders.
 const uploadFolder = path.join(
     __dirname,
     "..",
-    "..",
-    "lost_and_found",
     "uploads",
     "items"
 );
@@ -143,19 +143,19 @@ const imageMap = {
     // =================================================
 
     "mobile":
-        "uploads/items/mobile.jpg",
+        "/lost_and_found/uploads/items/mobile.jpg",
 
     "mobile phone":
-        "uploads/items/mobile.jpg",
+        "/lost_and_found/uploads/items/mobile.jpg",
 
     "phone":
-        "uploads/items/mobile.jpg",
+        "/lost_and_found/uploads/items/mobile.jpg",
 
     "mobile cover":
-        "uploads/items/mobilecover.jpg",
+        "/lost_and_found/uploads/items/mobilecover.jpg",
 
     "phone cover":
-        "uploads/items/mobilecover.jpg",
+        "/lost_and_found/uploads/items/mobilecover.jpg",
 
 
     // =================================================
@@ -163,10 +163,10 @@ const imageMap = {
     // =================================================
 
     "black wallet":
-        "uploads/items/blackwallet.jpg",
+        "/lost_and_found/uploads/items/blackwallet.jpg",
 
     "wallet":
-        "uploads/items/blackwallet.jpg",
+        "/lost_and_found/uploads/items/blackwallet.jpg",
 
 
     // =================================================
@@ -174,13 +174,13 @@ const imageMap = {
     // =================================================
 
     "black bag":
-        "uploads/items/blackbag.jpg",
+        "/lost_and_found/uploads/items/blackbag.jpg",
 
     "blackbag":
-        "uploads/items/blackbag.jpg",
+        "/lost_and_found/uploads/items/blackbag.jpg",
 
     "bag":
-        "uploads/items/blackbag.jpg",
+        "/lost_and_found/uploads/items/blackbag.jpg",
 
 
     // =================================================
@@ -188,7 +188,7 @@ const imageMap = {
     // =================================================
 
     "pouch":
-        "uploads/items/pouch.jpg",
+        "/lost_and_found/uploads/items/pouch.jpg",
 
 
     // =================================================
@@ -196,16 +196,16 @@ const imageMap = {
     // =================================================
 
     "college id card":
-        "uploads/items/collegeidcard.jpg",
+        "/lost_and_found/uploads/items/collegeidcard.jpg",
 
     "college id":
-        "uploads/items/collegeidcard.jpg",
+        "/lost_and_found/uploads/items/collegeidcard.jpg",
 
     "id card":
-        "uploads/items/collegeidcard.jpg",
+        "/lost_and_found/uploads/items/collegeidcard.jpg",
 
     "identity card":
-        "uploads/items/collegeidcard.jpg",
+        "/lost_and_found/uploads/items/collegeidcard.jpg",
 
 
     // =================================================
@@ -213,10 +213,10 @@ const imageMap = {
     // =================================================
 
     "keychain":
-        "uploads/items/keychain.jpg",
+        "/lost_and_found/uploads/items/keychain.jpg",
 
     "key chain":
-        "uploads/items/keychain.jpg",
+        "/lost_and_found/uploads/items/keychain.jpg",
 
 
     // =================================================
@@ -224,7 +224,7 @@ const imageMap = {
     // =================================================
 
     "umbrella":
-        "uploads/items/umbrella.jpg",
+        "/lost_and_found/uploads/items/umbrella.jpg",
 
 
     // =================================================
@@ -232,13 +232,13 @@ const imageMap = {
     // =================================================
 
     "laptop charger":
-        "uploads/items/laptopcharger.jpg",
+        "/lost_and_found/uploads/items/laptopcharger.jpg",
 
     "laptopcharger":
-        "uploads/items/laptopcharger.jpg",
+        "/lost_and_found/uploads/items/laptopcharger.jpg",
 
     "charger":
-        "uploads/items/laptopcharger.jpg",
+        "/lost_and_found/uploads/items/laptopcharger.jpg",
 
 
     // =================================================
@@ -246,10 +246,10 @@ const imageMap = {
     // =================================================
 
     "notebook":
-        "uploads/items/notebook.jpg",
+        "/lost_and_found/uploads/items/notebook.jpg",
 
     "book":
-        "uploads/items/notebook.jpg",
+        "/lost_and_found/uploads/items/notebook.jpg",
 
 
     // =================================================
@@ -257,13 +257,13 @@ const imageMap = {
     // =================================================
 
     "earphones":
-        "uploads/items/earphones.jpg",
+        "/lost_and_found/uploads/items/earphones.jpg",
 
     "earphone":
-        "uploads/items/earphones.jpg",
+        "/lost_and_found/uploads/items/earphones.jpg",
 
     "airpods":
-        "uploads/items/earphones.jpg",
+        "/lost_and_found/uploads/items/earphones.jpg",
 
 
     // =================================================
@@ -271,19 +271,19 @@ const imageMap = {
     // =================================================
 
     "usb drive":
-        "uploads/items/usbdrive.jpg",
+        "/lost_and_found/uploads/items/usbdrive.jpg",
 
     "usb":
-        "uploads/items/usbdrive.jpg",
+        "/lost_and_found/uploads/items/usbdrive.jpg",
 
     "usbdrive":
-        "uploads/items/usbdrive.jpg",
+        "/lost_and_found/uploads/items/usbdrive.jpg",
 
     "pendrive":
-        "uploads/items/usbdrive.jpg",
+        "/lost_and_found/uploads/items/usbdrive.jpg",
 
     "pen drive":
-        "uploads/items/usbdrive.jpg",
+        "/lost_and_found/uploads/items/usbdrive.jpg",
 
 
     // =================================================
@@ -299,16 +299,16 @@ const imageMap = {
     // =================================================
 
     "scientific calculator":
-        "uploads/items/scientific%20calculator.jpg",
+        "/lost_and_found/uploads/items/scientific%20calculator.jpg",
 
     "scientificcalculator":
-        "uploads/items/scientific%20calculator.jpg",
+        "/lost_and_found/uploads/items/scientific%20calculator.jpg",
 
     "calculator":
-        "uploads/items/scientific%20calculator.jpg",
+        "/lost_and_found/uploads/items/scientific%20calculator.jpg",
 
     "casio scientific calculator":
-        "uploads/items/scientific%20calculator.jpg",
+        "/lost_and_found/uploads/items/scientific%20calculator.jpg",
 
 
     // =================================================
@@ -316,13 +316,13 @@ const imageMap = {
     // =================================================
 
     "water bottle":
-        "uploads/items/waterbottle.jpg",
+        "/lost_and_found/uploads/items/waterbottle.jpg",
 
     "waterbottle":
-        "uploads/items/waterbottle.jpg",
+        "/lost_and_found/uploads/items/waterbottle.jpg",
 
     "bottle":
-        "uploads/items/waterbottle.jpg",
+        "/lost_and_found/uploads/items/waterbottle.jpg",
 
 
     // =================================================
@@ -330,10 +330,10 @@ const imageMap = {
     // =================================================
 
     "geometry box":
-        "uploads/items/geometrybox.jpg",
+        "/lost_and_found/uploads/items/geometrybox.jpg",
 
     "geometrybox":
-        "uploads/items/geometrybox.jpg",
+        "/lost_and_found/uploads/items/geometrybox.jpg",
 
 
     // =================================================
@@ -341,13 +341,13 @@ const imageMap = {
     // =================================================
 
     "spectacles":
-        "uploads/items/spectacles.jpg",
+        "/lost_and_found/uploads/items/spectacles.jpg",
 
     "spectacle":
-        "uploads/items/spectacles.jpg",
+        "/lost_and_found/uploads/items/spectacles.jpg",
 
     "glasses":
-        "uploads/items/spectacles.jpg",
+        "/lost_and_found/uploads/items/spectacles.jpg",
 
 
     // =================================================
@@ -355,13 +355,13 @@ const imageMap = {
     // =================================================
 
     "chem":
-        "uploads/items/chem.jpg",
+        "/lost_and_found/uploads/items/chem.jpg",
 
     "chemistry":
-        "uploads/items/chem.jpg",
+        "/lost_and_found/uploads/items/chem.jpg",
 
     "chemistry book":
-        "uploads/items/chem.jpg",
+        "/lost_and_found/uploads/items/chem.jpg",
 
 
     // =================================================
@@ -369,22 +369,22 @@ const imageMap = {
     // =================================================
 
     "lab file":
-        "uploads/items/yellowfile.jpg",
+        "/lost_and_found/uploads/items/yellowfile.jpg",
 
     "labfile":
-        "uploads/items/yellowfile.jpg",
+        "/lost_and_found/uploads/items/yellowfile.jpg",
 
     "lab":
-        "uploads/items/yellowfile.jpg",
+        "/lost_and_found/uploads/items/yellowfile.jpg",
 
     "yellow file":
-        "uploads/items/yellowfile.jpg",
+        "/lost_and_found/uploads/items/yellowfile.jpg",
 
     "yellowfile":
-        "uploads/items/yellowfile.jpg",
+        "/lost_and_found/uploads/items/yellowfile.jpg",
 
     "file":
-        "uploads/items/yellowfile.jpg"
+        "/lost_and_found/uploads/items/yellowfile.jpg"
 
 };
 
