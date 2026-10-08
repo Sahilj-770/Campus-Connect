@@ -40,6 +40,12 @@ function getSslCa(envName, fileEnvName) {
     ).replace(/\\n/g, "\n");
 }
 
+function sslEnabled(envName) {
+    return String(
+        process.env[envName] || ""
+    ).toLowerCase() === "true";
+}
+
 
 // =====================================================
 // 3. ENABLE CORS + JSON
@@ -74,7 +80,13 @@ const canteenDB = mysql.createConnection({
                 rejectUnauthorized: true
             }
         }
-        : {})
+        : sslEnabled("CANTEEN_DB_SSL")
+            ? {
+                ssl: {
+                    rejectUnauthorized: false
+                }
+            }
+            : {})
 });
 
 const lostFoundSslCa = getSslCa(
@@ -95,7 +107,13 @@ const lostFoundDB = mysql.createConnection({
                 rejectUnauthorized: true
             }
         }
-        : {})
+        : sslEnabled("LOST_FOUND_DB_SSL")
+            ? {
+                ssl: {
+                    rejectUnauthorized: false
+                }
+            }
+            : {})
 });
 
 
