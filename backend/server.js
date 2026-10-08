@@ -20,6 +20,26 @@ const app = express();
 
 const PORT = Number(process.env.PORT || 3000);
 
+function getSslCa(envName, fileEnvName) {
+    const filePath = process.env[fileEnvName] || "";
+
+    if (filePath) {
+        try {
+            return fs.readFileSync(filePath, "utf8");
+        } catch (error) {
+            console.log(
+                "Could not read SSL CA file:",
+                filePath,
+                error.message
+            );
+        }
+    }
+
+    return (
+        process.env[envName] || ""
+    ).replace(/\\n/g, "\n");
+}
+
 
 // =====================================================
 // 3. ENABLE CORS + JSON
@@ -36,9 +56,10 @@ app.use(express.json({
 // 4. CONNECT TO MYSQL
 // =====================================================
 
-const canteenSslCa = process.env.CANTEEN_DB_SSL_CA
-    ? process.env.CANTEEN_DB_SSL_CA.replace(/\\n/g, "\n")
-    : "";
+const canteenSslCa = getSslCa(
+    "CANTEEN_DB_SSL_CA",
+    "CANTEEN_DB_SSL_CA_FILE"
+);
 
 const canteenDB = mysql.createConnection({
     host: process.env.CANTEEN_DB_HOST,
@@ -56,9 +77,10 @@ const canteenDB = mysql.createConnection({
         : {})
 });
 
-const lostFoundSslCa = process.env.LOST_FOUND_DB_SSL_CA
-    ? process.env.LOST_FOUND_DB_SSL_CA.replace(/\\n/g, "\n")
-    : "";
+const lostFoundSslCa = getSslCa(
+    "LOST_FOUND_DB_SSL_CA",
+    "LOST_FOUND_DB_SSL_CA_FILE"
+);
 
 const lostFoundDB = mysql.createConnection({
     host: process.env.LOST_FOUND_DB_HOST,
@@ -215,6 +237,40 @@ app.get("/", function(req, res) {
 app.get("/health", function(req, res) {
     res.json({
         status: "healthy"
+    });
+});
+
+app.get("/health/lost-found", function(req, res) {
+    lostFoundDB.query("SELECT 1 AS ok", function(error) {
+        if (error) {
+            return res.status(503).json({
+                status: "unhealthy",
+                service: "lost-found",
+                error: error.message
+            });
+        }
+
+        res.json({
+            status: "healthy",
+            service: "lost-found"
+        });
+    });
+});
+
+app.get("/health/canteen", function(req, res) {
+    canteenDB.query("SELECT 1 AS ok", function(error) {
+        if (error) {
+            return res.status(503).json({
+                status: "unhealthy",
+                service: "canteen",
+                error: error.message
+            });
+        }
+
+        res.json({
+            status: "healthy",
+            service: "canteen"
+        });
     });
 });
 
