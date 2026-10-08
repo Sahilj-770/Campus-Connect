@@ -262,8 +262,11 @@
                         String(item.image).trim() !== ""
                     ) {
 
-                        const imagePath =
-                            String(item.image).trim();
+                        const rawImagePath = String(item.image).trim();
+
+                        const imagePath = rawImagePath.startsWith("uploads/")
+                            ? "/uploads/" + rawImagePath.substring("uploads/".length)
+                            : rawImagePath;
 
 
                         imageHTML = `
