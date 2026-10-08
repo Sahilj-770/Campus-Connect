@@ -1,0 +1,16 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://campus-connect-n37d.onrender.com/api/:path*"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "https://campus-connect-n37d.onrender.com/uploads/:path*"
+    },
+    {
+      "source": "/food-images/:path*",
+      "destination": "https://campus-connect-n37d.onrender.com/food-images/:path*"
+    }
+  ]
+}
