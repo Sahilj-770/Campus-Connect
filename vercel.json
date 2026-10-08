@@ -12,5 +12,22 @@
       "source": "/food-images/:path*",
       "destination": "https://campus-connect-n37d.onrender.com/food-images/:path*"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/lost_and_found/lost.php",
+      "destination": "/lost_and_found/lost.html",
+      "permanent": false
+    },
+    {
+      "source": "/lost_and_found/lost-items.php",
+      "destination": "/lost_and_found/lost-items.html",
+      "permanent": false
+    },
+    {
+      "source": "/lost_and_found/found-items.php",
+      "destination": "/lost_and_found/found-items.html",
+      "permanent": false
+    }
   ]
 }
