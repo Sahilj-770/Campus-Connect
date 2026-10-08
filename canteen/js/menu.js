@@ -14,7 +14,7 @@ const searchInput =
     document.querySelector("#menuSearch");
 
 const categoryButtonsContainer =
-    document.querySelector("#categoryButtons");
+    document.querySelector(".category-buttons");
 
 const clearFilters =
     document.querySelector("#clearFilters");

@@ -1,39 +1,36 @@
-// =====================================================
-// CAMPUS BITES - CANTEENS BACKEND
-// =====================================================
-
-// -------------------------
-// IMPORT PACKAGES
-// -------------------------
+// ======================================================
+// CAMPUS CONNECT - CANTEENS BACKEND
+// ======================================================
 
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const path = require("path");
 
-// Load .env file
+// Load environment variables
 dotenv.config();
 
 
-// -------------------------
+// ======================================================
 // CREATE EXPRESS APP
-// -------------------------
+// ======================================================
 
 const app = express();
 
 
-// -------------------------
+// ======================================================
 // MIDDLEWARE
-// -------------------------
+// ======================================================
 
 app.use(cors());
 
 app.use(express.json());
 
 
-// -------------------------
+// ======================================================
 // MYSQL CONNECTION
-// -------------------------
+// ======================================================
 
 const db = mysql.createConnection({
 
@@ -50,20 +47,18 @@ const db = mysql.createConnection({
 });
 
 
-// -------------------------
+// ======================================================
 // CONNECT TO MYSQL
-// -------------------------
+// ======================================================
 
 db.connect((err) => {
 
     if (err) {
 
         console.error("MySQL connection failed:");
-
         console.error(err.message);
 
         return;
-
     }
 
     console.log("MySQL connected successfully!");
@@ -71,46 +66,71 @@ db.connect((err) => {
 });
 
 
-// =====================================================
-// TEST ROUTE
-// =====================================================
+// ======================================================
+// HOME / TEST ROUTE
+// ======================================================
 
 app.get("/", (req, res) => {
 
     res.json({
-
-        message: "Campus Bites Canteen Backend is running!"
-
+        message: "Campus Connect Canteens Backend is running!"
     });
 
 });
 
 
-// =====================================================
+// ======================================================
 // GET ALL CANTEENS
-// =====================================================
+// ======================================================
 
 app.get("/api/canteens", (req, res) => {
 
+    const canteens = [
+        {
+            id: "cafeteria",
+            name: "Cafeteria"
+        },
+        {
+            id: "timeless",
+            name: "Timeless"
+        },
+        {
+            id: "nescafe",
+            name: "Nescafe"
+        }
+    ];
+
+    res.json(canteens);
+
+});
+
+
+// ======================================================
+// GET CAFETERIA MENU
+// ======================================================
+
+app.get("/api/menu/cafeteria", (req, res) => {
+
     const sql = `
         SELECT
-            canteen_id,
-            canteen_name,
-            location
-        FROM canteens
-        ORDER BY canteen_id
+            item_id,
+            item_name,
+            category,
+            price,
+            availability,
+            description
+        FROM campus_cafeteria
+        ORDER BY item_id
     `;
 
     db.query(sql, (err, results) => {
 
         if (err) {
 
-            console.error(err);
+            console.error("Cafeteria query error:", err);
 
             return res.status(500).json({
-
-                error: "Failed to fetch canteens"
-
+                error: "Failed to fetch cafeteria menu"
             });
 
         }
@@ -122,149 +142,124 @@ app.get("/api/canteens", (req, res) => {
 });
 
 
-// =====================================================
-// GET MENU FOR A PARTICULAR CANTEEN
-// =====================================================
+// ======================================================
+// GET TIMELESS MENU
+// ======================================================
+
+app.get("/api/menu/timeless", (req, res) => {
+
+    const sql = `
+        SELECT
+            item_id,
+            item_name,
+            category,
+            price,
+            availability,
+            description
+        FROM cafe_timeless
+        ORDER BY item_id
+    `;
+
+    db.query(sql, (err, results) => {
+
+        if (err) {
+
+            console.error("Timeless query error:", err);
+
+            return res.status(500).json({
+                error: "Failed to fetch Timeless menu"
+            });
+
+        }
+
+        res.json(results);
+
+    });
+
+});
+
+
+// ======================================================
+// GET NESCAFE MENU
+// ======================================================
+
+app.get("/api/menu/nescafe", (req, res) => {
+
+    const sql = `
+        SELECT
+            item_id,
+            item_name,
+            category,
+            price,
+            availability,
+            description
+        FROM nescafe
+        ORDER BY item_id
+    `;
+
+    db.query(sql, (err, results) => {
+
+        if (err) {
+
+            console.error("Nescafe query error:", err);
+
+            return res.status(500).json({
+                error: "Failed to fetch Nescafe menu"
+            });
+
+        }
+
+        res.json(results);
+
+    });
+
+});
+
+
+// ======================================================
+// GET MENU BY CANTEEN
+// ======================================================
 
 app.get("/api/menu/:canteen", (req, res) => {
 
-    const canteen = req.params.canteen;
+    const canteen = req.params.canteen.toLowerCase();
+
+    let tableName;
 
 
-    // Convert frontend name into database canteen name
+    // Decide which database table to use
 
-    const canteenNames = {
+    if (canteen === "cafeteria") {
 
-        cafeteria: "Cafeteria",
+        tableName = "campus_cafeteria";
 
-        timeless: "Timeless",
+    } else if (canteen === "timeless") {
 
-        nescafe: "Nescafe"
+        tableName = "cafe_timeless";
 
-    };
+    } else if (canteen === "nescafe") {
 
+        tableName = "nescafe";
 
-    const canteenName = canteenNames[canteen];
-
-
-    // Check if canteen exists
-
-    if (!canteenName) {
+    } else {
 
         return res.status(404).json({
-
             error: "Canteen not found"
-
         });
 
     }
 
 
     const sql = `
-
         SELECT
-
-            m.item_id,
-
-            m.item_name,
-
-            m.price,
-
-            m.description,
-
-            m.is_bestseller,
-
-            m.is_new,
-
-            m.availability,
-
-            c.canteen_name,
-
-            cu.cuisine_name AS category
-
-        FROM menu_items m
-
-        JOIN canteens c
-            ON m.canteen_id = c.canteen_id
-
-        JOIN cuisines cu
-            ON m.cuisine_id = cu.cuisine_id
-
-        WHERE c.canteen_name = ?
-
-        ORDER BY m.item_id
-
-    `;
-
-
-    db.query(
-
-        sql,
-
-        [canteenName],
-
-        (err, results) => {
-
-            if (err) {
-
-                console.error(err);
-
-                return res.status(500).json({
-
-                    error: "Failed to fetch menu"
-
-                });
-
-            }
-
-
-            res.json(results);
-
-        }
-
-    );
-
-});
-
-
-// =====================================================
-// GET ALL MENU ITEMS
-// =====================================================
-
-app.get("/api/menu", (req, res) => {
-
-    const sql = `
-
-        SELECT
-
-            m.item_id,
-
-            m.item_name,
-
-            m.price,
-
-            m.description,
-
-            m.is_bestseller,
-
-            m.is_new,
-
-            m.availability,
-
-            c.canteen_name,
-
-            cu.cuisine_name AS category
-
-        FROM menu_items m
-
-        JOIN canteens c
-            ON m.canteen_id = c.canteen_id
-
-        JOIN cuisines cu
-            ON m.cuisine_id = cu.cuisine_id
-
-        ORDER BY m.item_id
-
+            item_id,
+            item_name,
+            category,
+            price,
+            availability,
+            description
+        FROM ${tableName}
+        ORDER BY item_id
     `;
 
 
@@ -272,16 +267,13 @@ app.get("/api/menu", (req, res) => {
 
         if (err) {
 
-            console.error(err);
+            console.error("Menu query error:", err);
 
             return res.status(500).json({
-
                 error: "Failed to fetch menu"
-
             });
 
         }
-
 
         res.json(results);
 
@@ -290,102 +282,92 @@ app.get("/api/menu", (req, res) => {
 });
 
 
-// =====================================================
-// GET SINGLE MENU ITEM
-// =====================================================
+// ======================================================
+// GET SINGLE ITEM
+// ======================================================
 
-app.get("/api/menu/item/:id", (req, res) => {
+app.get("/api/item/:canteen/:id", (req, res) => {
+
+    const canteen = req.params.canteen.toLowerCase();
 
     const itemId = req.params.id;
 
+    let tableName;
+
+
+    if (canteen === "cafeteria") {
+
+        tableName = "campus_cafeteria";
+
+    } else if (canteen === "timeless") {
+
+        tableName = "cafe_timeless";
+
+    } else if (canteen === "nescafe") {
+
+        tableName = "nescafe";
+
+    } else {
+
+        return res.status(404).json({
+            error: "Canteen not found"
+        });
+
+    }
+
 
     const sql = `
-
         SELECT
-
-            m.item_id,
-
-            m.item_name,
-
-            m.price,
-
-            m.description,
-
-            m.is_bestseller,
-
-            m.is_new,
-
-            m.availability,
-
-            c.canteen_name,
-
-            cu.cuisine_name AS category
-
-        FROM menu_items m
-
-        JOIN canteens c
-            ON m.canteen_id = c.canteen_id
-
-        JOIN cuisines cu
-            ON m.cuisine_id = cu.cuisine_id
-
-        WHERE m.item_id = ?
-
+            item_id,
+            item_name,
+            category,
+            price,
+            availability,
+            description
+        FROM ${tableName}
+        WHERE item_id = ?
     `;
 
 
-    db.query(
+    db.query(sql, [itemId], (err, results) => {
 
-        sql,
+        if (err) {
 
-        [itemId],
+            console.error("Item query error:", err);
 
-        (err, results) => {
-
-            if (err) {
-
-                console.error(err);
-
-                return res.status(500).json({
-
-                    error: "Failed to fetch menu item"
-
-                });
-
-            }
-
-
-            if (results.length === 0) {
-
-                return res.status(404).json({
-
-                    error: "Menu item not found"
-
-                });
-
-            }
-
-
-            res.json(results[0]);
+            return res.status(500).json({
+                error: "Failed to fetch item"
+            });
 
         }
 
-    );
+
+        if (results.length === 0) {
+
+            return res.status(404).json({
+                error: "Item not found"
+            });
+
+        }
+
+
+        res.json(results[0]);
+
+    });
 
 });
 
 
-// =====================================================
+// ======================================================
 // SERVER
-// =====================================================
+// ======================================================
 
 const PORT = process.env.PORT || 3000;
-
 
 app.listen(PORT, () => {
 
     console.log(
-        `Campus Bites backend running at http://localhost:${PORT}`
+        `Campus Connect Canteens Backend running at http://localhost:${PORT}`
     );
 
 });
