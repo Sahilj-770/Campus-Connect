@@ -29,7 +29,10 @@ ehthumbs.db
 Desktop.ini
 .vercel
 
-# Project specific ignores
+# Build & Binary outputs
+*.apk
+*.aab
+
 lost_and_found_backend/
 scratch/
 *.pdf

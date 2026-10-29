@@ -1,30 +1,45 @@
 package com.sahiljadhav.campusconnect.ui.auth
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Email
-import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material.icons.rounded.Visibility
-import androidx.compose.material.icons.rounded.VisibilityOff
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.sahiljadhav.campusconnect.ui.components.CampusGlassButton
 
+/**
+ * Polished Native CampusConnect Create Account (Sign Up) Screen
+ * - Visually aligned with SignInScreen via shared AuthComponents
+ * - Clean input styling, password match verification, and friendly error banners
+ * - Balanced vertical layout with full IME keyboard clearance
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(
@@ -38,6 +53,7 @@ fun SignUpScreen(
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var confirmPasswordVisible by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
     val isLoading by viewModel.isOperationLoading.collectAsState()
@@ -45,12 +61,13 @@ fun SignUpScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Create Account", fontWeight = FontWeight.Bold) },
+                title = { },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = "Back",
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 },
@@ -60,186 +77,132 @@ fun SignUpScreen(
             )
         }
     ) { padding ->
-        Column(
+        Box(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = 24.dp, vertical = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .imePadding(),
+            contentAlignment = Alignment.Center
         ) {
-            Text(
-                text = "Join CampusConnect 🚀",
-                style = MaterialTheme.typography.headlineMedium.copy(
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 28.sp
-                ),
-                color = MaterialTheme.colorScheme.onBackground
-            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .padding(horizontal = 24.dp, vertical = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                // Branding Header
+                AuthHeader(
+                    title = "Join CampusConnect 🚀",
+                    subtitle = "Create your student account to order food, report lost items, and access campus services."
+                )
 
-            Spacer(modifier = Modifier.height(6.dp))
+                Spacer(modifier = Modifier.height(20.dp))
 
-            Text(
-                text = "Create your student account to order food, report lost items, and access campus services.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
-            )
+                // Error Banner
+                AuthErrorBanner(
+                    errorMessage = errorMessage,
+                    modifier = Modifier.padding(bottom = 12.dp)
+                )
 
-            Spacer(modifier = Modifier.height(26.dp))
+                // Full Name
+                AuthTextField(
+                    value = fullName,
+                    onValueChange = {
+                        fullName = it
+                        errorMessage = null
+                    },
+                    label = "Full Name",
+                    placeholder = "Sahil Jadhav",
+                    leadingIcon = Icons.Rounded.Person
+                )
 
-            if (errorMessage != null) {
-                Card(
-                    shape = RoundedCornerShape(12.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = MaterialTheme.colorScheme.errorContainer
-                    ),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 16.dp)
-                ) {
-                    Text(
-                        text = errorMessage ?: "",
-                        color = MaterialTheme.colorScheme.onErrorContainer,
-                        style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(14.dp)
-                    )
-                }
-            }
+                Spacer(modifier = Modifier.height(12.dp))
 
-            OutlinedTextField(
-                value = fullName,
-                onValueChange = {
-                    fullName = it
-                    errorMessage = null
-                },
-                label = { Text("Full Name") },
-                placeholder = { Text("Sahil Jadhav") },
-                leadingIcon = {
-                    Icon(imageVector = Icons.Rounded.Person, contentDescription = null)
-                },
-                shape = RoundedCornerShape(14.dp),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
+                // Email
+                AuthTextField(
+                    value = email,
+                    onValueChange = {
+                        email = it
+                        errorMessage = null
+                    },
+                    label = "College Email",
+                    placeholder = "student@dypcoe.edu.in",
+                    leadingIcon = Icons.Rounded.Email,
+                    keyboardType = KeyboardType.Email
+                )
 
-            Spacer(modifier = Modifier.height(14.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-            OutlinedTextField(
-                value = email,
-                onValueChange = {
-                    email = it
-                    errorMessage = null
-                },
-                label = { Text("College Email") },
-                placeholder = { Text("student@dypcoe.edu.in") },
-                leadingIcon = {
-                    Icon(imageVector = Icons.Rounded.Email, contentDescription = null)
-                },
-                shape = RoundedCornerShape(14.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
+                // Password
+                AuthPasswordField(
+                    value = password,
+                    onValueChange = {
+                        password = it
+                        errorMessage = null
+                    },
+                    label = "Password (min. 6 characters)",
+                    placeholder = "Create password",
+                    passwordVisible = passwordVisible,
+                    onTogglePasswordVisibility = { passwordVisible = !passwordVisible }
+                )
 
-            Spacer(modifier = Modifier.height(14.dp))
+                Spacer(modifier = Modifier.height(12.dp))
 
-            OutlinedTextField(
-                value = password,
-                onValueChange = {
-                    password = it
-                    errorMessage = null
-                },
-                label = { Text("Password") },
-                placeholder = { Text("At least 6 characters") },
-                leadingIcon = {
-                    Icon(imageVector = Icons.Rounded.Lock, contentDescription = null)
-                },
-                trailingIcon = {
-                    IconButton(onClick = { passwordVisible = !passwordVisible }) {
-                        Icon(
-                            imageVector = if (passwordVisible) Icons.Rounded.VisibilityOff else Icons.Rounded.Visibility,
-                            contentDescription = if (passwordVisible) "Hide password" else "Show password"
+                // Confirm Password
+                AuthPasswordField(
+                    value = confirmPassword,
+                    onValueChange = {
+                        confirmPassword = it
+                        errorMessage = null
+                    },
+                    label = "Confirm Password",
+                    placeholder = "Re-enter password",
+                    passwordVisible = confirmPasswordVisible,
+                    onTogglePasswordVisibility = { confirmPasswordVisible = !confirmPasswordVisible }
+                )
+
+                Spacer(modifier = Modifier.height(20.dp))
+
+                // Primary Create Account CTA
+                AuthPrimaryButton(
+                    text = "Create Account",
+                    loadingText = "Creating Account...",
+                    isLoading = isLoading,
+                    enabled = !isLoading,
+                    onClick = {
+                        if (fullName.isBlank() || email.isBlank() || password.isBlank() || confirmPassword.isBlank()) {
+                            errorMessage = "Please fill in all fields."
+                            return@AuthPrimaryButton
+                        }
+                        if (password.length < 6) {
+                            errorMessage = "Password must be at least 6 characters."
+                            return@AuthPrimaryButton
+                        }
+                        if (password != confirmPassword) {
+                            errorMessage = "Passwords do not match."
+                            return@AuthPrimaryButton
+                        }
+
+                        viewModel.signUp(
+                            email = email.trim(),
+                            pass = password,
+                            fullName = fullName.trim(),
+                            onSuccess = onSignUpSuccess,
+                            onError = { err -> errorMessage = err }
                         )
                     }
-                },
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                shape = RoundedCornerShape(14.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(14.dp))
-
-            OutlinedTextField(
-                value = confirmPassword,
-                onValueChange = {
-                    confirmPassword = it
-                    errorMessage = null
-                },
-                label = { Text("Confirm Password") },
-                placeholder = { Text("Re-enter password") },
-                leadingIcon = {
-                    Icon(imageVector = Icons.Rounded.Lock, contentDescription = null)
-                },
-                visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
-                shape = RoundedCornerShape(14.dp),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            CampusGlassButton(
-                text = if (isLoading) "Creating Account..." else "Create Account →",
-                onClick = {
-                    if (fullName.isBlank()) {
-                        errorMessage = "Please enter your full name."
-                        return@CampusGlassButton
-                    }
-                    if (email.isBlank()) {
-                        errorMessage = "Please enter your college email address."
-                        return@CampusGlassButton
-                    }
-                    if (password.length < 6) {
-                        errorMessage = "Password must be at least 6 characters long."
-                        return@CampusGlassButton
-                    }
-                    if (password != confirmPassword) {
-                        errorMessage = "Passwords do not match."
-                        return@CampusGlassButton
-                    }
-                    viewModel.signUp(
-                        email = email,
-                        pass = password,
-                        fullName = fullName,
-                        onSuccess = onSignUpSuccess,
-                        onError = { err -> errorMessage = err }
-                    )
-                },
-                enabled = !isLoading,
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Already have an account?",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
-                TextButton(onClick = onNavigateToSignIn) {
-                    Text(
-                        text = "Sign In",
-                        style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                // Switch to Sign In
+                AuthSwitchPrompt(
+                    promptText = "Already have an account? ",
+                    actionText = "Sign In",
+                    onActionClick = onNavigateToSignIn
+                )
             }
         }
     }
