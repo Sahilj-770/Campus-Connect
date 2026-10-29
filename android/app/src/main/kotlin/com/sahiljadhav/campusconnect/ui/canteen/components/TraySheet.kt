@@ -1,5 +1,13 @@
 package com.sahiljadhav.campusconnect.ui.canteen.components
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -236,11 +244,23 @@ fun TrayContent(
                                 }
                             }
 
-                            Text(
-                                text = trayItem.quantity.toString(),
-                                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
-                                modifier = Modifier.padding(horizontal = 8.dp)
-                            )
+                            AnimatedContent(
+                                targetState = trayItem.quantity,
+                                transitionSpec = {
+                                    if (targetState > initialState) {
+                                        (slideInVertically { it } + fadeIn()).togetherWith(slideOutVertically { -it } + fadeOut())
+                                    } else {
+                                        (slideInVertically { -it } + fadeIn()).togetherWith(slideOutVertically { it } + fadeOut())
+                                    }
+                                },
+                                label = "trayQty"
+                            ) { qty ->
+                                Text(
+                                    text = qty.toString(),
+                                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                                    modifier = Modifier.padding(horizontal = 8.dp)
+                                )
+                            }
 
                             Surface(
                                 onClick = {
@@ -298,10 +318,19 @@ fun TrayContent(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("Total Amount", style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold))
-                    Text(
-                        subtotalFormatted,
-                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.ExtraBold, color = BrandOrange)
-                    )
+                    AnimatedContent(
+                        targetState = subtotalFormatted,
+                        transitionSpec = {
+                            fadeIn(spring(stiffness = Spring.StiffnessMedium)) togetherWith
+                                    fadeOut(spring(stiffness = Spring.StiffnessMedium))
+                        },
+                        label = "traySubtotal"
+                    ) { total ->
+                        Text(
+                            total,
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.ExtraBold, color = BrandOrange)
+                        )
+                    }
                 }
             }
         }

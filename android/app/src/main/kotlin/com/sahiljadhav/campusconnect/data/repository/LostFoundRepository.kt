@@ -24,11 +24,12 @@ class LostFoundRepository(
                 return@withContext NetworkResult.Success(cachedLost)
             }
             try {
-                val items = try {
+                val rawItems = try {
                     apiClient.lostFoundApi.getLostItems()
                 } catch (e: Exception) {
                     apiClient.lostFoundFallbackApi.getLostItems()
                 }
+                val items = rawItems.filterNotNull()
                 cachedLost = items
                 NetworkResult.Success(items)
             } catch (e: IOException) {
@@ -48,11 +49,12 @@ class LostFoundRepository(
                 return@withContext NetworkResult.Success(cachedFound)
             }
             try {
-                val items = try {
+                val rawItems = try {
                     apiClient.lostFoundApi.getFoundItems()
                 } catch (e: Exception) {
                     apiClient.lostFoundFallbackApi.getFoundItems()
                 }
+                val items = rawItems.filterNotNull()
                 cachedFound = items
                 NetworkResult.Success(items)
             } catch (e: IOException) {

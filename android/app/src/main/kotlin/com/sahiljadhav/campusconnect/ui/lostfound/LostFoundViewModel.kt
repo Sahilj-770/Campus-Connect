@@ -61,21 +61,26 @@ class LostFoundViewModel(
         }
 
         rawItems.filter { item ->
+            val safeName = item.itemName
+            val safeLocation = item.location
+            val safeDescription = item.description
+            val safeIcon = item.fallbackIcon
+
             val matchesCategory = when (state.selectedCategoryFilter) {
                 "All" -> true
-                "Electronics" -> item.fallbackIcon in listOf("📱", "🧮", "🔌", "🎧")
-                "IDs & Cards" -> item.fallbackIcon == "🪪" || item.itemName.contains("id", ignoreCase = true) || item.itemName.contains("card", ignoreCase = true)
-                "Bags & Wallets" -> item.fallbackIcon in listOf("👛", "🎒")
-                "Books & Study" -> item.fallbackIcon in listOf("📚", "✏️")
-                "Keys & Accessories" -> item.fallbackIcon in listOf("🔑", "🍶", "👓", "☂️")
+                "Electronics" -> safeIcon in listOf("📱", "🧮", "🔌", "🎧")
+                "IDs & Cards" -> safeIcon == "🪪" || safeName.contains("id", ignoreCase = true) || safeName.contains("card", ignoreCase = true)
+                "Bags & Wallets" -> safeIcon in listOf("👛", "🎒")
+                "Books & Study" -> safeIcon in listOf("📚", "✏️")
+                "Keys & Accessories" -> safeIcon in listOf("🔑", "🍶", "👓", "☂️")
                 else -> true
             }
 
             val query = state.searchQuery.trim().lowercase()
             val matchesSearch = query.isEmpty() ||
-                    item.itemName.lowercase().contains(query) ||
-                    item.location.lowercase().contains(query) ||
-                    item.description.lowercase().contains(query) ||
+                    safeName.lowercase().contains(query) ||
+                    safeLocation.lowercase().contains(query) ||
+                    safeDescription.lowercase().contains(query) ||
                     (!item.personName.isNullOrBlank() && item.personName.lowercase().contains(query))
 
             matchesCategory && matchesSearch

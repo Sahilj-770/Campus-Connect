@@ -3,7 +3,7 @@ package com.sahiljadhav.campusconnect.ui.auth
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -94,7 +94,12 @@ fun MyReportsScreen(
                 contentPadding = PaddingValues(16.dp),
                 verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
-                items(reports, key = { it.id }) { item ->
+                itemsIndexed(
+                    items = reports,
+                    key = { index, item ->
+                        "${item.status}_${item.id}_${item.createdAt.orEmpty()}_$index"
+                    }
+                ) { _, item ->
                     Card(
                         shape = RoundedCornerShape(18.dp),
                         colors = CardDefaults.cardColors(

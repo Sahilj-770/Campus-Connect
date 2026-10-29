@@ -1,5 +1,14 @@
 package com.sahiljadhav.campusconnect.ui.lostfound
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -16,7 +25,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -217,47 +226,25 @@ fun LostFoundScreen(
                 }
             }
 
-            // Content Area: Loading / Error / Empty / Item List
-            when (val state = activeState) {
-                is NetworkResult.Loading -> {
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(
-                            start = 16.dp,
-                            end = 16.dp,
-                            top = 6.dp,
-                            bottom = CampusSpacing.dockBottomPadding
-                        ),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        items(5) {
-                            LostFoundCardSkeleton()
-                        }
-                    }
-                }
-
-                is NetworkResult.Error -> {
-                    ErrorView(
-                        message = state.message,
-                        onRetry = { viewModel.loadData(forceRefresh = true) },
-                        isColdStart = state.isColdStart
+            // Content Area with fluid tab slide transition
+            AnimatedContent(
+                targetState = uiState.activeTab,
+                transitionSpec = {
+                    val direction = if (targetState == "found") 1 else -1
+                    (slideInHorizontally(
+                        initialOffsetX = { fullWidth -> direction * (fullWidth / 8) },
+                        animationSpec = spring(dampingRatio = 0.88f, stiffness = Spring.StiffnessMedium)
+                    ) + fadeIn(tween(180))).togetherWith(
+                        slideOutHorizontally(
+                            targetOffsetX = { fullWidth -> -direction * (fullWidth / 8) },
+                            animationSpec = spring(dampingRatio = 0.88f, stiffness = Spring.StiffnessMedium)
+                        ) + fadeOut(tween(180))
                     )
-                }
-
-                is NetworkResult.Success -> {
-                    if (filteredItems.isEmpty()) {
-                        EmptyView(
-                            title = if (uiState.searchQuery.isNotBlank() || uiState.selectedCategoryFilter != "All")
-                                "No matching items found"
-                            else
-                                "No ${uiState.activeTab} items reported yet",
-                            subtitle = if (uiState.searchQuery.isNotBlank())
-                                "No items matching \"${uiState.searchQuery}\". Try adjusting your search term."
-                            else
-                                "Be the first student to report a ${uiState.activeTab} item to help the campus community.",
-                            emoji = if (uiState.activeTab == "lost") "🔍" else "📦"
-                        )
-                    } else {
+                },
+                label = "lostFoundTabContentAnim"
+            ) { _ ->
+                when (val state = activeState) {
+                    is NetworkResult.Loading -> {
                         LazyColumn(
                             modifier = Modifier.fillMaxSize(),
                             contentPadding = PaddingValues(
@@ -268,11 +255,55 @@ fun LostFoundScreen(
                             ),
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
-                            items(filteredItems, key = { it.serialNumber }) { item ->
-                                LostFoundItemCard(
-                                    item = item,
-                                    onClick = { viewModel.setSelectedItemForDetail(item) }
-                                )
+                            items(5) {
+                                LostFoundCardSkeleton()
+                            }
+                        }
+                    }
+
+                    is NetworkResult.Error -> {
+                        ErrorView(
+                            message = state.message,
+                            onRetry = { viewModel.loadData(forceRefresh = true) },
+                            isColdStart = state.isColdStart
+                        )
+                    }
+
+                    is NetworkResult.Success -> {
+                        if (filteredItems.isEmpty()) {
+                            EmptyView(
+                                title = if (uiState.searchQuery.isNotBlank() || uiState.selectedCategoryFilter != "All")
+                                    "No matching items found"
+                                else
+                                    "No ${uiState.activeTab} items reported yet",
+                                subtitle = if (uiState.searchQuery.isNotBlank())
+                                    "No items matching \"${uiState.searchQuery}\". Try adjusting your search term."
+                                else
+                                    "Be the first student to report a ${uiState.activeTab} item to help the campus community.",
+                                emoji = if (uiState.activeTab == "lost") "🔍" else "📦"
+                            )
+                        } else {
+                            LazyColumn(
+                                modifier = Modifier.fillMaxSize(),
+                                contentPadding = PaddingValues(
+                                    start = 16.dp,
+                                    end = 16.dp,
+                                    top = 6.dp,
+                                    bottom = CampusSpacing.dockBottomPadding
+                                ),
+                                verticalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
+                                itemsIndexed(
+                                    items = filteredItems,
+                                    key = { index, item ->
+                                        "${item.status}_${item.serialNumber}_${item.itemName}_$index"
+                                    }
+                                ) { _, item ->
+                                    LostFoundItemCard(
+                                        item = item,
+                                        onClick = { viewModel.setSelectedItemForDetail(item) }
+                                    )
+                                }
                             }
                         }
                     }

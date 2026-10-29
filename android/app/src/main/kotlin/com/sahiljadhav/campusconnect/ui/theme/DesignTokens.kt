@@ -1,8 +1,12 @@
 package com.sahiljadhav.campusconnect.ui.theme
 
 import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.SpringSpec
+import androidx.compose.animation.core.TweenSpec
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
@@ -43,14 +47,30 @@ object CampusElevation {
 }
 
 object CampusMotion {
-    val bouncySpring: AnimationSpec<Float> = spring(
+    const val durationInstantMs = 100
+    const val durationMicroMs = 180
+    const val durationStandardMs = 300
+    const val durationEmphasisMs = 450
+    const val durationSplashMs = 650
+
+    val instantTween: TweenSpec<Float> = tween(durationInstantMs, easing = FastOutSlowInEasing)
+    val microTween: TweenSpec<Float> = tween(durationMicroMs, easing = FastOutSlowInEasing)
+    val standardTween: TweenSpec<Float> = tween(durationStandardMs, easing = FastOutSlowInEasing)
+    val emphasisTween: TweenSpec<Float> = tween(durationEmphasisMs, easing = FastOutSlowInEasing)
+
+    val snappySpring: SpringSpec<Float> = spring(
+        dampingRatio = Spring.DampingRatioNoBouncy,
+        stiffness = Spring.StiffnessMedium
+    )
+
+    val bouncySpring: SpringSpec<Float> = spring(
         dampingRatio = Spring.DampingRatioMediumBouncy,
         stiffness = Spring.StiffnessMedium
     )
 
-    val snappySpring: AnimationSpec<Float> = spring(
-        dampingRatio = Spring.DampingRatioNoBouncy,
-        stiffness = Spring.StiffnessMedium
+    val gentleSpring: SpringSpec<Float> = spring(
+        dampingRatio = 0.85f,
+        stiffness = Spring.StiffnessLow
     )
 }
 

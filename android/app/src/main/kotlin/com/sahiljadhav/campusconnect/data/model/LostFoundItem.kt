@@ -3,20 +3,35 @@ package com.sahiljadhav.campusconnect.data.model
 import com.google.gson.annotations.SerializedName
 
 data class LostFoundItem(
-    @SerializedName("serial_number") val serialNumber: Long,
+    @SerializedName("serial_number") val serialNumber: Long = 0L,
     @SerializedName("user_uid") val userUid: String? = null,
     @SerializedName("roll_number") val rollNumber: String? = null,
-    @SerializedName("item_name") val itemName: String,
-    @SerializedName("location") val location: String,
-    @SerializedName("description") val description: String,
-    @SerializedName("status") val status: String,
+    @SerializedName("item_name") private val rawItemName: String? = "Campus Item",
+    @SerializedName("location") private val rawLocation: String? = "Campus",
+    @SerializedName("description") private val rawDescription: String? = "",
+    @SerializedName("status") private val rawStatus: String? = "found",
     @SerializedName("person_name") val personName: String? = null,
     @SerializedName("contact_number") val contactNumber: String? = null,
     @SerializedName("image") val image: String? = null,
     @SerializedName("created_at") val createdAt: String? = null
 ) {
+    val itemName: String
+        get() = rawItemName?.takeIf { it.isNotBlank() } ?: "Campus Item"
+
+    val location: String
+        get() = rawLocation?.takeIf { it.isNotBlank() } ?: "Campus"
+
+    val description: String
+        get() = rawDescription ?: ""
+
+    val status: String
+        get() = rawStatus?.takeIf { it.isNotBlank() } ?: "found"
+
     val id: Long
         get() = serialNumber
+
+    val uniqueKey: String
+        get() = "${status}_${serialNumber}_${itemName}_${createdAt.orEmpty()}"
 
     val isLost: Boolean
         get() = status.equals("lost", ignoreCase = true)
