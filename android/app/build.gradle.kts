@@ -15,9 +15,19 @@ android {
     versionName = "1.0"
   }
 
+  signingConfigs {
+    create("release") {
+      storeFile = file("campusconnect-release.jks")
+      storePassword = (project.findProperty("KEYSTORE_PASSWORD") as? String) ?: "campusconnect123"
+      keyAlias = (project.findProperty("KEY_ALIAS") as? String) ?: "campusconnect"
+      keyPassword = (project.findProperty("KEY_PASSWORD") as? String) ?: "campusconnect123"
+    }
+  }
+
   buildTypes {
     release {
       isMinifyEnabled = false
+      signingConfig = signingConfigs.getByName("release")
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
   }
