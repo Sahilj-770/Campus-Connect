@@ -35,6 +35,54 @@ if (!fs.existsSync(backendUploadsFolder)) {
     fs.mkdirSync(backendUploadsFolder, { recursive: true });
 }
 
+/* ================= CHATBOT API ================= */
+
+const { GoogleGenAI } = require("@google/genai");
+
+const gemini = new GoogleGenAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
+
+app.post("/api/chatbot", async (req, res) => {
+  try {
+    const message = req.body?.message;
+
+    if (typeof message !== "string" || !message.trim()) {
+      return res.status(400).json({
+        error: "Please enter a message.",
+      });
+    }
+
+    if (!process.env.GEMINI_API_KEY) {
+      return res.status(500).json({
+        error: "Chatbot API key is not configured.",
+      });
+    }
+
+    const response = await gemini.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: message.trim(),
+      config: {
+        systemInstruction:
+          "You are CampusConnect AI, a helpful college campus assistant. Help students with Campus-Connect navigation, Lost and Found, canteen features, and general college questions. Be friendly, concise, and never claim to access private campus data unless it is provided.",
+      },
+    });
+
+    return res.json({
+      reply: response.text || "Sorry, I couldn't generate a response.",
+    });
+  } catch (error) {
+    console.error("Chatbot API error:", error.message);
+
+    return res.status(500).json({
+      error: "Sorry, the chatbot is temporarily unavailable.",
+    });
+  }
+});
+
+/* =============== END CHATBOT API =============== */
+
+
 app.use(
     "/food-images",
     express.static(path.join(__dirname, "food-images"))

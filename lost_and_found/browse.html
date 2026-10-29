@@ -894,18 +894,21 @@
 
 
                     const personName =
-                        item.person_name ||
-                        "Not available";
+                        (item.person_name && item.person_name !== "N/A")
+                            ? item.person_name
+                            : "Campus Student";
 
 
                     const contact =
-                        item.contact_number ||
-                        "Not available";
+                        (item.contact_number && item.contact_number !== "N/A")
+                            ? item.contact_number
+                            : "Not available";
 
 
                     const rollNumber =
-                        item.roll_number ||
-                        "Not available";
+                        (item.roll_number && item.roll_number !== "N/A")
+                            ? item.roll_number
+                            : "Not available";
 
 
 

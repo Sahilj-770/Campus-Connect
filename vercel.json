@@ -1,4 +1,3 @@
-
 {
   "rewrites": [
     {
@@ -33,6 +32,17 @@
       "source": "/lost_and_found/found-items.php",
       "destination": "/lost_and_found/found-items.html",
       "permanent": false
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
     }
   ]
 }

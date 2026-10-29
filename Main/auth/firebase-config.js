@@ -1,19 +1,14 @@
 /**
- * CampusConnect Client Firebase Configuration
- * Compatible with Web SDK v10 (compat mode)
+ * CampusConnect Client Configuration
+ * Public Student Project Mode — No dummy credentials or secret keys.
  */
 (function() {
-    window.CAMPUS_CONNECT_FIREBASE_CONFIG = window.CAMPUS_CONNECT_FIREBASE_CONFIG || {
-        apiKey: window.FIREBASE_API_KEY || "AIzaSyCampusConnectMockDevKey2026",
-        authDomain: window.FIREBASE_AUTH_DOMAIN || "campusconnect-dypcoe.firebaseapp.com",
-        projectId: window.FIREBASE_PROJECT_ID || "campusconnect-dypcoe",
-        storageBucket: "campusconnect-dypcoe.firebasestorage.app",
-        messagingSenderId: "123456789012",
-        appId: "1:123456789012:web:abcdef123456"
-    };
+    // Client Firebase authentication is disabled in open campus guest mode
+    window.CAMPUS_CONNECT_FIREBASE_CONFIG = null;
 
-    // Determine Backend API Base URL
+    // Determine Backend API Base URLs
     const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
+
     window.CAMPUS_CONNECT_API_BASE = isLocalhost
         ? "http://localhost:3000"
         : "https://campus-connect-1-0q94.onrender.com";

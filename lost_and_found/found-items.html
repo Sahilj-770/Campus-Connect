@@ -146,6 +146,97 @@
 
 
 
+    <!-- =====================================================
+         DETAILS MODAL
+         ===================================================== -->
+    <div id="detailsModal" class="cc-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="detailsModalTitle">
+        <div class="cc-modal-dialog">
+            <div class="cc-modal-header">
+                <h3 id="detailsModalTitle" class="cc-modal-title">
+                    <span id="detailsModalStatus" class="status found">FOUND</span>
+                    <span id="detailsModalName">Item Name</span>
+                </h3>
+                <button type="button" class="cc-modal-close-btn" id="closeDetailsModalBtn" aria-label="Close modal">✕</button>
+            </div>
+            <div class="cc-modal-body">
+                <div class="cc-modal-image-wrapper" id="detailsModalImageWrapper">
+                    <!-- Image populated dynamically -->
+                </div>
+                <div class="cc-modal-meta-row">
+                    <div class="cc-modal-location" id="detailsModalLocation">
+                        📍 Location
+                    </div>
+                    <div class="date" id="detailsModalDate">
+                        Date
+                    </div>
+                </div>
+                <div class="cc-modal-description" id="detailsModalDesc">
+                    Description
+                </div>
+                <div id="detailsModalLegacyNotice" style="display: none; margin-bottom: 16px; padding: 12px 14px; background: rgba(230, 57, 70, 0.08); border-left: 3px solid #E63946; border-radius: 6px; font-size: 13px; color: var(--text-body); line-height: 1.5;"></div>
+                <div class="cc-contact-card">
+                    <div class="cc-contact-header">
+                        🔒 Reporter Verification &amp; Contact
+                    </div>
+                    <div class="cc-contact-grid">
+                        <div class="cc-contact-item">
+                            <span class="cc-contact-label">Reported By</span>
+                            <span class="cc-contact-val" id="detailsModalPerson">Student</span>
+                        </div>
+                        <div class="cc-contact-item">
+                            <span class="cc-contact-label">Roll Number</span>
+                            <span class="cc-contact-val" id="detailsModalRoll">N/A</span>
+                        </div>
+                        <div class="cc-contact-item">
+                            <span class="cc-contact-label">Contact Number</span>
+                            <span class="cc-contact-val" id="detailsModalContact">N/A</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cc-modal-footer">
+                <button type="button" class="cc-btn-danger" id="detailsModalDeleteBtn">
+                    🗑️ Delete Report
+                </button>
+                <button type="button" class="cc-btn-secondary" id="detailsModalCloseFooterBtn">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =====================================================
+         DELETE VERIFICATION MODAL
+         ===================================================== -->
+    <div id="deleteModal" class="cc-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+        <div class="cc-modal-dialog" style="max-width: 480px;">
+            <div class="cc-modal-header">
+                <h3 id="deleteModalTitle" class="cc-modal-title" style="color: #E63946;">
+                    🗑️ Delete Report
+                </h3>
+                <button type="button" class="cc-modal-close-btn" id="closeDeleteModalBtn" aria-label="Cancel">✕</button>
+            </div>
+            <div class="cc-modal-body">
+                <div id="deleteModalLegacyCallout" style="display: none; margin-bottom: 14px; padding: 12px 14px; background: rgba(234, 88, 12, 0.08); border-left: 3px solid #f97316; border-radius: 6px; font-size: 13px; color: var(--text-body); line-height: 1.5;"></div>
+                <p id="deletePromptText" style="font-size: 14px; color: var(--text-body); margin: 0 0 14px 0; line-height: 1.5;">
+                    To securely delete this report, please enter the <strong>Contact Number</strong> or <strong>Roll Number</strong> provided when reporting.
+                </p>
+                <div class="cc-verify-input-group" id="deleteVerifyInputGroup">
+                    <label id="deleteVerifyLabel" for="deleteVerifyInput">Verification Credential</label>
+                    <input type="text" id="deleteVerifyInput" placeholder="Enter contact or roll number" autocomplete="off">
+                </div>
+                <div id="deleteModalError" style="display: none; color: #E63946; font-size: 13px; font-weight: 600; margin-top: 10px;"></div>
+            </div>
+            <div class="cc-modal-footer">
+                <button type="button" class="cc-btn-secondary" id="cancelDeleteBtn">Cancel</button>
+                <button type="button" class="cc-btn-danger" id="confirmDeleteBtn">Confirm Delete</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="ccToast" class="cc-toast" role="status" aria-live="polite"></div>
+
     <!-- ================= FOOTER ================= -->
 
     <footer>
@@ -443,6 +534,7 @@
             const card = document.createElement("div");
             card.className = "item-card";
             card.setAttribute("data-status", String(status).toLowerCase());
+            card.setAttribute("data-serial", String(item.serial_number || ""));
 
             card.innerHTML = `
                 <!-- ================= IMAGE ================= -->
@@ -472,10 +564,374 @@
                     <div class="item-location">
                         📍 ${escapeHTML(location)}
                     </div>
+
+                    <div class="item-card-actions">
+                        <button class="details-btn" type="button">
+                            View Details
+                        </button>
+                        <button class="delete-card-btn" type="button" title="Delete Report" aria-label="Delete Report">
+                            🗑️
+                        </button>
+                    </div>
                 </div>
             `;
 
+            const detailsBtn = card.querySelector(".details-btn");
+            if (detailsBtn) {
+                detailsBtn.addEventListener("click", function() {
+                    openDetailsModal(item);
+                });
+            }
+
+            const deleteBtn = card.querySelector(".delete-card-btn");
+            if (deleteBtn) {
+                deleteBtn.addEventListener("click", function() {
+                    openDeleteModal(item, card);
+                });
+            }
+
             return card;
+        }
+
+        // =====================================================
+        // MODAL & DELETE CONTROLLERS
+        // =====================================================
+
+        let currentSelectedItem = null;
+        let currentSelectedCard = null;
+
+        function showToast(message, type = "success") {
+            const toast = document.getElementById("ccToast");
+            if (!toast) return;
+            toast.textContent = message;
+            toast.className = "cc-toast show " + (type === "error" ? "toast-error" : "toast-success");
+            setTimeout(function() {
+                toast.className = "cc-toast";
+            }, 3500);
+        }
+
+        
+        function isLegacyRecord(item) {
+            if (!item) return false;
+            const hasUid = Boolean(item.user_uid);
+            const roll = String(item.roll_number || "").trim().toLowerCase();
+            const hasRoll = Boolean(roll && roll !== "n/a" && roll !== "not provided" && roll !== "null");
+            const contact = String(item.contact_number || "").trim().toLowerCase();
+            const hasContact = Boolean(contact && contact !== "n/a" && contact !== "not provided" && contact.replace(/\D/g, "").length >= 7);
+            return !hasUid && !hasRoll && !hasContact;
+        }
+        function openDetailsModal(item) {
+            currentSelectedItem = item;
+            const modal = document.getElementById("detailsModal");
+            if (!modal) return;
+
+            const itemName = item.item_name || "Unknown Item";
+            const status = String(item.status || "found").toLowerCase();
+            const isFound = status === "found";
+
+            const nameEl = document.getElementById("detailsModalName");
+            if (nameEl) nameEl.textContent = itemName;
+
+            const statusEl = document.getElementById("detailsModalStatus");
+            if (statusEl) {
+                statusEl.textContent = isFound ? "FOUND" : "LOST";
+                statusEl.className = "status " + (isFound ? "found" : "lost");
+            }
+
+            const imgWrapper = document.getElementById("detailsModalImageWrapper");
+            if (imgWrapper) {
+                const imgUrl = resolveItemImageUrl(item.image, itemName);
+                if (imgUrl) {
+                    imgWrapper.innerHTML = `
+                        <img
+                            src="${escapeHTML(imgUrl)}"
+                            alt="${escapeHTML(itemName)}"
+                            onerror="handleItemImageError(this, decodeURIComponent('${encodeURIComponent(itemName)}'))"
+                        >
+                    `;
+                } else {
+                    imgWrapper.innerHTML = `
+                        <div class="image-fallback-container">
+                            <div class="fallback-icon-badge">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="3" width="18" height="18" rx="4" ry="4"></rect>
+                                    <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                    <polyline points="21 15 16 10 5 21"></polyline>
+                                </svg>
+                            </div>
+                            <span class="fallback-text">Photo not available</span>
+                        </div>
+                    `;
+                }
+            }
+
+            const locEl = document.getElementById("detailsModalLocation");
+            if (locEl) locEl.textContent = "📍 " + (item.location || "Not specified");
+
+            const dateEl = document.getElementById("detailsModalDate");
+            if (dateEl) dateEl.textContent = formatItemDate(item);
+
+            const descEl = document.getElementById("detailsModalDesc");
+            if (descEl) descEl.textContent = item.description || "No description provided.";
+
+            const personEl = document.getElementById("detailsModalPerson");
+            if (personEl) personEl.textContent = item.person_name || "Campus Student";
+
+            const rollEl = document.getElementById("detailsModalRoll");
+            if (rollEl) {
+                rollEl.textContent = (item.roll_number && item.roll_number !== "N/A") ? item.roll_number : "Not provided";
+            }
+
+            const isLegacy = isLegacyRecord(item);
+            const legacyNoticeEl = document.getElementById("detailsModalLegacyNotice");
+            if (legacyNoticeEl) {
+                if (isLegacy) {
+                    legacyNoticeEl.innerHTML = "🏛️ <strong>Legacy Report (Pre-verification):</strong> This report was filed prior to student verification requirements. Original reporter contact details are not on file. For ownership inquiries or administrative removal, please visit the <strong>Campus Help Desk (Library 1st Floor)</strong> or email <a href=\"mailto:admin@campusconnect.edu?subject=Report%20Removal%20Request%20%23" + encodeURIComponent(item.serial_number || "") + "\" style=\"color: #0077B6; font-weight: 600;\">admin@campusconnect.edu</a>.";
+                    legacyNoticeEl.style.display = "block";
+                } else {
+                    legacyNoticeEl.style.display = "none";
+                }
+            }
+
+            const contactEl = document.getElementById("detailsModalContact");
+            if (contactEl) {
+                if (isLegacy) {
+                    contactEl.innerHTML = '<span style="color: var(--text-muted); font-size: 13px;">Campus Help Desk (Library 1st Floor)</span>';
+                } else {
+                    const contactVal = (item.contact_number && item.contact_number !== "N/A") ? item.contact_number : "Not provided";
+                    if (contactVal !== "Not provided" && /^\d{7,15}$/.test(contactVal.replace(/\D/g, ""))) {
+                        contactEl.innerHTML = `<a href="tel:${escapeHTML(contactVal)}">${escapeHTML(contactVal)}</a>`;
+                    } else {
+                        contactEl.textContent = contactVal;
+                    }
+                }
+            }
+
+            if (isLegacy) {
+                const personEl = document.getElementById("detailsModalPerson");
+                const rollEl = document.getElementById("detailsModalRoll");
+                if (personEl) personEl.textContent = "Campus Student (Legacy Record)";
+                if (rollEl) rollEl.textContent = "Not recorded (Pre-verification)";
+            }
+
+            modal.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeDetailsModal() {
+            const modal = document.getElementById("detailsModal");
+            if (modal) {
+                modal.classList.remove("active");
+            }
+            const delModal = document.getElementById("deleteModal");
+            if (!delModal || !delModal.classList.contains("active")) {
+                document.body.style.overflow = "";
+            }
+        }
+
+        function openDeleteModal(item, cardEl) {
+            currentSelectedItem = item;
+            currentSelectedCard = cardEl || document.querySelector(`.item-card[data-serial="${item.serial_number}"]`);
+
+            const modal = document.getElementById("deleteModal");
+            const titleEl = document.getElementById("deleteModalTitle");
+            const promptEl = document.getElementById("deletePromptText");
+            const labelEl = document.getElementById("deleteVerifyLabel");
+            const input = document.getElementById("deleteVerifyInput");
+            const confirmBtn = document.getElementById("confirmDeleteBtn");
+            const legacyNotice = document.getElementById("deleteModalLegacyCallout");
+            const err = document.getElementById("deleteModalError");
+
+            if (err) err.style.display = "none";
+            if (input) {
+                input.value = "";
+            }
+
+            const isLegacy = isLegacyRecord(item);
+            if (isLegacy) {
+                if (titleEl) titleEl.innerHTML = "🗑️ Remove Legacy Report";
+                if (promptEl) promptEl.innerHTML = "This report was submitted before student verification credentials were required. To prevent unauthorized deletions, removal requires <strong>Campus Administrator Authorization</strong>.";
+                if (labelEl) labelEl.textContent = "Administrator Passkey";
+                if (input) {
+                    input.type = "password";
+                    input.placeholder = "Enter campus administrator passkey";
+                }
+                if (confirmBtn) confirmBtn.textContent = "Authorize & Remove";
+                if (legacyNotice) {
+                    legacyNotice.innerHTML = "ℹ️ <strong>Student Notice:</strong> If this is your item and you do not have staff credentials, please visit the <strong>Campus Help Desk (Library 1st Floor)</strong> or email <a href=\"mailto:admin@campusconnect.edu?subject=Legacy%20Item%20Removal%20%23" + encodeURIComponent(item.serial_number || "") + "\" style=\"color: #0077B6; font-weight: 600;\">admin@campusconnect.edu</a>.";
+                    legacyNotice.style.display = "block";
+                }
+            } else {
+                if (titleEl) titleEl.innerHTML = "🗑️ Delete Report";
+                if (promptEl) promptEl.innerHTML = "To securely delete this report, please enter the <strong>Contact Number</strong> or <strong>Roll Number</strong> provided when reporting.";
+                if (labelEl) labelEl.textContent = "Verification Credential (Contact or Roll Number)";
+                if (input) {
+                    input.type = "text";
+                    input.placeholder = "Enter contact or roll number (or admin key)";
+                }
+                if (confirmBtn) confirmBtn.textContent = "Confirm Delete";
+                if (legacyNotice) {
+                    legacyNotice.style.display = "none";
+                }
+            }
+
+            if (modal) {
+                modal.classList.add("active");
+                document.body.style.overflow = "hidden";
+                setTimeout(function() { if (input) input.focus(); }, 100);
+            }
+        }
+
+        function closeDeleteModal() {
+            const modal = document.getElementById("deleteModal");
+            if (modal) {
+                modal.classList.remove("active");
+            }
+            const detModal = document.getElementById("detailsModal");
+            if (!detModal || !detModal.classList.contains("active")) {
+                document.body.style.overflow = "";
+            }
+        }
+
+        // Event listeners for modals dismissal
+        const closeDetailsBtn = document.getElementById("closeDetailsModalBtn");
+        if (closeDetailsBtn) closeDetailsBtn.addEventListener("click", closeDetailsModal);
+
+        const closeDetailsFooterBtn = document.getElementById("detailsModalCloseFooterBtn");
+        if (closeDetailsFooterBtn) closeDetailsFooterBtn.addEventListener("click", closeDetailsModal);
+
+        const closeDeleteBtn = document.getElementById("closeDeleteModalBtn");
+        if (closeDeleteBtn) closeDeleteBtn.addEventListener("click", closeDeleteModal);
+
+        const cancelDeleteBtn = document.getElementById("cancelDeleteBtn");
+        if (cancelDeleteBtn) cancelDeleteBtn.addEventListener("click", closeDeleteModal);
+
+        const detailsModal = document.getElementById("detailsModal");
+        if (detailsModal) {
+            detailsModal.addEventListener("click", function(e) {
+                if (e.target === detailsModal) closeDetailsModal();
+            });
+        }
+
+        const deleteModal = document.getElementById("deleteModal");
+        if (deleteModal) {
+            deleteModal.addEventListener("click", function(e) {
+                if (e.target === deleteModal) closeDeleteModal();
+            });
+        }
+
+        // Details modal delete button launches delete verification
+        const detailsModalDeleteBtn = document.getElementById("detailsModalDeleteBtn");
+        if (detailsModalDeleteBtn) {
+            detailsModalDeleteBtn.addEventListener("click", function() {
+                if (currentSelectedItem) {
+                    openDeleteModal(currentSelectedItem, currentSelectedCard);
+                }
+            });
+        }
+
+        // Keyboard Escape key dismissal
+        document.addEventListener("keydown", function(e) {
+            if (e.key === "Escape") {
+                closeDeleteModal();
+                closeDetailsModal();
+            }
+        });
+
+        // Confirm Delete button logic
+        const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+        if (confirmDeleteBtn) {
+            confirmDeleteBtn.addEventListener("click", async function() {
+                if (!currentSelectedItem) return;
+
+                const input = document.getElementById("deleteVerifyInput");
+                const verifyVal = input ? input.value.trim() : "";
+                const errEl = document.getElementById("deleteModalError");
+
+                const isLegacy = isLegacyRecord(currentSelectedItem);
+                if (!verifyVal) {
+                    if (errEl) {
+                        errEl.textContent = isLegacy
+                            ? "Please enter the administrator passkey to authorize removal."
+                            : "Please enter your contact or roll number to verify ownership.";
+                        errEl.style.display = "block";
+                    }
+                    if (input) input.focus();
+                    return;
+                }
+
+                confirmDeleteBtn.disabled = true;
+                confirmDeleteBtn.textContent = "Deleting...";
+                if (errEl) errEl.style.display = "none";
+
+                try {
+                    const status = String(currentSelectedItem.status || "found").toLowerCase();
+                    const itemId = currentSelectedItem.serial_number;
+                    const baseEndpoint = API_URL.replace(/\/lost$|\/found$/, '');
+
+                    const res = await fetch(`${baseEndpoint}/item/${itemId}?type=${status}`, {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "X-Reporter-Contact": verifyVal,
+                            "X-Reporter-Roll": verifyVal,
+                            "X-Admin-Token": verifyVal
+                        },
+                        body: JSON.stringify({
+                            contact_number: verifyVal,
+                            roll_number: verifyVal,
+                            admin_key: verifyVal,
+                            admin_token: verifyVal,
+                            verification_credential: verifyVal
+                        })
+                    });
+
+                    const data = await res.json().catch(function() { return {}; });
+
+                    if (!res.ok) {
+                        throw new Error(data.error || "Could not delete report (HTTP " + res.status + ")");
+                    }
+
+                    // Success!
+                    closeDeleteModal();
+                    closeDetailsModal();
+                    showToast(data.message || "Report deleted successfully.", "success");
+
+                    // Animate and remove card from DOM
+                    if (currentSelectedCard) {
+                        currentSelectedCard.style.transition = "all 0.3s ease";
+                        currentSelectedCard.style.opacity = "0";
+                        currentSelectedCard.style.transform = "scale(0.9)";
+                        setTimeout(function() {
+                            if (currentSelectedCard && currentSelectedCard.parentElement) {
+                                currentSelectedCard.remove();
+                            }
+                        }, 300);
+                    }
+
+                    // Update memory array and counter badge
+                    if (Array.isArray(window.allFoundItems)) {
+                        window.allFoundItems = window.allFoundItems.filter(function(it) {
+                            return it.serial_number !== currentSelectedItem.serial_number;
+                        });
+                        updateItemCount(window.allFoundItems.length);
+                        if (window.allFoundItems.length === 0) {
+                            renderFoundCards([]);
+                        }
+                    }
+
+                } catch (delError) {
+                    console.error("Deletion failure:", delError);
+                    if (errEl) {
+                        let msg = delError.message || "Failed to delete report.";
+                        errEl.innerHTML = `<div>${escapeHTML(msg)}</div>` + (isLegacy ? `<div style="margin-top: 8px; font-size: 12px; font-weight: normal; color: var(--text-muted);">Students without administrative credentials may visit the <strong>Campus Help Desk (Library 1st Floor)</strong> for assistance.</div>` : "");
+                        errEl.style.display = "block";
+                    }
+                } finally {
+                    confirmDeleteBtn.disabled = false;
+                    confirmDeleteBtn.textContent = isLegacy ? "Authorize & Remove" : "Confirm Delete";
+                }
+            });
         }
 
         function renderFoundCards(itemsList) {

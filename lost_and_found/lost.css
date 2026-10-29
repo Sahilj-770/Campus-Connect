@@ -1936,3 +1936,357 @@ footer {
         text-align: center;
     }
 }
+
+/* ==========================================================================
+   14. CARD ACTIONS, DETAILS MODAL & VERIFIED DELETE
+   ========================================================================== */
+
+.item-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-subtle);
+}
+
+.item-card-actions .details-btn {
+    margin-top: 0;
+    flex: 1;
+}
+
+.delete-card-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-surface-subtle);
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 15px;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.delete-card-btn:hover {
+    background: rgba(230, 57, 70, 0.12);
+    border-color: #E63946;
+    color: #E63946;
+    transform: translateY(-1px);
+}
+
+.cc-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 27, 42, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.cc-modal-backdrop.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.cc-modal-dialog {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-card);
+    border-radius: var(--radius-md);
+    box-shadow: 0 24px 64px rgba(13, 27, 42, 0.35);
+    max-width: 580px;
+    width: 100%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cc-modal-backdrop.active .cc-modal-dialog {
+    transform: translateY(0) scale(1);
+}
+
+.cc-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.cc-modal-title {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cc-modal-close-btn {
+    background: transparent;
+    border: 1px solid var(--border-subtle);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: var(--text-muted);
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+}
+
+.cc-modal-close-btn:hover {
+    background: var(--bg-surface-subtle);
+    color: var(--text-primary);
+    border-color: var(--text-primary);
+}
+
+.cc-modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cc-modal-image-wrapper {
+    width: 100%;
+    height: 240px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--bg-surface-subtle);
+    border: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cc-modal-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cc-modal-meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.cc-modal-location {
+    font-size: 14px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cc-modal-description {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--text-body);
+    background: var(--bg-surface-subtle);
+    padding: 14px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+}
+
+.cc-contact-card {
+    background: rgba(75, 46, 131, 0.05);
+    border: 1px solid rgba(75, 46, 131, 0.18);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+}
+
+body.dark-mode .cc-contact-card {
+    background: rgba(143, 167, 255, 0.06);
+    border-color: rgba(143, 167, 255, 0.2);
+}
+
+.cc-contact-header {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--color-cosmic-violet);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+body.dark-mode .cc-contact-header {
+    color: var(--color-horizon-blue);
+}
+
+.cc-contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+    font-size: 13px;
+}
+
+.cc-contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cc-contact-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-subtle);
+    font-weight: 700;
+}
+
+.cc-contact-val {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.cc-contact-val a {
+    color: var(--color-solar-flare);
+    text-decoration: underline;
+}
+
+.cc-modal-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    background: var(--bg-surface);
+}
+
+.cc-btn-secondary {
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-surface-subtle);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.cc-btn-secondary:hover {
+    background: var(--bg-page);
+    border-color: var(--text-muted);
+}
+
+.cc-btn-danger {
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid #E63946;
+    background: rgba(230, 57, 70, 0.08);
+    color: #E63946;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.cc-btn-danger:hover {
+    background: #E63946;
+    color: #FFFFFF;
+}
+
+.cc-btn-danger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.cc-verify-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.cc-verify-input-group label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.cc-verify-input-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--bg-surface-subtle);
+    color: var(--text-primary);
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color var(--transition-fast);
+}
+
+.cc-verify-input-group input:focus {
+    border-color: var(--color-cosmic-violet);
+}
+
+body.dark-mode .cc-verify-input-group input:focus {
+    border-color: var(--color-horizon-blue);
+}
+
+/* Toast Notification */
+.cc-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(40px);
+    background: var(--color-midnight-indigo);
+    color: #FFFFFF;
+    padding: 12px 24px;
+    border-radius: var(--radius-pill);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 3000;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cc-toast.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.cc-toast.toast-error {
+    background: #E63946;
+}
+
+.cc-toast.toast-success {
+    background: #10B981;
+}
+

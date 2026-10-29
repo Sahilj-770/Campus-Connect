@@ -664,6 +664,39 @@
                 >
 
 
+                <!-- REPORTER NAME -->
+
+                <input
+                    type="text"
+                    id="reporterName"
+                    name="person_name"
+                    placeholder="Your Name (e.g. Aarav Sharma — or leave blank for Campus Student)"
+                    maxlength="100"
+                >
+
+
+                <!-- ROLL NUMBER -->
+
+                <input
+                    type="text"
+                    id="rollNumber"
+                    name="roll_number"
+                    placeholder="Student Roll Number (e.g. SYCO2627C01)"
+                    maxlength="30"
+                >
+
+
+                <!-- CONTACT NUMBER -->
+
+                <input
+                    type="tel"
+                    id="contactNumber"
+                    name="contact_number"
+                    placeholder="Contact Number (10 digits, e.g. 9876543210)"
+                    required
+                >
+
+
                 <!-- DESCRIPTION -->
 
                 <textarea
@@ -1608,6 +1641,23 @@
                             .trim();
 
 
+                    const reporterNameInput =
+                        document.getElementById("reporterName");
+                    const reporterName =
+                        reporterNameInput ? reporterNameInput.value.trim() : "";
+
+                    const rollInput =
+                        document.getElementById("rollNumber");
+                    const rollNumber =
+                        (rollInput ? rollInput.value : "").trim();
+
+
+                    const contactInput =
+                        document.getElementById("contactNumber");
+                    const rawContact =
+                        (contactInput ? contactInput.value : "").trim();
+
+
                     const description =
                         document
                             .getElementById(
@@ -1618,17 +1668,7 @@
 
 
 
-                    // =================================================
-                    // AUTHENTICATION CHECK
-                    // =================================================
-
-                    if (window.CampusAuth && !window.CampusAuth.isLoggedIn()) {
-                        const doLogin = confirm("You must be signed in to submit a Lost & Found report. Would you like to sign in now?");
-                        if (doLogin) {
-                            window.location.href = "../Main/signin.html?return=" + encodeURIComponent(window.location.href);
-                        }
-                        return;
-                    }
+                    // Open student reporting (no forced sign-in required)
 
                     // =================================================
                     // VALIDATION
@@ -1644,9 +1684,34 @@
                             "Please fill in all the details."
                         );
 
-
                         return;
 
+                    }
+
+                    // Flexible phone validation
+                    function normalizePhone(phone) {
+                        if (!phone) return null;
+                        let digits = String(phone).replace(/\D/g, "");
+                        if (digits.length === 12 && digits.startsWith("91")) {
+                            digits = digits.slice(2);
+                        } else if (digits.length === 11 && digits.startsWith("0")) {
+                            digits = digits.slice(1);
+                        }
+                        if (digits.length === 10) {
+                            return digits;
+                        }
+                        return null;
+                    }
+
+                    const normalizedContact = normalizePhone(rawContact);
+                    if (!normalizedContact) {
+                        alert(
+                            "Please enter a valid 10-digit contact number (e.g. 9876543210 or +91 98765 43210)."
+                        );
+                        if (contactInput) {
+                            contactInput.focus();
+                        }
+                        return;
                     }
 
 
@@ -1683,6 +1748,12 @@
 
 
                         formData.append(
+                            "person_name",
+                            reporterName || "Campus Student"
+                        );
+
+
+                        formData.append(
                             "status",
                             status
                         );
@@ -1691,6 +1762,18 @@
                         formData.append(
                             "location",
                             location
+                        );
+
+
+                        formData.append(
+                            "roll_number",
+                            rollNumber || "N/A"
+                        );
+
+
+                        formData.append(
+                            "contact_number",
+                            normalizedContact
                         );
 
 
@@ -1785,8 +1868,8 @@
                         // =================================================
 
                         console.log(
-                            "Report saved:",
-                            data
+                            "Report saved successfully:",
+                            data.item ? data.item.item_name : "Done"
                         );
 
 

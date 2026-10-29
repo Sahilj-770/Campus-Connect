@@ -914,6 +914,25 @@ router.get(
 
 
 // =====================================================
+// PHONE NUMBER NORMALIZATION & VALIDATION HELPER
+// =====================================================
+
+function normalizeContactNumber(contact) {
+    if (!contact) return null;
+    let digits = String(contact).replace(/\D/g, "");
+    if (digits.length === 12 && digits.startsWith("91")) {
+        digits = digits.slice(2);
+    } else if (digits.length === 11 && digits.startsWith("0")) {
+        digits = digits.slice(1);
+    }
+    if (digits.length === 10) {
+        return digits;
+    }
+    return null;
+}
+
+
+// =====================================================
 // REPORT LOST / FOUND ITEM
 // =====================================================
 //
@@ -928,7 +947,7 @@ router.get(
 
 router.post(
     "/",
-    verifyFirebaseToken,
+    optionalAuth,
     upload.single("image"),
     async function(req, res) {
 
@@ -1015,14 +1034,25 @@ router.post(
 
         const roll_number =
             String(
-                req.body.roll_number || "N/A"
-            ).trim();
+                req.body.roll_number || ""
+            ).trim() || "N/A";
 
 
-        const contact_number =
+        const raw_contact =
             String(
-                req.body.contact_number || "N/A"
+                req.body.contact_number || ""
             ).trim();
+
+        let contact_number = "N/A";
+        if (raw_contact && raw_contact !== "N/A") {
+            const normalized = normalizeContactNumber(raw_contact);
+            if (!normalized) {
+                return res.status(400).json({
+                    error: "Please provide a valid 10-digit contact number."
+                });
+            }
+            contact_number = normalized;
+        }
 
 
         // =================================================
@@ -1412,6 +1442,7 @@ router.get(
 router.put(
     "/item/:id",
     verifyFirebaseToken,
+    express.json(),
     function(req, res) {
         const id = req.params.id;
         let targetTable = req.query.type === "found" ? "found_items" : "lost_items";
@@ -1426,7 +1457,6 @@ router.put(
             }
 
             if (!rows || rows.length === 0) {
-                // Try checking alternate table if type wasn't specified accurately
                 const alternateTable = targetTable === "found_items" ? "lost_items" : "found_items";
                 const checkAltQuery = "SELECT serial_number, user_uid FROM `" + LF_DB + "`.`" + alternateTable + "` WHERE serial_number = ? LIMIT 1";
 
@@ -1490,84 +1520,263 @@ router.put(
 
 
 // =====================================================
-// DELETE ITEM (OWNER-ONLY SECURED)
+// DELETE ITEM (SECURE: FIREBASE OWNER, CREDENTIAL VERIFICATION, OR ADMIN)
 // =====================================================
 
 router.delete(
     "/item/:id",
-    verifyFirebaseToken,
+    optionalAuth,
+    express.json(),
     function(req, res) {
+        const rawId = String(req.params.id || "").trim();
 
-        const id = req.params.id;
-        let targetTable = req.query.type === "found" ? "found_items" : "lost_items";
+        // 1. Validate numeric ID
+        if (!/^\d+$/.test(rawId)) {
+            return res.status(400).json({
+                error: "Invalid item ID. Must be a numeric identifier.",
+                code: "INVALID_ID"
+            });
+        }
 
-        // Check ownership first
-        const checkQuery = "SELECT serial_number, user_uid FROM `" + LF_DB + "`.`" + targetTable + "` WHERE serial_number = ? LIMIT 1";
+        const numericId = parseInt(rawId, 10);
+        const requestedType = req.query.type ? String(req.query.type).trim().toLowerCase() : "";
 
-        req.db.query(checkQuery, [id], function(err, rows) {
-            if (err) {
-                console.error("Check item ownership error:", err);
-                return res.status(500).json({ error: "Could not verify item ownership", details: err.message });
+        // Admin authorization check (accepts header, body, or query)
+        const adminToken = (req.headers["x-admin-token"] ? String(req.headers["x-admin-token"]).trim() : "")
+            || (req.headers["authorization"] ? req.headers["authorization"].replace(/^Bearer\s+/i, "").trim() : "")
+            || (req.body && (req.body.admin_token || req.body.admin_key || req.body.passkey) ? String(req.body.admin_token || req.body.admin_key || req.body.passkey).trim() : "")
+            || (req.query && (req.query.admin_key || req.query.admin_token) ? String(req.query.admin_key || req.query.admin_token).trim() : "");
+        const expectedAdmin = process.env.ADMIN_TOKEN || process.env.LF_ADMIN_KEY || "campus_admin_secret_key_2026";
+        let isAdmin = Boolean(expectedAdmin && adminToken && adminToken === expectedAdmin);
+
+        // Reporter ownership credentials (from body, headers, or query)
+        const verifyContact = (req.body && req.body.contact_number)
+            || (req.body && req.body.verification_credential)
+            || (req.body && req.body.credential)
+            || req.query.contact
+            || req.headers["x-reporter-contact"]
+            || "";
+        const verifyRoll = (req.body && req.body.roll_number)
+            || (req.body && req.body.verification_credential)
+            || (req.body && req.body.credential)
+            || req.query.roll
+            || req.headers["x-reporter-roll"]
+            || "";
+
+        // Also allow administrator passkey passed via verifyContact/verifyRoll
+        if (!isAdmin && expectedAdmin && ((verifyContact && String(verifyContact).trim() === expectedAdmin) || (verifyRoll && String(verifyRoll).trim() === expectedAdmin))) {
+            isAdmin = true;
+        }
+
+        // Candidate tables based on requested type
+        const tablesToTry = [];
+        if (requestedType === "found") {
+            tablesToTry.push("found_items", "lost_items");
+        } else if (requestedType === "lost") {
+            tablesToTry.push("lost_items", "found_items");
+        } else {
+            tablesToTry.push("lost_items", "found_items");
+        }
+
+        function findRecord(tableIndex) {
+            if (tableIndex >= tablesToTry.length) {
+                return res.status(404).json({
+                    error: "Item not found or already deleted.",
+                    code: "NOT_FOUND"
+                });
             }
 
-            if (!rows || rows.length === 0) {
-                // Try checking alternate table if type wasn't specified accurately
-                const alternateTable = targetTable === "found_items" ? "lost_items" : "found_items";
-                const checkAltQuery = "SELECT serial_number, user_uid FROM `" + LF_DB + "`.`" + alternateTable + "` WHERE serial_number = ? LIMIT 1";
+            const currentTable = tablesToTry[tableIndex];
+            const selectQuery = "SELECT serial_number, user_uid, roll_number, contact_number, image, status FROM `" + LF_DB + "`.`" + currentTable + "` WHERE serial_number = ? LIMIT 1";
 
-                return req.db.query(checkAltQuery, [id], function(altErr, altRows) {
-                    if (altErr || !altRows || altRows.length === 0) {
-                        return res.status(404).json({ error: "Item not found" });
+            req.db.query(selectQuery, [numericId], function(err, rows) {
+                if (err) {
+                    console.error("Lookup error during delete:", err);
+                    return res.status(500).json({
+                        error: "Could not lookup item for deletion",
+                        details: err.message
+                    });
+                }
+
+                if (!rows || rows.length === 0) {
+                    return findRecord(tableIndex + 1);
+                }
+
+                const record = rows[0];
+
+                // 2. Check Authorization
+                let isAuthorized = false;
+                let authReason = "";
+
+                // Case A: Administrator Token
+                if (isAdmin) {
+                    isAuthorized = true;
+                    authReason = "admin";
+                }
+
+                // Case B: Authenticated Firebase Owner
+                if (!isAuthorized && req.user && record.user_uid && req.user.uid === record.user_uid) {
+                    isAuthorized = true;
+                    authReason = "firebase_owner";
+                }
+
+                // Case C: Reporter Credential Match (Contact or Roll)
+                if (!isAuthorized) {
+                    // Match contact number
+                    if (verifyContact && record.contact_number) {
+                        const normInput = normalizeContactNumber(verifyContact);
+                        const normRecord = normalizeContactNumber(record.contact_number);
+                        if (normInput && normRecord && normInput === normRecord) {
+                            isAuthorized = true;
+                            authReason = "contact_match";
+                        } else if (normInput && normInput.length >= 10 && String(record.contact_number).includes(normInput)) {
+                            isAuthorized = true;
+                            authReason = "contact_match";
+                        } else if (String(verifyContact).trim() === String(record.contact_number).trim() && String(verifyContact).trim() !== "N/A") {
+                            isAuthorized = true;
+                            authReason = "contact_match";
+                        }
                     }
-                    proceedDelete(alternateTable, altRows[0]);
-                });
-            }
 
-            proceedDelete(targetTable, rows[0]);
-        });
+                    // Match roll number
+                    if (!isAuthorized && verifyRoll && record.roll_number) {
+                        const cleanInput = String(verifyRoll).replace(/[^a-z0-9]/gi, "").toLowerCase();
+                        const cleanRecord = String(record.roll_number || "").replace(/[^a-z0-9]/gi, "").toLowerCase();
+                        if (cleanRecord && cleanRecord !== "na" && cleanRecord !== "notprovided" && cleanRecord !== "null" && cleanInput === cleanRecord) {
+                            isAuthorized = true;
+                            authReason = "roll_match";
+                        }
+                    }
+                }
 
-        function proceedDelete(table, item) {
-            // Legacy unowned items cannot be deleted
-            if (!item.user_uid) {
-                return res.status(403).json({
-                    error: "Legacy unowned reports cannot be deleted",
-                    code: "LEGACY_RECORD_IMMUTABLE"
-                });
-            }
+                if (!isAuthorized) {
+                    // Check if this item is legacy unowned and has NO valid contact or roll credentials
+                    const normRecContact = normalizeContactNumber(record.contact_number);
+                    const rawRecContact = String(record.contact_number || "").trim().toLowerCase();
+                    const hasValidContact = Boolean(normRecContact || (rawRecContact && rawRecContact !== "n/a" && rawRecContact !== "not provided" && rawRecContact.replace(/\D/g, "").length >= 7));
+                    const cleanRecRoll = String(record.roll_number || "").replace(/[^a-z0-9]/gi, "").toLowerCase();
+                    const hasValidRoll = Boolean(cleanRecRoll && cleanRecRoll !== "na" && cleanRecRoll !== "notprovided" && cleanRecRoll !== "null");
 
-            // Enforce ownership
-            if (item.user_uid !== req.user.uid) {
-                return res.status(403).json({
-                    error: "You are not authorized to delete this report",
-                    code: "FORBIDDEN_NOT_OWNER"
-                });
-            }
-
-            const deleteQuery = "DELETE FROM `" + LF_DB + "`.`" + table + "` WHERE serial_number = ? AND user_uid = ? LIMIT 1";
-
-            req.db.query(
-                deleteQuery,
-                [id, req.user.uid],
-                function(dErr, result) {
-                    if (dErr) {
-                        console.error("Delete error:", dErr);
-                        return res.status(500).json({
-                            error: "Could not delete item",
-                            details: dErr.message
+                    if (!record.user_uid && !hasValidContact && !hasValidRoll) {
+                        return res.status(403).json({
+                            error: "This legacy report has no stored contact or roll number to verify ownership. Removal requires a valid campus administrator passkey or in-person verification at the Campus Help Desk.",
+                            code: "LEGACY_UNVERIFIABLE",
+                            isLegacy: true,
+                            helpDesk: "Campus Help Desk (Library 1st Floor) or email admin@campusconnect.edu"
                         });
                     }
 
-                    console.log("Deleted item " + id + " from " + table + ", affectedRows: " + result.affectedRows);
+                    if (!verifyContact && !verifyRoll && !req.user) {
+                        return res.status(401).json({
+                            error: "Authorization required. Please enter the contact number or roll number provided when reporting this item.",
+                            code: "AUTH_REQUIRED"
+                        });
+                    }
 
-                    res.json({
-                        success: true,
-                        deleted: result.affectedRows,
-                        id: id
+                    return res.status(403).json({
+                        error: "Verification failed. The contact or roll number provided does not match this report.",
+                        code: "VERIFICATION_FAILED"
                     });
                 }
-            );
+
+                // 3. Authorized: safe image cleanup and deletion
+                cleanupRecordImage(record.image, numericId, currentTable, function() {
+                    const deleteQuery = "DELETE FROM `" + LF_DB + "`.`" + currentTable + "` WHERE serial_number = ? LIMIT 1";
+                    req.db.query(deleteQuery, [numericId], function(delErr, result) {
+                        if (delErr) {
+                            console.error("Delete execution error:", delErr);
+                            return res.status(500).json({
+                                error: "Could not delete item",
+                                details: delErr.message
+                            });
+                        }
+
+                        console.log("Deleted item " + numericId + " from " + currentTable + " (auth: " + authReason + ")");
+
+                        return res.json({
+                            success: true,
+                            message: authReason === "admin" ? "Report deleted successfully by administrator." : "Item deleted successfully.",
+                            id: numericId,
+                            table: currentTable,
+                            authReason: authReason
+                        });
+                    });
+                });
+            });
         }
 
+        // Safe image cleanup helper: Never delete stock images or images used by other records
+        function cleanupRecordImage(imageVal, serialNum, tableName, callback) {
+            if (!imageVal || typeof imageVal !== "string") {
+                return callback();
+            }
+
+            const img = imageVal.trim();
+
+            if (img.startsWith("data:")) {
+                return callback();
+            }
+
+            // Cloudinary image cleanup
+            if (isCloudinaryConfigured() && img.includes("res.cloudinary.com") && img.includes("campusconnect/lost_and_found/")) {
+                try {
+                    const parts = img.split("/campusconnect/lost_and_found/");
+                    if (parts.length > 1) {
+                        const publicIdWithExt = parts[1].split(".")[0];
+                        const publicId = "campusconnect/lost_and_found/" + publicIdWithExt;
+                        cloudinary.uploader.destroy(publicId, function(cErr) {
+                            if (cErr) console.warn("Cloudinary destroy warning:", cErr);
+                            callback();
+                        });
+                        return;
+                    }
+                } catch (e) {
+                    console.warn("Cloudinary delete parse error:", e);
+                }
+                return callback();
+            }
+
+            // Local image check
+            const cleanPath = img.replace(/\\/g, "/").replace(/^\/+/, "");
+            const baseFilename = path.basename(cleanPath);
+
+            // NEVER delete stock/static dictionary images!
+            if (vercelStaticImages.has(baseFilename)) {
+                return callback();
+            }
+            for (const stockPath of Object.values(imageMap)) {
+                if (stockPath.includes(baseFilename)) {
+                    return callback();
+                }
+            }
+
+            if (!cleanPath.includes("uploads/items/")) {
+                return callback();
+            }
+
+            // Check if any other record in lost_items or found_items references this exact image
+            const checkQuery = "SELECT (SELECT COUNT(*) FROM `" + LF_DB + "`.`lost_items` WHERE image = ? AND serial_number != ?) + (SELECT COUNT(*) FROM `" + LF_DB + "`.`found_items` WHERE image = ? AND serial_number != ?) AS ref_count";
+
+            req.db.query(checkQuery, [img, serialNum, img, serialNum], function(checkErr, checkRows) {
+                if (!checkErr && checkRows && checkRows[0] && checkRows[0].ref_count > 0) {
+                    console.log("Image referenced by other items; preserving on disk.");
+                    return callback();
+                }
+
+                const fullLocalPath = path.join(uploadFolder, baseFilename);
+                if (fs.existsSync(fullLocalPath)) {
+                    fs.unlink(fullLocalPath, function(uErr) {
+                        if (uErr) console.warn("Local image unlink warning:", uErr);
+                        else console.log("Removed uploaded image file:", baseFilename);
+                        callback();
+                    });
+                } else {
+                    callback();
+                }
+            });
+        }
+
+        findRecord(0);
     }
 );
 
@@ -1576,5 +1785,4 @@ router.delete(
 // EXPORT
 // =====================================================
 
-module.exports =
-    router;
+module.exports = router;

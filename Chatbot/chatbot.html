@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusConnect AI</title>
+  <link rel="stylesheet" href="chatbot.css">
+</head>
+<body>
+
+  <main class="chatbot">
+    <header class="chat-header">
+      <div class="bot-avatar">CC</div>
+      <div>
+        <h1>CampusConnect AI</h1>
+        <p>Your campus assistant</p>
+      </div>
+      <span class="status">Online</span>
+    </header>
+
+    <section class="chat-messages" id="chatMessages"
+             aria-live="polite">
+      <div class="message bot-message">
+        Hey! 👋 Welcome to CampusConnect.
+        How can I help you today?
+      </div>
+    </section>
+
+    <div class="suggestions">
+      <button type="button" data-message="How do I report a lost item?">
+        Lost an item?
+      </button>
+      <button type="button" data-message="How do I use the canteen?">
+        Canteen help
+      </button>
+    </div>
+
+    <form class="chat-input" id="chatForm">
+      <input
+        type="text"
+        id="messageInput"
+        placeholder="Ask me anything..."
+        aria-label="Type your message"
+        autocomplete="off"
+        required
+      >
+      <button type="submit" aria-label="Send message">➤</button>
+    </form>
+  </main>
+
+  <script src="chatbot.js"></script>
+</body>
+</html>
