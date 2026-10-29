@@ -14,10 +14,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
 import androidx.compose.material.icons.rounded.LocationOn
 import androidx.compose.material.icons.rounded.Person
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,25 +31,36 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sahiljadhav.campusconnect.data.model.LostFoundItem
 import com.sahiljadhav.campusconnect.ui.common.CampusImage
+import com.sahiljadhav.campusconnect.ui.components.CampusCard
+import com.sahiljadhav.campusconnect.ui.components.CampusStatusBadge
 import com.sahiljadhav.campusconnect.ui.theme.AvailableGreen
 import com.sahiljadhav.campusconnect.ui.theme.BrandOrange
+import com.sahiljadhav.campusconnect.ui.theme.CampusElevation
+import com.sahiljadhav.campusconnect.ui.theme.CampusShapes
 
+/**
+ * Standardized Lost & Found Item Card
+ * Meets Section 18:
+ * - Clear status badge
+ * - Standardized image ratio
+ * - Dominant item name
+ * - Location with pin
+ * - Description preview
+ * - Reporter details
+ */
 @Composable
 fun LostFoundItemCard(
     item: LostFoundItem,
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    Card(
+    CampusCard(
         modifier = modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .clickable { onClick() },
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            .clip(CampusShapes.card)
+            .clickable(onClick = onClick),
+        shape = CampusShapes.card,
+        elevation = CampusElevation.low
     ) {
         Row(
             modifier = Modifier
@@ -58,24 +68,24 @@ fun LostFoundItemCard(
                 .padding(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Item Image with Status Badge
+            // Item Image with Status Badge Overlay
             Box(
                 modifier = Modifier
-                    .size(92.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                    .size(90.dp)
+                    .clip(RoundedCornerShape(14.dp))
             ) {
                 CampusImage(
                     imageUrl = item.resolvedImageUrl,
                     fallbackEmoji = item.fallbackIcon,
                     contentDescription = item.itemName,
-                    modifier = Modifier.size(92.dp)
+                    modifier = Modifier.size(90.dp)
                 )
 
                 // Status chip
                 Box(
                     modifier = Modifier
                         .align(Alignment.TopStart)
-                        .padding(4.dp)
+                        .padding(5.dp)
                         .clip(RoundedCornerShape(6.dp))
                         .background(
                             if (item.isLost) BrandOrange.copy(alpha = 0.95f)
@@ -94,17 +104,34 @@ fun LostFoundItemCard(
 
             Spacer(modifier = Modifier.width(14.dp))
 
-            // Item Content
+            // Item Details
             Column(
                 modifier = Modifier.weight(1f)
             ) {
-                Text(
-                    text = item.itemName,
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = item.itemName,
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.5.sp
+                        ),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f)
+                    )
+
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.KeyboardArrowRight,
+                        contentDescription = "View Details",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                        modifier = Modifier.size(18.dp)
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(4.dp))
 
@@ -126,51 +153,35 @@ fun LostFoundItemCard(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(4.dp))
-
-                // Description
-                Text(
-                    text = item.description,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                if (item.description.isNotBlank()) {
+                    Spacer(modifier = Modifier.height(3.dp))
+                    Text(
+                        text = item.description,
+                        style = MaterialTheme.typography.bodySmall.copy(fontSize = 12.sp),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.75f),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
 
                 Spacer(modifier = Modifier.height(6.dp))
 
                 // Reporter row
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Rounded.Person,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
-                            modifier = Modifier.size(13.dp)
-                        )
-                        Spacer(modifier = Modifier.width(3.dp))
-                        Text(
-                            text = item.displayReporter,
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f),
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-
-                    if (!item.contactNumber.isNullOrBlank() && item.contactNumber != "N/A") {
-                        Text(
-                            text = "📞 Contact",
-                            style = MaterialTheme.typography.labelSmall.copy(
-                                fontWeight = FontWeight.SemiBold,
-                                color = BrandOrange
-                            )
-                        )
-                    }
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Rounded.Person,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                        modifier = Modifier.size(13.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = if (!item.personName.isNullOrBlank()) item.personName else "Campus Student",
+                        style = MaterialTheme.typography.labelSmall.copy(fontSize = 11.5.sp),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
                 }
             }
         }

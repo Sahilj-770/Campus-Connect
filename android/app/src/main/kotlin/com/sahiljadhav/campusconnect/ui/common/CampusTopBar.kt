@@ -2,6 +2,7 @@ package com.sahiljadhav.campusconnect.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,13 +29,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sahiljadhav.campusconnect.R
 import com.sahiljadhav.campusconnect.ui.theme.BrandOrange
 
+/**
+ * Unified CampusConnect Top Bar
+ * Reusable across Home, Canteen (Campus Bites), Lost & Found, and Tray.
+ * Features:
+ * - App Logo + Contextual title and subtitle
+ * - Student Avatar with initial when logged in
+ * - Tray shopping bag shortcut with badge (when appropriate)
+ * - Refresh action button
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CampusTopBar(
@@ -43,41 +55,64 @@ fun CampusTopBar(
     trayItemCount: Int = 0,
     isLoggedIn: Boolean = false,
     userDisplayName: String? = null,
+    showLogo: Boolean = true,
     onAccountClick: (() -> Unit)? = null,
     onTrayClick: (() -> Unit)? = null,
-    onRefreshClick: (() -> Unit)? = null
+    onRefreshClick: (() -> Unit)? = null,
+    navigationIcon: (@Composable () -> Unit)? = null
 ) {
     TopAppBar(
+        navigationIcon = {
+            if (navigationIcon != null) {
+                navigationIcon()
+            }
+        },
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .size(36.dp)
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(BrandOrange.copy(alpha = 0.12f)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.app_logo),
-                        contentDescription = "CampusConnect Logo",
-                        modifier = Modifier.size(28.dp)
-                    )
+                if (showLogo) {
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .background(BrandOrange.copy(alpha = 0.12f))
+                            .border(
+                                width = 1.dp,
+                                color = BrandOrange.copy(alpha = 0.25f),
+                                shape = RoundedCornerShape(10.dp)
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.app_logo),
+                            contentDescription = "CampusConnect Logo",
+                            modifier = Modifier.size(26.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(12.dp))
                 }
-                Spacer(modifier = Modifier.width(12.dp))
+
                 Column {
                     Text(
                         text = title,
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.Bold,
-                            fontSize = 18.sp
+                            fontSize = 18.sp,
+                            letterSpacing = (-0.2).sp
                         ),
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                     if (!subtitle.isNullOrBlank()) {
                         Text(
                             text = subtitle,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = BrandOrange
+                            style = MaterialTheme.typography.bodySmall.copy(
+                                fontSize = 11.5.sp,
+                                fontWeight = FontWeight.Medium
+                            ),
+                            color = BrandOrange,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
                         )
                     }
                 }
@@ -88,8 +123,8 @@ fun CampusTopBar(
                 IconButton(onClick = onRefreshClick) {
                     Icon(
                         imageVector = Icons.Rounded.Refresh,
-                        contentDescription = "Refresh",
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        contentDescription = "Refresh data",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
                     )
                 }
             }
@@ -101,9 +136,13 @@ fun CampusTopBar(
                             if (trayItemCount > 0) {
                                 Badge(
                                     containerColor = BrandOrange,
-                                    contentColor = MaterialTheme.colorScheme.surface
+                                    contentColor = Color.White
                                 ) {
-                                    Text(text = trayItemCount.toString())
+                                    Text(
+                                        text = if (trayItemCount > 99) "99+" else trayItemCount.toString(),
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold
+                                    )
                                 }
                             }
                         }
@@ -111,7 +150,7 @@ fun CampusTopBar(
                         Icon(
                             imageVector = Icons.Rounded.ShoppingBag,
                             contentDescription = "Canteen Tray",
-                            tint = if (trayItemCount > 0) BrandOrange else MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = if (trayItemCount > 0) BrandOrange else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
                         )
                     }
                 }
@@ -122,15 +161,15 @@ fun CampusTopBar(
                     if (isLoggedIn) {
                         Box(
                             modifier = Modifier
-                                .size(30.dp)
+                                .size(32.dp)
                                 .clip(CircleShape)
                                 .background(BrandOrange),
                             contentAlignment = Alignment.Center
                         ) {
-                            val initial = (userDisplayName?.take(1) ?: "U").uppercase()
+                            val initial = (userDisplayName?.trim()?.take(1) ?: "S").uppercase()
                             Text(
                                 text = initial,
-                                color = androidx.compose.ui.graphics.Color.White,
+                                color = Color.White,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 13.sp
                             )
@@ -138,8 +177,8 @@ fun CampusTopBar(
                     } else {
                         Icon(
                             imageVector = Icons.Rounded.AccountCircle,
-                            contentDescription = "Account Sign In",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                            contentDescription = "Student Sign In",
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
                         )
                     }
                 }

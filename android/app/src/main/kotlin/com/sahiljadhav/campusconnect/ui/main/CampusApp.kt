@@ -124,13 +124,13 @@ fun CampusApp(
                         CampusTab.HOME -> "CampusConnect"
                         CampusTab.CANTEEN -> "Campus Bites"
                         CampusTab.LOST_FOUND -> "Lost & Found"
-                        CampusTab.TRAY -> "Canteen Tray"
+                        CampusTab.TRAY -> "Campus Tray"
                     },
                     subtitle = when (activeTab) {
-                        CampusTab.HOME -> "Student Services Hub"
-                        CampusTab.CANTEEN -> "Digital Canteen Menu"
-                        CampusTab.LOST_FOUND -> "Browse & Report Items"
-                        CampusTab.TRAY -> "Order Summary & Review"
+                        CampusTab.HOME -> "Your campus essentials"
+                        CampusTab.CANTEEN -> "Digital canteen menu"
+                        CampusTab.LOST_FOUND -> "Browse & report items"
+                        CampusTab.TRAY -> "Order summary & review"
                     },
                     trayItemCount = trayItemCount,
                     isLoggedIn = isLoggedIn,

@@ -39,17 +39,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sahiljadhav.campusconnect.data.model.MenuItem
 import com.sahiljadhav.campusconnect.ui.common.CampusImage
-import com.sahiljadhav.campusconnect.ui.components.CampusGlassButton
-import com.sahiljadhav.campusconnect.ui.components.GlassButtonVariant
+import com.sahiljadhav.campusconnect.ui.components.CampusPrimaryButton
+import com.sahiljadhav.campusconnect.ui.components.CampusStatusBadge
 import com.sahiljadhav.campusconnect.ui.theme.AvailableGreen
 import com.sahiljadhav.campusconnect.ui.theme.BrandOrange
+import com.sahiljadhav.campusconnect.ui.theme.CampusShapes
 import com.sahiljadhav.campusconnect.ui.theme.UnavailableRed
 
+/**
+ * Standardized Food Detail Bottom Sheet
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FoodDetailSheet(
@@ -62,6 +68,7 @@ fun FoodDetailSheet(
 ) {
     if (item == null) return
 
+    val haptic = LocalHapticFeedback.current
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var selectedQuantity by remember(item.id, currentQuantityInTray) {
         mutableIntStateOf(if (currentQuantityInTray > 0) currentQuantityInTray else 1)
@@ -70,12 +77,13 @@ fun FoodDetailSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
+        shape = CampusShapes.sheet,
         containerColor = MaterialTheme.colorScheme.surface
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp)
+                .padding(horizontal = 20.dp)
                 .padding(bottom = 32.dp)
         ) {
             // Header Image Box with Close & Favourite actions
@@ -83,7 +91,7 @@ fun FoodDetailSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
-                    .clip(RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(18.dp))
             ) {
                 CampusImage(
                     imageUrl = item.imageUrl,
@@ -102,29 +110,36 @@ fun FoodDetailSheet(
                     Surface(
                         onClick = onDismiss,
                         shape = CircleShape,
-                        color = Color.Black.copy(alpha = 0.5f),
+                        color = Color.Black.copy(alpha = 0.55f),
                         modifier = Modifier.size(36.dp)
                     ) {
-                        Icon(
-                            imageVector = Icons.Rounded.Close,
-                            contentDescription = "Close",
-                            tint = Color.White,
-                            modifier = Modifier.padding(8.dp)
-                        )
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = Icons.Rounded.Close,
+                                contentDescription = "Close",
+                                tint = Color.White,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
                     }
 
                     Surface(
-                        onClick = onToggleFavourite,
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            onToggleFavourite()
+                        },
                         shape = CircleShape,
-                        color = Color.Black.copy(alpha = 0.5f),
+                        color = Color.Black.copy(alpha = 0.55f),
                         modifier = Modifier.size(36.dp)
                     ) {
-                        Icon(
-                            imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                            contentDescription = "Favourite",
-                            tint = if (isFavourite) BrandOrange else Color.White,
-                            modifier = Modifier.padding(8.dp)
-                        )
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                                contentDescription = "Favourite",
+                                tint = if (isFavourite) BrandOrange else Color.White,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
                     }
                 }
 
@@ -140,7 +155,7 @@ fun FoodDetailSheet(
                         .padding(horizontal = 10.dp, vertical = 4.dp)
                 ) {
                     Text(
-                        text = if (item.isItemAvailable) "Available Now" else "Currently Unavailable",
+                        text = if (item.isItemAvailable) "Available Now" else "Currently Out of Stock",
                         color = Color.White,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold
@@ -150,160 +165,127 @@ fun FoodDetailSheet(
 
             Spacer(modifier = Modifier.height(18.dp))
 
-            // Title and Canteen Details
-            Text(
-                text = item.itemName,
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onSurface
-            )
-
-            Spacer(modifier = Modifier.height(6.dp))
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Surface(
-                    shape = RoundedCornerShape(6.dp),
-                    color = BrandOrange.copy(alpha = 0.12f),
-                    modifier = Modifier.padding(end = 8.dp)
-                ) {
+            // Food Title & Price
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
-                        text = item.canteen.replaceFirstChar { it.uppercase() },
-                        style = MaterialTheme.typography.labelMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = BrandOrange
-                        ),
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        text = item.itemName,
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "${item.category} • ${item.canteen.replaceFirstChar { it.uppercase() }} Canteen",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
 
-                Surface(
-                    shape = RoundedCornerShape(6.dp),
-                    color = MaterialTheme.colorScheme.surfaceVariant
-                ) {
-                    Text(
-                        text = "${item.categoryIcon} ${item.category}",
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                Text(
+                    text = item.priceFormatted,
+                    style = MaterialTheme.typography.headlineSmall.copy(
+                        fontWeight = FontWeight.ExtraBold,
+                        color = BrandOrange
                     )
-                }
+                )
             }
 
+            // Description
             if (!item.description.isNullOrBlank()) {
-                Spacer(modifier = Modifier.height(14.dp))
-                Text(
-                    text = "Description",
-                    style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(12.dp))
                 Text(
                     text = item.description,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    lineHeight = 20.sp
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Price and Quantity Selection
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Column {
+            // Quantity Selection Stepper (only if available)
+            if (item.isItemAvailable) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
                     Text(
-                        text = "Price",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        text = "Quantity",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
-                    Text(
-                        text = item.priceFormatted,
-                        style = MaterialTheme.typography.headlineMedium.copy(
-                            fontWeight = FontWeight.ExtraBold,
-                            color = BrandOrange
-                        )
-                    )
-                }
 
-                if (item.isItemAvailable) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier
                             .clip(RoundedCornerShape(12.dp))
-                            .background(MaterialTheme.colorScheme.surfaceVariant)
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f))
+                            .padding(4.dp)
                     ) {
-                        Surface(
-                            onClick = { if (selectedQuantity > 1) selectedQuantity-- },
-                            shape = CircleShape,
-                            color = MaterialTheme.colorScheme.surface,
-                            modifier = Modifier.size(34.dp)
+                        IconButton(
+                            onClick = {
+                                if (selectedQuantity > 1) selectedQuantity--
+                            },
+                            modifier = Modifier.size(36.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Remove,
                                 contentDescription = "Decrease",
-                                tint = MaterialTheme.colorScheme.onSurface,
-                                modifier = Modifier.padding(6.dp)
+                                tint = if (selectedQuantity > 1) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.outline
                             )
                         }
 
                         Text(
                             text = selectedQuantity.toString(),
                             style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                            modifier = Modifier.padding(horizontal = 16.dp)
+                            modifier = Modifier.padding(horizontal = 14.dp)
                         )
 
-                        Surface(
-                            onClick = { if (selectedQuantity < 20) selectedQuantity++ },
-                            shape = CircleShape,
-                            color = BrandOrange,
-                            modifier = Modifier.size(34.dp)
+                        IconButton(
+                            onClick = { selectedQuantity++ },
+                            modifier = Modifier.size(36.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Add,
                                 contentDescription = "Increase",
-                                tint = Color.White,
-                                modifier = Modifier.padding(6.dp)
+                                tint = BrandOrange
                             )
                         }
                     }
                 }
-            }
 
-            Spacer(modifier = Modifier.height(20.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
-            // Action Button (Liquid Glass Button)
-            if (item.isItemAvailable) {
-                val totalForSelected = item.priceValue * selectedQuantity
-                val totalStr = if (totalForSelected % 1.0 == 0.0) "₹${totalForSelected.toInt()}" else "₹${String.format("%.2f", totalForSelected)}"
-                CampusGlassButton(
+                val totalCost = item.priceValue * selectedQuantity
+                val totalCostFormatted = if (totalCost % 1.0 == 0.0) "₹${totalCost.toInt()}" else "₹${String.format("%.2f", totalCost)}"
+
+                CampusPrimaryButton(
+                    text = "Add $selectedQuantity to Tray • $totalCostFormatted",
+                    icon = Icons.Rounded.ShoppingBag,
                     onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
                         onAddToCart(selectedQuantity)
                         onDismiss()
                     },
-                    variant = GlassButtonVariant.BRAND_ORANGE,
                     modifier = Modifier.fillMaxWidth()
-                ) {
-                    Icon(imageVector = Icons.Rounded.ShoppingBag, contentDescription = null, tint = Color.White)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = if (currentQuantityInTray > 0) "Update Tray • $totalStr" else "Add to Tray • $totalStr",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold, color = Color.White)
-                    )
-                }
+                )
             } else {
                 Surface(
-                    shape = RoundedCornerShape(14.dp),
+                    shape = CampusShapes.button,
                     color = MaterialTheme.colorScheme.surfaceVariant,
-                    modifier = Modifier.fillMaxWidth().height(48.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp)
                 ) {
                     Box(contentAlignment = Alignment.Center) {
                         Text(
-                            text = "Item is Currently Out of Stock",
-                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            text = "Item is Currently Unavailable",
+                            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
                         )
                     }
                 }

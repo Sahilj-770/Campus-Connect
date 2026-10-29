@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -39,21 +38,26 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sahiljadhav.campusconnect.ui.common.CampusTab
 import com.sahiljadhav.campusconnect.ui.theme.BrandOrange
-import com.sahiljadhav.campusconnect.ui.theme.BrandOrangeDark
+import com.sahiljadhav.campusconnect.ui.theme.CampusElevation
+import com.sahiljadhav.campusconnect.ui.theme.CampusShapes
 
 /**
- * Native Jetpack Compose Floating Dock navigation component inspired by 21st.dev Dock designs.
- * Features:
- * - Floating translucent pill surface with glass border and soft shadow
- * - Spring-physics scale on press and selection
- * - Sliding active background indicator pill
- * - Vibrant tray notification badge
- * - Accessible 48dp+ touch targets with Light and Dark theme harmony
+ * Premium native Jetpack Compose Floating Dock navigation.
+ * Inspired by modern floating capsule navigation (iOS/Instagram refined feel):
+ * - Translucent dark capsule floating above content
+ * - Subtle glass border & soft ambient shadow
+ * - Smooth spring-physics active capsule expansion
+ * - Icon-first with active label expansion
+ * - Native tactile haptic feedback
+ * - Notification badge with count
+ * - Inset-aware (safe from navigation bars)
  */
 @Composable
 fun CampusDock(
@@ -62,23 +66,24 @@ fun CampusDock(
     trayCount: Int = 0,
     modifier: Modifier = Modifier
 ) {
-    val dockShape = RoundedCornerShape(26.dp)
+    val haptic = LocalHapticFeedback.current
+    val dockShape = CampusShapes.dock
 
     Box(
         modifier = modifier
             .fillMaxWidth()
             .navigationBarsPadding()
-            .padding(horizontal = 20.dp, vertical = 12.dp),
+            .padding(horizontal = 24.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) {
-        // Floating glass pill container
+        // Floating glass capsule container
         Row(
             modifier = Modifier
                 .shadow(
-                    elevation = 14.dp,
+                    elevation = CampusElevation.dock,
                     shape = dockShape,
-                    ambientColor = Color.Black.copy(alpha = 0.12f),
-                    spotColor = BrandOrange.copy(alpha = 0.25f)
+                    ambientColor = Color.Black.copy(alpha = 0.25f),
+                    spotColor = BrandOrange.copy(alpha = 0.20f)
                 )
                 .clip(dockShape)
                 .background(
@@ -90,17 +95,17 @@ fun CampusDock(
                     )
                 )
                 .border(
-                    width = 1.2.dp,
+                    width = 1.dp,
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            Color.White.copy(alpha = 0.40f),
-                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.25f)
+                            Color.White.copy(alpha = 0.22f),
+                            MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.15f)
                         )
                     ),
                     shape = dockShape
                 )
-                .padding(horizontal = 8.dp, vertical = 6.dp),
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                .padding(horizontal = 6.dp, vertical = 5.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             CampusTab.entries.forEach { tab ->
@@ -108,7 +113,12 @@ fun CampusDock(
                 DockItem(
                     tab = tab,
                     isSelected = isSelected,
-                    onClick = { onTabSelected(tab) },
+                    onClick = {
+                        if (!isSelected) {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        }
+                        onTabSelected(tab)
+                    },
                     badgeCount = if (tab == CampusTab.TRAY) trayCount else 0
                 )
             }
@@ -126,33 +136,35 @@ private fun DockItem(
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
 
-    // Spring scaling for selection and touch
+    // Smooth spring scale on press and selection
     val scale by animateFloatAsState(
         targetValue = when {
-            isPressed -> 0.90f
-            isSelected -> 1.05f
+            isPressed -> 0.92f
+            isSelected -> 1.04f
             else -> 1.0f
         },
         animationSpec = spring(
             dampingRatio = Spring.DampingRatioMediumBouncy,
-            stiffness = Spring.StiffnessLow
+            stiffness = Spring.StiffnessMedium
         ),
         label = "dockItemScale"
     )
 
+    // Capsule background color transition
     val itemBgColor by animateColorAsState(
-        targetValue = if (isSelected) BrandOrange.copy(alpha = 0.16f) else Color.Transparent,
+        targetValue = if (isSelected) BrandOrange.copy(alpha = 0.15f) else Color.Transparent,
         animationSpec = spring(stiffness = Spring.StiffnessMedium),
         label = "dockItemBg"
     )
 
+    // Tint transition
     val contentColor by animateColorAsState(
-        targetValue = if (isSelected) BrandOrange else MaterialTheme.colorScheme.onSurfaceVariant,
+        targetValue = if (isSelected) BrandOrange else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.75f),
         animationSpec = spring(stiffness = Spring.StiffnessMedium),
         label = "dockItemContentColor"
     )
 
-    val itemShape = RoundedCornerShape(20.dp)
+    val itemShape = RoundedCornerShape(22.dp)
 
     Box(
         modifier = Modifier
@@ -167,15 +179,15 @@ private fun DockItem(
                 indication = null,
                 onClick = onClick
             )
-            .height(50.dp)
-            .padding(horizontal = if (isSelected) 14.dp else 10.dp),
+            .height(46.dp)
+            .padding(horizontal = if (isSelected) 14.dp else 11.dp),
         contentAlignment = Alignment.Center
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            // Icon with optional badge
+            // Icon with badge
             BadgedBox(
                 badge = {
                     if (badgeCount > 0) {
@@ -196,7 +208,7 @@ private fun DockItem(
                     imageVector = tab.icon,
                     contentDescription = tab.title,
                     tint = contentColor,
-                    modifier = Modifier.size(24.dp)
+                    modifier = Modifier.size(22.dp)
                 )
             }
 
@@ -210,10 +222,10 @@ private fun DockItem(
                     Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = tab.title,
-                        style = MaterialTheme.typography.labelLarge.copy(
+                        style = MaterialTheme.typography.labelMedium.copy(
                             fontWeight = FontWeight.Bold,
                             color = contentColor,
-                            fontSize = 13.sp
+                            fontSize = 12.5.sp
                         ),
                         maxLines = 1
                     )

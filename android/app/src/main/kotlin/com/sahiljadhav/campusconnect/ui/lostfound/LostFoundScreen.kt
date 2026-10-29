@@ -21,17 +21,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Add
-import androidx.compose.material.icons.rounded.Clear
-import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
@@ -45,19 +36,34 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sahiljadhav.campusconnect.data.model.NetworkResult
 import com.sahiljadhav.campusconnect.ui.common.EmptyView
 import com.sahiljadhav.campusconnect.ui.common.ErrorView
-import com.sahiljadhav.campusconnect.ui.common.LoadingView
+import com.sahiljadhav.campusconnect.ui.common.LostFoundCardSkeleton
+import com.sahiljadhav.campusconnect.ui.components.CampusFilterChip
+import com.sahiljadhav.campusconnect.ui.components.CampusSearchBar
 import com.sahiljadhav.campusconnect.ui.lostfound.components.ItemDetailSheet
 import com.sahiljadhav.campusconnect.ui.lostfound.components.LostFoundItemCard
 import com.sahiljadhav.campusconnect.ui.lostfound.components.ReportItemDialog
 import com.sahiljadhav.campusconnect.ui.theme.AvailableGreen
 import com.sahiljadhav.campusconnect.ui.theme.BrandOrange
+import com.sahiljadhav.campusconnect.ui.theme.CampusShapes
+import com.sahiljadhav.campusconnect.ui.theme.CampusSpacing
 
+/**
+ * Redesigned Lost & Found Screen
+ * - Utility-focused, trustworthy, recovery-oriented
+ * - Segmented tabs for Lost vs Found with real live item counts
+ * - Prominent Search & Category Filter chips
+ * - Direct "Report an Item" CTA
+ * - Standardized LostFoundItemCard list
+ * - Bottom dock clearance
+ */
 @Composable
 fun LostFoundScreen(
     viewModel: LostFoundViewModel,
@@ -66,6 +72,7 @@ fun LostFoundScreen(
     val uiState by viewModel.uiState.collectAsState()
     val filteredItems by viewModel.currentFilteredItems.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+    val haptic = LocalHapticFeedback.current
 
     val activeState = if (uiState.activeTab == "lost") uiState.lostItemsState else uiState.foundItemsState
 
@@ -82,31 +89,39 @@ fun LostFoundScreen(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            // Lost vs Found Top Segment Tabs
+            // Segment Tabs: Lost vs Found
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 8.dp)
-                    .clip(RoundedCornerShape(14.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .clip(CampusShapes.button)
+                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f))
                     .padding(4.dp)
             ) {
                 val isLostActive = uiState.activeTab == "lost"
+                val lostCount = when (val res = uiState.lostItemsState) {
+                    is NetworkResult.Success -> " (${res.data.size})"
+                    else -> ""
+                }
+                val foundCount = when (val res = uiState.foundItemsState) {
+                    is NetworkResult.Success -> " (${res.data.size})"
+                    else -> ""
+                }
+
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .background(if (isLostActive) BrandOrange else Color.Transparent)
-                        .clickable { viewModel.selectTab("lost") }
+                        .clickable {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            viewModel.selectTab("lost")
+                        }
                         .padding(vertical = 10.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    val count = when (val res = uiState.lostItemsState) {
-                        is NetworkResult.Success -> " (${res.data.size})"
-                        else -> ""
-                    }
                     Text(
-                        text = "Lost Items$count",
+                        text = "Lost Items$lostCount",
                         style = MaterialTheme.typography.titleSmall.copy(
                             fontWeight = FontWeight.Bold,
                             color = if (isLostActive) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
@@ -119,16 +134,15 @@ fun LostFoundScreen(
                         .weight(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .background(if (!isLostActive) AvailableGreen else Color.Transparent)
-                        .clickable { viewModel.selectTab("found") }
+                        .clickable {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            viewModel.selectTab("found")
+                        }
                         .padding(vertical = 10.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    val count = when (val res = uiState.foundItemsState) {
-                        is NetworkResult.Success -> " (${res.data.size})"
-                        else -> ""
-                    }
                     Text(
-                        text = "Found Items$count",
+                        text = "Found Items$foundCount",
                         style = MaterialTheme.typography.titleSmall.copy(
                             fontWeight = FontWeight.Bold,
                             color = if (!isLostActive) Color.White else MaterialTheme.colorScheme.onSurfaceVariant
@@ -137,76 +151,47 @@ fun LostFoundScreen(
                 }
             }
 
-            // Search Bar & Report Button
+            // Search Bar & Report Button Row
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                OutlinedTextField(
-                    value = uiState.searchQuery,
-                    onValueChange = { viewModel.setSearchQuery(it) },
-                    placeholder = {
-                        Text(
-                            text = if (uiState.activeTab == "lost") "Search lost items..." else "Search found items...",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Rounded.Search,
-                            contentDescription = "Search",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    },
-                    trailingIcon = {
-                        if (uiState.searchQuery.isNotEmpty()) {
-                            IconButton(onClick = { viewModel.setSearchQuery("") }) {
-                                Icon(
-                                    imageVector = Icons.Rounded.Clear,
-                                    contentDescription = "Clear",
-                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    },
-                    singleLine = true,
-                    shape = RoundedCornerShape(14.dp),
-                    colors = OutlinedTextFieldDefaults.colors(
-                        focusedBorderColor = BrandOrange,
-                        unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
-                        focusedContainerColor = MaterialTheme.colorScheme.surface,
-                        unfocusedContainerColor = MaterialTheme.colorScheme.surface
-                    ),
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(52.dp)
-                )
+                Box(modifier = Modifier.weight(1f)) {
+                    CampusSearchBar(
+                        query = uiState.searchQuery,
+                        onQueryChange = { viewModel.setSearchQuery(it) },
+                        placeholder = "Search ${uiState.activeTab} items..."
+                    )
+                }
 
                 Spacer(modifier = Modifier.width(8.dp))
 
-                // Report Action Button
                 Surface(
-                    onClick = { viewModel.openReportDialog(uiState.activeTab) },
-                    shape = RoundedCornerShape(14.dp),
-                    color = if (uiState.activeTab == "lost") BrandOrange else AvailableGreen,
+                    onClick = {
+                        haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                        viewModel.openReportDialog(uiState.activeTab)
+                    },
+                    shape = CampusShapes.button,
+                    color = BrandOrange,
                     modifier = Modifier.height(52.dp)
                 ) {
                     Row(
+                        modifier = Modifier.padding(horizontal = 14.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(horizontal = 12.dp)
+                        horizontalArrangement = Arrangement.Center
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Add,
-                            contentDescription = null,
+                            contentDescription = "Report",
                             tint = Color.White,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(18.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = "Report",
-                            style = MaterialTheme.typography.labelLarge.copy(
+                            style = MaterialTheme.typography.labelMedium.copy(
                                 fontWeight = FontWeight.Bold,
                                 color = Color.White
                             )
@@ -221,78 +206,66 @@ fun LostFoundScreen(
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
                     .padding(horizontal = 16.dp, vertical = 6.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 viewModel.categories.forEach { category ->
-                    val isSelected = uiState.selectedCategoryFilter == category
-                    FilterChip(
-                        selected = isSelected,
+                    CampusFilterChip(
+                        selected = uiState.selectedCategoryFilter == category,
                         onClick = { viewModel.selectCategoryFilter(category) },
-                        label = {
-                            Text(
-                                text = category,
-                                style = MaterialTheme.typography.labelMedium.copy(
-                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
-                                )
-                            )
-                        },
-                        colors = FilterChipDefaults.filterChipColors(
-                            selectedContainerColor = if (uiState.activeTab == "lost") BrandOrange else AvailableGreen,
-                            selectedLabelColor = Color.White,
-                            containerColor = MaterialTheme.colorScheme.surface,
-                            labelColor = MaterialTheme.colorScheme.onSurfaceVariant
-                        ),
-                        border = FilterChipDefaults.filterChipBorder(
-                            borderColor = if (isSelected) Color.Transparent else MaterialTheme.colorScheme.outlineVariant,
-                            selectedBorderColor = Color.Transparent,
-                            enabled = true,
-                            selected = isSelected
-                        ),
-                        shape = RoundedCornerShape(10.dp)
+                        label = category
                     )
                 }
             }
 
-            // Content List / States
+            // Content Area: Loading / Error / Empty / Item List
             when (val state = activeState) {
                 is NetworkResult.Loading -> {
-                    LoadingView(message = "Loading ${if (uiState.activeTab == "lost") "lost" else "found"} items...")
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(
+                            start = 16.dp,
+                            end = 16.dp,
+                            top = 6.dp,
+                            bottom = CampusSpacing.dockBottomPadding
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        items(5) {
+                            LostFoundCardSkeleton()
+                        }
+                    }
                 }
+
                 is NetworkResult.Error -> {
                     ErrorView(
                         message = state.message,
-                        isColdStart = state.isColdStart,
-                        onRetry = { viewModel.loadData(forceRefresh = true) }
+                        onRetry = { viewModel.loadData(forceRefresh = true) },
+                        isColdStart = state.isColdStart
                     )
                 }
+
                 is NetworkResult.Success -> {
                     if (filteredItems.isEmpty()) {
                         EmptyView(
-                            title = if (uiState.activeTab == "lost") "No Lost Items Found" else "No Found Items Listed",
-                            subtitle = if (uiState.searchQuery.isNotEmpty())
-                                "No items matching \"${uiState.searchQuery}\""
+                            title = if (uiState.searchQuery.isNotBlank() || uiState.selectedCategoryFilter != "All")
+                                "No matching items found"
                             else
-                                "No items reported in this category yet. Have you lost or found something?",
-                            emoji = if (uiState.activeTab == "lost") "🔍" else "🎉",
-                            actionButton = {
-                                Button(
-                                    onClick = { viewModel.openReportDialog(uiState.activeTab) },
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = if (uiState.activeTab == "lost") BrandOrange else AvailableGreen
-                                    )
-                                ) {
-                                    Icon(imageVector = Icons.Rounded.Add, contentDescription = null)
-                                    Spacer(modifier = Modifier.width(6.dp))
-                                    Text("Report an Item")
-                                }
-                            }
+                                "No ${uiState.activeTab} items reported yet",
+                            subtitle = if (uiState.searchQuery.isNotBlank())
+                                "No items matching \"${uiState.searchQuery}\". Try adjusting your search term."
+                            else
+                                "Be the first student to report a ${uiState.activeTab} item to help the campus community.",
+                            emoji = if (uiState.activeTab == "lost") "🔍" else "📦"
                         )
                     } else {
                         LazyColumn(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = 16.dp),
-                            contentPadding = PaddingValues(top = 8.dp, bottom = 80.dp),
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(
+                                start = 16.dp,
+                                end = 16.dp,
+                                top = 6.dp,
+                                bottom = CampusSpacing.dockBottomPadding
+                            ),
                             verticalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             items(filteredItems, key = { it.serialNumber }) { item ->
@@ -307,16 +280,15 @@ fun LostFoundScreen(
             }
         }
 
-        // SnackBar
         SnackbarHost(
             hostState = snackbarHostState,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 80.dp)
+                .padding(bottom = CampusSpacing.dockBottomPadding + 8.dp)
         )
     }
 
-    // Detail Bottom Sheet
+    // Modal Bottom Sheet for Item Details
     if (uiState.selectedItemForDetail != null) {
         ItemDetailSheet(
             item = uiState.selectedItemForDetail,
@@ -324,14 +296,21 @@ fun LostFoundScreen(
         )
     }
 
-    // Report Dialog
+    // Report Item Dialog
     if (uiState.isReportDialogOpen) {
         ReportItemDialog(
             initialStatus = uiState.reportDialogInitialStatus,
             onDismiss = { viewModel.closeReportDialog() },
-            onSubmit = { itemName, status, location, description, personName, rollNumber, contactNumber, imageFile ->
+            onSubmit = { name, st, loc, desc, person, roll, contact, file ->
                 viewModel.submitReport(
-                    itemName, status, location, description, personName, rollNumber, contactNumber, imageFile
+                    itemName = name,
+                    status = st,
+                    location = loc,
+                    description = desc,
+                    personName = person,
+                    rollNumber = roll,
+                    contactNumber = contact,
+                    imageFile = file
                 )
             },
             isSubmitting = uiState.isSubmittingReport,

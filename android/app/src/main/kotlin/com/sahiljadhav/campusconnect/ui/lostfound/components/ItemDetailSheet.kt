@@ -1,7 +1,11 @@
 package com.sahiljadhav.campusconnect.ui.lostfound.components
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +22,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Call
 import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.rounded.ContentCopy
 import androidx.compose.material.icons.rounded.LocationOn
 import androidx.compose.material.icons.rounded.Person
 import androidx.compose.material.icons.rounded.School
@@ -37,15 +42,29 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sahiljadhav.campusconnect.data.model.LostFoundItem
 import com.sahiljadhav.campusconnect.ui.common.CampusImage
+import com.sahiljadhav.campusconnect.ui.components.CampusCard
+import com.sahiljadhav.campusconnect.ui.components.CampusPrimaryButton
 import com.sahiljadhav.campusconnect.ui.theme.AvailableGreen
 import com.sahiljadhav.campusconnect.ui.theme.BrandOrange
+import com.sahiljadhav.campusconnect.ui.theme.CampusElevation
+import com.sahiljadhav.campusconnect.ui.theme.CampusShapes
 
+/**
+ * Standardized Lost & Found Item Detail Sheet
+ * Meets Section 19:
+ * - Proper drag handle and rounded top corners
+ * - Large item photo
+ * - Status tag, title, location pin, description section
+ * - Reporter profile & contact action
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ItemDetailSheet(
@@ -55,49 +74,53 @@ fun ItemDetailSheet(
     if (item == null) return
 
     val context = LocalContext.current
+    val haptic = LocalHapticFeedback.current
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
+        shape = CampusShapes.sheet,
         containerColor = MaterialTheme.colorScheme.surface
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp)
+                .padding(horizontal = 20.dp)
                 .padding(bottom = 32.dp)
         ) {
             // Header Image Box with Close button
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(220.dp)
-                    .clip(RoundedCornerShape(20.dp))
+                    .height(210.dp)
+                    .clip(RoundedCornerShape(18.dp))
             ) {
                 CampusImage(
                     imageUrl = item.resolvedImageUrl,
                     fallbackEmoji = item.fallbackIcon,
                     contentDescription = item.itemName,
-                    modifier = Modifier.fillMaxWidth().height(220.dp)
+                    modifier = Modifier.fillMaxWidth().height(210.dp)
                 )
 
                 // Close Button
                 Surface(
                     onClick = onDismiss,
                     shape = CircleShape,
-                    color = Color.Black.copy(alpha = 0.5f),
+                    color = Color.Black.copy(alpha = 0.55f),
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(12.dp)
                         .size(36.dp)
                 ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Close,
-                        contentDescription = "Close",
-                        tint = Color.White,
-                        modifier = Modifier.padding(8.dp)
-                    )
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = Icons.Rounded.Close,
+                            contentDescription = "Close",
+                            tint = Color.White,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
                 }
 
                 // Status tag
@@ -123,7 +146,10 @@ fun ItemDetailSheet(
             // Title and Location
             Text(
                 text = item.itemName,
-                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp
+                ),
                 color = MaterialTheme.colorScheme.onSurface
             )
 
@@ -139,94 +165,123 @@ fun ItemDetailSheet(
                 Spacer(modifier = Modifier.width(4.dp))
                 Text(
                     text = item.location,
-                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
+                    style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Medium),
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
-
             // Description
+            if (item.description.isNotBlank()) {
+                Spacer(modifier = Modifier.height(14.dp))
+                Text(
+                    text = "Description",
+                    style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = item.description,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            // Reporter Info Card
             Text(
-                text = "Description",
-                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+                text = "Reported By",
+                style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurface
             )
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(
-                text = item.description,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                lineHeight = 20.sp
-            )
+            Spacer(modifier = Modifier.height(8.dp))
 
-            Spacer(modifier = Modifier.height(20.dp))
-
-            // Reporter Details Card
-            Card(
-                shape = RoundedCornerShape(14.dp),
-                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)),
+            CampusCard(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Column(
-                    modifier = Modifier.padding(14.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(14.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(imageVector = Icons.Rounded.Person, contentDescription = null, tint = BrandOrange, modifier = Modifier.size(18.dp))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = "Reported by: ${item.displayReporter}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-
-                    if (item.rollNumber != null && item.rollNumber != "N/A") {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(imageVector = Icons.Rounded.School, contentDescription = null, tint = BrandOrange, modifier = Modifier.size(18.dp))
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = "Roll No: ${item.displayRollNumber}",
-                                style = MaterialTheme.typography.bodyMedium
+                        Box(
+                            modifier = Modifier
+                                .size(36.dp)
+                                .clip(CircleShape)
+                                .background(BrandOrange.copy(alpha = 0.12f)),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.Person,
+                                contentDescription = null,
+                                tint = BrandOrange,
+                                modifier = Modifier.size(20.dp)
                             )
                         }
-                    }
-
-                    if (item.displayContact != null) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(imageVector = Icons.Rounded.Call, contentDescription = null, tint = BrandOrange, modifier = Modifier.size(18.dp))
-                            Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Column {
                             Text(
-                                text = "Contact: ${item.displayContact}",
-                                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold)
+                                text = if (!item.personName.isNullOrBlank()) item.personName else "Campus Student",
+                                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+                                color = MaterialTheme.colorScheme.onSurface
                             )
+                            if (!item.rollNumber.isNullOrBlank()) {
+                                Text(
+                                    text = "Roll No: ${item.rollNumber}",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                         }
                     }
                 }
             }
 
-            // Quick Call Action if Contact Number is provided
-            if (!item.contactNumber.isNullOrBlank() && item.contactNumber != "N/A") {
-                Spacer(modifier = Modifier.height(18.dp))
-                Button(
-                    onClick = {
-                        val dialIntent = Intent(Intent.ACTION_DIAL).apply {
-                            data = Uri.parse("tel:${item.contactNumber}")
-                        }
-                        context.startActivity(dialIntent)
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp),
-                    shape = RoundedCornerShape(14.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = BrandOrange)
+            // Contact Action Button
+            if (!item.contactNumber.isNullOrBlank()) {
+                Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    Icon(imageVector = Icons.Rounded.Call, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = "Call ${item.displayReporter} (${item.contactNumber})",
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                    CampusPrimaryButton(
+                        text = "Call Reporter",
+                        icon = Icons.Rounded.Call,
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            val dialIntent = Intent(Intent.ACTION_DIAL).apply {
+                                data = Uri.parse("tel:${item.contactNumber}")
+                            }
+                            context.startActivity(dialIntent)
+                        },
+                        modifier = Modifier.weight(1f)
                     )
+
+                    Surface(
+                        onClick = {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                            val clip = ClipData.newPlainText("Contact Number", item.contactNumber)
+                            clipboard.setPrimaryClip(clip)
+                            Toast.makeText(context, "Contact copied to clipboard", Toast.LENGTH_SHORT).show()
+                        },
+                        shape = CampusShapes.button,
+                        color = MaterialTheme.colorScheme.surfaceVariant,
+                        modifier = Modifier
+                            .width(52.dp)
+                            .height(50.dp)
+                    ) {
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = Icons.Rounded.ContentCopy,
+                                contentDescription = "Copy Contact",
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    }
                 }
             }
         }
