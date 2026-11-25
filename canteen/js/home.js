@@ -10,7 +10,7 @@ const BACKEND_URL =
     window.location.hostname === "localhost" ||
     window.location.hostname === "127.0.0.1"
         ? "http://localhost:3000"
-        : "https://campus-connect-1-0q94.onrender.com";
+        : "https://campus-connect-s85n.onrender.com";
 
 const homeNavToggle = document.querySelector(".nav-toggle");
 const homeNav = document.querySelector(".navbar nav");

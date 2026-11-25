@@ -47,7 +47,7 @@ class LostFoundItemTest {
             image = "/lost_and_found/uploads/items/trimax.jpeg"
         )
         assertEquals(
-            "https://campus-connect-4n2t.onrender.com/uploads/items/trimax.jpeg",
+            "https://campus-connect-s85n.onrender.com/uploads/items/trimax.jpeg",
             relativeItem.resolvedImageUrl
         )
     }

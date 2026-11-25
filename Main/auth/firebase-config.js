@@ -11,9 +11,9 @@
 
     window.CAMPUS_CONNECT_API_BASE = isLocalhost
         ? "http://localhost:3000"
-        : "https://campus-connect-1-0q94.onrender.com";
+        : "https://campus-connect-s85n.onrender.com";
 
     window.CAMPUS_CONNECT_LF_API_BASE = isLocalhost
         ? "http://localhost:3000/api/lost-found"
-        : "https://campus-connect-4n2t.onrender.com";
+        : "https://campus-connect-s85n.onrender.com";
 })();

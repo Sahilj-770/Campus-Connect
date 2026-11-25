@@ -33,7 +33,7 @@ data class MenuItem(
             .trim('-')
 
     val imageUrl: String
-        get() = "https://campus-connect-1-0q94.onrender.com/food-images/$slug.webp"
+        get() = "https://campus-connect-s85n.onrender.com/food-images/$slug.webp"
 
     val categoryIcon: String
         get() = when (category.lowercase()) {

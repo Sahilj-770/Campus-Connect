@@ -33,7 +33,7 @@ class MenuItemTest {
         )
         assertEquals("cheese-garlic-bread", item.slug)
         assertEquals(
-            "https://campus-connect-1-0q94.onrender.com/food-images/cheese-garlic-bread.webp",
+            "https://campus-connect-s85n.onrender.com/food-images/cheese-garlic-bread.webp",
             item.imageUrl
         )
     }

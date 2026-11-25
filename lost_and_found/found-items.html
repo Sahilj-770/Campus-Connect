@@ -258,7 +258,7 @@
             window.location.hostname === "127.0.0.1"
         )
             ? "http://localhost:3000/api/lost-found/found"
-            : "https://campus-connect-4n2t.onrender.com/api/lost-found/found";
+            : "https://campus-connect-s85n.onrender.com/api/lost-found/found";
 
 
         const foundItemsGrid =
@@ -437,8 +437,8 @@
             if (!imgEl.getAttribute("data-fallback-tried")) {
                 imgEl.setAttribute("data-fallback-tried", "backend");
                 const filename = (imgEl.src || "").split("/").pop().split("?")[0];
-                if (filename && !imgEl.src.includes("campus-connect-4n2t.onrender.com")) {
-                    imgEl.src = "https://campus-connect-4n2t.onrender.com/uploads/items/" + filename;
+                if (filename && !imgEl.src.includes("campus-connect-s85n.onrender.com")) {
+                    imgEl.src = "https://campus-connect-s85n.onrender.com/uploads/items/" + filename;
                     return;
                 }
                 const dictFallback = getDictionaryFallback(itemName);

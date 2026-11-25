@@ -60,7 +60,7 @@ data class LostFoundItem(
             }
             val filename = img.replace("\\", "/").substringAfterLast("/")
             if (filename.isNotEmpty()) {
-                return "https://campus-connect-4n2t.onrender.com/uploads/items/$filename"
+                return "https://campus-connect-s85n.onrender.com/uploads/items/$filename"
             }
             return null
         }

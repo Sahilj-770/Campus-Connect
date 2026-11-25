@@ -594,7 +594,7 @@ function getCorrectImage(item) {
 
         // 5. If cleanPath is an uploaded item path, point to Render's public uploads
         if (cleanPath.startsWith("uploads/items/")) {
-            return "https://campus-connect-4n2t.onrender.com/" + cleanPath;
+            return "https://campus-connect-s85n.onrender.com/" + cleanPath;
         }
 
     }

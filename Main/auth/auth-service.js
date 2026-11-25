@@ -13,11 +13,11 @@
     } catch (e) {}
 
     function getApiBase() {
-        return window.CAMPUS_CONNECT_API_BASE || "https://campus-connect-1-0q94.onrender.com";
+        return window.CAMPUS_CONNECT_API_BASE || "https://campus-connect-s85n.onrender.com";
     }
 
     function getLostFoundApiBase() {
-        return window.CAMPUS_CONNECT_LF_API_BASE || "https://campus-connect-4n2t.onrender.com";
+        return window.CAMPUS_CONNECT_LF_API_BASE || "https://campus-connect-s85n.onrender.com";
     }
 
     function notifyListeners(user) {

@@ -9,8 +9,8 @@ import java.util.concurrent.TimeUnit
 
 object ApiClient {
     // Primary deployed backend URLs from the live project
-    const val CANTEEN_BASE_URL = "https://campus-connect-1-0q94.onrender.com/"
-    const val LOST_FOUND_BASE_URL = "https://campus-connect-4n2t.onrender.com/"
+    const val CANTEEN_BASE_URL = "https://campus-connect-s85n.onrender.com/"
+    const val LOST_FOUND_BASE_URL = "https://campus-connect-s85n.onrender.com/"
 
     @Volatile
     var currentAuthToken: String? = null
