@@ -20,8 +20,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.sahiljadhav.campusconnect.data.model.LostFoundItem
+import com.sahiljadhav.campusconnect.ui.common.CampusImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -115,14 +115,13 @@ fun MyReportsScreen(
                             verticalAlignment = Alignment.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(14.dp)
                         ) {
-                            AsyncImage(
-                                model = item.image,
+                            CampusImage(
+                                imageUrl = item.resolvedImageUrl,
+                                fallbackEmoji = item.fallbackIcon,
                                 contentDescription = item.itemName,
-                                contentScale = ContentScale.Crop,
                                 modifier = Modifier
                                     .size(68.dp)
                                     .clip(RoundedCornerShape(12.dp))
-                                    .background(MaterialTheme.colorScheme.surfaceVariant)
                             )
 
                             Column(modifier = Modifier.weight(1f)) {

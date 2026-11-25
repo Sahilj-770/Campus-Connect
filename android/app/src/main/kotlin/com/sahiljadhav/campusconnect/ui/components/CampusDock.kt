@@ -16,6 +16,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +27,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
@@ -62,11 +64,10 @@ import com.sahiljadhav.campusconnect.ui.theme.BrandOrange
 import com.sahiljadhav.campusconnect.ui.theme.CampusElevation
 import com.sahiljadhav.campusconnect.ui.theme.CampusShapes
 
-// Fixed Dock Geometry Constants
-private val DOCK_WIDTH = 328.dp
+// Responsive Dock Geometry Constants
+private val MAX_DOCK_WIDTH = 360.dp
 private val DOCK_HEIGHT = 56.dp
 private val DOCK_PADDING = 4.dp
-private val SLOT_WIDTH = (DOCK_WIDTH - (DOCK_PADDING * 2)) / 4 // Exactly 80.dp
 private val SLOT_HEIGHT = DOCK_HEIGHT - (DOCK_PADDING * 2) // Exactly 48.dp
 private val INDICATOR_SHAPE = RoundedCornerShape(24.dp)
 
@@ -106,53 +107,56 @@ fun CampusDock(
 
     val activeIndex = if (isScrubbing && !isOutsideBounds) scrubIndex else selectedIndex
 
-    // Fluid spring sliding indicator offset
-    val indicatorOffset by animateDpAsState(
-        targetValue = DOCK_PADDING + (SLOT_WIDTH * activeIndex),
-        animationSpec = spring(
-            dampingRatio = if (isScrubbing) 0.86f else 0.82f,
-            stiffness = if (isScrubbing) Spring.StiffnessMedium else Spring.StiffnessMediumLow
-        ),
-        label = "dockIndicatorOffset"
-    )
-
-    // Scrub emphasis animations
-    val indicatorScale by animateFloatAsState(
-        targetValue = if (isScrubbing && !isOutsideBounds) 1.04f else 1.0f,
-        animationSpec = spring(stiffness = Spring.StiffnessMedium),
-        label = "indicatorScale"
-    )
-
-    val indicatorBgAlpha by animateFloatAsState(
-        targetValue = if (isScrubbing && !isOutsideBounds) 0.26f else 0.16f,
-        animationSpec = spring(stiffness = Spring.StiffnessMedium),
-        label = "indicatorBgAlpha"
-    )
-
-    val indicatorBorderAlpha by animateFloatAsState(
-        targetValue = if (isScrubbing && !isOutsideBounds) 0.55f else 0.32f,
-        animationSpec = spring(stiffness = Spring.StiffnessMedium),
-        label = "indicatorBorderAlpha"
-    )
-
-    // Pixel measurements for pointer gesture tracking
-    val dockHeightPx = with(density) { DOCK_HEIGHT.toPx() }
-    val dockPaddingPx = with(density) { DOCK_PADDING.toPx() }
-    val slotWidthPx = with(density) { SLOT_WIDTH.toPx() }
-    val maxAvailableWidthPx = slotWidthPx * tabs.size
-    val verticalTolerancePx = with(density) { 64.dp.toPx() }
-
-    Box(
+    BoxWithConstraints(
         modifier = modifier
             .fillMaxWidth()
             .navigationBarsPadding()
+            .padding(horizontal = 16.dp)
             .padding(bottom = 12.dp),
         contentAlignment = Alignment.Center
     ) {
-        // Fixed Outer Dock Container (Constant dimensions)
+        val dockWidth = maxWidth.coerceAtMost(MAX_DOCK_WIDTH)
+        val slotWidth = (dockWidth - (DOCK_PADDING * 2)) / tabs.size
+
+        // Fluid spring sliding indicator offset
+        val indicatorOffset by animateDpAsState(
+            targetValue = DOCK_PADDING + (slotWidth * activeIndex),
+            animationSpec = spring(
+                dampingRatio = if (isScrubbing) 0.86f else 0.82f,
+                stiffness = if (isScrubbing) Spring.StiffnessMedium else Spring.StiffnessMediumLow
+            ),
+            label = "dockIndicatorOffset"
+        )
+
+        val indicatorScale by animateFloatAsState(
+            targetValue = if (isScrubbing && !isOutsideBounds) 1.04f else 1.0f,
+            animationSpec = spring(stiffness = Spring.StiffnessMedium),
+            label = "indicatorScale"
+        )
+
+        val indicatorBgAlpha by animateFloatAsState(
+            targetValue = if (isScrubbing && !isOutsideBounds) 0.26f else 0.16f,
+            animationSpec = spring(stiffness = Spring.StiffnessMedium),
+            label = "indicatorBgAlpha"
+        )
+
+        val indicatorBorderAlpha by animateFloatAsState(
+            targetValue = if (isScrubbing && !isOutsideBounds) 0.55f else 0.32f,
+            animationSpec = spring(stiffness = Spring.StiffnessMedium),
+            label = "indicatorBorderAlpha"
+        )
+
+        // Pixel measurements for pointer gesture tracking
+        val dockHeightPx = with(density) { DOCK_HEIGHT.toPx() }
+        val dockPaddingPx = with(density) { DOCK_PADDING.toPx() }
+        val slotWidthPx = with(density) { slotWidth.toPx() }
+        val maxAvailableWidthPx = slotWidthPx * tabs.size
+        val verticalTolerancePx = with(density) { 64.dp.toPx() }
+
+        // Responsive Outer Dock Container
         Box(
             modifier = Modifier
-                .width(DOCK_WIDTH)
+                .width(dockWidth)
                 .height(DOCK_HEIGHT)
                 .shadow(
                     elevation = if (isScrubbing) CampusElevation.dock + 4.dp else CampusElevation.dock,
@@ -180,7 +184,7 @@ fun CampusDock(
                     shape = CampusShapes.dock
                 )
                 // Long-press + Slide (Scrub Mode) Gesture
-                .pointerInput(selectedTab) {
+                .pointerInput(selectedTab, slotWidthPx) {
                     detectDragGesturesAfterLongPress(
                         onDragStart = { offset ->
                             isScrubbing = true
@@ -232,7 +236,7 @@ fun CampusDock(
             Box(
                 modifier = Modifier
                     .offset(x = indicatorOffset, y = DOCK_PADDING)
-                    .width(SLOT_WIDTH)
+                    .width(slotWidth)
                     .height(SLOT_HEIGHT)
                     .graphicsLayer {
                         scaleX = indicatorScale
@@ -247,7 +251,7 @@ fun CampusDock(
                     )
             )
 
-            // 4 Equal, Fixed-Width Slots
+            // 4 Equal Slots
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -264,6 +268,7 @@ fun CampusDock(
 
                     DockSlot(
                         tab = tab,
+                        slotWidth = slotWidth,
                         isSelected = isHighlighted,
                         badgeCount = if (tab == CampusTab.TRAY) trayCount else 0,
                         onClick = {
@@ -280,12 +285,12 @@ fun CampusDock(
 }
 
 /**
- * An individual fixed-width slot (strictly 80dp wide).
- * Sizing is 100% immune to text or selection state changes.
+ * An individual equal-width dock slot.
  */
 @Composable
 private fun DockSlot(
     tab: CampusTab,
+    slotWidth: androidx.compose.ui.unit.Dp,
     isSelected: Boolean,
     badgeCount: Int,
     onClick: () -> Unit
@@ -318,7 +323,7 @@ private fun DockSlot(
 
     Box(
         modifier = Modifier
-            .width(SLOT_WIDTH)
+            .width(slotWidth)
             .height(SLOT_HEIGHT)
             .clip(INDICATOR_SHAPE)
             .clickable(

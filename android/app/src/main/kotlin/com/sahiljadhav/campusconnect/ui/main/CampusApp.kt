@@ -247,6 +247,10 @@ fun CampusApp(
                                 CampusTab.HOME -> HomeScreen(
                                     viewModel = homeViewModel,
                                     onNavigateTab = { targetTab -> activeTab = targetTab },
+                                    onCanteenClick = { canteenId ->
+                                        canteenViewModel.selectCanteen(canteenId)
+                                        activeTab = CampusTab.CANTEEN
+                                    },
                                     onAddToCart = { item -> canteenViewModel.addToTray(item) },
                                     onReportClick = { status ->
                                         if (!isLoggedIn) {
@@ -265,12 +269,9 @@ fun CampusApp(
                                 )
                                 CampusTab.TRAY -> TrayContent(
                                     trayItems = tray,
-                                    onIncreaseQuantity = { id ->
-                                        val item = tray.firstOrNull { it.item.id == id }?.item
-                                        if (item != null) canteenViewModel.addToTray(item)
-                                    },
-                                    onDecreaseQuantity = { id -> canteenViewModel.decreaseQuantity(id) },
-                                    onRemoveItem = { id -> canteenViewModel.removeFromTray(id) },
+                                    onIncreaseQuantity = { item -> canteenViewModel.addToTray(item) },
+                                    onDecreaseQuantity = { item -> canteenViewModel.decreaseQuantity(item) },
+                                    onRemoveItem = { item -> canteenViewModel.removeFromTray(item) },
                                     onClearTray = { canteenViewModel.clearTray() },
                                     onBrowseMenu = { activeTab = CampusTab.CANTEEN }
                                 )

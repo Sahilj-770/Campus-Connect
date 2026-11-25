@@ -189,8 +189,8 @@ fun CanteenScreen(
                         ),
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        items(filteredItems, key = { it.id }) { item ->
-                            val trayItem = tray.firstOrNull { it.item.id == item.id }
+                        items(filteredItems, key = { it.uniqueKey }) { item ->
+                            val trayItem = tray.firstOrNull { it.item.uniqueKey == item.uniqueKey }
                             val quantity = trayItem?.quantity ?: 0
                             val isFav = favouriteIds.contains(item.id)
 
@@ -200,7 +200,7 @@ fun CanteenScreen(
                                 isFavourite = isFav,
                                 onItemClick = { viewModel.setSelectedItemForDetail(item) },
                                 onAddToCart = { viewModel.addToTray(item) },
-                                onDecreaseQuantity = { viewModel.decreaseQuantity(item.id) },
+                                onDecreaseQuantity = { viewModel.decreaseQuantity(item) },
                                 onToggleFavourite = { viewModel.toggleFavourite(item.id) }
                             )
                         }
@@ -213,7 +213,7 @@ fun CanteenScreen(
     // Modal Bottom Sheet for Food Item Details
     if (uiState.selectedItemForDetail != null) {
         val selectedItem = uiState.selectedItemForDetail!!
-        val currentQuantity = tray.firstOrNull { it.item.id == selectedItem.id }?.quantity ?: 0
+        val currentQuantity = tray.firstOrNull { it.item.uniqueKey == selectedItem.uniqueKey }?.quantity ?: 0
         val isFav = favouriteIds.contains(selectedItem.id)
 
         FoodDetailSheet(
@@ -222,9 +222,7 @@ fun CanteenScreen(
             isFavourite = isFav,
             onDismiss = { viewModel.setSelectedItemForDetail(null) },
             onAddToCart = { qty ->
-                repeat(qty - currentQuantity) {
-                    viewModel.addToTray(selectedItem)
-                }
+                viewModel.setItemQuantity(selectedItem, qty)
             },
             onToggleFavourite = { viewModel.toggleFavourite(selectedItem.id) }
         )

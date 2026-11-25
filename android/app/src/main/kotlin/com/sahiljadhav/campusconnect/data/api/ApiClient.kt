@@ -33,9 +33,9 @@ object ApiClient {
             level = HttpLoggingInterceptor.Level.BODY
         }
         OkHttpClient.Builder()
-            .connectTimeout(35, TimeUnit.SECONDS)
-            .readTimeout(35, TimeUnit.SECONDS)
-            .writeTimeout(35, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
             .addInterceptor(authInterceptor)
             .addInterceptor(logging)

@@ -14,6 +14,9 @@ data class MenuItem(
     @SerializedName("is_available") val isAvailable: Int = 1,
     @SerializedName("favourite_count") val favouriteCount: Int? = null
 ) {
+    val uniqueKey: String
+        get() = "${canteen.lowercase()}_$id"
+
     val isItemAvailable: Boolean
         get() = isAvailable == 1 || availability.equals("Available", ignoreCase = true)
 

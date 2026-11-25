@@ -111,11 +111,25 @@ class CanteenRepository(
             } catch (e: Exception) {
                 apiClient.canteenFallbackApi.getCampusPicks()
             }
-            cachedPicks = picks
-            NetworkResult.Success(picks)
+            if (picks.isNotEmpty()) {
+                cachedPicks = picks
+                return@withContext NetworkResult.Success(picks)
+            }
+            // Fallback to available menu items when no campus favourites exist yet
+            val menuRes = if (cachedMenu.isNotEmpty()) {
+                NetworkResult.Success(cachedMenu)
+            } else {
+                getMenu()
+            }
+            val fallbackPicks = when (menuRes) {
+                is NetworkResult.Success -> menuRes.data.filter { it.isItemAvailable }.take(6)
+                else -> emptyList()
+            }
+            cachedPicks = fallbackPicks
+            NetworkResult.Success(fallbackPicks)
         } catch (e: Exception) {
             // If top picks fail, return available items from cached menu
-            val fallbackPicks = cachedMenu.take(3)
+            val fallbackPicks = cachedMenu.take(6)
             if (fallbackPicks.isNotEmpty()) {
                 NetworkResult.Success(fallbackPicks)
             } else {
@@ -127,7 +141,7 @@ class CanteenRepository(
     // Tray Operations
     fun addToTray(item: MenuItem) {
         val current = _tray.value.toMutableList()
-        val index = current.indexOfFirst { it.item.id == item.id }
+        val index = current.indexOfFirst { it.item.uniqueKey == item.uniqueKey }
         if (index >= 0) {
             val existing = current[index]
             current[index] = existing.copy(quantity = existing.quantity + 1)
@@ -135,6 +149,33 @@ class CanteenRepository(
             current.add(TrayItem(item = item, quantity = 1))
         }
         _tray.value = current
+    }
+
+    fun setItemQuantity(item: MenuItem, quantity: Int) {
+        val current = _tray.value.toMutableList()
+        val index = current.indexOfFirst { it.item.uniqueKey == item.uniqueKey }
+        if (quantity <= 0) {
+            if (index >= 0) current.removeAt(index)
+        } else if (index >= 0) {
+            current[index] = current[index].copy(quantity = quantity)
+        } else {
+            current.add(TrayItem(item = item, quantity = quantity))
+        }
+        _tray.value = current
+    }
+
+    fun decreaseQuantity(item: MenuItem) {
+        val current = _tray.value.toMutableList()
+        val index = current.indexOfFirst { it.item.uniqueKey == item.uniqueKey }
+        if (index >= 0) {
+            val existing = current[index]
+            if (existing.quantity > 1) {
+                current[index] = existing.copy(quantity = existing.quantity - 1)
+            } else {
+                current.removeAt(index)
+            }
+            _tray.value = current
+        }
     }
 
     fun decreaseQuantity(itemId: Long) {
@@ -149,6 +190,12 @@ class CanteenRepository(
             }
             _tray.value = current
         }
+    }
+
+    fun removeFromTray(item: MenuItem) {
+        val current = _tray.value.toMutableList()
+        current.removeAll { it.item.uniqueKey == item.uniqueKey }
+        _tray.value = current
     }
 
     fun removeFromTray(itemId: Long) {

@@ -111,7 +111,7 @@ fun FoodDetailSheet(
                         onClick = onDismiss,
                         shape = CircleShape,
                         color = Color.Black.copy(alpha = 0.55f),
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(44.dp)
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             Icon(
@@ -130,7 +130,7 @@ fun FoodDetailSheet(
                         },
                         shape = CircleShape,
                         color = Color.Black.copy(alpha = 0.55f),
-                        modifier = Modifier.size(36.dp)
+                        modifier = Modifier.size(44.dp)
                     ) {
                         Box(contentAlignment = Alignment.Center) {
                             Icon(
@@ -230,7 +230,7 @@ fun FoodDetailSheet(
                             onClick = {
                                 if (selectedQuantity > 1) selectedQuantity--
                             },
-                            modifier = Modifier.size(36.dp)
+                            modifier = Modifier.size(44.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Remove,
@@ -247,7 +247,7 @@ fun FoodDetailSheet(
 
                         IconButton(
                             onClick = { selectedQuantity++ },
-                            modifier = Modifier.size(36.dp)
+                            modifier = Modifier.size(44.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Rounded.Add,

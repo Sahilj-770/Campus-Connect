@@ -185,7 +185,7 @@ fun FoodItemCard(
                             onToggleFavourite()
                         },
                         modifier = Modifier
-                            .size(32.dp)
+                            .size(44.dp)
                             .graphicsLayer {
                                 scaleX = favScale
                                 scaleY = favScale
@@ -239,14 +239,14 @@ fun FoodItemCard(
                                 },
                                 shape = CircleShape,
                                 color = Color.Transparent,
-                                modifier = Modifier.size(28.dp)
+                                modifier = Modifier.size(36.dp)
                             ) {
                                 Box(contentAlignment = Alignment.Center) {
                                     Icon(
                                         imageVector = Icons.Rounded.Remove,
                                         contentDescription = "Decrease",
                                         tint = BrandOrange,
-                                        modifier = Modifier.size(16.dp)
+                                        modifier = Modifier.size(18.dp)
                                     )
                                 }
                             }
@@ -265,14 +265,14 @@ fun FoodItemCard(
                                 },
                                 shape = CircleShape,
                                 color = Color.Transparent,
-                                modifier = Modifier.size(28.dp)
+                                modifier = Modifier.size(36.dp)
                             ) {
                                 Box(contentAlignment = Alignment.Center) {
                                     Icon(
                                         imageVector = Icons.Rounded.Add,
                                         contentDescription = "Increase",
                                         tint = BrandOrange,
-                                        modifier = Modifier.size(16.dp)
+                                        modifier = Modifier.size(18.dp)
                                     )
                                 }
                             }
@@ -291,7 +291,7 @@ fun FoodItemCard(
                             },
                             shape = CampusShapes.button,
                             color = if (showJustAdded) AvailableGreen else BrandOrange,
-                            modifier = Modifier.height(34.dp)
+                            modifier = Modifier.height(40.dp)
                         ) {
                             AnimatedContent(
                                 targetState = showJustAdded,

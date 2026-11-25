@@ -76,13 +76,9 @@ class CanteenViewModel(
                 else -> repository.defaultCanteens
             }
 
-            // 2. Fetch Menu
             val menuRes = repository.getMenu(forceRefresh = forceRefresh)
-            val categories = if (menuRes is NetworkResult.Success) {
-                listOf("All") + menuRes.data.map { it.category }.distinct().sorted()
-            } else {
-                listOf("All")
-            }
+            val currentCanteen = _uiState.value.selectedCanteenId
+            val categories = categoriesForCanteen(menuRes, currentCanteen)
 
             _uiState.value = _uiState.value.copy(
                 canteens = canteens,
@@ -92,10 +88,17 @@ class CanteenViewModel(
         }
     }
 
+    private fun categoriesForCanteen(menuRes: NetworkResult<List<MenuItem>>, canteenId: String): List<String> {
+        if (menuRes !is NetworkResult.Success) return listOf("All")
+        val scoped = if (canteenId == "all") menuRes.data else menuRes.data.filter { it.canteen.equals(canteenId, ignoreCase = true) }
+        return listOf("All") + scoped.map { it.category }.distinct().sorted()
+    }
+
     fun selectCanteen(canteenId: String) {
         _uiState.value = _uiState.value.copy(
             selectedCanteenId = canteenId,
-            selectedCategory = "All"
+            selectedCategory = "All",
+            availableCategories = categoriesForCanteen(_uiState.value.menuState, canteenId)
         )
     }
 
@@ -115,8 +118,20 @@ class CanteenViewModel(
         repository.addToTray(item)
     }
 
+    fun setItemQuantity(item: MenuItem, quantity: Int) {
+        repository.setItemQuantity(item, quantity)
+    }
+
+    fun decreaseQuantity(item: MenuItem) {
+        repository.decreaseQuantity(item)
+    }
+
     fun decreaseQuantity(itemId: Long) {
         repository.decreaseQuantity(itemId)
+    }
+
+    fun removeFromTray(item: MenuItem) {
+        repository.removeFromTray(item)
     }
 
     fun removeFromTray(itemId: Long) {

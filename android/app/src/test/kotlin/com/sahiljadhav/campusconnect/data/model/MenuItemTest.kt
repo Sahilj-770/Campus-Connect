@@ -1,6 +1,7 @@
 package com.sahiljadhav.campusconnect.data.model
 
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -45,5 +46,14 @@ class MenuItemTest {
 
         val coffee = MenuItem(id = 4, canteen = "nescafe", itemName = "Cold Coffee", category = "Beverages", price = "40")
         assertEquals("☕", coffee.categoryIcon)
+    }
+
+    @Test
+    fun testUniqueKeyDistinctAcrossCanteens() {
+        val cafeteriaItem = MenuItem(id = 1, canteen = "cafeteria", itemName = "Poha", category = "Breakfast", price = "30")
+        val nescafeItem = MenuItem(id = 1, canteen = "nescafe", itemName = "Coffee", category = "Beverages", price = "25")
+        assertEquals("cafeteria_1", cafeteriaItem.uniqueKey)
+        assertEquals("nescafe_1", nescafeItem.uniqueKey)
+        assertNotEquals(cafeteriaItem.uniqueKey, nescafeItem.uniqueKey)
     }
 }

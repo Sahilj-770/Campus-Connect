@@ -59,6 +59,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sahiljadhav.campusconnect.data.model.MenuItem
 import com.sahiljadhav.campusconnect.data.model.TrayItem
 import com.sahiljadhav.campusconnect.ui.common.CampusImage
 import com.sahiljadhav.campusconnect.ui.common.EmptyView
@@ -82,9 +83,9 @@ import com.sahiljadhav.campusconnect.ui.theme.CampusSpacing
 @Composable
 fun TrayContent(
     trayItems: List<TrayItem>,
-    onIncreaseQuantity: (Long) -> Unit,
-    onDecreaseQuantity: (Long) -> Unit,
-    onRemoveItem: (Long) -> Unit,
+    onIncreaseQuantity: (MenuItem) -> Unit,
+    onDecreaseQuantity: (MenuItem) -> Unit,
+    onRemoveItem: (MenuItem) -> Unit,
     onClearTray: () -> Unit,
     onBrowseMenu: () -> Unit,
     modifier: Modifier = Modifier
@@ -171,7 +172,7 @@ fun TrayContent(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            items(trayItems, key = { it.item.id }) { trayItem ->
+            items(trayItems, key = { it.item.uniqueKey }) { trayItem ->
                 CampusCard(
                     modifier = Modifier.fillMaxWidth(),
                     shape = CampusShapes.card,
@@ -228,18 +229,18 @@ fun TrayContent(
                             Surface(
                                 onClick = {
                                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                                    onDecreaseQuantity(trayItem.item.id)
+                                    onDecreaseQuantity(trayItem.item)
                                 },
                                 shape = CircleShape,
                                 color = Color.Transparent,
-                                modifier = Modifier.size(28.dp)
+                                modifier = Modifier.size(36.dp)
                             ) {
                                 Box(contentAlignment = Alignment.Center) {
                                     Icon(
                                         imageVector = Icons.Rounded.Remove,
                                         contentDescription = "Decrease",
                                         tint = MaterialTheme.colorScheme.onSurface,
-                                        modifier = Modifier.size(16.dp)
+                                        modifier = Modifier.size(18.dp)
                                     )
                                 }
                             }
@@ -265,18 +266,18 @@ fun TrayContent(
                             Surface(
                                 onClick = {
                                     haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
-                                    onIncreaseQuantity(trayItem.item.id)
+                                    onIncreaseQuantity(trayItem.item)
                                 },
                                 shape = CircleShape,
                                 color = BrandOrange,
-                                modifier = Modifier.size(28.dp)
+                                modifier = Modifier.size(36.dp)
                             ) {
                                 Box(contentAlignment = Alignment.Center) {
                                     Icon(
                                         imageVector = Icons.Rounded.Add,
                                         contentDescription = "Increase",
                                         tint = Color.White,
-                                        modifier = Modifier.size(16.dp)
+                                        modifier = Modifier.size(18.dp)
                                     )
                                 }
                             }
@@ -339,7 +340,7 @@ fun TrayContent(
 
         // Checkout Button
         CampusPrimaryButton(
-            text = "Proceed with Order ($subtotalFormatted)",
+            text = "Prepare Counter Slip ($subtotalFormatted)",
             icon = Icons.Rounded.ShoppingBag,
             onClick = { showCheckoutDialog = true },
             modifier = Modifier.fillMaxWidth()
@@ -362,7 +363,7 @@ fun TrayContent(
             containerColor = MaterialTheme.colorScheme.surface,
             title = {
                 Text(
-                    text = "Pickup Details",
+                    text = "Counter Pickup Details",
                     style = MaterialTheme.typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontSize = 20.sp
@@ -373,7 +374,7 @@ fun TrayContent(
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     Text(
-                        text = "Enter your student details to confirm your canteen tray order token.",
+                        text = "Enter your student details to prepare your counter order slip (pay at the canteen counter).",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -473,7 +474,7 @@ fun TrayContent(
             },
             title = {
                 Text(
-                    text = "Order Token Prepared!",
+                    text = "Counter Slip Ready",
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -481,13 +482,13 @@ fun TrayContent(
             text = {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
-                        text = "Your canteen order has been recorded. Present your name and roll number at the canteen counter.",
+                        text = "Show your tray summary at the canteen counter to pay and collect your order.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                     Spacer(modifier = Modifier.height(12.dp))
                     Text(
-                        text = "Total Paid: $subtotalFormatted",
+                        text = "Payable at Counter: $subtotalFormatted",
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.ExtraBold,
                             color = BrandOrange

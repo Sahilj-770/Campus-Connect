@@ -55,6 +55,26 @@ class CanteenRepositoryTest {
     }
 
     @Test
+    fun testTraySameIdDifferentCanteensDoNotCollide() {
+        val cafeteriaItem = MenuItem(id = 1, canteen = "cafeteria", itemName = "Poha", category = "Breakfast", price = "30.00")
+        val nescafeItem = MenuItem(id = 1, canteen = "nescafe", itemName = "Coffee", category = "Beverages", price = "20.00")
+
+        repository.addToTray(cafeteriaItem)
+        repository.addToTray(nescafeItem)
+
+        assertEquals(2, repository.tray.value.size)
+        repository.decreaseQuantity(cafeteriaItem)
+        assertEquals(1, repository.tray.value.size)
+        assertEquals("nescafe", repository.tray.value.first().item.canteen)
+
+        repository.setItemQuantity(nescafeItem, 4)
+        assertEquals(4, repository.tray.value.first().quantity)
+
+        repository.setItemQuantity(nescafeItem, 0)
+        assertTrue(repository.tray.value.isEmpty())
+    }
+
+    @Test
     fun testFavourites() {
         assertEquals(false, repository.isFavourite(55))
         repository.toggleFavourite(55)
