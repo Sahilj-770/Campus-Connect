@@ -80,7 +80,7 @@ fun CampusSplashScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color(0xFF0F0C0A))
+            .background(Color(0xFF0E1117))
             .graphicsLayer {
                 this.alpha = alpha.value
             },
@@ -94,7 +94,7 @@ fun CampusSplashScreen(
                 .background(
                     Brush.radialGradient(
                         colors = listOf(
-                            BrandOrange.copy(alpha = 0.22f),
+                            BrandOrange.copy(alpha = 0.24f),
                             BrandAmber.copy(alpha = 0.08f),
                             Color.Transparent
                         )
@@ -117,7 +117,7 @@ fun CampusSplashScreen(
                         Brush.linearGradient(
                             colors = listOf(
                                 BrandOrange,
-                                Color(0xFFC95D1E)
+                                Color(0xFF9A3412)
                             )
                         )
                     )
@@ -151,14 +151,14 @@ fun CampusSplashScreen(
 
             Spacer(modifier = Modifier.height(6.dp))
 
-            // Subtitle
+            // Subtitle (explicit light color so light-mode theme never reduces contrast on dark splash)
             Text(
-                text = "Your campus essentials",
+                text = "DYPCOE Canteen & Lost and Found",
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.Medium,
                     fontSize = 14.sp
                 ),
-                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                color = Color(0xFFCBD5E1)
             )
         }
     }

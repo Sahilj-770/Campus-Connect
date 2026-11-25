@@ -49,8 +49,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -65,6 +67,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sahiljadhav.campusconnect.R
+import com.sahiljadhav.campusconnect.data.model.LostFoundItem
 import com.sahiljadhav.campusconnect.data.model.MenuItem
 import com.sahiljadhav.campusconnect.ui.common.CampusImage
 import com.sahiljadhav.campusconnect.ui.common.CampusTab
@@ -72,6 +75,7 @@ import com.sahiljadhav.campusconnect.ui.common.ErrorView
 import com.sahiljadhav.campusconnect.ui.common.FoodCardSkeleton
 import com.sahiljadhav.campusconnect.ui.components.CampusCard
 import com.sahiljadhav.campusconnect.ui.components.CampusSectionHeader
+import com.sahiljadhav.campusconnect.ui.lostfound.components.ItemDetailSheet
 import com.sahiljadhav.campusconnect.ui.theme.AvailableGreen
 import com.sahiljadhav.campusconnect.ui.theme.BrandAmber
 import com.sahiljadhav.campusconnect.ui.theme.BrandOrange
@@ -79,6 +83,9 @@ import com.sahiljadhav.campusconnect.ui.theme.BrandOrangeDark
 import com.sahiljadhav.campusconnect.ui.theme.CampusElevation
 import com.sahiljadhav.campusconnect.ui.theme.CampusShapes
 import com.sahiljadhav.campusconnect.ui.theme.CampusSpacing
+import com.sahiljadhav.campusconnect.ui.theme.VarsityNavy
+import com.sahiljadhav.campusconnect.ui.theme.VarsityNavyInk
+import com.sahiljadhav.campusconnect.ui.theme.VarsityNavyLight
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -95,6 +102,7 @@ fun HomeScreen(
     val haptic = LocalHapticFeedback.current
     val coroutineScope = rememberCoroutineScope()
     val addedItems = remember { mutableStateMapOf<String, Boolean>() }
+    var selectedLostFoundItem by remember { mutableStateOf<LostFoundItem?>(null) }
 
     if (uiState.isLoading && uiState.campusPicks.isEmpty() && uiState.canteens.isEmpty()) {
         Column(
@@ -132,28 +140,23 @@ fun HomeScreen(
             .verticalScroll(rememberScrollState())
             .padding(bottom = CampusSpacing.dockBottomPadding)
     ) {
-        // Section 1: Hero Card
+        // Section 1: Varsity Navy Focal Hero Card (breaks monochrome surface monotony)
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 12.dp)
                 .clip(CampusShapes.card)
                 .background(
-                    Brush.verticalGradient(
+                    Brush.linearGradient(
                         colors = listOf(
-                            MaterialTheme.colorScheme.surface,
-                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f)
+                            VarsityNavy,
+                            VarsityNavyLight
                         )
                     )
                 )
                 .border(
                     width = 1.dp,
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            BrandOrange.copy(alpha = 0.40f),
-                            Color.Transparent
-                        )
-                    ),
+                    color = Color.White.copy(alpha = 0.12f),
                     shape = CampusShapes.card
                 )
                 .padding(20.dp)
@@ -169,7 +172,7 @@ fun HomeScreen(
                             text = "DYPCOE CAMPUS",
                             style = MaterialTheme.typography.labelSmall.copy(
                                 fontWeight = FontWeight.Bold,
-                                color = BrandOrange,
+                                color = Color(0xFFFDBA74),
                                 letterSpacing = 1.2.sp
                             )
                         )
@@ -178,7 +181,7 @@ fun HomeScreen(
                             text = "CampusConnect",
                             style = MaterialTheme.typography.headlineMedium.copy(
                                 fontWeight = FontWeight.ExtraBold,
-                                color = MaterialTheme.colorScheme.onSurface,
+                                color = Color.White,
                                 fontSize = 24.sp
                             )
                         )
@@ -186,7 +189,7 @@ fun HomeScreen(
                         Text(
                             text = "Live menus across 3 campus canteens and active lost-and-found recovery.",
                             style = MaterialTheme.typography.bodyMedium.copy(
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                color = VarsityNavyInk,
                                 fontWeight = FontWeight.Normal
                             )
                         )
@@ -198,7 +201,7 @@ fun HomeScreen(
                         modifier = Modifier
                             .size(50.dp)
                             .clip(RoundedCornerShape(16.dp))
-                            .background(BrandOrange.copy(alpha = 0.12f)),
+                            .background(Color.White.copy(alpha = 0.12f)),
                         contentAlignment = Alignment.Center
                     ) {
                         Image(
@@ -209,7 +212,44 @@ fun HomeScreen(
                     }
                 }
 
-                Spacer(modifier = Modifier.height(18.dp))
+                // Live Campus Pulse strip (real counts from TiDB)
+                val liveReportsCount = uiState.recentLostItems.size + uiState.recentFoundItems.size
+                if (uiState.canteens.isNotEmpty() || liveReportsCount > 0) {
+                    Spacer(modifier = Modifier.height(14.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(Color.White.copy(alpha = 0.12f))
+                                .padding(horizontal = 10.dp, vertical = 4.dp)
+                        ) {
+                            Text(
+                                text = "${uiState.canteens.size.coerceAtLeast(3)} Canteens Live",
+                                style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
+                                color = Color.White
+                            )
+                        }
+                        if (liveReportsCount > 0) {
+                            Box(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(Color.White.copy(alpha = 0.12f))
+                                    .padding(horizontal = 10.dp, vertical = 4.dp)
+                            ) {
+                                Text(
+                                    text = "$liveReportsCount Recent Board Items",
+                                    style = MaterialTheme.typography.labelSmall.copy(fontWeight = FontWeight.SemiBold),
+                                    color = Color(0xFFFDBA74)
+                                )
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
 
                 // Direct Jump Actions
                 Row(
@@ -255,7 +295,7 @@ fun HomeScreen(
                             onNavigateTab(CampusTab.LOST_FOUND)
                         },
                         shape = CampusShapes.button,
-                        color = MaterialTheme.colorScheme.surfaceVariant,
+                        color = Color.White.copy(alpha = 0.14f),
                         modifier = Modifier
                             .weight(1f)
                             .height(46.dp)
@@ -268,7 +308,7 @@ fun HomeScreen(
                             Icon(
                                 imageVector = Icons.Rounded.Search,
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSurface,
+                                tint = Color.White,
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
@@ -276,7 +316,7 @@ fun HomeScreen(
                                 text = "Lost & Found",
                                 style = MaterialTheme.typography.labelLarge.copy(
                                     fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.onSurface
+                                    color = Color.White
                                 )
                             )
                         }
@@ -300,11 +340,11 @@ fun HomeScreen(
                     .padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                data class OutletMeta(val id: String, val name: String, val type: String, val icon: ImageVector)
+                data class OutletMeta(val id: String, val name: String, val type: String, val icon: ImageVector, val tint: Color)
                 val outlets = listOf(
-                    OutletMeta("cafeteria", "Cafeteria", "Main Campus", Icons.Rounded.Restaurant),
-                    OutletMeta("timeless", "Timeless", "Fast Food", Icons.Rounded.Storefront),
-                    OutletMeta("nescafe", "Nescafe", "Coffee & Maggi", Icons.Rounded.LocalCafe)
+                    OutletMeta("cafeteria", "Cafeteria", "Main Campus", Icons.Rounded.Restaurant, BrandOrange),
+                    OutletMeta("timeless", "Timeless", "Fast Food", Icons.Rounded.Storefront, BrandAmber),
+                    OutletMeta("nescafe", "Nescafe", "Coffee & Maggi", Icons.Rounded.LocalCafe, AvailableGreen)
                 )
                 outlets.forEach { outlet ->
                     CampusCard(
@@ -320,15 +360,15 @@ fun HomeScreen(
                         ) {
                             Box(
                                 modifier = Modifier
-                                    .size(42.dp)
-                                    .clip(CircleShape)
-                                    .background(BrandOrange.copy(alpha = 0.12f)),
+                                    .size(44.dp)
+                                    .clip(RoundedCornerShape(14.dp))
+                                    .background(outlet.tint.copy(alpha = 0.14f)),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
                                     imageVector = outlet.icon,
                                     contentDescription = outlet.name,
-                                    tint = BrandOrange,
+                                    tint = outlet.tint,
                                     modifier = Modifier.size(22.dp)
                                 )
                             }
@@ -431,7 +471,7 @@ fun HomeScreen(
                                         text = item.priceFormatted,
                                         style = MaterialTheme.typography.titleMedium.copy(
                                             fontWeight = FontWeight.ExtraBold,
-                                            color = BrandOrange
+                                            color = MaterialTheme.colorScheme.primary
                                         )
                                     )
 
@@ -508,7 +548,7 @@ fun HomeScreen(
                             Icon(
                                 imageVector = Icons.Rounded.Search,
                                 contentDescription = null,
-                                tint = BrandOrange,
+                                tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.size(20.dp)
                             )
                         }
@@ -559,6 +599,77 @@ fun HomeScreen(
                     }
                 }
             }
+
+            // Live Recent Lost & Found Preview Strip
+            val recentBoardItems = (uiState.recentLostItems.take(3) + uiState.recentFoundItems.take(3))
+            if (recentBoardItems.isNotEmpty()) {
+                Spacer(modifier = Modifier.height(14.dp))
+                LazyRow(
+                    contentPadding = PaddingValues(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    items(recentBoardItems, key = { "${it.uniqueKey}_home" }) { item ->
+                        CampusCard(
+                            modifier = Modifier.width(196.dp),
+                            onClick = {
+                                haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                selectedLostFoundItem = item
+                            }
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(10.dp),
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                CampusImage(
+                                    imageUrl = item.resolvedImageUrl,
+                                    fallbackEmoji = item.fallbackIcon,
+                                    contentDescription = item.itemName,
+                                    modifier = Modifier
+                                        .size(52.dp)
+                                        .clip(RoundedCornerShape(10.dp))
+                                )
+                                Spacer(modifier = Modifier.width(10.dp))
+                                Column(modifier = Modifier.weight(1f)) {
+                                    Box(
+                                        modifier = Modifier
+                                            .clip(RoundedCornerShape(4.dp))
+                                            .background(if (item.isLost) BrandOrange else AvailableGreen)
+                                            .padding(horizontal = 5.dp, vertical = 1.dp)
+                                    ) {
+                                        Text(
+                                            text = item.displayStatus,
+                                            color = Color.White,
+                                            fontSize = 9.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Text(
+                                        text = item.itemName,
+                                        style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                    Text(
+                                        text = item.location,
+                                        style = MaterialTheme.typography.bodySmall.copy(fontSize = 11.sp),
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
+    }
+
+    if (selectedLostFoundItem != null) {
+        ItemDetailSheet(
+            item = selectedLostFoundItem,
+            onDismiss = { selectedLostFoundItem = null }
+        )
     }
 }

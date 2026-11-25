@@ -189,7 +189,7 @@ fun FoodDetailSheet(
                     text = item.priceFormatted,
                     style = MaterialTheme.typography.headlineSmall.copy(
                         fontWeight = FontWeight.ExtraBold,
-                        color = BrandOrange
+                        color = MaterialTheme.colorScheme.primary
                     )
                 )
             }
@@ -252,7 +252,7 @@ fun FoodDetailSheet(
                             Icon(
                                 imageVector = Icons.Rounded.Add,
                                 contentDescription = "Increase",
-                                tint = BrandOrange
+                                tint = MaterialTheme.colorScheme.primary
                             )
                         }
                     }

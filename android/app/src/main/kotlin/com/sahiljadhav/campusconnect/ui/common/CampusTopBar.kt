@@ -110,7 +110,7 @@ fun CampusTopBar(
                                 fontSize = 11.5.sp,
                                 fontWeight = FontWeight.Medium
                             ),
-                            color = BrandOrange,
+                            color = MaterialTheme.colorScheme.primary,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
                         )
@@ -150,7 +150,7 @@ fun CampusTopBar(
                         Icon(
                             imageVector = Icons.Rounded.ShoppingBag,
                             contentDescription = "Canteen Tray",
-                            tint = if (trayItemCount > 0) BrandOrange else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                            tint = if (trayItemCount > 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
                         )
                     }
                 }

@@ -262,19 +262,27 @@ fun CampusApp(
                                     }
                                 )
                                 CampusTab.CANTEEN -> CanteenScreen(
-                                    viewModel = canteenViewModel
+                                    viewModel = canteenViewModel,
+                                    onOpenTray = { activeTab = CampusTab.TRAY }
                                 )
                                 CampusTab.LOST_FOUND -> LostFoundScreen(
                                     viewModel = lostFoundViewModel
                                 )
-                                CampusTab.TRAY -> TrayContent(
-                                    trayItems = tray,
-                                    onIncreaseQuantity = { item -> canteenViewModel.addToTray(item) },
-                                    onDecreaseQuantity = { item -> canteenViewModel.decreaseQuantity(item) },
-                                    onRemoveItem = { item -> canteenViewModel.removeFromTray(item) },
-                                    onClearTray = { canteenViewModel.clearTray() },
-                                    onBrowseMenu = { activeTab = CampusTab.CANTEEN }
-                                )
+                                CampusTab.TRAY -> {
+                                    val profile = (authState as? AuthUiState.Authenticated)?.profile
+                                    TrayContent(
+                                        trayItems = tray,
+                                        prefillName = profile?.fullName ?: userDisplayName.orEmpty(),
+                                        prefillDepartment = profile?.department.orEmpty(),
+                                        prefillPhone = profile?.phone.orEmpty(),
+                                        prefillRollNumber = profile?.rollNumber.orEmpty(),
+                                        onIncreaseQuantity = { item -> canteenViewModel.addToTray(item) },
+                                        onDecreaseQuantity = { item -> canteenViewModel.decreaseQuantity(item) },
+                                        onRemoveItem = { item -> canteenViewModel.removeFromTray(item) },
+                                        onClearTray = { canteenViewModel.clearTray() },
+                                        onBrowseMenu = { activeTab = CampusTab.CANTEEN }
+                                    )
+                                }
                             }
                         }
                     }

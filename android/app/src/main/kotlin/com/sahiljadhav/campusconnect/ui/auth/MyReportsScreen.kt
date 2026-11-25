@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sahiljadhav.campusconnect.data.model.LostFoundItem
 import com.sahiljadhav.campusconnect.ui.common.CampusImage
+import com.sahiljadhav.campusconnect.ui.theme.AvailableGreen
+import com.sahiljadhav.campusconnect.ui.theme.UnavailableRed
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -153,8 +155,7 @@ fun MyReportsScreen(
                                 Spacer(modifier = Modifier.height(6.dp))
 
                                 val isFound = item.status.equals("found", ignoreCase = true)
-                                val badgeColor = if (isFound) Color(0xFF16A34A) else Color(0xFFDC2626)
-                                val badgeBg = if (isFound) Color(0xFFDCFCE7) else Color(0xFFFEE2E2)
+                                val badgeBg = if (isFound) AvailableGreen else UnavailableRed
 
                                 Box(
                                     modifier = Modifier
@@ -164,7 +165,7 @@ fun MyReportsScreen(
                                 ) {
                                     Text(
                                         text = item.status.uppercase(),
-                                        color = badgeColor,
+                                        color = Color.White,
                                         fontWeight = FontWeight.Bold,
                                         fontSize = 11.sp
                                     )

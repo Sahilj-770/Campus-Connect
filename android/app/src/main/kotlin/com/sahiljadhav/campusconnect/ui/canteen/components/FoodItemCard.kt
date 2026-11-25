@@ -194,7 +194,7 @@ fun FoodItemCard(
                         Icon(
                             imageVector = if (isFavourite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                             contentDescription = "Favourite",
-                            tint = if (isFavourite) BrandOrange else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                            tint = if (isFavourite) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
                             modifier = Modifier.size(20.dp)
                         )
                     }
@@ -212,7 +212,7 @@ fun FoodItemCard(
                         text = item.priceFormatted,
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight.ExtraBold,
-                            color = BrandOrange,
+                            color = MaterialTheme.colorScheme.primary,
                             fontSize = 17.sp
                         )
                     )
@@ -245,7 +245,7 @@ fun FoodItemCard(
                                     Icon(
                                         imageVector = Icons.Rounded.Remove,
                                         contentDescription = "Decrease",
-                                        tint = BrandOrange,
+                                        tint = MaterialTheme.colorScheme.primary,
                                         modifier = Modifier.size(18.dp)
                                     )
                                 }
@@ -271,7 +271,7 @@ fun FoodItemCard(
                                     Icon(
                                         imageVector = Icons.Rounded.Add,
                                         contentDescription = "Increase",
-                                        tint = BrandOrange,
+                                        tint = MaterialTheme.colorScheme.primary,
                                         modifier = Modifier.size(18.dp)
                                     )
                                 }

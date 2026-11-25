@@ -19,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sahiljadhav.campusconnect.data.model.UserOrder
+import com.sahiljadhav.campusconnect.ui.theme.AvailableGreen
+import com.sahiljadhav.campusconnect.ui.theme.WarningYellow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -152,8 +154,7 @@ private fun OrderCard(order: UserOrder) {
                 }
 
                 val isPaid = order.status.equals("PAID", ignoreCase = true)
-                val badgeBg = if (isPaid) Color(0xFFDCFCE7) else Color(0xFFFEF3C7)
-                val badgeColor = if (isPaid) Color(0xFF15803D) else Color(0xFFB45309)
+                val badgeBg = if (isPaid) AvailableGreen else WarningYellow
 
                 Box(
                     modifier = Modifier
@@ -163,7 +164,7 @@ private fun OrderCard(order: UserOrder) {
                 ) {
                     Text(
                         text = order.status,
-                        color = badgeColor,
+                        color = Color.White,
                         fontWeight = FontWeight.Bold,
                         fontSize = 11.sp
                     )

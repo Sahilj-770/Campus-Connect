@@ -309,7 +309,7 @@ private fun DockSlot(
     )
 
     val contentColor by animateColorAsState(
-        targetValue = if (isSelected) BrandOrange else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.72f),
+        targetValue = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.72f),
         animationSpec = spring(stiffness = Spring.StiffnessMedium),
         label = "slotColor"
     )

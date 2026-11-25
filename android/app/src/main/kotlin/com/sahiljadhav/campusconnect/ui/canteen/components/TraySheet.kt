@@ -2,6 +2,7 @@ package com.sahiljadhav.campusconnect.ui.canteen.components
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -9,6 +10,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,6 +54,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.text.font.FontWeight
@@ -88,11 +91,18 @@ fun TrayContent(
     onRemoveItem: (MenuItem) -> Unit,
     onClearTray: () -> Unit,
     onBrowseMenu: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    prefillName: String = "",
+    prefillDepartment: String = "",
+    prefillPhone: String = "",
+    prefillRollNumber: String = ""
 ) {
     val haptic = LocalHapticFeedback.current
     var showCheckoutDialog by remember { mutableStateOf(false) }
     var orderSuccessDialog by remember { mutableStateOf(false) }
+    var slipCustomerSummary by remember { mutableStateOf("") }
+    var slipItems by remember { mutableStateOf<List<TrayItem>>(emptyList()) }
+    var slipTotalFormatted by remember { mutableStateOf("") }
 
     val subtotal = trayItems.sumOf { it.totalCost }
     val subtotalFormatted = if (subtotal % 1.0 == 0.0) "₹${subtotal.toInt()}" else "₹${String.format("%.2f", subtotal)}"
@@ -213,7 +223,7 @@ fun TrayContent(
                                 text = trayItem.totalCostFormatted,
                                 style = MaterialTheme.typography.labelLarge.copy(
                                     fontWeight = FontWeight.ExtraBold,
-                                    color = BrandOrange
+                                    color = MaterialTheme.colorScheme.primary
                                 )
                             )
                         }
@@ -329,7 +339,7 @@ fun TrayContent(
                     ) { total ->
                         Text(
                             total,
-                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.ExtraBold, color = BrandOrange)
+                            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.primary)
                         )
                     }
                 }
@@ -351,10 +361,10 @@ fun TrayContent(
 
     // Checkout Details Dialog
     if (showCheckoutDialog) {
-        var customerName by remember { mutableStateOf("") }
-        var department by remember { mutableStateOf("") }
-        var phone by remember { mutableStateOf("") }
-        var rollNumber by remember { mutableStateOf("") }
+        var customerName by remember(prefillName) { mutableStateOf(prefillName) }
+        var department by remember(prefillDepartment) { mutableStateOf(prefillDepartment) }
+        var phone by remember(prefillPhone) { mutableStateOf(prefillPhone.take(10)) }
+        var rollNumber by remember(prefillRollNumber) { mutableStateOf(prefillRollNumber) }
         var errorMessage by remember { mutableStateOf<String?>(null) }
 
         AlertDialog(
@@ -437,6 +447,10 @@ fun TrayContent(
                         if (customerName.isBlank() || department.isBlank() || phone.length < 10) {
                             errorMessage = "Please enter your name, department, and a valid 10-digit phone number."
                         } else {
+                            val rollSuffix = if (rollNumber.isNotBlank()) " • Roll $rollNumber" else ""
+                            slipCustomerSummary = "${customerName.trim()} (${department.trim()}$rollSuffix)"
+                            slipItems = trayItems.toList()
+                            slipTotalFormatted = subtotalFormatted
                             showCheckoutDialog = false
                             orderSuccessDialog = true
                         }
@@ -455,8 +469,17 @@ fun TrayContent(
         )
     }
 
-    // Order Success Dialog
+    // Peak-End Digital Counter Pass Dialog
     if (orderSuccessDialog) {
+        val badgeScale by animateFloatAsState(
+            targetValue = 1f,
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessLow
+            ),
+            label = "passCheckScale"
+        )
+
         AlertDialog(
             onDismissRequest = {
                 orderSuccessDialog = false
@@ -465,35 +488,109 @@ fun TrayContent(
             shape = CampusShapes.dialog,
             containerColor = MaterialTheme.colorScheme.surface,
             icon = {
-                Icon(
-                    imageVector = Icons.Rounded.CheckCircle,
-                    contentDescription = null,
-                    tint = AvailableGreen,
-                    modifier = Modifier.size(48.dp)
-                )
+                Box(
+                    modifier = Modifier
+                        .size(64.dp)
+                        .graphicsLayer {
+                            scaleX = badgeScale
+                            scaleY = badgeScale
+                        }
+                        .clip(CircleShape)
+                        .background(AvailableGreen.copy(alpha = 0.14f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.CheckCircle,
+                        contentDescription = null,
+                        tint = AvailableGreen,
+                        modifier = Modifier.size(44.dp)
+                    )
+                }
             },
             title = {
                 Text(
-                    text = "Counter Slip Ready",
+                    text = "Counter Pickup Pass Ready",
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface
                 )
             },
             text = {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
                     Text(
-                        text = "Show your tray summary at the canteen counter to pay and collect your order.",
-                        style = MaterialTheme.typography.bodyMedium,
+                        text = "Show this slip at the canteen counter to pay and collect your order.",
+                        style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Text(
-                        text = "Payable at Counter: $subtotalFormatted",
-                        style = MaterialTheme.typography.titleMedium.copy(
-                            fontWeight = FontWeight.ExtraBold,
-                            color = BrandOrange
+
+                    if (slipCustomerSummary.isNotBlank()) {
+                        Text(
+                            text = slipCustomerSummary,
+                            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
+                            color = MaterialTheme.colorScheme.onSurface
                         )
-                    )
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(12.dp))
+                            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f))
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f),
+                                shape = RoundedCornerShape(12.dp)
+                            )
+                            .padding(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        slipItems.forEach { entry ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    text = "${entry.quantity}x ${entry.item.itemName}",
+                                    style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Medium),
+                                    color = MaterialTheme.colorScheme.onSurface,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                    modifier = Modifier.weight(1f).padding(end = 8.dp)
+                                )
+                                Text(
+                                    text = entry.totalCostFormatted,
+                                    style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.Bold),
+                                    color = MaterialTheme.colorScheme.onSurface
+                                )
+                            }
+                        }
+
+                        HorizontalDivider(
+                            modifier = Modifier.padding(vertical = 4.dp),
+                            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+                        )
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "Payable at Counter",
+                                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.SemiBold),
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                            Text(
+                                text = slipTotalFormatted.ifBlank { subtotalFormatted },
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontWeight = FontWeight.ExtraBold,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            )
+                        }
+                    }
                 }
             },
             confirmButton = {

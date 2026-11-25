@@ -75,22 +75,23 @@ object CampusMotion {
 }
 
 object CampusColors {
+    val VarsityNavyAnchor = VarsityNavy
     val BrandOrangePrimary = BrandOrange
-    val BrandOrangeDark = Color(0xFFC95D1E)
-    val BrandOrangeLight = Color(0xFFF99859)
-    val BrandAmberAccent = Color(0xFFF59E0B)
-    val BrandCreamText = Color(0xFFFFF4E8)
+    val BrandOrangeDark = com.sahiljadhav.campusconnect.ui.theme.BrandOrangeDark
+    val BrandOrangeLight = com.sahiljadhav.campusconnect.ui.theme.BrandOrangeLight
+    val BrandAmberAccent = BrandAmber
+    val BrandCreamText = BrandCream
 
     // Dark Surface Layers
-    val SurfaceDarkBase = Color(0xFF14100D)
-    val SurfaceDarkElevated = Color(0xFF1C1713)
-    val SurfaceDarkCard = Color(0xFF241E19)
+    val SurfaceDarkBase = BackgroundDark
+    val SurfaceDarkElevated = SurfaceDark
+    val SurfaceDarkCard = SurfaceVariantDark
     val SurfaceDarkBorder = Color(0x28FFFFFF)
-    val SurfaceDarkBorderFocused = Color(0x50E8752D)
+    val SurfaceDarkBorderFocused = Color(0x60FB923C)
 
     // Status Colors
-    val StatusAvailable = Color(0xFF16A34A)
-    val StatusUnavailable = Color(0xFFDC2626)
-    val StatusLost = Color(0xFFE8752D)
-    val StatusFound = Color(0xFF10B981)
+    val StatusAvailable = AvailableGreen
+    val StatusUnavailable = UnavailableRed
+    val StatusLost = BrandOrange
+    val StatusFound = AvailableGreen
 }

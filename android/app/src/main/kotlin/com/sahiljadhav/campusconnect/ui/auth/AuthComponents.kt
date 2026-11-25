@@ -154,7 +154,7 @@ fun AuthTextField(
         },
         shape = CampusShapes.button,
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = BrandOrange,
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
             unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
             focusedContainerColor = MaterialTheme.colorScheme.surface,
             unfocusedContainerColor = MaterialTheme.colorScheme.surface
@@ -217,7 +217,7 @@ fun AuthPasswordField(
         visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
         shape = CampusShapes.button,
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = BrandOrange,
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
             unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f),
             focusedContainerColor = MaterialTheme.colorScheme.surface,
             unfocusedContainerColor = MaterialTheme.colorScheme.surface
@@ -377,7 +377,7 @@ fun AuthSwitchPrompt(
                 text = actionText,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.Bold,
-                    color = BrandOrange
+                    color = MaterialTheme.colorScheme.primary
                 )
             )
         }

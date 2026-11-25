@@ -20,6 +20,7 @@ data class CanteenUiState(
     val selectedCanteenId: String = "all",
     val selectedCategory: String = "All",
     val searchQuery: String = "",
+    val availableOnly: Boolean = false,
     val availableCategories: List<String> = listOf("All"),
     val menuState: NetworkResult<List<MenuItem>> = NetworkResult.Loading,
     val selectedItemForDetail: MenuItem? = null
@@ -57,7 +58,9 @@ class CanteenViewModel(
                     item.category.contains(state.searchQuery, ignoreCase = true) ||
                     (!item.description.isNullOrBlank() && item.description.contains(state.searchQuery, ignoreCase = true))
 
-            matchesCanteen && matchesCategory && matchesSearch
+            val matchesAvailability = !state.availableOnly || item.isItemAvailable
+
+            matchesCanteen && matchesCategory && matchesSearch && matchesAvailability
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
@@ -108,6 +111,10 @@ class CanteenViewModel(
 
     fun setSearchQuery(query: String) {
         _uiState.value = _uiState.value.copy(searchQuery = query)
+    }
+
+    fun toggleAvailableOnly() {
+        _uiState.value = _uiState.value.copy(availableOnly = !_uiState.value.availableOnly)
     }
 
     fun setSelectedItemForDetail(item: MenuItem?) {

@@ -103,9 +103,8 @@ fun CampusGlassButton(
     val backgroundBrush = when (variant) {
         GlassButtonVariant.BRAND_ORANGE -> Brush.linearGradient(
             colors = listOf(
-                BrandAmber.copy(alpha = if (isPressed) 0.95f else 0.88f),
-                BrandOrange.copy(alpha = if (isPressed) 0.98f else 0.92f),
-                BrandOrangeDark.copy(alpha = 0.95f)
+                BrandOrange.copy(alpha = if (isPressed) 1.0f else 0.96f),
+                BrandOrangeDark.copy(alpha = 0.98f)
             )
         )
         GlassButtonVariant.TRANSLUCENT_SURFACE -> Brush.linearGradient(

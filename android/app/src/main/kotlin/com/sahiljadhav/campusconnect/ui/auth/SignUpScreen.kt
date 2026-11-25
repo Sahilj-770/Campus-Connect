@@ -94,7 +94,7 @@ fun SignUpScreen(
             ) {
                 // Branding Header
                 AuthHeader(
-                    title = "Join CampusConnect 🚀",
+                    title = "Join CampusConnect",
                     subtitle = "Create your student account to order food, report lost items, and access campus services."
                 )
 

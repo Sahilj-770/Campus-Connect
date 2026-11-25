@@ -102,7 +102,7 @@ fun CampusSearchBar(
         singleLine = true,
         shape = CampusShapes.button,
         colors = OutlinedTextFieldDefaults.colors(
-            focusedBorderColor = BrandOrange,
+            focusedBorderColor = MaterialTheme.colorScheme.primary,
             unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f),
             focusedContainerColor = MaterialTheme.colorScheme.surface,
             unfocusedContainerColor = MaterialTheme.colorScheme.surface
@@ -254,7 +254,7 @@ fun CampusSectionHeader(
                 Text(
                     text = actionText,
                     style = MaterialTheme.typography.labelMedium.copy(
-                        color = BrandOrange,
+                        color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Bold
                     )
                 )
@@ -262,7 +262,7 @@ fun CampusSectionHeader(
                 Icon(
                     imageVector = Icons.AutoMirrored.Rounded.ArrowForward,
                     contentDescription = null,
-                    tint = BrandOrange,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(14.dp)
                 )
             }
@@ -281,8 +281,29 @@ fun CampusCard(
     onClick: (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (onClick != null && isPressed) 0.975f else 1.0f,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessMedium
+        ),
+        label = "cardScale"
+    )
+
     val cardModifier = if (onClick != null) {
-        modifier.clip(shape).clickable(onClick = onClick)
+        modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .clip(shape)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = androidx.compose.foundation.LocalIndication.current,
+                onClick = onClick
+            )
     } else {
         modifier.clip(shape)
     }

@@ -217,7 +217,7 @@ fun LoadingView(
             verticalArrangement = Arrangement.Center
         ) {
             CircularProgressIndicator(
-                color = BrandOrange,
+                color = MaterialTheme.colorScheme.primary,
                 strokeWidth = 3.dp,
                 modifier = Modifier.size(40.dp)
             )
@@ -259,7 +259,7 @@ fun ErrorView(
                 Icon(
                     imageVector = Icons.Rounded.CloudOff,
                     contentDescription = "Connection issue",
-                    tint = BrandOrange,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(36.dp)
                 )
             }

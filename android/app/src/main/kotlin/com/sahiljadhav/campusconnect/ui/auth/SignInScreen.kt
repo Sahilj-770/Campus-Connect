@@ -104,7 +104,7 @@ fun SignInScreen(
             ) {
                 // Branding Header
                 AuthHeader(
-                    title = "Welcome back 👋",
+                    title = "Welcome back",
                     subtitle = "Sign in to access your orders, lost & found reports, and student services."
                 )
 
@@ -159,7 +159,7 @@ fun SignInScreen(
                             text = "Forgot password?",
                             style = MaterialTheme.typography.labelMedium.copy(
                                 fontWeight = FontWeight.SemiBold,
-                                color = BrandOrange
+                                color = MaterialTheme.colorScheme.primary
                             )
                         )
                     }
@@ -235,7 +235,7 @@ fun SignInScreen(
                     if (resetSuccessMessage != null) {
                         Text(
                             text = resetSuccessMessage ?: "",
-                            color = BrandOrange,
+                            color = MaterialTheme.colorScheme.primary,
                             style = MaterialTheme.typography.bodySmall.copy(fontWeight = FontWeight.SemiBold)
                         )
                     }
