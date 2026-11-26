@@ -127,8 +127,8 @@ fun SignUpScreen(
                         email = it
                         errorMessage = null
                     },
-                    label = "College Email",
-                    placeholder = "student@dypcoe.edu.in",
+                    label = "Email",
+                    placeholder = "you@example.com",
                     leadingIcon = Icons.Rounded.Email,
                     keyboardType = KeyboardType.Email
                 )

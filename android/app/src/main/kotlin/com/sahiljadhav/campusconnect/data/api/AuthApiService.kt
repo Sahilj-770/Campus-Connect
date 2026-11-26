@@ -1,9 +1,20 @@
 package com.sahiljadhav.campusconnect.data.api
 
 import com.sahiljadhav.campusconnect.data.model.*
+import retrofit2.Response
 import retrofit2.http.*
 
 interface AuthApiService {
+
+    @POST("api/auth/login")
+    suspend fun login(
+        @Body body: LoginRequest
+    ): Response<AuthResponse>
+
+    @POST("api/auth/register")
+    suspend fun register(
+        @Body body: RegisterRequest
+    ): Response<AuthResponse>
 
     @GET("api/auth/profile")
     suspend fun getProfile(): ProfileResponse

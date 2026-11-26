@@ -21,9 +21,7 @@
   <link rel="icon" type="image/png" href="../logo.png">
   <!-- Lucide icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Firebase Auth Web SDK & CampusAuth -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <!-- CampusConnect Auth -->
   <script src="auth/firebase-config.js"></script>
   <script src="auth/auth-service.js"></script>
 </head>
@@ -338,7 +336,7 @@
   <script src="vendor/ScrollTrigger.min.js"></script>
   <script src="gsap-motion.js"></script>
   <script src="script.js"></script>
-  <script>lucide.createIcons();</script>
+  <script>if (typeof lucide !== 'undefined') lucide.createIcons();</script>
 
   <!-- CAMPUSCONNECT ACCOUNT & PROFILE CONTROLLER -->
   <script>
@@ -368,7 +366,7 @@
 
       function renderGuestView() {
         greetingEl.textContent = "Welcome, Student 👋";
-        navAuthContainer.innerHTML = '<a href="signin.html" class="nav-signin">Community</a>';
+        navAuthContainer.innerHTML = '<a href="signin.html" class="nav-signin">Sign In</a>';
         accountContainer.innerHTML = `
           <div class="account-overview-card" style="border-left: 4px solid var(--primary);">
             <div class="account-top">
@@ -376,11 +374,11 @@
                 <div class="account-avatar" style="background: #94a3b8;">?</div>
                 <div class="account-names">
                   <h2>Guest Explorer</h2>
-                  <p>Browsing public notices, canteen menus &amp; lost items.</p>
+                  <p>Sign in with your CampusConnect account to sync orders, profile &amp; reports across Web and Android.</p>
                 </div>
               </div>
               <div>
-                <a href="../lost_and_found/browse.html" class="signin-btn" style="display: inline-block; padding: 11px 22px; width: auto; font-size: 14px;">Explore Lost &amp; Found →</a>
+                <a href="signin.html" class="signin-btn" style="display: inline-block; padding: 11px 22px; width: auto; font-size: 14px;">Sign In / Create Account →</a>
               </div>
             </div>
           </div>

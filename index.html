@@ -39,7 +39,7 @@
       <a href="Main/dashboard.html">Dashboard</a>
       <a href="Main/contact.html">Contact</a>
       <button type="button" class="cc-theme-toggle" aria-label="Toggle theme"></button>
-      <a href="Main/signin.html" class="nav-signin">Community</a>
+      <a href="Main/signin.html" class="nav-signin">Sign In</a>
     </nav>
   </header>
 
@@ -323,9 +323,11 @@
   <script src="Main/vendor/gsap.min.js"></script>
   <script src="Main/vendor/ScrollTrigger.min.js"></script>
   <script src="Main/gsap-motion.js"></script>
+  <script src="Main/auth/firebase-config.js"></script>
+  <script src="Main/auth/auth-service.js"></script>
   <script src="Main/script.js"></script>
   <script>
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined') lucide.createIcons();
   </script>
 
 </body>

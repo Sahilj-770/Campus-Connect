@@ -87,4 +87,21 @@ class AuthModelsTest {
         assertEquals("PAID", order.status)
         assertEquals("Cafeteria", order.canteen)
     }
+
+    @Test
+    fun testSharedAuthRequestsAndResponse() {
+        val login = LoginRequest(email = "student@example.com", password = "secret123")
+        val register = RegisterRequest(fullName = "Sahil Jadhav", email = "student@example.com", password = "secret123")
+        val response = AuthResponse(
+            success = true,
+            token = "jwt.token.sig",
+            user = UserProfile(firebaseUid = "cc_123", email = "student@example.com", fullName = "Sahil Jadhav")
+        )
+
+        assertEquals("student@example.com", login.email)
+        assertEquals("Sahil Jadhav", register.fullName)
+        assertTrue(response.success)
+        assertEquals("jwt.token.sig", response.token)
+        assertEquals("cc_123", response.user?.firebaseUid)
+    }
 }

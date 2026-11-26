@@ -1,8 +1,64 @@
+process.env.NODE_ENV = "test";
 const assert = require("assert");
-const { verifyFirebaseToken, optionalAuth } = require("../middleware/auth");
+const {
+    verifyFirebaseToken,
+    optionalAuth,
+    signAuthToken,
+    verifyAuthToken,
+    hashPassword,
+    verifyPassword
+} = require("../middleware/auth");
 
 async function runTests() {
     console.log("--- STARTING BACKEND AUTH & OWNERSHIP TESTS ---");
+
+    // 0. Password hashing & JWT roundtrip
+    {
+        const hash = await hashPassword("campusPass123");
+        assert.ok(hash.startsWith("scrypt$"), "Password hash must use scrypt");
+        assert.strictEqual(await verifyPassword("campusPass123", hash), true, "Correct password must verify");
+        assert.strictEqual(await verifyPassword("wrongPass", hash), false, "Wrong password must fail");
+        assert.strictEqual(await verifyPassword("campusPass123", "invalid"), false, "Malformed hash must fail");
+
+        const token = signAuthToken({ uid: "cc_u1", email: "user@example.com", name: "Sahil" });
+        const verified = verifyAuthToken(token);
+        assert.ok(verified, "Valid JWT must verify");
+        assert.strictEqual(verified.uid, "cc_u1");
+        assert.strictEqual(verified.email, "user@example.com");
+        assert.strictEqual(verified.name, "Sahil");
+
+        const tampered = token.slice(0, -2) + (token.endsWith("ab") ? "cd" : "ab");
+        assert.strictEqual(verifyAuthToken(tampered), null, "Tampered JWT must fail");
+
+        const expired = signAuthToken({ uid: "cc_u1", email: "user@example.com" }, -10);
+        assert.strictEqual(verifyAuthToken(expired), null, "Expired JWT must fail");
+        console.log("✓ Test 0 Passed: Password hashing and JWT sign/verify work");
+    }
+
+    // 0b. verifyFirebaseToken accepts real signed JWT even outside test mode
+    {
+        const prevEnv = process.env.NODE_ENV;
+        process.env.NODE_ENV = "production";
+        const token = signAuthToken({ uid: "cc_prod1", email: "shared@example.com", name: "Shared User" });
+        const req = { headers: { authorization: `Bearer ${token}` } };
+        const res = { status: () => ({ json: () => {} }) };
+        let nextCalled = false;
+        await verifyFirebaseToken(req, res, () => { nextCalled = true; });
+        assert.strictEqual(nextCalled, true);
+        assert.strictEqual(req.user.uid, "cc_prod1");
+        assert.strictEqual(req.user.email, "shared@example.com");
+
+        // Rejects test_ tokens in production mode
+        let prodRejectCode = null;
+        const badReq = { headers: { authorization: "Bearer test_student456_a@b.com" } };
+        const badRes = { status: (c) => ({ json: (d) => { prodRejectCode = c; } }) };
+        let badNext = false;
+        await verifyFirebaseToken(badReq, badRes, () => { badNext = true; });
+        assert.strictEqual(badNext, false);
+        assert.strictEqual(prodRejectCode, 401);
+        process.env.NODE_ENV = prevEnv;
+        console.log("✓ Test 0b Passed: Production mode accepts signed JWT and rejects mock tokens");
+    }
 
     // 1. verifyFirebaseToken missing header
     {

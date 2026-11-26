@@ -80,6 +80,25 @@ data class SimpleResponse(
     val error: String? = null
 )
 
+data class LoginRequest(
+    val email: String,
+    val password: String
+)
+
+data class RegisterRequest(
+    @SerializedName("full_name") val fullName: String,
+    val email: String,
+    val password: String
+)
+
+data class AuthResponse(
+    val success: Boolean = false,
+    val token: String? = null,
+    val user: UserProfile? = null,
+    val message: String? = null,
+    val error: String? = null
+)
+
 data class SyncResponse(
     val success: Boolean = false,
     val synced: Int = 0

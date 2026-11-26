@@ -123,8 +123,8 @@ fun SignInScreen(
                         email = it
                         errorMessage = null
                     },
-                    label = "College Email",
-                    placeholder = "student@dypcoe.edu.in",
+                    label = "Email",
+                    placeholder = "you@example.com",
                     leadingIcon = Icons.Rounded.Email,
                     keyboardType = KeyboardType.Email
                 )
@@ -175,7 +175,7 @@ fun SignInScreen(
                     enabled = !isLoading,
                     onClick = {
                         if (email.isBlank() || password.isBlank()) {
-                            errorMessage = "Please enter both college email and password."
+                            errorMessage = "Please enter both email and password."
                             return@AuthPrimaryButton
                         }
                         viewModel.signIn(
@@ -218,7 +218,7 @@ fun SignInScreen(
             text = {
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     Text(
-                        text = "Enter your registered college email to receive a password reset link.",
+                        text = "Enter your registered email to check password reset options.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -226,7 +226,7 @@ fun SignInScreen(
                     OutlinedTextField(
                         value = resetEmail,
                         onValueChange = { resetEmail = it },
-                        label = { Text("College Email") },
+                        label = { Text("Email") },
                         singleLine = true,
                         shape = CampusShapes.button,
                         modifier = Modifier.fillMaxWidth()

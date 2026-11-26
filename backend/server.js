@@ -4,8 +4,7 @@ const path = require("path");
 const fs = require("fs");
 
 require("dotenv").config({ path: path.join(__dirname, ".env") });
-require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
-require("dotenv").config();
+// shortcut: root .env removed — backend/.env is the canonical config file
 
 const express = require("express");
 const mysql = require("mysql2");
@@ -13,7 +12,13 @@ const cors = require("cors");
 const Razorpay = require("razorpay");
 const crypto = require("crypto");
 const lostfoundRouter = require("./routes/lostfound");
-const { verifyFirebaseToken, optionalAuth } = require("./middleware/auth");
+const {
+    verifyFirebaseToken,
+    optionalAuth,
+    signAuthToken,
+    hashPassword,
+    verifyPassword
+} = require("./middleware/auth");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,7 +28,32 @@ const DB = "campus_canteen";
 // 1. MIDDLEWARE
 // ======================================================
 
-app.use(cors());
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
+    .split(",")
+    .map((o) => o.trim())
+    .filter(Boolean);
+
+// Always permit localhost in dev and known production domains
+const defaultOrigins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:5500",
+    "https://campus-connect-student.vercel.app",
+    "https://campus-connect-nu-lyart.vercel.app"
+];
+
+const corsOrigins = allowedOrigins.length ? allowedOrigins : defaultOrigins;
+
+app.use(cors({
+    origin: function (origin, callback) {
+        // Allow requests with no Origin header (server-to-server, curl, Postman)
+        if (!origin) return callback(null, true);
+        if (corsOrigins.some((o) => origin === o || origin.endsWith(".vercel.app"))) {
+            return callback(null, true);
+        }
+        callback(new Error("CORS: origin not allowed"));
+    },
+    credentials: true
+}));
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
@@ -280,6 +310,7 @@ function ensureAuthTables() {
                     id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
                     firebase_uid VARCHAR(128) NOT NULL,
                     email VARCHAR(150) NOT NULL,
+                    password_hash VARCHAR(255) DEFAULT NULL,
                     full_name VARCHAR(100) DEFAULT NULL,
                     phone VARCHAR(20) DEFAULT NULL,
                     department VARCHAR(100) DEFAULT NULL,
@@ -295,6 +326,7 @@ function ensureAuthTables() {
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
 
                 await ensureOrderTables();
+                await ensureColumnExists("users", "password_hash", "VARCHAR(255) DEFAULT NULL");
                 await ensureColumnExists("orders", "user_uid", "VARCHAR(128) DEFAULT NULL");
                 await ensureColumnExists("food_favourites", "user_uid", "VARCHAR(128) DEFAULT NULL");
             } catch (err) {
@@ -650,6 +682,157 @@ app.get("/api/orders/my-orders", verifyFirebaseToken, async (req, res) => {
         res.json({ success: true, orders: enrichedOrders });
     } catch (err) {
         handleRouteError("Fetch my orders failed:", res, err);
+    }
+});
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const USER_PUBLIC_COLUMNS =
+    "id, firebase_uid, email, full_name, phone, department, roll_number, year, division, avatar_url, created_at, updated_at";
+
+// POST /api/auth/register
+app.post("/api/auth/register", async (req, res) => {
+    try {
+        await ensureAuthTables();
+        const body = req.body || {};
+        const email = String(body.email || "").trim().toLowerCase();
+        const password = String(body.password || "");
+        const fullName = String(body.full_name || body.name || "").trim();
+
+        if (!fullName || fullName.length > 100) {
+            return res.status(400).json({ success: false, error: "Please enter your full name." });
+        }
+        if (!EMAIL_REGEX.test(email) || email.length > 150) {
+            return res.status(400).json({ success: false, error: "Please enter a valid email address." });
+        }
+        if (password.length < 6 || password.length > 128) {
+            return res.status(400).json({ success: false, error: "Password must be 6 to 128 characters." });
+        }
+
+        const [existing] = await query(
+            `SELECT id, firebase_uid, password_hash FROM users WHERE LOWER(email) = ? LIMIT 1`,
+            [email]
+        );
+
+        const passwordHash = await hashPassword(password);
+        let uid;
+
+        if (existing.length > 0) {
+            if (existing[0].password_hash) {
+                return res.status(409).json({
+                    success: false,
+                    error: "An account with this email already exists. Please sign in."
+                });
+            }
+            uid = existing[0].firebase_uid;
+            await query(
+                `UPDATE users SET password_hash = ?, full_name = COALESCE(NULLIF(full_name, ''), ?) WHERE id = ?`,
+                [passwordHash, fullName, existing[0].id]
+            );
+        } else {
+            uid = `cc_${crypto.randomUUID().replace(/-/g, "")}`;
+            await query(
+                `INSERT INTO users (firebase_uid, email, password_hash, full_name) VALUES (?, ?, ?, ?)`,
+                [uid, email, passwordHash, fullName]
+            );
+        }
+
+        const [rows] = await query(
+            `SELECT ${USER_PUBLIC_COLUMNS} FROM users WHERE firebase_uid = ? LIMIT 1`,
+            [uid]
+        );
+        const user = rows[0];
+        const token = signAuthToken({
+            uid: user.firebase_uid,
+            email: user.email,
+            name: user.full_name || fullName
+        });
+        const completionPercentage = calculateProfileCompletion(user);
+
+        return res.status(201).json({
+            success: true,
+            token,
+            user,
+            completion_percentage: completionPercentage,
+            is_complete: completionPercentage === 100
+        });
+    } catch (err) {
+        handleRouteError("Register failed:", res, err);
+    }
+});
+
+// POST /api/auth/login
+app.post("/api/auth/login", async (req, res) => {
+    try {
+        await ensureAuthTables();
+        const body = req.body || {};
+        const email = String(body.email || "").trim().toLowerCase();
+        const password = String(body.password || "");
+
+        if (!EMAIL_REGEX.test(email) || !password) {
+            return res.status(400).json({ success: false, error: "Please enter both email and password." });
+        }
+
+        const [rows] = await query(
+            `SELECT ${USER_PUBLIC_COLUMNS}, password_hash FROM users WHERE LOWER(email) = ? LIMIT 1`,
+            [email]
+        );
+        const record = rows[0];
+
+        if (!record || !record.password_hash || !(await verifyPassword(password, record.password_hash))) {
+            return res.status(401).json({ success: false, error: "Invalid email or password." });
+        }
+
+        const { password_hash: _ignored, ...user } = record;
+        const token = signAuthToken({
+            uid: user.firebase_uid,
+            email: user.email,
+            name: user.full_name || ""
+        });
+        const completionPercentage = calculateProfileCompletion(user);
+
+        return res.json({
+            success: true,
+            token,
+            user,
+            completion_percentage: completionPercentage,
+            is_complete: completionPercentage === 100
+        });
+    } catch (err) {
+        handleRouteError("Login failed:", res, err);
+    }
+});
+
+// POST /api/auth/change-password
+app.post("/api/auth/change-password", verifyFirebaseToken, async (req, res) => {
+    try {
+        await ensureAuthTables();
+        const body = req.body || {};
+        const currentPassword = String(body.current_password || "");
+        const newPassword = String(body.new_password || "");
+
+        if (newPassword.length < 6 || newPassword.length > 128) {
+            return res.status(400).json({ success: false, error: "New password must be 6 to 128 characters." });
+        }
+
+        const [rows] = await query(
+            `SELECT id, password_hash FROM users WHERE firebase_uid = ? LIMIT 1`,
+            [req.user.uid]
+        );
+        const record = rows[0];
+        if (!record) {
+            return res.status(404).json({ success: false, error: "Account not found." });
+        }
+
+        if (record.password_hash && !(await verifyPassword(currentPassword, record.password_hash))) {
+            return res.status(401).json({ success: false, error: "Current password is incorrect." });
+        }
+
+        const newHash = await hashPassword(newPassword);
+        await query(`UPDATE users SET password_hash = ? WHERE id = ?`, [newHash, record.id]);
+
+        return res.json({ success: true, message: "Password updated successfully." });
+    } catch (err) {
+        handleRouteError("Change password failed:", res, err);
     }
 });
 

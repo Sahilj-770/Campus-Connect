@@ -1,8 +1,11 @@
 /**
  * CampusConnect Shared Authentication Service
- * Open Student Project Mode — Passwordless & Privacy-Preserving
+ * Uses shared backend JWT + MySQL accounts across Web and Android.
  */
 (function() {
+    const TOKEN_KEY = "campusConnect_token";
+    const USER_KEY = "campusConnect_user";
+
     let authStateListeners = [];
     let currentUser = null;
 
@@ -17,10 +20,88 @@
     }
 
     function getLostFoundApiBase() {
-        return window.CAMPUS_CONNECT_LF_API_BASE || "https://campus-connect-s85n.onrender.com";
+        return window.CAMPUS_CONNECT_LF_API_BASE || "https://campus-connect-s85n.onrender.com/api/lost-found";
+    }
+
+    function normalizeUser(rawUser) {
+        if (!rawUser) return null;
+        const uid = rawUser.firebase_uid || rawUser.uid || "";
+        const email = rawUser.email || "";
+        const displayName = rawUser.full_name || rawUser.displayName || rawUser.name || (email ? email.split("@")[0] : "Student");
+        if (!uid) return null;
+        return {
+            uid: uid,
+            email: email,
+            displayName: displayName,
+            full_name: rawUser.full_name || displayName,
+            phone: rawUser.phone || null,
+            department: rawUser.department || null,
+            roll_number: rawUser.roll_number || null,
+            year: rawUser.year || null,
+            division: rawUser.division || null
+        };
+    }
+
+    function saveSession(token, user) {
+        currentUser = normalizeUser(user);
+        try {
+            if (token && currentUser) {
+                localStorage.setItem(TOKEN_KEY, token);
+                localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+                localStorage.setItem("studentName", currentUser.displayName);
+            } else {
+                localStorage.removeItem(TOKEN_KEY);
+                localStorage.removeItem(USER_KEY);
+            }
+        } catch (e) {}
+    }
+
+    function clearSession() {
+        currentUser = null;
+        try {
+            localStorage.removeItem(TOKEN_KEY);
+            localStorage.removeItem(USER_KEY);
+            localStorage.removeItem("campusConnect_uid");
+            localStorage.removeItem("campusConnect_email");
+            localStorage.removeItem("campus_user_token");
+            localStorage.removeItem("firebase_token");
+        } catch (e) {}
+    }
+
+    function loadStoredSession() {
+        try {
+            const token = localStorage.getItem(TOKEN_KEY);
+            const raw = localStorage.getItem(USER_KEY);
+            if (!token || !raw) return null;
+            const parsed = normalizeUser(JSON.parse(raw));
+            return parsed ? { token: token, user: parsed } : null;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    function updateNavAuthLinks(user) {
+        if (typeof document === "undefined") return;
+        document.querySelectorAll("a.nav-signin").forEach(function(link) {
+            if (link.closest("#nav-auth-container")) return;
+            if (!link.dataset.signinHref) {
+                link.dataset.signinHref = link.getAttribute("href") || "Main/signin.html";
+            }
+            if (user) {
+                const firstName = (user.displayName || "Account").trim().split(/\s+/)[0];
+                link.textContent = firstName;
+                link.setAttribute("href", link.dataset.signinHref.replace(/signin\.html.*$/, "dashboard.html"));
+                link.title = "Signed in as " + (user.email || firstName);
+            } else {
+                link.textContent = "Sign In";
+                link.setAttribute("href", link.dataset.signinHref);
+                link.removeAttribute("title");
+            }
+        });
     }
 
     function notifyListeners(user) {
+        updateNavAuthLinks(user);
         authStateListeners.forEach(function(listener) {
             try {
                 listener(user);
@@ -32,23 +113,33 @@
 
     const CampusAuth = {
         init: function() {
-            // Check if real Firebase instance was already initialized externally
-            if (typeof window.firebase !== "undefined" && window.firebase.apps && window.firebase.apps.length > 0) {
-                try {
-                    const auth = window.firebase.auth();
-                    auth.onAuthStateChanged(function(user) {
-                        currentUser = user;
-                        notifyListeners(user);
-                    });
-                    return;
-                } catch (err) {
-                    console.warn("[CampusAuth] External auth check notice:", err.message);
-                }
+            const stored = loadStoredSession();
+            if (stored) {
+                currentUser = stored.user;
+                notifyListeners(currentUser);
+                // Re-verify token silently with backend
+                fetch(`${getApiBase()}/api/auth/profile`, {
+                    headers: { "Authorization": `Bearer ${stored.token}` }
+                }).then(function(res) {
+                    if (res.status === 401) {
+                        clearSession();
+                        notifyListeners(null);
+                        return null;
+                    }
+                    return res.ok ? res.json() : null;
+                }).then(function(data) {
+                    if (data && data.user) {
+                        saveSession(stored.token, data.user);
+                        notifyListeners(currentUser);
+                    }
+                }).catch(function() {});
+                return;
             }
+
             currentUser = null;
             setTimeout(function() {
                 notifyListeners(null);
-            }, 50);
+            }, 0);
         },
 
         getCurrentUser: function() {
@@ -56,7 +147,7 @@
         },
 
         isLoggedIn: function() {
-            return Boolean(currentUser);
+            return Boolean(currentUser && localStorage.getItem(TOKEN_KEY));
         },
 
         onAuthStateChanged: function(callback) {
@@ -68,46 +159,96 @@
         },
 
         getIdToken: async function() {
-            if (!currentUser) return null;
-            if (typeof currentUser.getIdToken === "function") {
-                return await currentUser.getIdToken();
+            try {
+                return localStorage.getItem(TOKEN_KEY) || null;
+            } catch (e) {
+                return null;
             }
-            return null;
         },
 
-        signIn: async function() {
-            // Passwords are never collected or accepted
-            return {
-                success: false,
-                error: "Sign-in is currently disabled in open campus student mode. All features are accessible as guest."
-            };
+        signIn: async function(email, password) {
+            try {
+                const res = await fetch(`${getApiBase()}/api/auth/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        email: String(email || "").trim(),
+                        password: String(password || "")
+                    })
+                });
+                const data = await res.json().catch(function() { return {}; });
+                if (!res.ok || !data.success || !data.token || !data.user) {
+                    return {
+                        success: false,
+                        error: data.error || "Invalid email or password."
+                    };
+                }
+                saveSession(data.token, data.user);
+                notifyListeners(currentUser);
+                this.syncGuestFavourites().catch(function() {});
+                return { success: true, user: currentUser };
+            } catch (err) {
+                return {
+                    success: false,
+                    error: "Could not reach authentication server. Please try again."
+                };
+            }
         },
 
-        signUp: async function() {
-            // Passwords are never collected or accepted
-            return {
-                success: false,
-                error: "Account creation is disabled to protect student privacy. All features are accessible as guest."
-            };
+        signUp: async function(email, password, fullName) {
+            try {
+                const res = await fetch(`${getApiBase()}/api/auth/register`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        full_name: String(fullName || "").trim(),
+                        email: String(email || "").trim(),
+                        password: String(password || "")
+                    })
+                });
+                const data = await res.json().catch(function() { return {}; });
+                if (!res.ok || !data.success || !data.token || !data.user) {
+                    return {
+                        success: false,
+                        error: data.error || "Could not create account."
+                    };
+                }
+                saveSession(data.token, data.user);
+                notifyListeners(currentUser);
+                this.syncGuestFavourites().catch(function() {});
+                return { success: true, user: currentUser };
+            } catch (err) {
+                return {
+                    success: false,
+                    error: "Could not reach authentication server. Please try again."
+                };
+            }
         },
 
-        sendPasswordReset: async function() {
-            return Promise.resolve();
+        changePassword: async function(currentPassword, newPassword) {
+            const token = await this.getIdToken();
+            if (!token) throw new Error("Authentication required");
+
+            const res = await fetch(`${getApiBase()}/api/auth/change-password`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    current_password: currentPassword,
+                    new_password: newPassword
+                })
+            });
+            const data = await res.json().catch(function() { return {}; });
+            if (!res.ok || !data.success) {
+                throw new Error(data.error || "Could not update password");
+            }
+            return data;
         },
 
         signOut: async function() {
-            if (typeof window.firebase !== "undefined" && window.firebase.apps && window.firebase.apps.length > 0) {
-                try {
-                    await window.firebase.auth().signOut();
-                } catch (e) {}
-            }
-            currentUser = null;
-            try {
-                localStorage.removeItem("campusConnect_uid");
-                localStorage.removeItem("campusConnect_email");
-                localStorage.removeItem("campus_user_token");
-                localStorage.removeItem("firebase_token");
-            } catch (e) {}
+            clearSession();
             notifyListeners(null);
             return { success: true };
         },
@@ -147,6 +288,11 @@
                     "Authorization": `Bearer ${token}`
                 }
             });
+            if (res.status === 401) {
+                clearSession();
+                notifyListeners(null);
+                return null;
+            }
             if (!res.ok) throw new Error("Could not load profile");
             return await res.json();
         },
@@ -164,7 +310,12 @@
                 body: JSON.stringify(profileData)
             });
             if (!res.ok) throw new Error("Could not update profile");
-            return await res.json();
+            const data = await res.json();
+            if (data && data.user) {
+                saveSession(token, data.user);
+                notifyListeners(currentUser);
+            }
+            return data;
         },
 
         fetchMyOrders: async function() {

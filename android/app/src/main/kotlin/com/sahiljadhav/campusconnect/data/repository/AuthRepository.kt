@@ -2,10 +2,7 @@ package com.sahiljadhav.campusconnect.data.repository
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
-import com.google.firebase.FirebaseApp
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.gson.Gson
 import com.sahiljadhav.campusconnect.data.api.ApiClient
 import com.sahiljadhav.campusconnect.data.api.AuthApiService
 import com.sahiljadhav.campusconnect.data.model.*
@@ -13,8 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
+import retrofit2.Response
 
 data class AuthUser(
     val uid: String,
@@ -23,188 +21,137 @@ data class AuthUser(
 )
 
 class AuthRepository(
-    private val context: Context,
+    context: Context,
     private val authApi: AuthApiService = ApiClient.authApi
 ) {
-    private val tag = "AuthRepository"
     private val prefs: SharedPreferences =
         context.getSharedPreferences("campusconnect_auth_prefs", Context.MODE_PRIVATE)
+    private val gson = Gson()
 
     private val _currentUser = MutableStateFlow<AuthUser?>(null)
     val currentUser: StateFlow<AuthUser?> = _currentUser.asStateFlow()
 
-    private var firebaseAuth: FirebaseAuth? = null
-    private var isDevMockMode = false
-
     init {
-        try {
-            if (FirebaseApp.getApps(context).isEmpty()) {
-                FirebaseApp.initializeApp(context)
-            }
-            firebaseAuth = FirebaseAuth.getInstance()
-            firebaseAuth?.addAuthStateListener { auth ->
-                val fbUser = auth.currentUser
-                if (fbUser != null) {
-                    val user = AuthUser(
-                        uid = fbUser.uid,
-                        email = fbUser.email.orEmpty(),
-                        displayName = fbUser.displayName
-                    )
-                    _currentUser.value = user
-                    // Refresh token asynchronously
-                    fbUser.getIdToken(false).addOnSuccessListener { tokenResult ->
-                        ApiClient.currentAuthToken = tokenResult.token
-                    }
-                } else if (!isDevMockMode) {
-                    _currentUser.value = null
-                    ApiClient.currentAuthToken = null
-                }
-            }
-        } catch (e: Exception) {
-            Log.w(tag, "Firebase Auth not available; activating dev fallback: ${e.message}")
-            isDevMockMode = true
-            loadDevMockUser()
+        restoreSession()
+    }
+
+    private fun restoreSession() {
+        // Purge legacy mock-auth keys from earlier builds
+        if (prefs.contains("mock_uid") || prefs.contains("mock_email")) {
+            prefs.edit()
+                .remove("mock_uid")
+                .remove("mock_email")
+                .remove("mock_name")
+                .apply()
+        }
+
+        val token = prefs.getString(KEY_TOKEN, null)
+        val uid = prefs.getString(KEY_UID, null)
+        val email = prefs.getString(KEY_EMAIL, null)
+        val name = prefs.getString(KEY_NAME, null)
+
+        if (!token.isNullOrBlank() && !uid.isNullOrBlank() && !email.isNullOrBlank()) {
+            ApiClient.currentAuthToken = token
+            _currentUser.value = AuthUser(uid = uid, email = email, displayName = name)
+        } else {
+            ApiClient.currentAuthToken = null
+            _currentUser.value = null
         }
     }
 
-    private fun loadDevMockUser() {
-        val uid = prefs.getString("mock_uid", null)
-        val email = prefs.getString("mock_email", null)
-        val name = prefs.getString("mock_name", null)
-        if (!uid.isNullOrBlank() && !email.isNullOrBlank()) {
-            val user = AuthUser(uid = uid, email = email, displayName = name)
-            _currentUser.value = user
-            ApiClient.currentAuthToken = "test_${uid}_${email}"
+    private fun saveSession(token: String, profile: UserProfile): AuthUser {
+        val displayName = profile.fullName?.takeIf { it.isNotBlank() }
+            ?: profile.email.substringBefore("@")
+        val user = AuthUser(
+            uid = profile.firebaseUid,
+            email = profile.email,
+            displayName = displayName
+        )
+        prefs.edit()
+            .putString(KEY_TOKEN, token)
+            .putString(KEY_UID, user.uid)
+            .putString(KEY_EMAIL, user.email)
+            .putString(KEY_NAME, user.displayName)
+            .apply()
+        ApiClient.currentAuthToken = token
+        _currentUser.value = user
+        return user
+    }
+
+    private fun parseErrorMessage(response: Response<AuthResponse>, fallback: String): String {
+        return try {
+            val raw = response.errorBody()?.string()
+            if (!raw.isNullOrBlank()) {
+                val parsed = gson.fromJson(raw, AuthResponse::class.java)
+                parsed?.error ?: parsed?.message ?: fallback
+            } else {
+                fallback
+            }
+        } catch (_: Exception) {
+            fallback
         }
     }
 
     suspend fun signIn(email: String, pass: String): NetworkResult<AuthUser> = withContext(Dispatchers.IO) {
-        val auth = firebaseAuth
-        if (auth != null && !isDevMockMode) {
-            try {
-                val result = auth.signInWithEmailAndPassword(email.trim(), pass).await()
-                val fbUser = result.user ?: throw Exception("Failed to retrieve user after sign in")
-                val token = fbUser.getIdToken(false).await().token
-                ApiClient.currentAuthToken = token
-                val user = AuthUser(
-                    uid = fbUser.uid,
-                    email = fbUser.email.orEmpty(),
-                    displayName = fbUser.displayName
-                )
-                _currentUser.value = user
-                return@withContext NetworkResult.Success(user)
-            } catch (e: Exception) {
-                Log.w(tag, "Firebase sign in failed (${e.message}), trying mock fallback if network issue")
-                if (e.message?.contains("network", ignoreCase = true) == true ||
-                    e.message?.contains("api key", ignoreCase = true) == true
-                ) {
-                    isDevMockMode = true
-                } else {
-                    return@withContext NetworkResult.Error("Sign in failed: ${e.localizedMessage}")
-                }
+        try {
+            val response = authApi.login(LoginRequest(email = email.trim(), password = pass))
+            val body = response.body()
+            if (response.isSuccessful && body?.success == true && !body.token.isNullOrBlank() && body.user != null) {
+                return@withContext NetworkResult.Success(saveSession(body.token, body.user))
             }
+            NetworkResult.Error(body?.error ?: parseErrorMessage(response, "Invalid email or password."))
+        } catch (e: Exception) {
+            NetworkResult.Error("Sign in failed: ${e.localizedMessage ?: "Network error"}")
         }
-
-        // Mock sign in fallback
-        val cleanUid = email.replace(Regex("[^a-zA-Z0-9]"), "_").lowercase()
-        val displayName = email.substringBefore("@").replaceFirstChar { it.uppercase() }
-        val user = AuthUser(uid = cleanUid, email = email, displayName = displayName)
-        prefs.edit()
-            .putString("mock_uid", cleanUid)
-            .putString("mock_email", email)
-            .putString("mock_name", displayName)
-            .apply()
-        _currentUser.value = user
-        ApiClient.currentAuthToken = "test_${cleanUid}_${email}"
-        NetworkResult.Success(user)
     }
 
     suspend fun signUp(email: String, pass: String, name: String): NetworkResult<AuthUser> = withContext(Dispatchers.IO) {
-        val auth = firebaseAuth
-        if (auth != null && !isDevMockMode) {
-            try {
-                val result = auth.createUserWithEmailAndPassword(email.trim(), pass).await()
-                val fbUser = result.user ?: throw Exception("Failed to retrieve user after registration")
-                if (name.isNotBlank()) {
-                    val update = UserProfileChangeRequest.Builder()
-                        .setDisplayName(name.trim())
-                        .build()
-                    fbUser.updateProfile(update).await()
-                }
-                fbUser.sendEmailVerification()
-                val token = fbUser.getIdToken(false).await().token
-                ApiClient.currentAuthToken = token
-                val user = AuthUser(
-                    uid = fbUser.uid,
-                    email = fbUser.email.orEmpty(),
-                    displayName = name
+        try {
+            val response = authApi.register(
+                RegisterRequest(
+                    fullName = name.trim(),
+                    email = email.trim(),
+                    password = pass
                 )
-                _currentUser.value = user
-
-                // Initialize profile in backend
-                try {
-                    authApi.updateProfile(UpdateProfileRequest(
-                        fullName = name,
-                        phone = null,
-                        department = null,
-                        rollNumber = null,
-                        year = null,
-                        division = null
-                    ))
-                } catch (pe: Exception) {
-                    Log.w(tag, "Backend profile init notice: ${pe.message}")
-                }
-
-                return@withContext NetworkResult.Success(user)
-            } catch (e: Exception) {
-                Log.w(tag, "Firebase sign up failed: ${e.message}")
-                if (e.message?.contains("network", ignoreCase = true) == true ||
-                    e.message?.contains("api key", ignoreCase = true) == true
-                ) {
-                    isDevMockMode = true
-                } else {
-                    return@withContext NetworkResult.Error("Registration failed: ${e.localizedMessage}")
-                }
+            )
+            val body = response.body()
+            if (response.isSuccessful && body?.success == true && !body.token.isNullOrBlank() && body.user != null) {
+                return@withContext NetworkResult.Success(saveSession(body.token, body.user))
             }
+            NetworkResult.Error(body?.error ?: parseErrorMessage(response, "Could not create account."))
+        } catch (e: Exception) {
+            NetworkResult.Error("Registration failed: ${e.localizedMessage ?: "Network error"}")
         }
-
-        // Mock sign up fallback
-        val cleanUid = email.replace(Regex("[^a-zA-Z0-9]"), "_").lowercase()
-        val user = AuthUser(uid = cleanUid, email = email, displayName = name)
-        prefs.edit()
-            .putString("mock_uid", cleanUid)
-            .putString("mock_email", email)
-            .putString("mock_name", name)
-            .apply()
-        _currentUser.value = user
-        ApiClient.currentAuthToken = "test_${cleanUid}_${email}"
-        NetworkResult.Success(user)
     }
 
     suspend fun sendPasswordReset(email: String): NetworkResult<Unit> = withContext(Dispatchers.IO) {
-        val auth = firebaseAuth
-        if (auth != null && !isDevMockMode) {
-            try {
-                auth.sendPasswordResetEmail(email.trim()).await()
-                return@withContext NetworkResult.Success(Unit)
-            } catch (e: Exception) {
-                return@withContext NetworkResult.Error("Could not send reset email: ${e.localizedMessage}")
-            }
-        }
-        NetworkResult.Success(Unit)
+        NetworkResult.Error("Email password reset isn't enabled yet. Sign in to change your password or create a new account.")
     }
 
     suspend fun signOut(): Unit = withContext(Dispatchers.IO) {
-        firebaseAuth?.signOut()
         prefs.edit().clear().apply()
-        _currentUser.value = null
         ApiClient.currentAuthToken = null
+        _currentUser.value = null
     }
 
     suspend fun fetchProfile(): NetworkResult<ProfileResponse> = withContext(Dispatchers.IO) {
         try {
             val response = authApi.getProfile()
+            val profile = response.user
+            if (profile != null) {
+                val token = ApiClient.currentAuthToken
+                if (!token.isNullOrBlank()) {
+                    saveSession(token, profile)
+                }
+            }
             NetworkResult.Success(response)
+        } catch (e: HttpException) {
+            if (e.code() == 401) {
+                signOut()
+                NetworkResult.Error("Session expired. Please sign in again.")
+            } else {
+                NetworkResult.Error("Could not load profile: ${e.localizedMessage}")
+            }
         } catch (e: Exception) {
             NetworkResult.Error("Could not load profile: ${e.localizedMessage}")
         }
@@ -213,6 +160,11 @@ class AuthRepository(
     suspend fun updateProfile(request: UpdateProfileRequest): NetworkResult<ProfileResponse> = withContext(Dispatchers.IO) {
         try {
             val response = authApi.updateProfile(request)
+            val profile = response.user
+            val token = ApiClient.currentAuthToken
+            if (profile != null && !token.isNullOrBlank()) {
+                saveSession(token, profile)
+            }
             NetworkResult.Success(response)
         } catch (e: Exception) {
             NetworkResult.Error("Could not update profile: ${e.localizedMessage}")
@@ -280,5 +232,12 @@ class AuthRepository(
         } catch (e: Exception) {
             NetworkResult.Error("Could not sync favourites: ${e.localizedMessage}")
         }
+    }
+
+    companion object {
+        private const val KEY_TOKEN = "auth_token"
+        private const val KEY_UID = "auth_uid"
+        private const val KEY_EMAIL = "auth_email"
+        private const val KEY_NAME = "auth_name"
     }
 }
